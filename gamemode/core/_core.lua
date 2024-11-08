@@ -19,7 +19,10 @@ function GM:IncludeServer(path)
 	end
 end
 
+GM:IncludeShared("sh_player_vars.lua")
+
 GM:IncludeServer("sv_database.lua")
+GM:IncludeServer("sv_player.lua")
 
 hook.Add("InitPostEntity", "combinecontrol", function()
 	hook.Run("LoadDatabase")

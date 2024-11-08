@@ -2,7 +2,7 @@
 
 DeriveGamemode("sandbox")
 
-GM.Name = "TnB Terminator Roleplay"
+GM.Name = "CombineControl: TnB"
 GM.Author = "Disseminate, Gangleider, Steve, Hoplite, Thor, TankNut, DaveBrown"
 GM.Website = "http://taconbanana.com"
 GM.Email = "gangleider@taconbanana.com"
