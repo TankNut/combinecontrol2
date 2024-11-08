@@ -2,7 +2,7 @@ GM.MySQLType 	= "mysqloo"
 
 GM.MySQLHost 	= "localhost"
 GM.MySQLPort 	= 3306
-GM.MySQLDB 		= "combinecontrol-tnb"
+GM.MySQLDB 		= "combinecontrol-tnb_old"
 
 GM.MySQLUser 	= "root"
 GM.MySQLPass 	= ""
@@ -29,3 +29,11 @@ GM.PrometheusSQLDB 		= "donate"
 
 GM.PrometheusSQLUser 	= "root"
 GM.PrometheusSQLPass 	= ""
+
+GM.DatabaseConfig = {
+	Host = "localhost",
+	Username = "root",
+	Password = "",
+	Database = "combinecontrol-tnb",
+	Port = 3306
+}

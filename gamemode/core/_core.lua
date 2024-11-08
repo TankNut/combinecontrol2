@@ -19,6 +19,8 @@ function GM:IncludeServer(path)
 	end
 end
 
+GM:IncludeServer("sv_database.lua")
+
 hook.Add("LuapadCanRunCL", "combinecontrol", function(ply)
 	return ply:IsDeveloper()
 end)
