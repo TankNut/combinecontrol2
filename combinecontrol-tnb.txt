@@ -1,7 +1,7 @@
-"Tekka"
+"combinecontrol-tnb"
 {
 	"base"		"sandbox"
-	"title"		"TnB TRP"
+	"title"		"CombineControl: TnB"
 	"maps"		"^rp_"
 	"menusystem"	"1"
 }
