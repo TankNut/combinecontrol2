@@ -56,7 +56,7 @@ function Add(name, data)
 
 		ply[index] = val
 
-		hook.Run(hookName, ply, old, val)
+		hook.Run(hookName, ply, old, val, loading)
 
 		if SERVER then
 			if persist and not loading then
