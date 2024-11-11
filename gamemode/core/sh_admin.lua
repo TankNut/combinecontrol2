@@ -21,7 +21,8 @@ end
 
 if SERVER then
 	hook.Remove("PlayerInitialSpawn", "PlayerAuthSpawn")
-	hook.Add("PlayerUserGroupChanged", "admin", function(ply, old, new, loading)
+
+	function GM:PlayerUserGroupChanged(ply, old, new, loading)
 		ply:SetNWString("UserGroup", new)
-	end)
+	end
 end
