@@ -1,5 +1,3 @@
-module("Type", package.seeall)
-
 function VARCHAR(length)
 	return {
 		DataType = string.format("VARCHAR(%s)", length),

@@ -4,7 +4,7 @@ PlayerVars.Add("UserGroup", {
 	Default = "user",
 	ServerOnly = true,
 	Persist = true,
-	DataType = Type.VARCHAR(64)
+	DataType = VARCHAR(64)
 })
 
 function meta:IsAdmin()

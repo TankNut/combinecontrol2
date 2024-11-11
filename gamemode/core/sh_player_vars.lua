@@ -6,7 +6,7 @@ Fields = Fields or {}
 local meta = FindMetaTable("Player")
 
 function Add(name, data)
-	local databaseType = data.DataType or Type.BLOB()
+	local databaseType = data.DataType or BLOB()
 
 	data = {
 		Name = name,
@@ -129,10 +129,10 @@ Add("Test", {
 
 Add("NumberTest", {
 	Persist = true,
-	DataType = Type.INT()
+	DataType = INT()
 })
 
 Add("StringTest", {
 	Persist = true,
-	DataType = Type.VARCHAR(64)
+	DataType = VARCHAR(64)
 })

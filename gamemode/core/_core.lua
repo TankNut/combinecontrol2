@@ -19,8 +19,10 @@ function GM:IncludeServer(path)
 	end
 end
 
-GM:IncludeShared("sh_type.lua")
+GM:IncludeShared("sh_helpers.lua")
+
 GM:IncludeShared("sh_player_vars.lua")
+
 GM:IncludeServer("sv_database.lua")
 GM:IncludeShared("sh_admin.lua")
 
