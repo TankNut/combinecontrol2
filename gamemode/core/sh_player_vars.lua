@@ -122,17 +122,3 @@ if SERVER then
 		end
 	end
 end
-
-Add("Test", {
-	Persist = true
-})
-
-Add("NumberTest", {
-	Persist = true,
-	DataType = INT()
-})
-
-Add("StringTest", {
-	Persist = true,
-	DataType = VARCHAR(64)
-})
