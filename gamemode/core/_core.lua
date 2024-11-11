@@ -22,6 +22,7 @@ end
 GM:IncludeShared("sh_type.lua")
 GM:IncludeShared("sh_player_vars.lua")
 GM:IncludeServer("sv_database.lua")
+GM:IncludeShared("sh_admin.lua")
 
 GM:IncludeServer("sv_player.lua")
 
