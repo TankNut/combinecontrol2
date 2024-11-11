@@ -18,10 +18,6 @@ local emeta = FindMetaTable("Entity")
 
 stub = function() end -- Used in several places, might as well make it global
 
-function GM:InitPostEntity()
-	hook.Run("CC.SH.InitEnts")
-end
-
 function GM:CreateTeams()
 	team.SetUp(TEAM_CITIZEN, "Humans", Color(0, 120, 0, 255), false)
 	team.SetUp(TEAM_REPROG, "Reprogrammed", Color(0, 191, 255, 255), false)

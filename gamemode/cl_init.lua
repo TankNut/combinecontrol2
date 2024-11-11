@@ -84,11 +84,6 @@ function GM:OnGamemodeLoaded()
 	self:CreateChat()
 end
 
-function GM:InitPostEntity()
-	net.Start("nRequestPData")
-	net.SendToServer()
-end
-
 hook.Add("OnEntityCreated", "CL.Init.OnEntityCreated", function(ent)
 	if ent:IsPlayer() then
 		if ent != LocalPlayer() then

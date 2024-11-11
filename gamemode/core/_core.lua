@@ -35,15 +35,14 @@ end
 
 
 
-hook.Add("InitPostEntity", "combinecontrol", function()
-	hook.Run("LoadDatabase")
-end)
+-- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
 GM:Include("sh_helpers.lua")
 GM:Include("sh_player_vars.lua")
 
 hook.Add("LuapadCanRunCL", "combinecontrol", function(ply)
 	return ply:IsDeveloper()
 end)
+GM:Include("sh_entity.lua")
 GM:Include("sh_admin.lua")
 GM:Include("sv_player.lua")
 GM:Include("sv_database.lua")
