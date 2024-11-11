@@ -3,12 +3,6 @@ GM.MOTDURL			= ""
 GM.SteamGroupURL	= ""
 GM.WebsiteURL		= "http://taconbanana.com"
 
-GM.Developers = {
-	"STEAM_0:0:13679397", -- gangleider
-	"STEAM_0:0:26799849", -- tanknut
-	"STEAM_0:1:14489810" -- hoplite
-}
-
 -- Security
 GM.PrivateMode = false
 

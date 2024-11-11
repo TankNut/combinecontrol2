@@ -700,14 +700,6 @@ function meta:IsArmed()
 	return false
 end
 
-function meta:IsDeveloper()
-	if table.HasValue(GAMEMODE.Developers, self:SteamID()) then
-		return true
-	end
-
-	return false
-end
-
 function meta:CanIgnoreTravelRestrictions(chardata)
 	if self:IsAdmin() then return true end
 	if not chardata then return false end
