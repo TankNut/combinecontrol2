@@ -100,6 +100,7 @@ if SERVER then
 				query:Update(var.Field, val)
 			end
 
+			query:WhereEquals("SteamID", steamid)
 			query:Execute()
 		end)
 	end
