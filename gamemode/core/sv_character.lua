@@ -1,3 +1,5 @@
+module("Character", package.seeall)
+
 local meta = FindMetaTable("Player")
 
 function meta:NewCreateCharacter(fields)
@@ -45,4 +47,11 @@ function meta:NewLoadCharacter(id)
 
 		self["SetCharacter" .. var.Name](self, val, true)
 	end
+end
+
+function Delete(id)
+	local query = GAMEMODE.Database:Update("rp_characters")
+		query:UpdateRaw("Deleted_At", "CURRENT_TIMESTAMP")
+		query:WhereEqual("id", id)
+	query:Execute()
 end
