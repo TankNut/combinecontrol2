@@ -5,7 +5,7 @@ function class.Register(classname, tab)
 
 	baseclass.Set(classname, tab)
 
-	MsgC(Color(200, 200, 200, 255), string.format("Registered class: %s\n", classname))
+	--MsgC(Color(200, 200, 200, 255), string.format("Registered class: %s\n", classname))
 end
 
 function class.Exists(classname)
