@@ -512,7 +512,7 @@ end
 
 function meta:UpdateCharacterField(field, value, nolog)
 	if self:IsBot() then return end
-	if self:CharID() == -1 then return end
+	if self:CharID() == 0 then return end
 	if self.SQLCharData[self:GetCharIndexFromID(self:CharID())][field] == tostring(value) then return end
 
 	GAMEMODE.SQL:Update("$chars", {[field] = value}, "id = ?", self:CharID(), function(res)

@@ -752,7 +752,7 @@ function GM:GetFallDamage(ply, speed)
 end
 
 function GM:CanPlayerSuicide(ply)
-	if ply:CharID() == -1 then return false end
+	if ply:CharID() == 0 then return false end
 	if ply:TiedUp() then return false end
 	if ply:PassedOut() then return false end
 	if ply:MountedGun() and ply:MountedGun():IsValid() then return false end

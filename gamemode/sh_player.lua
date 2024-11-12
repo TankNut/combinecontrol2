@@ -5,7 +5,6 @@ GM.PlayerAccessors = {
 	{"PhysTrust", 			false, 	"Float", 	1},
 	{"PropTrust", 			false, 	"Float", 	1},
 	{"NewbieStatus", 		false, 	"Float", 	NEWBIE_STATUS_NEW},
-	{"CharID", 				false, 	"Float", 	-1},
 	{"RPName", 				false, 	"String", 	"Unconnected"},
 	{"VisibleRPName", 		false, 	"String", 	"Unconnected"},
 	{"RPModel", 			false, 	"String", 	"models/error.mdl"},

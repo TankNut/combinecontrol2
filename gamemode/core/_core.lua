@@ -49,6 +49,7 @@ end
 GM:Include("sh_helpers.lua")
 GM:Include("sh_player_vars.lua")
 
+GM:Include("sh_character.lua")
 GM:Include("sh_entity.lua")
 GM:Include("sh_admin.lua")
 GM:Include("sv_player.lua")
