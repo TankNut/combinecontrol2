@@ -51,7 +51,7 @@ function GM:DrawDrugs()
 				end
 
 				draw.DrawBackgroundBlur(mul)
-				surface.SetDrawColor(Color(255, 255, 255, 20 * mul))
+				surface.SetDrawColor(255, 255, 255, 20 * mul)
 				surface.DrawRect(0, 0, ScrW(), ScrH())
 
 			else

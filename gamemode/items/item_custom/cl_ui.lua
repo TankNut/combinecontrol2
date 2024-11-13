@@ -12,7 +12,7 @@ local function NewRow(property, category, parent, value)
 		local alt = parent.Data[property] != value
 
 		if alt then
-			surface.SetDrawColor(Color(200, 100, 100))
+			surface.SetDrawColor(200, 100, 100)
 			surface.DrawRect(0, 0, w * 0.45, h)
 		end
 
@@ -25,7 +25,7 @@ local function NewRow(property, category, parent, value)
 	end
 
 	r:GetParent().Paint = function(pnl, w, h)
-		surface.SetDrawColor(Color(57, 57, 57))
+		surface.SetDrawColor(57, 57, 57)
 		surface.DrawRect(0, 0, w, h)
 	end
 

@@ -33,7 +33,7 @@ local function NewRow(property, category, parent, proptype)
 	end
 
 	r:GetParent().Paint = function(pnl, w, h)
-		surface.SetDrawColor(Color(57, 57, 57))
+		surface.SetDrawColor(57, 57, 57)
 		surface.DrawRect(0, 0, w, h)
 	end
 

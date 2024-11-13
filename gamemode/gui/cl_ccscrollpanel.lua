@@ -31,7 +31,7 @@ end
 
 function PANEL:Paint(w, h)
 	draw.RoundedBoxEx(0, 0, 0, w, h, Color(0, 0, 0, 100))
-	surface.SetDrawColor(Color(0, 0, 0, 70))
+	surface.SetDrawColor(0, 0, 0, 70)
 	surface.DrawOutlinedRect(0, 0, w, h)
 	return true
 end

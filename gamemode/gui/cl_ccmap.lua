@@ -85,7 +85,7 @@ function PANEL:DrawZone(x, y, col)
 	x = self.CacheX + (math.floor(x / size) * size) * self.Scale
 	y = self.CacheY + (math.floor(y / size) * size) * self.Scale
 
-	surface.SetDrawColor(col)
+	surface.SetDrawColor(col.r, col.g, col.b, col.a)
 	surface.DrawRect(x + 1, y + 1, size * self.Scale, size * self.Scale)
 end
 
@@ -124,7 +124,7 @@ function PANEL:DrawPoint(x, y, col, blinking, blinkColor)
 	x = math.Round(x)
 	y = math.Round(y)
 
-	surface.SetDrawColor(col)
+	surface.SetDrawColor(col.r, col.g, col.b, col.a)
 	surface.DrawLine(x - math.ceil(self.Zoom), y, x + math.ceil(self.Zoom), y)
 	surface.DrawLine(x, y - math.ceil(self.Zoom), x, y + math.ceil(self.Zoom))
 end

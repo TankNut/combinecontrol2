@@ -286,7 +286,7 @@ end
 function GM:DrawCharCreate()
 	if self.CharCreate then
 		if not self.GetHL2CamPos then
-			surface.SetDrawColor(Color(0, 0, 0, 255))
+			surface.SetDrawColor(0, 0, 0, 255)
 			surface.DrawRect(0, 0, ScrW(), ScrH())
 		else
 			draw.DrawBackgroundBlur(1)
@@ -420,7 +420,7 @@ end
 function GM:DrawPassedOut()
 	if LocalPlayer():PassedOut() then
 		if not LocalPlayer():Alive() then
-			surface.SetDrawColor(Color(0, 0, 0, 255))
+			surface.SetDrawColor(0, 0, 0, 255)
 			surface.DrawRect(0, 0, ScrW(), ScrH())
 
 			draw.DrawText("You have died.", "CombineControl.LabelGiant", ScrW() / 2, ScrH() / 2, Color(200, 200, 200, 255), 1)
@@ -1041,7 +1041,7 @@ end
 
 function GM:DrawUnconnected()
 	if not self.CharCreateOpened then
-		surface.SetDrawColor(Color(0, 0, 0, 150))
+		surface.SetDrawColor(0, 0, 0, 150)
 		surface.DrawRect(0, 0, ScrW(), ScrH())
 
 		draw.DrawBackgroundBlur(1)
@@ -1566,7 +1566,7 @@ function GM:DrawTargetHUDText(pos, target)
 	local col = ColorAlpha(LocalPlayer():Team() == TEAM_REPROG and self.TargetHUDColorReprog or self.TargetHUDColor, self.TargetScale * 255)
 	local size = 80
 
-	surface.SetDrawColor(col)
+	surface.SetDrawColor(col.r, col.g, col.b, col.a)
 	surface.SetTexture(surface.GetTextureID("models/tnb/trpweapons/reticule_square"))
 
 	surface.DrawTexturedRect(pos.x - size, pos.y - size, size * 2, size * 2)
