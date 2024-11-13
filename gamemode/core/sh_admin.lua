@@ -2,21 +2,21 @@ local meta = FindMetaTable("Player")
 
 PlayerVar.Add("UserGroup", {
 	Default = "user",
-	ServerOnly = true,
+	ServerOnly = false,
 	Persist = true,
 	DataType = VARCHAR(64)
 })
 
 function meta:IsAdmin()
-	return self:IsDeveloper() or self:IsSuperAdmin() or self:IsUserGroup("admin")
+	return self:IsDeveloper() or self:IsSuperAdmin() or self:UserGroup() == "admin"
 end
 
 function meta:IsSuperAdmin()
-	return self:IsDeveloper() or self:IsUserGroup("superadmin")
+	return self:IsDeveloper() or self:UserGroup() == "superadmin"
 end
 
 function meta:IsDeveloper()
-	return self:IsUserGroup("developer")
+	return self:UserGroup() == "developer"
 end
 
 if SERVER then
