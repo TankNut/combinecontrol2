@@ -566,10 +566,6 @@ function GM:CombineCameraThink()
 			v.LastTarget = target
 		end
 
-		if target:HasTerminatorTeam() then
-			continue
-		end
-
 		if v.IsAngry and v.LastTarget == target then
 			continue
 		end
