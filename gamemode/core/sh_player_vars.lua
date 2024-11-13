@@ -45,9 +45,9 @@ function Add(name, data)
 	end
 
 	meta[name] = function(ply)
-		local var = cache[ply]
+		local val = cache[ply]
 
-		return var == nil and default or var
+		return val == nil and default or val
 	end
 
 	meta["Set" .. name] = function(ply, val, loading)
@@ -56,10 +56,11 @@ function Add(name, data)
 		end
 
 		local old = cache[ply]
+		local hookVal = val == nil and default or val
 
 		cache[ply] = val
 
-		hook.Run(hookName, ply, old, val, loading)
+		hook.Run(hookName, ply, old, hookVal, loading)
 
 		if SERVER then
 			if persist and not loading then
@@ -67,16 +68,16 @@ function Add(name, data)
 			end
 
 			if not serverOnly then
-				netstream.Send(private and ply or nil, index, ply, val)
+				netstream.Send(private and ply or nil, index, ply, val, loading)
 			end
 		end
 	end
 
 	if CLIENT then
-		netstream.Hook(index, function(ply, val)
+		netstream.Hook(index, function(ply, val, loading)
 			cache[ply] = val
 
-			hook.Run(hookName, ply, old, val)
+			hook.Run(hookName, ply, old, val == nil and default or val, loading)
 		end)
 	end
 end
