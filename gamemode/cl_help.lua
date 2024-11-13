@@ -72,8 +72,7 @@ function GM:RefreshHelpMenuContent()
 		{"Flags", [[CombineControl uses a flag system for additional character/player functionality.
 
 		Character Flags
-		A - SkyNET Human Assets
-		S - SkyNET Drone
+		TBD - TBD
 
 		Player Flags
 		0 - Event Manager
@@ -187,14 +186,6 @@ function GM:RefreshHelpMenuContent()
 		- pool_tech (Electrical supplies and tools)
 		- pool_military (Military weapons and ammo)
 		- pool_scav (All kinds of junk, small chances for low-grade armor and weapons/ammo)]]})
-
-		table.insert(self.HelpContent, {"Drone flags", [[The replacement for separate character flags for each drone.
-
-		Players need to be given each drone flag separately, once they have them they can freely (and on the fly) switch between them by using /flag.
-
-		Flags are given through rpa_givedroneflag and taken through rpa_takedroneflag, you can list a player's flags through rpa_listdroneflags.
-
-		A list of all flags can be found in rpa_droneflags.]]})
 
 		table.insert(self.HelpContent, {"New commands", [[Commands new to TRP 3, specifically ones not mentioned before.
 

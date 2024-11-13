@@ -365,9 +365,6 @@ function meta:LoadPlayer(data)
 	self:SetDonations(data.Donations and util.JSONToTable(data.Donations) or {}, true)
 	self:SetPhysgunMode(tobool(data.PhysgunMode), true)
 
-	self:SetDroneFlags(data.DroneFlags and util.JSONToTable(data.DroneFlags) or {}, true)
-	self:SetActiveDroneFlag(data.ActiveDroneFlag, true)
-
 	self:SetDonatorActive(tobool(data.DonatorActive), true)
 	self:SetCustomModelAuths(tobool(data.CustomModelAuths), true)
 end

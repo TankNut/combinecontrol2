@@ -2,7 +2,6 @@ local meta = FindMetaTable("Player")
 
 GM.PlayerFlags = {}
 GM.CharFlags = {}
-GM.DroneFlags = {}
 
 function GM:LookupPlayerFlag(f)
 	for _, v in pairs(self.PlayerFlags) do
@@ -133,27 +132,5 @@ if #files > 0 then
 		table.insert(GM.CharFlags, FLAG)
 
 		MsgC(Color(200, 200, 200, 255), "Character flag " .. v .. " loaded.\n")
-	end
-end
-
--- Drone flags
-
-function GM:GetDroneFlag(flag)
-	return self.DroneFlags[flag]
-end
-
-files = file.Find(GM.FolderName .. "/gamemode/droneflags/*.lua", "LUA", "namedesc")
-
-if #files > 0 then
-	for _, v in pairs(files) do
-		FLAG = {}
-		FLAG.PrintName = ""
-
-		AddCSLuaFile("droneflags/" .. v)
-		include("droneflags/" .. v)
-
-		GM.DroneFlags[string.FileName(v)] = FLAG
-
-		MsgC(Color(200, 200, 200, 255), "Drone flag " .. v .. " loaded.\n")
 	end
 end

@@ -49,8 +49,6 @@ GM.PlayerAccessors = {
 	{"PhysgunMode", 		false, 	"Bit", 		false},
 	{"ThermalHidden", 		false, 	"Bit", 		false},
 	{"JumpPackActive", 		false, 	"Bit", 		false},
-	{"DroneFlags", 			false, 	"Table", 	{}},
-	{"ActiveDroneFlag", 	false, 	"String", 	""},
 	{"DonatorActive", 		false, 	"Bit", 		false},
 	{"CustomModelAuths", 	false, 	"Bit", 		false},
 	{"Hunger", 				true, 	"Float", 	0},

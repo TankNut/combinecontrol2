@@ -25,7 +25,3 @@ end)
 GM:RegisterLogType("character_buy_license", LOG_CHARACTER, function(data)
 	return string.format("%s bought a '%s' license", GAMEMODE:FormatCharacter(data.Char), data.License)
 end)
-
-GM:RegisterLogType("character_swapdrone", LOG_CHARACTER, function(data)
-	return string.format("%s has swapped drones to %s", GAMEMODE:FormatPlayer(data.Ply), data.Flag)
-end)
