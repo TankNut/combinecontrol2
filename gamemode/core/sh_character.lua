@@ -22,7 +22,7 @@ CharacterVar.Add("Model", {
 	Default = "models/player/skeleton.mdl",
 	ServerOnly = true,
 	Persist = true,
-	DataType = VARCHAR(64)
+	DataType = VARCHAR(128)
 })
 
 CharacterVar.Add("Skin", {
