@@ -9,7 +9,7 @@ function meta:NewCreateCharacter(fields)
 		for k, v in pairs(fields) do
 			local var = CharacterVar.Vars[k]
 
-			if var.validate and not var.validate(v) then
+			if var.Validate and not var.Validate(v) then
 				error(string.format("%s value '%s' doesn't match database type %s", k, v, var.DataType))
 			end
 
