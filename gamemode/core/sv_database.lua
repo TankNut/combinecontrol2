@@ -19,6 +19,7 @@ function CreateTables(db)
 	query:Execute()
 
 	PopulateFromVars(db, "rp_players", PlayerVar.Vars)
+	PopulateFromVars(db, "rp_characters", CharacterVar.Vars)
 end
 
 function PopulateFromVars(db, tableName, vars)
