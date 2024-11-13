@@ -6,7 +6,7 @@ net.Receive("nCBuyDoor", function(len, ply)
 
 	if ply:GetPos():Distance(ent:GetPos()) > 128 then return end
 
-	if ent and ent:IsValid() and ent:IsDoor() and (ent:DoorType() == DOOR_BUYABLE or ent:DoorType() == DOOR_BUYABLE_ASSIGNABLE) and #ent:DoorOwners() == 0 and #ent:DoorAssignedOwners() == 0 and not ply:HasTerminatorTeam() then
+	if ent and ent:IsValid() and ent:IsDoor() and (ent:DoorType() == DOOR_BUYABLE or ent:DoorType() == DOOR_BUYABLE_ASSIGNABLE) and #ent:DoorOwners() == 0 and #ent:DoorAssignedOwners() == 0 then
 
 		if ply:Money() >= ent:DoorPrice() then
 			ply:BuyDoor(ent)
@@ -72,7 +72,7 @@ net.Receive("nCMakeOwner", function(len, ply)
 	if ply:GetPos():Distance(ent:GetPos()) > 128 then return end
 
 	if IsValid(ent) and ent:IsDoor() and table.HasValue(ent:DoorOwners(), ply:CharID()) then
-		if targ and targ:IsValid() and not table.HasValue(ent:DoorOwners(), targ:CharID()) and not targ:HasTerminatorTeam() then
+		if targ and targ:IsValid() and not table.HasValue(ent:DoorOwners(), targ:CharID()) then
 			targ:AddDoorOwner(ent)
 		end
 	end
@@ -88,7 +88,7 @@ net.Receive("nCRemoveOwner", function(len, ply)
 	if ply:GetPos():Distance(ent:GetPos()) > 128 then return end
 
 	if IsValid(ent) and ent:IsDoor() and table.HasValue(ent:DoorOwners(), ply:CharID()) then
-		if targ and targ:IsValid() and table.HasValue(ent:DoorOwners(), targ:CharID()) and not targ:HasTerminatorTeam() then
+		if targ and targ:IsValid() and table.HasValue(ent:DoorOwners(), targ:CharID()) then
 			targ:RemoveDoorOwner(ent)
 		end
 	end

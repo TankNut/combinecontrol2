@@ -253,7 +253,7 @@ end
 function GM:RadioAnimation(ply)
 	ply.RadioWeight = ply.RadioWeight or 0
 
-	if ply:IsPlayingTaunt() or ply:HasTerminatorTeam() then return end
+	if ply:IsPlayingTaunt() then return end
 
 	if ply:Typing() > 1 then
 

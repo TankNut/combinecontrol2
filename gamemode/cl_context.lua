@@ -233,7 +233,7 @@ function GM:GetCCOptions(ent, dist)
 			if LocalPlayer():TiedUp() then return tab end
 			if LocalPlayer():PassedOut() then return tab end
 
-			if (ent:DoorType() == DOOR_BUYABLE or ent:DoorType() == DOOR_BUYABLE_ASSIGNABLE) and #ent:DoorOwners() == 0 and #ent:DoorAssignedOwners() == 0 and not lp:HasTerminatorTeam() then
+			if (ent:DoorType() == DOOR_BUYABLE or ent:DoorType() == DOOR_BUYABLE_ASSIGNABLE) and #ent:DoorOwners() == 0 and #ent:DoorAssignedOwners() == 0 then
 
 				local option = {"Buy", function()
 					if lp:Money() >= ent:DoorPrice() then
@@ -587,7 +587,7 @@ function GM:CCCreateDoorOwnersEdit()
 
 	for k, v in pairs(player.GetAll()) do
 
-		if not table.HasValue(CCSelectedEnt:DoorOwners(), v:CharID()) and not table.HasValue(CCSelectedEnt:DoorAssignedOwners(), v:CharID()) and not v:HasTerminatorTeam() then
+		if not table.HasValue(CCSelectedEnt:DoorOwners(), v:CharID()) and not table.HasValue(CCSelectedEnt:DoorAssignedOwners(), v:CharID()) then
 
 			CCP.DoorOwnersEdit.AllPlayers:AddLine(v:VisibleRPName()).Player = v
 

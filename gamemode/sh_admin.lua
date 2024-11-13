@@ -728,9 +728,7 @@ end, false, {TYPE_STRING})
 
 concommand.AddAdmin("rpa_playoverwatchradio", function(ply, sentence)
 	for _, v in pairs(player.GetAll()) do
-		if v:HasTerminatorTeam() then
-			EmitSentence(sentence, v:GetPos(), v:EntIndex(), 0, 0.5, 100, 0, 100)
-		end
+		EmitSentence(sentence, v:GetPos(), v:EntIndex(), 0, 0.5, 100, 0, 100)
 	end
 end, true, {TYPE_STRING})
 

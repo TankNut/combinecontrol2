@@ -1082,13 +1082,7 @@ end
 concommand.Add("rp_roll", RollDice)
 
 function GM:PlayerSetHandsModel(ply, ent)
-	if ply:Team() == TEAM_SKYNET then
-		ent:SetModel("models/tnb/trpweapons/c_arms_t600.mdl")
-		ent:SetSkin(0)
-		ent:SetBodyGroups("0")
-	else
-		ent:SetModel("models/weapons/c_arms_citizen.mdl")
-		ent:SetSkin(0)
-		ent:SetBodyGroups("11")
-	end
+	ent:SetModel("models/weapons/c_arms_citizen.mdl")
+	ent:SetSkin(0)
+	ent:SetBodyGroups("11")
 end
