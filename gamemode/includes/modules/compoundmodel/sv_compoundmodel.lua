@@ -105,9 +105,9 @@ hook.Add("CC.SV.PlayerThink", "SV.CompoundModel.PlayerThink", function(plys)
 	end
 end)
 
-hook.Add("CC.SV.PlayerSpawn", "SV.CompoundModel.PlayerSpawn", function(ply)
+hook.Add("CC.SV.PlayerSpawn", "SV.CompoundModel.PlayerSpawn", function(plys)
 	-- For some reason the compound model entities get unhidden on spawn, so reset the flag in-case the system needs to hide us again
-	ply.CompoundHiddenState = false
+	plys[1].CompoundHiddenState = false
 end)
 
 net.Receive("nRequestCompoundModel", function(len, ply)

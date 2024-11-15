@@ -269,7 +269,7 @@ function GM:PlayerSpawn(ply)
 
 	if not ply.CharCreateCompleted then return end
 
-	hook.Run("CC.SV.PlayerSpawn", ply)
+	hook.Run("CC.SV.PlayerSpawn", {ply})
 
 	self:PlayerCheckFlag(ply, true)
 	self:PlayerCheckInventory(ply)
