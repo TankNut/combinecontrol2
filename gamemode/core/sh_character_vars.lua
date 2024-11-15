@@ -15,7 +15,6 @@ function Add(name, data)
 		Private = tobool(data.Private),
 		ServerOnly = tobool(data.ServerOnly),
 		-- Database persistence
-		Persist = tobool(data.Persist),
 		Field = data.Field or name,
 		DataType = databaseType.DataType,
 		Validate = data.Validate or databaseType.Validate
@@ -28,7 +27,6 @@ function Add(name, data)
 	local default = data.Default
 	local private = data.Private
 	local serverOnly = data.ServerOnly
-	local persist = data.Persist
 	local dataType = data.DataType
 	local validate = data.Validate
 
@@ -58,7 +56,7 @@ function Add(name, data)
 		hook.Run(hookName, ply, old, hookVal, loading)
 
 		if SERVER then
-			if persist and not loading then
+			if not loading then
 				Save(ply:CharID(), data, val)
 			end
 
