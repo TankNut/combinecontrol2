@@ -52,6 +52,7 @@ GM:Include("sh_character_vars.lua")
 
 GM:Include("cl_think.lua")
 GM:Include("sh_admin.lua")
+GM:Include("sh_character_flags.lua")
 GM:Include("sh_character.lua")
 GM:Include("sh_entity.lua")
 GM:Include("sv_character.lua")
@@ -59,3 +60,5 @@ GM:Include("sv_database.lua")
 GM:Include("sv_player.lua")
 
 GM:LoadFolder("core/plugins")
+
+CharacterFlag.Load()
