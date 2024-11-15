@@ -51,7 +51,9 @@ function Add(name, data)
 	end
 
 	meta["Set" .. name] = function(ply, val, loading)
-		if validate and not validate(val) then
+		if val == default then val = nil end
+
+		if validate and val != nil and not validate(val) then
 			error(string.format("Set value '%s' doesn't match database type %s", val, dataType), 2)
 		end
 
