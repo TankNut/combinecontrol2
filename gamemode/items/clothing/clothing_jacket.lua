@@ -7,7 +7,6 @@ ITEM.Description 			= "A thin jacket, insulated against the cold."
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_survivor_jacket.mdl")
 
 ITEM.Weight 				= 2
-ITEM.ArmorValue 			= 0
 
 ITEM.AltSkin 				= false
 

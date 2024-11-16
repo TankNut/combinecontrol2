@@ -7,7 +7,6 @@ ITEM.Description 			= "A thick and durable brown leather jacket and pants combo.
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_drifter.mdl")
 
 ITEM.Weight 				= 2.5
-ITEM.ArmorValue 			= 0
 
 if SERVER then
 	function ITEM:GetModelData(ply, data)

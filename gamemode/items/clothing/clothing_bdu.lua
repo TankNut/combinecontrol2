@@ -7,7 +7,6 @@ ITEM.Description 			= "An old combat uniform worn by a disbanded resistance cell
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_bdu1.mdl")
 
 ITEM.Weight 				= 3
-ITEM.ArmorValue 			= 0
 
 ITEM.Rig 					= true
 

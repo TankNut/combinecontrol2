@@ -7,7 +7,6 @@ ITEM.Description 			= "A heavy black trenchcoat."
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_marcus.mdl")
 
 ITEM.Weight 				= 3
-ITEM.ArmorValue 			= 0
 
 if SERVER then
 	function ITEM:GetModelData(ply, data)

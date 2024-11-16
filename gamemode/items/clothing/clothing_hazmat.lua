@@ -7,7 +7,6 @@ ITEM.Description 			= "A sealed HAZMAT suit designed to keep its user safe from 
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_chemsuit.mdl")
 
 ITEM.Weight 				= 4
-ITEM.ArmorValue 			= 0
 
 ITEM.GasImmunity 			= 3600 -- 1 hour
 ITEM.Mask 					= false

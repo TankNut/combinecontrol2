@@ -7,7 +7,6 @@ ITEM.Description 			= "A sturdy and wind resistant winter coat."
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_rebel2.mdl")
 
 ITEM.Weight 				= 3
-ITEM.ArmorValue 			= 0
 
 if SERVER then
 	function ITEM:GetModelData(ply, data)

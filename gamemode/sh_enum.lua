@@ -225,11 +225,6 @@ OVERLAY_NVG 		= 1
 OVERLAY_TARGET 		= 2
 OVERLAY_THERMAL 	= 3
 
-ARMOR = {}
-ARMOR.Light = 16
-ARMOR.Medium = 22
-ARMOR.Heavy = 30
-
 -- Only used for debugging, not the actual damage values used
 SHOTGUN_PELLETS = 8
 

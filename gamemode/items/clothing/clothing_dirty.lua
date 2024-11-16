@@ -7,7 +7,6 @@ ITEM.Description 			= "An old set of dirty rags."
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_dirtyshirt.mdl")
 
 ITEM.Weight 				= 2
-ITEM.ArmorValue 			= 0
 
 ITEM.Alternate 				= false
 ITEM.ModelSkin 				= 0

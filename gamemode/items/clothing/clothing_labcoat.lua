@@ -8,7 +8,6 @@ ITEM.Model					= Model("models/tnb/items/trp/clothes/item_labcoat.mdl")
 ITEM.Skin 					= 1
 
 ITEM.Weight 				= 2
-ITEM.ArmorValue 			= 0
 
 ITEM.Dirty 					= false
 

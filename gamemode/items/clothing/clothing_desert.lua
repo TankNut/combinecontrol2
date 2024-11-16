@@ -7,7 +7,6 @@ ITEM.Description 			= "A standard military uniform with desert camouflage."
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_survivor_desert.mdl")
 
 ITEM.Weight 				= 3
-ITEM.ArmorValue 			= 0
 
 if SERVER then
 	function ITEM:GetModelData(ply, data)

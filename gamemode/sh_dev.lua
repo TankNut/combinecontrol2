@@ -1,20 +1,3 @@
-concommand.AddAdmin("rp_dev_damagetable", function(ply, health, armor)
-	ply:PrintMessage(HUD_PRINTCONSOLE, "Damage class | Original damage | Damage dealt | Shots to kill")
-
-	for class, tab in pairs(DAMAGE) do
-		for subclass, damage in pairs(tab) do
-			local calcDamage = GAMEMODE:CalcDamage(damage, armor)
-			local shotsToKill = math.ceil(health / calcDamage)
-
-			if class == "Shotgun" then
-				shotsToKill = math.ceil(shotsToKill / SHOTGUN_PELLETS)
-			end
-
-			ply:PrintMessage(HUD_PRINTCONSOLE, string.format("%-18s| %-5s | %-4s | %s", class .. "." .. subclass, damage, calcDamage, shotsToKill))
-		end
-	end
-end, true, {TYPE_NUMBER, TYPE_NUMBER})
-
 concommand.AddAdmin("rp_dev_lootstats", function(ply)
 	local pools = {}
 	local entities = ents.FindByClass("cc_loot")

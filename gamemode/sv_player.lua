@@ -625,22 +625,6 @@ hook.Add("EntityTakeDamage", "SV.Player.EntityTakeDamage", function(ent, dmginfo
 			dmg = GAMEMODE.ShotgunDamage
 		end
 
-		if not GAMEMODE.PlasmaBullet then
-			local armor = ent:RunCharFlag("ArmorValue", 0)
-
-			for _, v in pairs(ent.Equipment) do
-				local item = ent:GetEquipment(v)
-
-				if item and item.GetArmorValue then
-					armor = math.max(armor, item:GetArmorValue())
-				end
-			end
-
-			if armor > 0 then
-				dmg = GAMEMODE:CalcDamage(dmg, armor)
-			end
-		end
-
 		if dmg == 0 then
 			return true
 		end

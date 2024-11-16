@@ -9,7 +9,6 @@ ITEM.Description 			= "A Tech-Com uniform fitted with additional carrying capaci
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_tc_support.mdl")
 
 ITEM.Weight 				= 7
-ITEM.ArmorValue 			= ARMOR.Medium
 
 ITEM.Gear 					= 0
 ITEM.Pouch 					= false

@@ -7,7 +7,6 @@ ITEM.Description 			= "A highly advanced combat uniform, armored and outfitted w
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_cubanmerc.mdl")
 
 ITEM.Weight 				= 8
-ITEM.ArmorValue 			= ARMOR.Medium
 
 ITEM.ModelSkin 				= 0
 

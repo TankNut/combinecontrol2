@@ -9,7 +9,6 @@ ITEM.Description 			= "A specialized Tech-Com uniform outfitted with high grade 
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_tc_heavyinfantry.mdl")
 
 ITEM.Weight 				= 8
-ITEM.ArmorValue 			= ARMOR.Heavy
 
 ITEM.Gear 					= 0
 ITEM.Holster 				= false

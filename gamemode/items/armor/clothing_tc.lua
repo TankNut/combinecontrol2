@@ -7,7 +7,6 @@ ITEM.Description 			= "A lighter uniform for Tech-Com personnel, designed for no
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_tc_offduty.mdl")
 
 ITEM.Weight 				= 1.6
-ITEM.ArmorValue 			= 0
 
 ITEM.ModelSkin 				= 0
 ITEM.Carrier 				= true

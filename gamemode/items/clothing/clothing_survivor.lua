@@ -7,7 +7,6 @@ ITEM.Description 			= "A tattered and dirty grey tracksuit."
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_survivor.mdl")
 
 ITEM.Weight 				= 1.8
-ITEM.ArmorValue 			= 0
 
 ITEM.AltSkin 				= false
 

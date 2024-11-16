@@ -8,8 +8,6 @@ ITEM.Slots 				= {EQUIPMENT_BODY}
 ITEM.CoversFace 		= false
 ITEM.GasFilter 			= false
 
-ITEM.ArmorValue 		= 0
-
 function ITEM:CanWear(ply, slot, silent)
 	local flag = ply:GetCharFlag()
 
@@ -23,10 +21,6 @@ function ITEM:CanWear(ply, slot, silent)
 	end
 
 	return BaseClass.CanWear(self, ply, slot, silent)
-end
-
-function ITEM:GetArmorValue()
-	return self:GetProperty("ArmorValue")
 end
 
 function ITEM:GetWeight()

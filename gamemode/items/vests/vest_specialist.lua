@@ -7,5 +7,4 @@ ITEM.Description 			= "An armored vest that's been configured for carrying speci
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_armor5.mdl")
 
 ITEM.Weight 				= 3
-ITEM.ArmorValue 			= ARMOR.Light
 ITEM.Index 					= 5

@@ -7,5 +7,4 @@ ITEM.Description 			= "A desert-tan plate carrier with lightweight steel reinfor
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_armor2.mdl")
 
 ITEM.Weight 				= 4
-ITEM.ArmorValue 			= ARMOR.Light
 ITEM.Index 					= 2

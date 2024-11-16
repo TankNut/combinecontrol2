@@ -7,7 +7,6 @@ ITEM.Description 			= "A set of lightweight clothes chosen for easy maneuvering.
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_spectre.mdl")
 
 ITEM.Weight 				= 2
-ITEM.ArmorValue 			= 0
 
 if SERVER then
 	function ITEM:GetModelData(ply, data)

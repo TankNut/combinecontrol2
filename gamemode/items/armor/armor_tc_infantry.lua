@@ -9,7 +9,6 @@ ITEM.Description 			= "A Tech-Com uniform outfitted with standard armor plates a
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_tc_infantry.mdl")
 
 ITEM.Weight 				= 7
-ITEM.ArmorValue 			= ARMOR.Medium
 
 ITEM.Gear 					= 0
 ITEM.Pouch 					= false

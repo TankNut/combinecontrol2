@@ -10,10 +10,6 @@ ITEM.Materials 			= "models/tnb/techcom/bloodband_blank"
 
 ITEM.Weight 			= 0.1
 
-function ITEM:GetArmorValue()
-	return self:GetProperty("ArmorValue")
-end
-
 if SERVER then
 	function ITEM:OnWorn(ply)
 		ply:RecalculatePlayerModel()

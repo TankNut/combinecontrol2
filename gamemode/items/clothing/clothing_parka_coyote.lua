@@ -8,7 +8,6 @@ ITEM.Model					= Model("models/tnb/items/trp/clothes/item_rebel2.mdl")
 ITEM.Skin 					= 1
 
 ITEM.Weight 				= 3
-ITEM.ArmorValue 			= 0
 
 if SERVER then
 	function ITEM:GetModelData(ply, data)

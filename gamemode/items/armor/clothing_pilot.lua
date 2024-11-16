@@ -7,7 +7,6 @@ ITEM.Description 			= "An old pilot outfit, fitted with a vest that contains var
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_pilot.mdl")
 
 ITEM.Weight 				= 2
-ITEM.ArmorValue 			= 0
 
 if SERVER then
 	function ITEM:GetModelData(ply, data)

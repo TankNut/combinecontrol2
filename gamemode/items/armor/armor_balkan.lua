@@ -7,7 +7,6 @@ ITEM.Description 			= "A rustic sailor outfit designed to beat out the freezing 
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_balkan.mdl")
 
 ITEM.Weight 				= 5
-ITEM.ArmorValue 			= ARMOR.Light
 
 if SERVER then
 	function ITEM:GetModelData(ply, data)

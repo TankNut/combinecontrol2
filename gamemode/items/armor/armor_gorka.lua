@@ -7,7 +7,6 @@ ITEM.Description 			= "A very bulky combat uniform, almost entirely made up of a
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_survivor_gorka.mdl")
 
 ITEM.Weight 				= 9
-ITEM.ArmorValue 			= ARMOR.Heavy
 
 if SERVER then
 	function ITEM:GetModelData(ply, data)

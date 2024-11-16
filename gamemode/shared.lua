@@ -592,14 +592,6 @@ function GM:GetHeading(heading)
 	return northSouth .. eastWest
 end
 
-local function func(x)
-	return 1 - math.cos((x * math.pi) / 2)
-end
-
-function GM:CalcDamage(damage, armor)
-	return math.Round(func(math.Clamp(damage / armor, 0, 1)) * damage)
-end
-
 concommand.Add("rp_uptime", function(ply, cmd, args)
 	print("Server uptime: " .. string.NiceTime(CurTime()))
 end)

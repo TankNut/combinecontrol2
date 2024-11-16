@@ -11,7 +11,6 @@ ITEM.Materials 				= {
 }
 
 ITEM.Weight 				= 2.5
-ITEM.ArmorValue 			= 0
 
 if SERVER then
 	function ITEM:GetModelData(ply, data)

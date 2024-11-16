@@ -9,7 +9,6 @@ ITEM.Description 			= "A light Tech-Com uniform made with mobility and concealme
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_tc_recon.mdl")
 
 ITEM.Weight 				= 5
-ITEM.ArmorValue 			= ARMOR.Light
 
 ITEM.Gear 					= 0
 ITEM.Pouch 					= false

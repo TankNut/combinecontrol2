@@ -7,7 +7,6 @@ ITEM.Description 			= "A heavy-duty combat uniform designed for elite units."
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_specops.mdl")
 
 ITEM.Weight 				= 8
-ITEM.ArmorValue 			= ARMOR.Heavy
 
 ITEM.AltSkin 				= false
 

@@ -7,7 +7,6 @@ ITEM.Description 			= "A hooded jacket stained by dried blood."
 ITEM.Model					= Model("models/tnb/items/trp/clothes/item_killer.mdl")
 
 ITEM.Weight 				= 2
-ITEM.ArmorValue 			= 0
 
 ITEM.Hood 					= false
 
