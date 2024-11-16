@@ -16,7 +16,6 @@ GM.PlayerAccessors = {
 	{"CombineSquad",		false,	"String",	""},
 	{"CombineSquadID",		false,	"Float",	4},
 	{"ActiveFlag", 			false, 	"String", 	""},
-	{"CharFlags", 			false, 	"String", 	""},
 	{"Consciousness", 		true, 	"Float", 	100},
 	{"PassedOut", 			false, 	"Bit", 		false},
 	{"TiedUp",				false,	"Bit",		false},
@@ -34,7 +33,6 @@ GM.PlayerAccessors = {
 	{"HideAdmin",			false,	"Bit",		false},
 	{"Hidden",				false, 	"Bit",		false},
 	{"LastPMSender",		true,	"String",	""},
-	{"PlayerFlags", 		false, 	"String", 	""},
 	{"LastNotesUpdate", 	false, 	"Float", 	0},
 	{"IsOOCMuted", 			false, 	"Bit", 		false},
 	{"IsTravelBanned", 		false, 	"Bit", 		false},
@@ -254,7 +252,7 @@ function GM:Move(ply, move)
 
 	end
 
-	local func = ply:GetCharFlagAttribute("Move")
+	local func = ply:RunCharFlag("Move")
 
 	if func then
 		func(ply, move)
@@ -489,7 +487,7 @@ GM.WalkSounds = {}
 GM.RunSounds = {}
 
 function GM:PlayerFootstep(ply, pos, foot, s, vol, rf)
-	if SERVER or ply:GetCharFlagValue("QuietSteps", false) then return end
+	if SERVER or ply:RunCharFlag("QuietSteps") then return end
 
 	local mdl = ply:GetModel()
 	local snd = ""
@@ -547,7 +545,7 @@ function meta:HasFaceCovered()
 end
 
 function meta:IsGasImmune()
-	if self:GetMoveType() == MOVETYPE_NOCLIP or self:GetCharFlagValue("GasImmune", false) then
+	if self:GetMoveType() == MOVETYPE_NOCLIP or self:RunCharFlag("GasImmune", false) then
 		return true
 	end
 
@@ -583,20 +581,21 @@ function meta:IsArmed()
 end
 
 function meta:CanIgnoreTravelRestrictions(chardata)
-	if self:IsAdmin() then return true end
-	if not chardata then return false end
+	return self:IsAdmin()
+	-- if self:IsAdmin() then return true end
+	-- if not chardata then return false end
 
-	if chardata.CharFlags and #chardata.CharFlags > 0 then
-		local charFlags = GAMEMODE:LookupCharFlag(chardata.CharFlags)
+	-- if chardata.CharFlags and #chardata.CharFlags > 0 then
+	-- 	local charFlags = GAMEMODE:LookupCharFlag(chardata.CharFlags)
 
-		for _, v in pairs(charFlags) do
-			if v and v.IgnoreTravelRestriction then
-				return v.IgnoreTravelRestriction
-			end
-		end
-	end
+	-- 	for _, v in pairs(charFlags) do
+	-- 		if v and v.IgnoreTravelRestriction then
+	-- 			return v.IgnoreTravelRestriction
+	-- 		end
+	-- 	end
+	-- end
 
-	return false
+	-- return false
 end
 
 function GM:GetPlayerByCharID(id)
@@ -622,7 +621,7 @@ function meta:HasInfiniteAmmo(ammo)
 		return true
 	end
 
-	return self:GetCharFlagValue("InfiniteAmmo", false)
+	return self:RunCharFlag("InfiniteAmmo")
 end
 
 local function update(ply, scale, data)

@@ -169,11 +169,6 @@ GM.ToolTrustBasic = {
 	"button"
 }
 
-GM.ToolTrustEventManager = {
-	"particlecontrol",
-	"particlecontrol_tracer"
-}
-
 GM.ToolTrustBlacklist = {
 	"duplicator",
 	"balloon",
@@ -189,7 +184,9 @@ GM.ToolTrustBlacklist = {
 	"particlecontrol_proj",
 	"streamradio_gui_color_global",
 	"streamradio_gui_color_individual",
-	"streamradio_gui_skin"
+	"streamradio_gui_skin",
+	"particlecontrol",
+	"particlecontrol_tracer"
 }
 
 GM.SandboxBlacklist = {
@@ -430,17 +427,8 @@ function GM:PlayerSpawnRagdoll(ply, model)
 	return false
 end
 
-local whitelist = {
-	["lunasflightschool_ah6"] = "2",
-	["merydianlfs_uh1h"] = "2"
-}
-
 function GM:PlayerSpawnSENT(ply, class)
 	local whitelisted = false
-
-	if whitelist[class] then
-		whitelisted = ply:HasPlayerFlag(whitelist[class])
-	end
 
 	if ply:IsAdmin() or whitelisted then
 		if SERVER then
@@ -468,7 +456,7 @@ function GM:PlayerSpawnSWEP(ply, class, info)
 end
 
 function GM:PlayerSpawnVehicle(ply, model, name, tab)
-	if ply:IsAdmin() or ply:HasPlayerFlag("1") then
+	if ply:IsAdmin() then
 		if SERVER then
 			self:WriteLog("sandbox_spawn_vehicle", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Type = name})
 			self:LogSandbox("[V] " .. ply:VisibleRPName() .. " spawned vehicle " .. name .. ".", ply)
@@ -578,7 +566,6 @@ function GM:CanTool(ply, tr, tool)
 	if ply:ToolTrust() == 0 then return false end
 
 	if table.HasValue(self.ToolTrustBlacklist, tool) then return false end
-	if table.HasValue(self.ToolTrustEventManager, tool) and not ply:HasPlayerFlag("0") then return false end
 
 	if ply:ToolTrust() == 1 and not table.HasValue(self.ToolTrustBasic, tool) then return false end
 

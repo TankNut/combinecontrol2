@@ -96,7 +96,7 @@ function SWEP:SubtractDurability(min, max)
 		return
 	end
 
-	if self:GetOwner():GetCharFlagValue("NoWeaponDegradation", false) then
+	if self:GetOwner():RunCharFlag("NoWeaponDegradation") then
 		return
 	end
 
@@ -122,7 +122,7 @@ function SWEP:ConditionProb(prob)
 		return false
 	end
 
-	if self:GetOwner():GetCharFlagValue("NoWeaponDegradation", false) then
+	if self:GetOwner():RunCharFlag("NoWeaponDegradation") then
 		return false
 	end
 

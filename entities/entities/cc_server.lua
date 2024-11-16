@@ -3,7 +3,7 @@ ENT.Base = "base_point"
 
 function ENT:Think()
 	for _, v in player.Iterator() do
-		if v:GetCharFlagAttribute("IgnoreTravelRestriction") then continue end
+		if v:RunCharFlag("IgnoreTravelRestriction") then continue end
 		if v:IsTravelBanned() then continue end
 
 		local d = v:GetPos():Distance(self:GetPos())

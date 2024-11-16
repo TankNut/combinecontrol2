@@ -125,7 +125,3 @@ end)
 GM:RegisterLogType("admin_deletelootpoint", LOG_ADMIN, function(data)
 	return string.format("%s has deleted the loot point at (%s, %s, %s) (%s)", GAMEMODE:FormatPlayer(data.Admin), data.X, data.Y, data.Z, data.Pool)
 end)
-
-GM:RegisterLogType("admin_playerflags", LOG_ADMIN, function(data)
-	return string.format("%s has set %s's player flags to \"%s\"", GAMEMODE:FormatPlayer(data.Admin), GAMEMODE:FormatPlayer(data.Ply), data.Flag)
-end)

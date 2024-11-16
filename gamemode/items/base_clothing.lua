@@ -13,7 +13,8 @@ ITEM.ArmorValue 		= 0
 function ITEM:CanWear(ply, slot, silent)
 	local flag = ply:GetCharFlag()
 
-	if flag and flag.ModelFunc and flag.Flag != "Z" then
+	-- Todo: Sort this out somehow
+	if flag.ModelFunc and flag.Flag != "Z" then
 		if SERVER and not silent then
 			ply:SendChat(nil, "WARNING", "This character cannot wear clothing!")
 		end

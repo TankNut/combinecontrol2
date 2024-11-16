@@ -37,7 +37,7 @@ function GM:CreatePlayerMenu()
 		{"Description", "PMCreateBio"},
 		{"Inventory", "PMCreateInventory"},
 		{"Business", "PMCreateBusiness", true},
-		{"Map", "PMCreateMap", function() return LocalPlayer():IsAdmin() or LocalPlayer():HasItem("map") or LocalPlayer():GetCharFlagValue("IsSkyNET", false) end},
+		{"Map", "PMCreateMap", function() return LocalPlayer():IsAdmin() or LocalPlayer():HasItem("map") or LocalPlayer():RunCharFlag("IsSkyNET") end},
 		{"Armory", "PMCreateArmory", function() return LocalPlayer():ArmoryAccess() != "" and IsValid(LocalPlayer().ActiveZone["cc_zone_armory"]) end},
 		{"Settings", "PMCreateSettings"},
 	}

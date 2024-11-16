@@ -23,7 +23,7 @@ end
 
 function ENT:Use(ply)
 	if SERVER then
-		if ply:GetCharFlagAttribute("ItemLoadout") then
+		if ply:RunCharFlag("ItemLoadout") then
 			if self.Open then
 				self.StartOpen = CurTime() - 1
 			else
@@ -55,7 +55,7 @@ end
 
 if CLIENT then
 	function nLoadoutCrate(len)
-		local loadout = LocalPlayer():GetCharFlagAttribute("ItemLoadout")
+		local loadout = LocalPlayer():RunCharFlag("ItemLoadout")
 
 		if not loadout then
 			return
@@ -228,7 +228,7 @@ if CLIENT then
 else
 	function nTakeLoadout(len, ply)
 		local item = net.ReadString()
-		local loadout = ply:GetCharFlagAttribute("ItemLoadout")
+		local loadout = ply:RunCharFlag("ItemLoadout")
 
 		if loadout and table.HasValue(loadout, item) then
 			if not ply:CanTakeItem(item) then

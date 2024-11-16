@@ -93,7 +93,7 @@ function meta:GetSpeeds()
 	local j = 200
 	local c = 60
 
-	local func = self:GetCharFlagAttribute("SpeedOverride")
+	local func = self:RunCharFlag("SpeedOverride")
 
 	if func then
 		local w2, r2, j2, c2 = func(self)
@@ -146,7 +146,7 @@ function meta:UpdateHull()
 end
 
 function GM:GetPlayerScale(ply)
-	local flag = ply:GetCharFlagValue("Scale", false)
+	local flag = ply:RunCharFlag("Scale")
 
 	if flag then
 		return flag
@@ -158,18 +158,18 @@ end
 function GM:PlayerCheckFlag(ply, respawn)
 	ply:RecalculatePlayerModel()
 
-	ply:SetTeam(ply:GetCharFlagValue("Team", TEAM_CITIZEN))
+	ply:SetTeam(ply:RunCharFlag("Team"))
 
-	ply:SetMaxHealth(ply:GetCharFlagValue("Health", 100))
+	ply:SetMaxHealth(ply:RunCharFlag("Health"))
 	ply:SetHealth(ply:GetMaxHealth())
 
 	ply:SetPlayerScale(self:GetPlayerScale(ply), true)
-	ply:SetBloodColor(ply:GetCharFlagValue("BloodColor", BLOOD_COLOR_RED))
+	ply:SetBloodColor(ply:RunCharFlag("BloodColor"))
 
 	self:RefreshNPCRelationships()
 
 	if respawn then
-		local ent = ply:GetCharFlagValue("UseCombineSpawns") and "cc_spawnpoint_skynet" or "cc_spawnpoint"
+		local ent = ply:RunCharFlag("UseCombineSpawns") and "cc_spawnpoint_skynet" or "cc_spawnpoint"
 		local spawn = table.Random(ents.FindByClass(ent))
 
 		if IsValid(spawn) then
@@ -177,7 +177,7 @@ function GM:PlayerCheckFlag(ply, respawn)
 			ply:SetEyeAngles(spawn:GetAngles())
 		end
 
-		local offset = ply:GetCharFlagAttribute("SpawnOffset")
+		local offset = ply:RunCharFlag("SpawnOffset")
 
 		if offset then
 			ply:SetPos(ply:GetPos() + offset)
@@ -280,7 +280,7 @@ end
 function GM:PlayerUpdateName(ply)
 	local name = ply:RPName()
 
-	local func = ply:GetCharFlagAttribute("VisibleRPName")
+	local func = ply:RunCharFlag("VisibleRPName")
 
 	if func then
 		name = func(ply)
@@ -316,12 +316,8 @@ function meta:SetPhysgunColor()
 end
 
 function GM:PlayerFlagLoadout(ply)
-	local flag = self:LookupCharFlag(ply:CharFlags())
-
-	if flag then
-		for _, swep in pairs(ply:GetCharFlagValue("Loadout", {})) do
-			ply:Give(swep)
-		end
+	for _, swep in pairs(ply:RunCharFlag("Loadout")) do
+		ply:Give(swep)
 	end
 end
 
@@ -350,10 +346,6 @@ function GM:PlayerLoadout(ply)
 		ply:Give("trp_zonemarker")
 	end
 
-	if ply:HasPlayerFlag("1") then
-		ply:Give("weapon_simrepair")
-	end
-
 	ply:SelectWeapon("weapon_cc_hands")
 end
 
@@ -362,7 +354,6 @@ function meta:LoadPlayer(data)
 	self:SetPhysTrust(tonumber(data.PhysTrust), true)
 	self:SetPropTrust(tonumber(data.PropTrust), true)
 	self:SetNewbieStatus(tonumber(data.NewbieStatus), true)
-	self:SetPlayerFlags(data.PlayerFlags, true)
 
 	self:SetScoreboardTitle(data.ScoreboardTitle, true)
 	self:SetScoreboardTitleC(Vector(data.ScoreboardTitleC), true)
@@ -434,8 +425,6 @@ function meta:LoadCharacter(data)
 	self:SetLang(tonumber(data.Lang))
 
 	self:SetMoney(tonumber(data.Money))
-
-	self:SetCharFlags(data.CharFlags)
 
 	self:SetBusinessLicenses(tonumber(data.BusinessLicenses))
 
@@ -637,7 +626,7 @@ hook.Add("EntityTakeDamage", "SV.Player.EntityTakeDamage", function(ent, dmginfo
 		end
 
 		if not GAMEMODE.PlasmaBullet then
-			local armor = ent:GetCharFlagValue("ArmorValue", 0)
+			local armor = ent:RunCharFlag("ArmorValue", 0)
 
 			for _, v in pairs(ent.Equipment) do
 				local item = ent:GetEquipment(v)
@@ -685,7 +674,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 		ply:CreateRagdoll()
 	end
 
-	local func = ply:GetCharFlagAttribute("OnDeath")
+	local func = ply:RunCharFlag("OnDeath")
 
 	if func then
 		func(ply)
@@ -743,7 +732,7 @@ function GM:ScaleNPCDamage(ply, hitgroup, dmginfo)
 end
 
 function GM:GetFallDamage(ply, speed)
-	if ply:GetCharFlagAttribute("NoFallDamage") then
+	if ply:RunCharFlag("NoFallDamage") then
 		return 0
 	end
 

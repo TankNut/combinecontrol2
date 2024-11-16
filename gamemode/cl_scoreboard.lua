@@ -14,7 +14,7 @@ end
 
 local function isHiddenFromScoreboard(ply)
 	if ply:Hidden() then return true end
-	if ply:GetCharFlagAttribute("IsHidden") then return true end
+	if ply:RunCharFlag("IsHidden") then return true end
 
 	if not LocalPlayer():IsAdmin() and ply:Team() == TEAM_SKYNET and LocalPlayer():Team() != TEAM_SKYNET then return true end
 end
@@ -160,18 +160,6 @@ function GM:ScoreboardAdd(ply, y, n)
 
 		if LocalPlayer():IsAdmin() and ply:CustomModelAuths() then
 			table.insert(badges, GAMEMODE.CustomModelMat)
-		end
-
-		if LocalPlayer():IsAdmin() and ply:HasPlayerFlag("0") then
-			table.insert(badges, GAMEMODE.EventMat)
-		end
-
-		if LocalPlayer():IsAdmin() and ply:HasPlayerFlag("1") then
-			table.insert(badges, GAMEMODE.CarMat)
-		end
-
-		if LocalPlayer():IsAdmin() and ply:HasPlayerFlag("2") then
-			table.insert(badges, GAMEMODE.AirMat)
 		end
 
 		for k, v in pairs(GAMEMODE.ScoreboardBadges) do
@@ -373,18 +361,6 @@ function GM:CCCreatePlayerData(ply)
 
 	if LocalPlayer():IsAdmin() and ply:CustomModelAuths() then
 		y = CreateBadge(CCP.PlayerData, self.CustomModelMat, "Can use custom models", y)
-	end
-
-	if LocalPlayer():IsAdmin() and ply:HasPlayerFlag("0") then
-		y = CreateBadge(CCP.PlayerData, self.EventMat, "Has Event Flags", y)
-	end
-
-	if LocalPlayer():IsAdmin() and ply:HasPlayerFlag("1") then
-		y = CreateBadge(CCP.PlayerData, self.CarMat, "Has Vehicle Flags", y)
-	end
-
-	if LocalPlayer():IsAdmin() and ply:HasPlayerFlag("2") then
-		y = CreateBadge(CCP.PlayerData, self.AirMat, "Has Air Vehicle Flags", y)
 	end
 
 	for k, v in pairs(self.ScoreboardBadges) do

@@ -483,7 +483,7 @@ local function SendDispatch(v)
 	local rem = {}
 
 	for _, ply in player.Iterator() do
-		if GAMEMODE:LookupCombineFlag(ply:ActiveFlag()) or ply:GetCharFlagAttribute("UseCombineRadio") then
+		if GAMEMODE:LookupCombineFlag(ply:ActiveFlag()) or ply:RunCharFlag("UseCombineRadio") then
 			table.insert(rem, ply)
 		end
 	end
@@ -555,7 +555,7 @@ function GM:CombineCameraThink()
 				local rem = {}
 
 				for _, ply in player.Iterator() do
-					if GAMEMODE:LookupCombineFlag(ply:ActiveFlag()) or ply:GetCharFlagAttribute("UseCombineRadio") then
+					if GAMEMODE:LookupCombineFlag(ply:ActiveFlag()) or ply:RunCharFlag("UseCombineRadio") then
 						table.insert(rem, ply)
 					end
 				end

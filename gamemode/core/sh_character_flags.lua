@@ -41,8 +41,7 @@ function Load()
 	end
 end
 
--- To be renamed GetCharFlag when switched over
-function meta:GetCharacterFlag()
+function meta:GetCharFlag()
 	return List[meta.CharacterFlag(self)]
 end
 

@@ -399,7 +399,7 @@ GM:AddChatCommand({
 	OnParsed = function(t)
 		local ply = t.Entity
 
-		if not ply:GetCharFlagAttribute("CanBroadcast") then
+		if not ply:RunCharFlag("CanBroadcast") then
 			ply:SendChat(nil, "ERROR", "Only people loyal to the combine can do that.")
 			return
 		end
@@ -413,9 +413,8 @@ GM:AddChatCommand({
 	Alive = true,
 	OnParsed = function(t)
 		local ply = t.Entity
-		local flag = ply:HasPlayerFlag("0")
 
-		if not ply:IsAdmin() and not flag then
+		if not ply:IsAdmin() then
 			ply:SendChat(nil, "ERROR", "You're not an admin.")
 			return
 		end
@@ -429,7 +428,6 @@ GM:AddChatCommand({
 	Alive = true,
 	OnParsed = function(t)
 		local ply = t.Entity
-		local flag = ply:HasPlayerFlag("0")
 
 		if not ply:IsAdmin() and not flag then
 			ply:SendChat(nil, "ERROR", "You're not an admin.")

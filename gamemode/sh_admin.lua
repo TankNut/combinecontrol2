@@ -467,30 +467,6 @@ concommand.AddAdmin("rpa_setcharflag", function(ply, targ, flag)
 	end
 end, false, {TYPE_ENTITY, TYPE_STRING})
 
-concommand.AddAdmin("rpa_setplayerflag", function(ply, targ, flag)
-	targ:SetPlayerFlags(flag)
-	targ:UpdatePlayerField("PlayerFlags", flag)
-
-	GAMEMODE:LogAdmin("[F] " .. ply:Nick() .. " changed player " .. targ:RPName() .. "'s player flag to \"" .. flag .. "\"", ply)
-	GAMEMODE:WriteLog("admin_playerflags", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Flag = flag})
-
-	if flag == "" then
-		ply:SendChat(nil, "WARNING", "You removed " .. targ:RPName() .. "'s player flag")
-		targ:SendChat(nil, "WARNING", ply:Nick() .. " removed your player flag")
-	else
-		local name
-
-		if #flag > 1 then
-			name = "Multiple flags"
-		else
-			name = GAMEMODE:PlayerFlagPrintName(flag)
-		end
-
-		ply:SendChat(nil, "WARNING", "You set " .. targ:RPName() .. "'s player flag to \"" .. flag .. "\" (" .. name .. ")")
-		targ:SendChat(nil, "WARNING", ply:Nick() .. " set your player flag to \"" .. flag .. "\" (" .. name .. ")")
-	end
-end, false, {TYPE_ENTITY, TYPE_STRING})
-
 concommand.AddAdmin("rpa_flagsroster", function(ply)
 	local function cb(res)
 		if #res > 0 then
@@ -1428,7 +1404,7 @@ concommand.AddAdmin("rpa_setplayerscale", function(ply, targ, val, persist)
 	targ:SetPlayerScale(val, true)
 
 	if persist then
-		local flag = targ:GetCharFlagValue("Scale", false)
+		local flag = targ:RunCharFlag("Scale")
 
 		if flag then
 			ply:SendChat(nil, "ERROR", "Error: Target has a character flag overriding scale, cannot persist")

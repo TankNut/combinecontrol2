@@ -20,7 +20,7 @@ function PANEL:Init()
 	self.Admin = false
 
 	self.GPS = LocalPlayer():HasItem("gps")
-	self.SkyNET = LocalPlayer():GetCharFlagValue("IsSkyNET", false)
+	self.SkyNET = LocalPlayer():RunCharFlag("IsSkyNET")
 end
 
 function PANEL:OnMousePressed(code)
@@ -102,7 +102,7 @@ function PANEL:DrawZones()
 				continue
 			end
 
-			if v:GetCharFlagValue("IsSkyNET", false) then
+			if v:RunCharFlag("IsSkyNET") then
 				continue
 			end
 
@@ -170,7 +170,7 @@ function PANEL:DrawPoints()
 				continue
 			end
 
-			if not v:GetCharFlagValue("IsSkyNET", false) then
+			if not v:RunCharFlag("IsSkyNET") then
 				continue
 			end
 

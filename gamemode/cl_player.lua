@@ -20,7 +20,7 @@ hook.Add("PostDrawTranslucentRenderables", "flag", function(depth, skybox)
 			continue
 		end
 
-		local func = v:GetCharFlagAttribute("PostDrawTranslucentRenderables")
+		local func = v:RunCharFlag("PostDrawTranslucentRenderables")
 
 		if not func then
 			continue

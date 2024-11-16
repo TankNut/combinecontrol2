@@ -18,15 +18,12 @@ function compound.CreateAttachment(parent)
 end
 
 function meta:RecalculatePlayerModel(weapon)
-	local flag = self:GetCharFlag()
 	local mdl = self.CharModel or Model("models/tnb/techcom/male_07.mdl")
 	local charskin = self.CharSkin or 0
 
-	local data
+	local data = self:RunCharFlag("ModelFunc")
 
-	if flag and flag.ModelFunc then
-		data = flag.ModelFunc(self)
-	else
+	if not data then
 		data = {
 			head = {
 				model = mdl,
@@ -95,9 +92,7 @@ hook.Add("CC.SV.PlayerThink", "SV.CompoundModel.PlayerThink", function(plys)
 			end
 		end
 
-		local flag = ply:GetCharFlag()
-
-		if flag and flag.ModelFunc then
+		if ply:GetCharFlag().ModelFunc then
 			compound.HideCompoundModel(ply, true)
 		else
 			compound.HideCompoundModel(ply, ply:GetNoDraw() or not ply:Alive())
