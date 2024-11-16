@@ -37,7 +37,6 @@ function GM:CreatePlayerMenu()
 		{"Description", "PMCreateBio"},
 		{"Inventory", "PMCreateInventory"},
 		{"Business", "PMCreateBusiness", true},
-		{"Map", "PMCreateMap", function() return LocalPlayer():IsAdmin() or LocalPlayer():HasItem("map") or LocalPlayer():RunCharFlag("IsSkyNET") end},
 		{"Armory", "PMCreateArmory", function() return LocalPlayer():ArmoryAccess() != "" and IsValid(LocalPlayer().ActiveZone["cc_zone_armory"]) end},
 		{"Settings", "PMCreateSettings"},
 	}
@@ -921,26 +920,6 @@ function GM:PMCreateBusiness()
 	end
 
 	GAMEMODE:PMPopulateBusiness()
-end
-
-function GM:PMCreateMap()
-	local panel = CCP.PlayerMenu.ContentPane
-
-	CCP.PlayerMenu.Map = vgui.Create("CCMap", panel)
-	CCP.PlayerMenu.Map:SetSize(panel:GetTall(), panel:GetTall())
-	CCP.PlayerMenu.Map:SetPos(panel:GetWide() * 0.5 - panel:GetTall() * 0.5, 0)
-
-	if LocalPlayer():IsAdmin() then
-		CCP.PlayerMenu.AdminMap = vgui.Create("DButton", panel)
-		CCP.PlayerMenu.AdminMap:SetFont("CombineControl.LabelSmall")
-		CCP.PlayerMenu.AdminMap:SetText("Toggle Admin Map")
-		CCP.PlayerMenu.AdminMap:SetPos(10, 10)
-		CCP.PlayerMenu.AdminMap:SetSize(120, 20)
-
-		function CCP.PlayerMenu.AdminMap:DoClick()
-			CCP.PlayerMenu.Map.Admin = not CCP.PlayerMenu.Map.Admin
-		end
-	end
 end
 
 function GM:PMCreateArmory()
