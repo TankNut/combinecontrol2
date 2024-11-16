@@ -13,9 +13,13 @@ function Add(name, flag)
 	flag.FileName = "flag_" .. name
 	flag.ClassName = name
 
-	List[name] = setmetatable(flag, {
-		__index = baseclass.Get(flag.Base or "flag_base")
-	})
+	if flag.FileName == "flag_base" then
+		List[name] = flag
+	else
+		List[name] = setmetatable(flag, {
+			__index = baseclass.Get(flag.Base or "flag_base")
+		})
+	end
 end
 
 function Load()
