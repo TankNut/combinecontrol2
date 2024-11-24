@@ -595,9 +595,3 @@ end
 concommand.Add("rp_uptime", function(ply, cmd, args)
 	print("Server uptime: " .. string.NiceTime(CurTime()))
 end)
-
--- How about you fuck off yeah
-
-timer.Remove("DLib.DonationThink")
-hook.Remove("PlayerBindPress", "DLib.DonationThink")
-hook.Remove("Think", "DLib.DonationThink2")
