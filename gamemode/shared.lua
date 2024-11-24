@@ -591,7 +591,3 @@ function GM:GetHeading(heading)
 
 	return northSouth .. eastWest
 end
-
-concommand.Add("rp_uptime", function(ply, cmd, args)
-	print("Server uptime: " .. string.NiceTime(CurTime()))
-end)
