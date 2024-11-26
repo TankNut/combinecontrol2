@@ -18,7 +18,7 @@ setUserGroup:SetDescription("Updates a player's assigned permission group")
 setUserGroup:AddParameter(console.Player({
 	SingleTarget = true,
 	CheckImmunity = true,
-	NoSelfTarget = false,
+	NoSelfTarget = true,
 }))
 setUserGroup:AddParameter(console.String({
 	validate.InList({ "user", "admin", "superadmin", "developer" })
