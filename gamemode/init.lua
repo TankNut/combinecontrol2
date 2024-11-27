@@ -174,7 +174,7 @@ function GM:Initialize()
 	if file.Exists("cc_maps/" .. port .. ".txt", "DATA") then
 		local map = file.Read("cc_maps/" .. port .. ".txt", "DATA")
 
-		if map and map != game.GetMap() and table.HasValue(GAMEMODE:GetMaps(), map) then
+		if map and map != game.GetMap() and table.HasValue(game.GetMapList(), map) then
 			self.AutoMapOverride = map
 		end
 	end

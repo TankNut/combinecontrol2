@@ -139,9 +139,9 @@ concommand.AddAdmin("rpa_aidisabled", function(ply, bool)
 end, false, {TYPE_BOOL})
 
 concommand.AddAdmin("rpa_changelevel", function(ply, map)
-	if not table.HasValue(GAMEMODE:GetMaps(), map) then
+	if not table.HasValue(game.GetMapList(), map) then
 		net.Start("nMapList")
-			net.WriteTable(GAMEMODE:GetMaps())
+			net.WriteTable(game.GetMapList())
 		net.Send(ply)
 
 		return
