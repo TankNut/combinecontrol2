@@ -118,8 +118,6 @@ GM.SQLTables.players = {
 	["PropTrust"] 			= {Type = "INT", 			Default = "1"},
 	["NewbieStatus"] 		= {Type = "INT", 			Default = NEWBIE_STATUS_NEW},
 	["PlayerFlags"] 		= {Type = "VARCHAR(128)", 	Default = ""},
-	["ScoreboardTitle"] 	= {Type = "VARCHAR(100)", 	Default = ""},
-	["ScoreboardTitleC"] 	= {Type = "VARCHAR(100)", 	Default = "200 200 200"},
 	["ScoreboardBadges"] 	= {Type = "INT", 			Default = "0"},
 	["LastNotesUpdate"] 	= {Type = "INT", 			Default = "0"},
 	["IsOOCMuted"] 			= {Type = "INT", 			Default = "0"},

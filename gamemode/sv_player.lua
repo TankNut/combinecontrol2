@@ -345,19 +345,9 @@ function meta:LoadPlayer(data)
 	self:SetPropTrust(tonumber(data.PropTrust), true)
 	self:SetNewbieStatus(tonumber(data.NewbieStatus), true)
 
-	self:SetScoreboardTitle(data.ScoreboardTitle, true)
-	self:SetScoreboardTitleC(Vector(data.ScoreboardTitleC), true)
-	self:SetScoreboardBadges(tonumber(data.ScoreboardBadges), true)
-
 	self:SetLastNotesUpdate(tonumber(data.LastNotesUpdate), true)
 	self:SetIsOOCMuted(tobool(data.IsOOCMuted), true)
 	self:SetIsTravelBanned(tobool(data.IsTravelBanned), true)
-
-	self:SetDonations(data.Donations and util.JSONToTable(data.Donations) or {}, true)
-	self:SetPhysgunMode(tobool(data.PhysgunMode), true)
-
-	self:SetDonatorActive(tobool(data.DonatorActive), true)
-	self:SetCustomModelAuths(tobool(data.CustomModelAuths), true)
 end
 
 net.Receive("nRequestPData", function(len, ply)
