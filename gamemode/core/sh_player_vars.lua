@@ -76,6 +76,8 @@ function Add(name, data)
 
 	if CLIENT then
 		netstream.Hook(index, function(ply, val, loading)
+			local old = cache[ply]
+
 			cache[ply] = val
 
 			hook.Run(hookName, ply, old, val == nil and default or val, loading)
