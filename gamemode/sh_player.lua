@@ -35,7 +35,6 @@ GM.PlayerAccessors = {
 	{"AdminRadio", 			true, 	"Bit", 		false},
 	{"PlayerScale",			false,	"Float",	1},
 	{"CharacterScale", 		true, 	"Float", 	1},
-	{"HullData", 			false, 	"Table", 	{}},
 	{"InfiniteAmmo", 		false, 	"Bit", 		false},
 	{"OverlayMode", 		true, 	"Float", 	OVERLAY_NONE},
 	{"ThermalHidden", 		false, 	"Bit", 		false},
@@ -600,48 +599,6 @@ function meta:HasInfiniteAmmo(ammo)
 
 	return self:RunCharFlag("InfiniteAmmo")
 end
-
-local function update(ply, scale, data)
-	ply:SetModelScale(scale, 0.0001)
-
-	timer.Simple(0, function()
-		if not IsValid(ply) then
-			return
-		end
-
-		if data.Standing then
-			ply:SetHull(data.Standing[1], data.Standing[2])
-			ply:SetHullDuck(data.Crouching and data.Crouching[1] or data.Standing[1], data.Crouching and data.Crouching[2] or data.Standing[2])
-
-			ply:SetViewOffset(data.ViewOffset * scale)
-			ply:SetViewOffsetDucked((data.DuckedViewOffset or data.ViewOffset) * scale)
-		else
-			ply:SetHull(Vector(-16, -16, 0), Vector(16, 16, 72))
-			ply:SetHullDuck(Vector(-16, -16, 0), Vector(16, 16, 36))
-
-			ply:SetViewOffset(Vector(0, 0, 64) * scale)
-			ply:SetViewOffsetDucked(Vector(0, 0, 28) * scale)
-		end
-	end)
-end
-
-if CLIENT then
-	hook.Add("NetworkEntityCreated", "hull", function(ent)
-		if not ent:IsPlayer() then
-			return
-		end
-
-		update(ent, ent:PlayerScale(), ent:HullData())
-	end)
-end
-
-hook.Add("OnHullDataChanged", "hull", function(ply, data)
-	update(ply, ply:PlayerScale(), data)
-end)
-
-hook.Add("OnPlayerScaleChanged", "hull", function(ply, scale)
-	update(ply, scale, ply:HullData())
-end)
 
 function meta:GetPlayerColor()
 	return Vector(0.2, 0.2, 0.2)

@@ -354,7 +354,7 @@ concommand.AddAdmin("rpa_setcharmodel", function(ply, targ, mdl)
 	targ.CharModel = mdl
 	targ:UpdateCharacterField("Model", mdl)
 
-	targ:RecalculatePlayerModel()
+	targ:UpdateAppearance()
 
 	GAMEMODE:WriteLog("admin_setmodel", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Model = mdl})
 

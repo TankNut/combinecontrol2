@@ -2,25 +2,6 @@ net.Receive("nCharacterList", function(len)
 	GAMEMODE.Characters = net.ReadTable()
 end)
 
-function GM:CharCreateThink()
-	if self.QueueCharCreate then
-
-		if not self.IntroCamStart or not self:InIntroCam() then
-
-			if not CCP.Quiz or not CCP.Quiz:IsValid() then
-
-				self.QueueCharCreate = false
-				cookie.Set("cc_doneintro", 2)
-
-				self:CreateCharEditor()
-
-			end
-
-		end
-
-	end
-end
-
 function GM:CreateQuiz()
 	if CCP.Quiz and CCP.Quiz:IsValid() then
 
@@ -161,11 +142,6 @@ function GM:CreateQuiz()
 		frame:SizeToChildren(true, true)
 		frame:Center()
 end
-
-net.Receive("nOpenCharCreate", function(len)
-	GAMEMODE.CCMode = net.ReadFloat()
-	GAMEMODE.QueueCharCreate = true
-end)
 
 GM.CCModel = GM.CCModel or ""
 
@@ -532,21 +508,14 @@ function GM:CreateCharCreate()
 		local desc = CCP.CharCreatePanel.DescEntry:GetValue()
 		local model = GAMEMODE.CharCreateSelectedModel
 		local skin = GAMEMODE.CharCreateSelectedSkin
-		local trait = CCP.CharCreatePanel.TraitLabel.Value
 
-		local r, err = GAMEMODE:CheckCharacterValidity(name, desc, model, skin, trait)
+		local r, err = GAMEMODE:CheckCharacterValidity(name, desc, model, skin)
 
 		if r then
 
 			GAMEMODE:CloseCharCreate()
 
-			net.Start("nCreateCharacter")
-				net.WriteString(name)
-				net.WriteString(desc)
-				net.WriteString(model)
-				net.WriteUInt(skin, 5)
-				net.WriteFloat(trait)
-			net.SendToServer()
+			netstream.Send("CreateCharacter", name, desc, model, skin)
 
 			if not GAMEMODE.AutoMOTD and GAMEMODE.MOTDText != "" then
 
@@ -578,15 +547,13 @@ function GM:CharSelectPopulateCharacters()
 
 	local y = 0
 
-	for k, v in pairs(self.Characters) do
-
+	for id, name in pairs(lp:CharacterList()) do
 		local b = vgui.Create("DButton", CCP.CharSelect.ContentPane)
 		b:SetFont("CombineControl.LabelSmall")
-		b:SetText(v.RPName)
+		b:SetText(name)
 		b:SetPos(0, y)
 		b:SetSize(180, 20)
-		b.CharID = v.id
-		b.Location = v.Location
+
 		function b:DoClick()
 			if CCP.CharSelect.DeleteMode then
 				local popup = vgui.Create("DFrame")
@@ -599,7 +566,7 @@ function GM:CharSelectPopulateCharacters()
 					popup:MakePopup()
 
 				local lbl = vgui.Create("DLabel", popup)
-					lbl:SetText("Are you sure you want to delete " .. v.RPName .. "? This cannot be undone!")
+					lbl:SetText("Are you sure you want to delete " .. name .. "? This cannot be undone!")
 					lbl:Dock(TOP)
 					lbl:DockMargin(5, 0, 5, 0)
 					lbl:SetColor(Color(255, 255, 255))
@@ -645,9 +612,7 @@ function GM:CharSelectPopulateCharacters()
 			else
 				GAMEMODE:CloseCharCreate()
 
-				net.Start("nSelectCharacter")
-					net.WriteFloat(self.CharID)
-				net.SendToServer()
+				netstream.Send("SelectCharacter", id)
 
 				if not GAMEMODE.AutoMOTD and GAMEMODE.MOTDText != "" then
 					GAMEMODE.AutoMOTD = true
@@ -658,17 +623,15 @@ function GM:CharSelectPopulateCharacters()
 		b:PerformLayout()
 		CCP.CharSelect.ContentPane:AddItem(b)
 
-		if LocalPlayer().CharID and b.CharID == LocalPlayer():CharID() then
-
+		if lp:CharID() == id then
 			b:SetDisabled(true)
-
 		end
 
-		if GAMEMODE.CurrentLocation and b.Location != GAMEMODE.CurrentLocation and not LocalPlayer():CanIgnoreTravelRestrictions(v) then
+		-- if GAMEMODE.CurrentLocation and b.Location != GAMEMODE.CurrentLocation and not LocalPlayer():CanIgnoreTravelRestrictions(v) then
 
-			b:SetDisabled(true)
+		-- 	b:SetDisabled(true)
 
-		end
+		-- end
 
 		table.insert(self.CharSelectCharacterButtons, b)
 

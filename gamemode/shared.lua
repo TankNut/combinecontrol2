@@ -139,7 +139,7 @@ function GM:CheckNameValidity(name)
 	return true
 end
 
-function GM:CheckCharacterValidity(name, desc, model, skin, trait)
+function GM:CheckCharacterValidity(name, desc, model, skin)
 	if #name < self.MinNameLength then
 		return false, "Name must be longer than " .. self.MinNameLength .. " characters."
 	end
@@ -162,10 +162,6 @@ function GM:CheckCharacterValidity(name, desc, model, skin, trait)
 
 	if string.find(name, "#", nil, true) or string.find(name, "~", nil, true) or string.find(name, "%", nil, true) then
 		return false, "Invalid name."
-	end
-
-	if not self.Traits[trait] then
-		return false, "Invalid trait."
 	end
 
 	if not self:CheckNameValidity(name) then

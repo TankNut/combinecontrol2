@@ -47,7 +47,6 @@ util.AddNetworkString("nSmoke")
 
 util.AddNetworkString("nRequestPlayerData")
 util.AddNetworkString("nRequestAllPlayerData")
-util.AddNetworkString("nLoadCharacter")
 util.AddNetworkString("nRequestDoorData")
 util.AddNetworkString("nRequestNPCData")
 util.AddNetworkString("nRequestPropData")
@@ -159,9 +158,6 @@ util.AddNetworkString("nClosePlayerInventory")
 util.AddNetworkString("nDropAmount")
 
 util.AddNetworkString("nSetDeployableEnt")
-
-util.AddNetworkString("nCompoundModelUpdate")
-util.AddNetworkString("nRequestCompoundModel")
 
 util.AddNetworkString("nRequestLogs")
 util.AddNetworkString("nSendLogs")

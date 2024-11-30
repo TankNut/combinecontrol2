@@ -29,3 +29,9 @@ end
 function BLOB()
 	return {DataType = "BLOB"}
 end
+
+if CLIENT then
+	netstream.Hook("SelectWeapon", function(class)
+		input.SelectWeapon(lp:GetWeapon(class))
+	end)
+end

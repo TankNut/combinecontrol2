@@ -2,74 +2,6 @@ local meta = FindMetaTable("Player")
 
 GM.CombineRadioFreq = 1000 -- dick weed
 
-function GM:PlayerInitialSpawn(ply)
-	if not self.FullyLoaded then
-		self:LogBug("ERROR: PlayerInitialSpawn on player " .. ply:Nick() .. " before gamemode fully loaded.")
-
-		return
-	end
-
-	self.BaseClass:PlayerInitialSpawn(ply)
-
-	ply:SetCustomCollisionCheck(true)
-	ply:SetCanZoom(false)
-	ply:Freeze(true)
-
-	ply.AFKTime = CurTime()
-
-	if ply:IsBot() then
-		return
-	end
-
-	ply.SQLPlayerData = {}
-	ply.SQLCharData = {}
-
-	ply:SetHolstered(true)
-end
-
-hook.Add("CC.SV.InitialSpawn", "SV.Player.InitialSpawn", function(ply)
-	ply:SetModel(table.Random({"models/crow.mdl", "models/pigeon.mdl", "models/seagull.mdl"}))
-
-	ply:LoadPlayerInfo()
-	ply:LoadPlayerNotes()
-
-	ply:SetNotSolid(true)
-	ply:SetMoveType(MOVETYPE_NOCLIP)
-
-	ply.SpawnPos = ply:GetPos()
-end)
-
-local function updatespeed(plys)
-	for i = 1, #plys do
-		local ply = plys[i]
-
-		local walk, run, jump, crouch = ply:GetSpeeds()
-
-		if ply:GetRunSpeed() != run then
-			ply:SetRunSpeed(run)
-		end
-
-		if ply:GetWalkSpeed() != walk then
-			ply:SetWalkSpeed(walk)
-		end
-
-		if ply:GetJumpPower() != jump then
-			ply:SetJumpPower(jump)
-		end
-
-		local cwalk = crouch / walk
-
-		if ply:GetCrouchedWalkSpeed() != cwalk then
-			ply:SetCrouchedWalkSpeed(cwalk)
-		end
-	end
-
-	hook.Run("CC.SV.SpeedThink", plys)
-end
-
-hook.Add("CC.SV.PlayerThink", "SV.Player.SpeedThink", updatespeed)
-hook.Add("CC.SV.PlayerSpawn", "SV.Player.SpeedSpawn", updatespeed)
-
 hook.Add("CC.SV.PlayerThink", "SV.Player.HealthThink", function(plys)
 	for i = 1, #plys do
 		local ply = plys[i]
@@ -85,64 +17,6 @@ hook.Add("CC.SV.PlayerThink", "SV.Player.HealthThink", function(plys)
 	end
 end)
 
-function meta:GetSpeeds()
-	local w = 91
-	local r = 190
-	local j = 200
-	local c = 60
-
-	local func = self:RunCharFlag("SpeedOverride")
-
-	if func then
-		local w2, r2, j2, c2 = func(self)
-
-		return w2 or w, r2 or r, j2 or j, c2 or c
-	end
-
-	if self:InventoryWeight() > self:InventoryMaxWeight() then
-		w = 40
-		r = 40
-		c = 40
-	end
-
-	local exo = self:GetEquipment(EQUIPMENT_EXO)
-
-	if exo and exo.GetSpeeds then
-		w, r, c, j = exo:GetSpeeds(self, w, r, c, j)
-	end
-
-	if IsValid(self:GetActiveWeapon()) and self:GetActiveWeapon().GetSpeeds then
-		w, r, c, j = self:GetActiveWeapon():GetSpeeds(w, r, c, j)
-	end
-
-	return w, r, j, c
-end
-
-function meta:UpdateHull()
-	local hull
-	local config = GAMEMODE.HullData
-
-	for k, v in pairs(config) do
-		if string.find(string.lower(self:GetModel()), k, 1, true) then
-			hull = v
-
-			break
-		end
-	end
-
-	if not hull then
-		if not config.Default then
-			self:SetHullData({})
-
-			return
-		end
-
-		hull = config.Default
-	end
-
-	self:SetHullData(hull)
-end
-
 function GM:GetPlayerScale(ply)
 	local flag = ply:RunCharFlag("Scale")
 
@@ -151,48 +25,6 @@ function GM:GetPlayerScale(ply)
 	end
 
 	return ply:CharacterScale()
-end
-
-function GM:PlayerCheckFlag(ply, respawn)
-	ply:RecalculatePlayerModel()
-
-	ply:SetTeam(ply:RunCharFlag("Team"))
-
-	ply:SetMaxHealth(ply:RunCharFlag("Health"))
-	ply:SetHealth(ply:GetMaxHealth())
-
-	ply:SetPlayerScale(self:GetPlayerScale(ply), true)
-	ply:SetBloodColor(ply:RunCharFlag("BloodColor"))
-
-	self:RefreshNPCRelationships()
-
-	if respawn then
-		local ent = ply:RunCharFlag("UseCombineSpawns") and "cc_spawnpoint_skynet" or "cc_spawnpoint"
-		local spawn = table.Random(ents.FindByClass(ent))
-
-		if IsValid(spawn) then
-			ply:SetPos(spawn:GetPos())
-			ply:SetEyeAngles(spawn:GetAngles())
-		end
-
-		local offset = ply:RunCharFlag("SpawnOffset")
-
-		if offset then
-			ply:SetPos(ply:GetPos() + offset)
-		end
-
-		ply.SpawnPos = ply:GetPos()
-	end
-
-	net.Start("nSetNightvision")
-		net.WriteBit(0)
-	net.Send(ply)
-end
-
-function GM:PlayerCheckInventory(ply)
-	for _, v in pairs(ply.Inventory) do
-		v:OnPlayerSpawn(ply)
-	end
 end
 
 function GM:OnCharFlagsChanged(ply, flags)
@@ -211,72 +43,6 @@ function GM:IsSpawnpointSuitable(ply, spawn, force)
 	end
 
 	return true
-end
-
-function GM:PlayerSpawn(ply)
-	self.BaseClass:PlayerSpawn(ply)
-
-	ply:AddEFlags(EFL_NO_DAMAGE_FORCES)
-
-	player_manager.SetPlayerClass(ply, "player_cc")
-
-	ply:SetNoCollideWithTeammates(false)
-	ply:SetAvoidPlayers(false)
-
-	ply:SetDuckSpeed(0.3)
-	ply:SetUnDuckSpeed(0.3)
-
-	ply:SetHolstered(true)
-
-	ply:AllowFlashlight(true)
-
-	ply:SetConsciousness(100)
-	ply:WakeUp(true)
-
-	ply.DrownDamage = 0
-
-	ply:SetNotSolid(false)
-	ply:SetMoveType(MOVETYPE_WALK)
-
-	ply:StopSound("scanner_loop")
-	ply:StopSound("shieldscanner_loop")
-	ply:ResetHull()
-
-	if IsValid(ply:Ragdoll()) then
-		ply:Ragdoll():Remove()
-	end
-
-	if ply:IsBot() then
-		if not ply.CharCreateCompleted then
-			ply:LoadCharacter(player.GetAll()[1].SQLCharData[1])
-		end
-
-		self:PlayerCheckFlag(ply)
-		self:PlayerCheckInventory(ply)
-
-		return
-	end
-
-	if not ply.InitialSafeSpawn then
-		ply.InitialSafeSpawn = true
-
-		hook.Run("CC.SV.InitialSpawn", ply)
-	end
-
-	if not ply.CharCreateCompleted then return end
-
-	hook.Run("CC.SV.PlayerSpawn", {ply})
-
-	self:PlayerCheckFlag(ply, true)
-	self:PlayerCheckInventory(ply)
-
-	self:PlayerUpdateName(ply)
-
-	self:PlayerSetHandsModel(ply, ply:GetHands())
-end
-
-function GM:PlayerUpdateName(ply)
-	ply:SetVisibleRPName(ply:RunCharFlag("VisibleRPName"))
 end
 
 hook.Add("CC.SV.PlayerThink", "physgun", function(plys)
@@ -305,60 +71,6 @@ function meta:SetPhysgunColor()
 	self:SetWeaponColor(vec)
 end
 
-function GM:PlayerFlagLoadout(ply)
-	for _, swep in pairs(ply:RunCharFlag("Loadout")) do
-		ply:Give(swep)
-	end
-end
-
-function GM:PlayerLoadout(ply)
-	if not ply.CharCreateCompleted then return end
-
-	ply:StripWeapons()
-	ply:Give("weapon_cc_hands")
-
-	GAMEMODE:PlayerFlagLoadout(ply)
-
-	if ply:PhysTrust() == 1 or ply:IsAdmin() then
-		ply:Give("weapon_physgun")
-	end
-
-	if ply:IsDeveloper() then
-		ply:Give("weapon_physcannon")
-	end
-
-	if ply:ToolTrust() > 0 or ply:IsAdmin() then
-		ply:Give("gmod_tool")
-	end
-
-	if ply:IsAdmin() then
-		ply:Give("trp_gbombs")
-		ply:Give("trp_zonemarker")
-	end
-
-	ply:SelectWeapon("weapon_cc_hands")
-end
-
-function meta:LoadPlayer(data)
-	self:SetToolTrust(tonumber(data.ToolTrust), true)
-	self:SetPhysTrust(tonumber(data.PhysTrust), true)
-	self:SetPropTrust(tonumber(data.PropTrust), true)
-	self:SetNewbieStatus(tonumber(data.NewbieStatus), true)
-
-	self:SetLastNotesUpdate(tonumber(data.LastNotesUpdate), true)
-	self:SetIsOOCMuted(tobool(data.IsOOCMuted), true)
-	self:SetIsTravelBanned(tobool(data.IsTravelBanned), true)
-end
-
-net.Receive("nRequestPData", function(len, ply)
-	if not ply.RequestedPData then
-
-		ply:LoadPlayer(ply.SQLPlayerData)
-		ply.RequestedPData = true
-
-	end
-end)
-
 net.Receive("nSetCombineCamera", function(len, ply)
 	local ent = net.ReadEntity()
 
@@ -377,92 +89,12 @@ net.Receive("nSetCharCreate", function(len, ply)
 	ply.CharCreate = bool
 end)
 
-function meta:LoadCharacter(data)
-	if self:CharID() != -1 then
-		hook.Run("CC.SV.UnloadCharacter", self)
-	end
-
-	self.CharCreateCompleted = true
-	self:Freeze(false)
-
-	self:StripWeapons()
-
-	self:SetTeam(TEAM_CITIZEN)
-	self:SetActiveFlag("")
-
-	self:SetCharCreationDate(data.Date)
-
-	self:SetCharID(tonumber(data.id))
-
-	self:SetCharacterName(data.RPName)
-	self:SetRPModel(data.Model)
-	self:SetDescription(data.Title)
-
-	self.CharModel = data.Model
-	self.CharSkin = tonumber(data.Skin)
-
-	self:SetTrait(tonumber(data.Trait))
-	self:SetLang(tonumber(data.Lang))
-
-	self:SetMoney(tonumber(data.Money))
-
-	self:SetBusinessLicenses(tonumber(data.BusinessLicenses))
-
-	self:SetCharacterScale(tonumber(data.CharacterScale))
-
-	-- FIXME: this is kind of a hack, the map should have a hook for this!
-	-- if he's been in the city for long enough, he spawns normally
-	-- print(util.TimeSinceDate(data.EntryTime))
-	if GAMEMODE.CurrentLocation == LOCATION_CITY and util.TimeSinceDate(data.EntryTime) > 86400 then
-		data.EntryPort = 1
-		self:UpdateCharacterField("EntryPort", 1)
-	end
-
-	hook.Run("CC.SV.LoadCharacterData", self, data)
-
-	self.EntryPort = tonumber(data.EntryPort)
-
-	self:UpdateCharacterField("LastOnline", os.date("!%m/%d/%y %H:%M:%S"))
-
-	hook.Run("CC.SH.LoadCharacter", self)
-
-	net.Start("nLoadCharacter")
-	net.Send(self)
-
-	if self:IsBot() then return end
-
-	self:SyncAllOtherData()
-
-	self:PostLoadCharacter()
-
-	self:Spawn()
-end
-
-function meta:PostLoadCharacter()
--- 	ply:UpdateVisibleName()
-
-	GAMEMODE:WriteLog("character_loaded", {Ply = GAMEMODE:LogPlayer(self), Char = GAMEMODE:LogCharacter(self)})
-
-	if not self:HasBadge(BADGE_BIRTHDAY) and os.date("!%m-%d") == "02-09" then
-		self:SetScoreboardBadges(self:ScoreboardBadges() + BADGE_BIRTHDAY)
-		self:UpdatePlayerField("ScoreboardBadges", self:ScoreboardBadges())
-
-		self:SendChat(nil, "INFO", "It's Gangleider's birthday today!")
-	end
-
-	if self:HasBadge(BADGE_BIRTHDAY) and os.date("!%m-%d") != "02-09" then
-		self:SetScoreboardBadges(self:ScoreboardBadges() - BADGE_BIRTHDAY)
-		self:UpdatePlayerField("ScoreboardBadges", self:ScoreboardBadges())
-	end
-end
-
 function GM:FindUseEntity(ply, ent)
 	if ply:PassedOut() then return end
 	if ply:TiedUp() and not (ent and ent:IsValid() and ent:IsVehicle()) then return end
 
 	return self.BaseClass:FindUseEntity(ply, ent)
 end
-
 
 function GM:KeyPress(ply, key)
 	if key == IN_USE then
@@ -748,8 +380,6 @@ function GM:PlayerDisconnected(ply)
 			end
 		end)
 	end
-
-	hook.Run("CC.SV.UnloadCharacter", ply)
 end
 
 function GM:ShutDown()

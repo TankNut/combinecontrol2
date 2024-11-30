@@ -10,8 +10,6 @@ function GM:Think()
 	self:CreateParticleEmitters()
 	self:ToggleHolsterThink()
 
-	self:CharCreateThink()
-
 	hook.Run("PlayerThink", player.GetAll())
 	-- Legacy code ends
 

@@ -58,4 +58,26 @@ function GM:RunCharFlag(ply, name, ...)
 		return flag[name]
 	end
 end
+
+function GM:CharacterFlagChanged(ply, old, new, loading)
+	if not loading then
+		hook.Run("PlayerApplyFlag", ply)
+	end
+end
+
+function GM:PlayerApplyFlag(ply)
+	if CLIENT then
+		return
+	end
+
+	ply:SetTeam(ply:RunCharFlag("Team"))
+	ply:ScaleMaxHealth(ply:RunCharFlag("Health"))
+
+	ply:UpdateArmor()
+	ply:UpdateVisibleName()
+	ply:UpdateMovementSpeed()
+	ply:UpdateAppearance()
+	ply:UpdateLoadout()
+
+	ply:SetBloodColor(ply:RunCharFlag("BloodColor"))
 end

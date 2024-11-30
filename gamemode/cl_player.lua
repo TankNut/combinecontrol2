@@ -1,9 +1,3 @@
-net.Receive("nLoadCharacter", function(len)
-	hook.Run("CC.SH.LoadCharacter", LocalPlayer())
-
-	GAMEMODE.LastLanguage = nil
-end)
-
 hook.Add("PrePlayerDraw", "noclip", function(ply, flags)
 	if ply:IsAdmin() and ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) then
 		return true

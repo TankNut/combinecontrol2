@@ -12,26 +12,6 @@ hook.Add("CC.SV.ShutDown", "SV.Items.ShutDown", function()
 	end
 end)
 
-hook.Add("CC.SV.InitialSpawn", "SV.Items.InitialSpawn", function(ply)
-	for _, v in pairs(GAMEMODE.Items) do
-		if v.StoreType == ITEM_WORLD then
-			v:UpdateClients({ply})
-		end
-	end
-end)
-
-hook.Add("CC.SH.LoadCharacter", "SV.Items.LoadCharacter", function(ply)
-	GAMEMODE:DBLoadCharacterItems(ply:CharID())
-end)
-
-hook.Add("CC.SV.UnloadCharacter", "SV.Items.UnloadCharacter", function(ply)
-	for _, v in pairs(GAMEMODE.Items) do
-		if v.StoreType == ITEM_PLAYER and v.CharacterID == ply:CharID() then
-			GAMEMODE:UnloadItem(v)
-		end
-	end
-end)
-
 net.Receive("nDestroyItem", function(len, ply)
 	local id = net.ReadInt(32)
 	local item = GAMEMODE:GetItem(id)

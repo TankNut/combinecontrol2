@@ -40,7 +40,7 @@ function meta:MakeRagdollClone()
 		return self:PropFakePlayer():GetPlayerColor()
 	end
 
-	compound.CopyCompoundModel(self, rag)
+	part.Copy(self, rag)
 
 	rag:SetPropFakePlayer(self)
 	self:SetRagdoll(rag)
