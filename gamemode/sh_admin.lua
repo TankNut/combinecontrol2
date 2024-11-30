@@ -349,10 +349,7 @@ concommand.AddAdmin("rpa_setcharmodel", function(ply, targ, mdl)
 		return
 	end
 
-	targ:SetRPModel(mdl)
-	targ.CharModel = mdl
-	targ:UpdateCharacterField("Model", mdl)
-
+	targ:SetCharacterModel(mdl)
 	targ:UpdateAppearance()
 
 	GAMEMODE:WriteLog("admin_setmodel", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Model = mdl})
@@ -362,9 +359,7 @@ concommand.AddAdmin("rpa_setcharmodel", function(ply, targ, mdl)
 end, false, {TYPE_ENTITY, TYPE_STRING})
 
 concommand.AddAdmin("rpa_setcharskin", function(ply, targ, skin)
-	targ:SetSkin(skin)
-	targ.CharSkin = skin
-	targ:UpdateCharacterField("Skin", skin)
+	targ:SetCharacterSkin(skin)
 
 	GAMEMODE:WriteLog("admin_setskin", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Skin = skin})
 
@@ -420,7 +415,6 @@ concommand.AddAdmin("rpa_givebadge", function(ply, targ, val)
 	end
 
 	targ:SetScoreboardBadges(targ:ScoreboardBadges() + val)
-	targ:UpdatePlayerField("ScoreboardBadges", targ:ScoreboardBadges())
 end, true, {TYPE_ENTITY, TYPE_NUMBER})
 
 concommand.AddAdmin("rpa_takebadge", function(ply, targ, val)
@@ -431,12 +425,10 @@ concommand.AddAdmin("rpa_takebadge", function(ply, targ, val)
 	end
 
 	targ:SetScoreboardBadges(targ:ScoreboardBadges() - val)
-	targ:UpdatePlayerField("ScoreboardBadges", targ:ScoreboardBadges())
 end, false, {TYPE_ENTITY, TYPE_NUMBER})
 
 concommand.AddAdmin("rpa_setcharflag", function(ply, targ, flag)
 	targ:SetCharFlags(flag)
-	targ:UpdateCharacterField("CharFlags", flag)
 
 	targ:StripWeapons()
 
@@ -482,18 +474,13 @@ concommand.AddAdmin("rpa_settooltrust", function(ply, targ, trust)
 	end
 
 	targ:SetToolTrust(trust)
-	targ:UpdatePlayerField("ToolTrust", trust)
 
 	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. targ:CharacterName() .. "'s tooltrust to " .. tostring(trust), ply)
 
 	if trust == 0 then
-		targ:StripWeapon("gmod_tool")
-
 		ply:SendChat(nil, "WARNING", "You removed " .. targ:CharacterName() .. "'s tooltrust")
 		targ:SendChat(nil, "WARNING", ply:Nick() .. " removed your tooltrust")
 	else
-		targ:Give("gmod_tool")
-
 		local str = "basic"
 
 		if trust == 2 then
@@ -503,6 +490,8 @@ concommand.AddAdmin("rpa_settooltrust", function(ply, targ, trust)
 		ply:SendChat(nil, "WARNING", "You set " .. targ:CharacterName() .. "'s toolrust to " .. str)
 		targ:SendChat(nil, "WARNING", ply:Nick() .. " set your tooltrust to " .. str)
 	end
+
+	targ:UpdateLoadout()
 end, false, {TYPE_ENTITY, TYPE_NUMBER})
 
 concommand.AddAdmin("rpa_setphystrust", function(ply, targ, trust)
@@ -526,13 +515,7 @@ concommand.AddAdmin("rpa_setphystrust", function(ply, targ, trust)
 		targ:SendChat(nil, "WARNING", ply:Nick() .. " gave you phystrust")
 	end
 
-	targ:UpdatePlayerField("PhysTrust", trust)
-
-	if targ:PhysTrust() == 0 then
-		targ:StripWeapon("weapon_physgun")
-	else
-		targ:Give("weapon_physgun")
-	end
+	targ:UpdateLoadout()
 end, false, {TYPE_ENTITY, TYPE_NUMBER})
 
 concommand.AddAdmin("rpa_setproptrust", function(ply, targ, trust)
@@ -555,8 +538,6 @@ concommand.AddAdmin("rpa_setproptrust", function(ply, targ, trust)
 		ply:SendChat(nil, "WARNING", "You gave " .. targ:CharacterName() .. " proptrust")
 		targ:SendChat(nil, "WARNING", ply:Nick() .. " gave you proptrust")
 	end
-
-	targ:UpdatePlayerField("PropTrust", trust)
 end, false, {TYPE_ENTITY, TYPE_NUMBER})
 
 concommand.AddAdmin("rpa_editinventory", function(ply, targ)
@@ -863,10 +844,6 @@ concommand.AddAdmin("rpa_setlocation", function(ply, targ, loc, port)
 				res = res[1]
 				res.id = tonumber(res.id)
 
-				GAMEMODE:UpdateCharacterFieldOffline(res.id, "Location", dest)
-				GAMEMODE:UpdateCharacterFieldOffline(res.id, "EntryPort", port)
-				GAMEMODE:UpdateCharacterFieldOffline(res.id, "EntryTime", os.date("!%m/%d/%y %H:%M:%S"))
-
 				local plyName = res.rpname
 				local plySteam = res.steamid
 				local locNum = tonumber(res.location)
@@ -939,7 +916,6 @@ concommand.AddAdmin("rpa_settrait", function(ply, targ, trait)
 	end
 
 	targ:SetTrait(trait)
-	targ:UpdateCharacterField("Trait", trait)
 
 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " changed player " .. targ:CharacterName() .. "'s trait to " .. name .. ".", ply)
 
@@ -975,7 +951,6 @@ concommand.AddAdmin("rpa_givelang", function(ply, targ, lang)
 	end
 
 	targ:SetLang(targ:Lang() + lang)
-	targ:UpdateCharacterField("Lang", targ:Lang())
 
 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " gave player " .. targ:CharacterName() .. " " .. name .. ".", ply)
 
@@ -1001,7 +976,6 @@ concommand.AddAdmin("rpa_takelang", function(ply, targ, lang)
 	end
 
 	targ:SetLang(targ:Lang() - lang)
-	targ:UpdateCharacterField("Lang", targ:Lang())
 
 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " took " .. name .. " from " .. targ:CharacterName() .. ".", ply)
 
@@ -1018,7 +992,6 @@ local function OOCMute(ply, targ)
 	end
 
 	targ:SetIsOOCMuted(val)
-	targ:UpdatePlayerField("IsOOCMuted", val and 1 or 0)
 
 	GAMEMODE:LogAdmin("[M] " .. ply:Nick() .. str .. targ:Nick() .. " from OOC.", ply)
 
@@ -1098,7 +1071,6 @@ concommand.AddAdmin("rpa_travelban", function(ply, targ)
 	end
 
 	targ:SetIsTravelBanned(val)
-	targ:UpdatePlayerField("IsTravelBanned", val and 1 or 0)
 
 	GAMEMODE:LogAdmin("[M] " .. ply:Nick() .. " " .. str .. " " .. targ:Nick() .. " from travelling.", ply)
 
@@ -1154,10 +1126,8 @@ concommand.AddAdmin("rpa_wipecharflags", function(ply, id)
 	for _, v in player.Iterator() do
 		if v:CharID() == id then
 			v:SetCharFlags("")
-			v:UpdateCharacterField("CharFlags", "")
 
 			v:SetCombineFlag("")
-			v:UpdateCharacterField("CombineFlag", "")
 
 			v:SendChat(nil, "WARNING", ply:Nick() .. " has wiped your flags")
 
@@ -1165,11 +1135,6 @@ concommand.AddAdmin("rpa_wipecharflags", function(ply, id)
 
 			break
 		end
-	end
-
-	if offline then
-		GAMEMODE:UpdateCharacterFieldOffline(id, "CharFlags", "")
-		GAMEMODE:UpdateCharacterFieldOffline(id, "CombineFlag", "")
 	end
 
 	GAMEMODE:LogAdmin("[F] " .. ply:Nick() .. " has wiped the flags of character " .. id .. ".", ply)
@@ -1400,7 +1365,6 @@ concommand.AddAdmin("rpa_setplayerscale", function(ply, targ, val, persist)
 		end
 
 		targ:SetCharacterScale(val)
-		targ:UpdateCharacterField("CharacterScale", val)
 	end
 end, false, {TYPE_ENTITY, TYPE_NUMBER, TYPE_BOOL})
 

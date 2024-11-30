@@ -100,7 +100,6 @@ function meta:AddPlayerNote(title, content, author)
 	}
 
 	self:SetLastNotesUpdate(os.time(), true)
-	self:UpdatePlayerField("LastNotesUpdate", self:LastNotesUpdate())
 
 	local function cb(res)
 		GAMEMODE:LogSQL(name .. " (" .. author:SteamID() .. ") added a player note for " .. steamid .. " with title '" .. title .. "'.")
@@ -133,7 +132,6 @@ function meta:AddAutomatedPlayerNote(title, content, author)
 	}
 
 	self:SetLastNotesUpdate(os.time(), true)
-	self:UpdatePlayerField("LastNotesUpdate", self:LastNotesUpdate())
 
 	local function cb(res)
 		local tab = {}
@@ -161,7 +159,6 @@ function meta:EditPlayerNote(id, content, author)
 	}
 
 	self:SetLastNotesUpdate(os.time(), true)
-	self:UpdatePlayerField("LastNotesUpdate", self:LastNotesUpdate())
 
 	local function cb(res)
 		local tab = self.PlayerNotes[id]

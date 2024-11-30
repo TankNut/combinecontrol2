@@ -166,7 +166,6 @@ function GM:RunDebug(ply, str)
 		else
 			tab.SetPlayerField = function(targ, key, val)
 				targ["Set" .. key](targ, val)
-				targ:UpdatePlayerField(key, val)
 			end
 		end
 

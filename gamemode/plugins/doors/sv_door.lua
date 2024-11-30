@@ -99,7 +99,6 @@ end
 
 function pmeta:BuyDoor(ent)
 	self:AddMoney(-ent:DoorPrice())
-	self:UpdateCharacterField("Money", tostring(self:Money()))
 
 	ent:SetDoorOwners({self:CharID()})
 
@@ -114,7 +113,6 @@ end
 
 function pmeta:SellDoor(ent)
 	self:AddMoney(math.floor(ent:DoorPrice() * 0.8))
-	self:UpdateCharacterField("Money", tostring(self:Money()))
 
 	ent:ResetDoor()
 end

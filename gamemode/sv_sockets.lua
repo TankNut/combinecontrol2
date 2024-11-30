@@ -1,10 +1,6 @@
 local meta = FindMetaTable("Player")
 
 function meta:GoToServer(location, port)
-	self:UpdateCharacterField("Location", location)
-	self:UpdateCharacterField("EntryPort", port)
-	self:UpdateCharacterField("EntryTime", os.date("!%m/%d/%y %H:%M:%S"))
-
 	net.Start("nConnect")
 
 		if location == LOCATION_CITY then

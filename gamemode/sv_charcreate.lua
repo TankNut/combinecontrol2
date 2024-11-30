@@ -34,7 +34,6 @@ net.Receive("nChangeTitle", function(len, ply)
 		GAMEMODE:WriteLog("character_setdesc", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), New = desc})
 
 		ply:SetDescription(desc)
-		ply:UpdateCharacterField("Title", desc)
 	end
 end)
 
@@ -42,5 +41,4 @@ net.Receive("nSetNewbieStatus", function(len, ply)
 	local status = 1 - net.ReadBit()
 
 	ply:SetNewbieStatus(status)
-	ply:UpdatePlayerField("NewbieStatus", status)
 end)

@@ -59,7 +59,6 @@ function GM:DeleteArmory(name)
 	for _, v in player.Iterator() do
 		if v:ArmoryAccess() == name then
 			v:SetArmoryAccess("")
-			v:UpdateCharacterField("ArmoryAccess", "")
 		end
 	end
 
