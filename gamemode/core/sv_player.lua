@@ -83,23 +83,21 @@ function GM:PlayerSpawn(ply)
 
 	ply:UpdateLoadout()
 
-	if respawn then
-		local ent = ply:RunCharFlag("UseCombineSpawns") and "cc_spawnpoint_skynet" or "cc_spawnpoint"
-		local spawn = table.Random(ents.FindByClass(ent))
+	local ent = ply:RunCharFlag("UseCombineSpawns") and "cc_spawnpoint_skynet" or "cc_spawnpoint"
+	local spawn = table.Random(ents.FindByClass(ent))
 
-		if IsValid(spawn) then
-			ply:SetPos(spawn:GetPos())
-			ply:SetEyeAngles(spawn:GetAngles())
-		end
-
-		local offset = ply:RunCharFlag("SpawnOffset")
-
-		if offset then
-			ply:SetPos(ply:GetPos() + offset)
-		end
-
-		ply.SpawnPos = ply:GetPos()
+	if IsValid(spawn) then
+		ply:SetPos(spawn:GetPos())
+		ply:SetEyeAngles(spawn:GetAngles())
 	end
+
+	local offset = ply:RunCharFlag("SpawnOffset")
+
+	if offset then
+		ply:SetPos(ply:GetPos() + offset)
+	end
+
+	ply.SpawnPos = ply:GetPos()
 
 	self:RefreshNPCRelationships()
 end

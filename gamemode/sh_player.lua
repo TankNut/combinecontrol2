@@ -202,9 +202,6 @@ net.Receive("nRequestAllPlayerData", function(len, ply)
 	ply:SyncAllOtherData()
 end)
 
-	self:SetMoney(math.max(math.floor(self:Money() + money), 0))
-end
-
 function GM:FreezePlayer(ply, time)
 	ply.FreezeTime = math.max(ply.FreezeTime or 0, CurTime() + time)
 end
