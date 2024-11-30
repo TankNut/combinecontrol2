@@ -325,7 +325,6 @@ concommand.AddAdmin("rpa_givemoney", function(ply, targ, amt)
 	end
 
 	targ:AddMoney(amt)
-	targ:UpdateCharacterField("Money", tostring(targ:Money()))
 
 	GAMEMODE:WriteLog("admin_givemoney", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Amount = amt})
 end, false, {TYPE_ENTITY, TYPE_NUMBER})
@@ -567,7 +566,7 @@ concommand.AddAdmin("rpa_editinventory", function(ply, targ)
 
 	net.Start("nAEditInventory")
 		net.WriteEntity(targ)
-		net.WriteFloat(targ:Money())
+		net.WriteFloat(targ:CharacterMoney())
 	net.Send(ply)
 end, false, {TYPE_ENTITY})
 

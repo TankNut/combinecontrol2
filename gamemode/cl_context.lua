@@ -236,7 +236,7 @@ function GM:GetCCOptions(ent, dist)
 			if (ent:DoorType() == DOOR_BUYABLE or ent:DoorType() == DOOR_BUYABLE_ASSIGNABLE) and #ent:DoorOwners() == 0 and #ent:DoorAssignedOwners() == 0 then
 
 				local option = {"Buy", function()
-					if lp:Money() >= ent:DoorPrice() then
+					if lp:HasMoney(ent:DoorPrice()) then
 						net.Start("nCBuyDoor")
 							net.WriteEntity(ent)
 						net.SendToServer()
@@ -720,7 +720,7 @@ function GM:CCCreateGiveCredits()
 
 		val = math.floor(val)
 
-		if LocalPlayer():Money() >= val then
+		if lp:HasMoney(val) then
 
 			CCP.GiveCredits:Remove()
 

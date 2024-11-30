@@ -145,7 +145,7 @@ function GM:CanBuyItem(classname, ply, amount)
 		return false
 	end
 
-	if ply:Money() < item.BuyPrice * amount then
+	if not ply:HasMoney(item.BuyPrice * amount) then
 		return false, "Not enough money!"
 	end
 

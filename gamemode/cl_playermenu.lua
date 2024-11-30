@@ -857,7 +857,7 @@ function GM:PMCreateBusiness()
 	for k, v in SortedPairs(self.BusinessLicenses, true) do
 		if v[2] then
 			local price = v[2]
-			local canAfford = LocalPlayer():Money() >= price
+			local canAfford = lp:HasMoney(price)
 
 			CCP.PlayerMenu.BusinessLicenses[k] = vgui.Create("DButton", CCP.PlayerMenu.ContentPane)
 			CCP.PlayerMenu.BusinessLicenses[k]:SetFont("CombineControl.LabelSmall")

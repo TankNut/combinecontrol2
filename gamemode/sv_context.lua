@@ -8,7 +8,7 @@ net.Receive("nCBuyDoor", function(len, ply)
 
 	if ent and ent:IsValid() and ent:IsDoor() and (ent:DoorType() == DOOR_BUYABLE or ent:DoorType() == DOOR_BUYABLE_ASSIGNABLE) and #ent:DoorOwners() == 0 and #ent:DoorAssignedOwners() == 0 then
 
-		if ply:Money() >= ent:DoorPrice() then
+		if ply:HasMoney(ent:DoorPrice()) then
 			ply:BuyDoor(ent)
 		end
 	end
@@ -103,12 +103,9 @@ net.Receive("nCGiveCredits", function(len, ply)
 
 	if ply:GetPos():Distance(targ:GetPos()) > 128 then return end
 
-	if amt > 0 and ply:Money() >= amt then
+	if amt > 0 and ply:HasMoney(amt) then
 		ply:AddMoney(-amt)
 		targ:AddMoney(amt)
-
-		ply:UpdateCharacterField("Money", tostring(ply:Money()))
-		targ:UpdateCharacterField("Money", tostring(targ:Money()))
 
 		GAMEMODE:WriteLog("character_givemoney", {
 			Ply = GAMEMODE:LogPlayer(ply),

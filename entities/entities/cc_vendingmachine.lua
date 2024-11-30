@@ -50,14 +50,13 @@ function ENT:Use(ply)
 		self:SetDelay(CurTime() + 2.5)
 
 		if self:GetSupply() > 0 then
-			if ply:Money() < 7 then
+			if not ply:HasMoney(7) then
 				self:EmitSound(Sound("Buttons.snd10"))
 
 				return
 			end
 
 			ply:AddMoney(-7)
-			ply:UpdateCharacterField("Money", tostring(ply:Money()))
 
 			self:EmitSound(Sound("Buttons.snd1"))
 

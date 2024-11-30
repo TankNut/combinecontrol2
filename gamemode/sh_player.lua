@@ -8,7 +8,6 @@ GM.PlayerAccessors = {
 	{"RPModel", 			false, 	"String", 	"models/error.mdl"},
 	{"Description",			false, 	"String", 	""},
 	{"Holstered", 			false, 	"Bit", 		true},
-	{"Money", 				true, 	"Float", 	0},
 	{"Trait", 				false, 	"Float", 	TRAIT_NONE},
 	{"Lang", 				false, 	"Float", 	LANG_ENGLISH},
 	{"CombineFlag", 		false, 	"String", 	""},
@@ -206,9 +205,6 @@ net.Receive("nRequestAllPlayerData", function(len, ply)
 
 	ply:SyncAllOtherData()
 end)
-
-function meta:AddMoney(money)
-	if CLIENT then return end
 
 	self:SetMoney(math.max(math.floor(self:Money() + money), 0))
 end
