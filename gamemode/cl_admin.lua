@@ -5,16 +5,6 @@ net.Receive("nAUpdateAdminVariable", function(len)
 	GAMEMODE:AddNotification(ply:Nick() .. " set " .. friendlyvar .. " to " .. tostring(val))
 end)
 
-net.Receive("nMapList", function(len)
-	local tab = net.ReadTable()
-
-	MsgC(Color(128, 128, 128, 255), "Valid Maps:\n")
-
-	for _, v in pairs(tab) do
-		MsgC(Color(229, 201, 98, 255), "\t", v, "\n")
-	end
-end)
-
 net.Receive("nARemove", function(len)
 	local nick = net.ReadString()
 	local ply = net.ReadEntity()

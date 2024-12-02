@@ -16,47 +16,6 @@ local function CheckAdmin(ply, sa)
 	return true
 end
 
-local GoodTraceVectors = {
-	Vector(40, 0, 0),
-	Vector(-40, 0, 0),
-	Vector(0, 40, 0),
-	Vector(0, -40, 0),
-	Vector(0, 0, 40)
-}
-
-local function FindTeleportPos(ply)
-	local trace = {}
-	trace.start = ply:GetShootPos()
-	trace.endpos = trace.start + ply:GetAimVector() * 50
-	trace.mins = Vector(-16, -16, 0)
-	trace.maxs = Vector(16, 16, 72)
-	trace.filter = ply
-	local tr = util.TraceHull(trace)
-
-	if not tr.Hit then
-		return tr.HitPos
-	end
-
-	local pos = ply:GetPos()
-
-	for _, v in pairs(GoodTraceVectors) do
-		local trace = {}
-		trace.start = ply:GetPos()
-		trace.endpos = trace.start + v
-		trace.mins = Vector(-16, -16, 0)
-		trace.maxs = Vector(16, 16, 72)
-		trace.filter = ply
-		local tr = util.TraceHull(trace)
-
-		if tr.Fraction == 1.0 then
-			pos = ply:GetPos() + v
-			break
-		end
-	end
-
-	return pos
-end
-
 function concommand.AddAdmin(cmd, func, sa, typeList)
 	local function c(len, ply)
 		local args = net.ReadTable()
@@ -137,24 +96,6 @@ end, false)
 concommand.AddAdmin("rpa_aidisabled", function(ply, bool)
 	RunConsoleCommand("ai_disabled", bool)
 end, false, {TYPE_BOOL})
-
-concommand.AddAdmin("rpa_changelevel", function(ply, map)
-	if not table.HasValue(game.GetMapList(), map) then
-		net.Start("nMapList")
-			net.WriteTable(game.GetMapList())
-		net.Send(ply)
-
-		return
-	end
-
-	GAMEMODE:WriteLog("admin_changelevel", {Admin = GAMEMODE:LogPlayer(ply), Map = map})
-	GAMEMODE:SendChat(nil, player.GetAll(), "ERRORBIG", ply:Nick() .. " is changing the map to " .. map .. " in 5 seconds")
-
-	-- Write the map file so the server auto switches on startup
-	file.Write("cc_maps/" .. game.GetPort() .. ".txt", map)
-
-	timer.Simple(5, function() game.ConsoleCommand("changelevel " .. map .. "\n") end)
-end, false, {TYPE_STRING})
 
 concommand.AddAdmin("rpa_invisible", function(ply, targ, bool)
 	GAMEMODE:WriteLog("admin_invisible", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Bool = bool})
@@ -329,14 +270,6 @@ concommand.AddAdmin("rpa_givemoney", function(ply, targ, amt)
 	GAMEMODE:WriteLog("admin_givemoney", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Amount = amt})
 end, false, {TYPE_ENTITY, TYPE_NUMBER})
 
-concommand.AddAdmin("rpa_goto", function(ply, targ)
-	ply:SetPos(FindTeleportPos(targ))
-end, false, {TYPE_ENTITY})
-
-concommand.AddAdmin("rpa_bring", function(ply, targ)
-	targ:SetPos(FindTeleportPos(ply))
-end, false, {TYPE_ENTITY})
-
 concommand.AddAdmin("rpa_seeall", function(ply)
 	net.Start("nASeeAll")
 	net.Send(ply)
@@ -406,26 +339,6 @@ end, false, {TYPE_ENTITY})
 concommand.AddAdmin("rpa_untie", function(ply, targ)
 	targ:SetTiedUp(false)
 end, false, {TYPE_ENTITY})
-
-concommand.AddAdmin("rpa_givebadge", function(ply, targ, val)
-	if val <= 0 or targ:HasBadge(val) then
-		ply:SendChat(nil, "ERROR", "Error: Target already has this badge")
-
-		return
-	end
-
-	targ:SetScoreboardBadges(targ:ScoreboardBadges() + val)
-end, true, {TYPE_ENTITY, TYPE_NUMBER})
-
-concommand.AddAdmin("rpa_takebadge", function(ply, targ, val)
-	if val <= 0 or not targ:HasBadge(val) then
-		ply:SendChat(nil, "ERROR", "Error: Target doesn't this badge")
-
-		return
-	end
-
-	targ:SetScoreboardBadges(targ:ScoreboardBadges() - val)
-end, false, {TYPE_ENTITY, TYPE_NUMBER})
 
 concommand.AddAdmin("rpa_setcharflag", function(ply, targ, flag)
 	targ:SetCharFlags(flag)
@@ -1207,12 +1120,6 @@ end, false, {TYPE_NUMBER})
 concommand.AddAdmin("rpa_charlookup", function(ply, name)
 	GAMEMODE:CharacterLookup(name, ply)
 end, false, {TYPE_STRING})
-
-concommand.AddAdmin("rpa_send", function(ply, from, to)
-	local pos = FindTeleportPos(to)
-
-	from:SetPos(pos)
-end, false, {TYPE_ENTITY, TYPE_ENTITY})
 
 concommand.AddAdmin("rpa_explode", function(ply, targ)
 	targ:Kill()

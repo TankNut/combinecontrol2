@@ -26,3 +26,61 @@ setUserGroup:AddParameter(console.Player({
 setUserGroup:AddParameter(console.String({
 	validate.InList({"user", "admin", "superadmin", "developer"})
 }))
+
+local giveBadge = console.AddCommand("rpa_givebadge", function(ply, target, badge)
+	local badgeId = _G["BADGE_" .. string.upper(badge)]
+
+	if target:HasBadge(badgeId) then
+		console.Feedback(ply, "ERROR", "%s already has this badge", target)
+
+		return
+	end
+
+	target:SetScoreboardBadges(target:ScoreboardBadges() + badgeId)
+
+	console.Feedback(ply, "WARNING", "You've given %s the %s badge", target, badge)
+	console.Feedback(target, "WARNING", "%s has given you the %s badge", ply, badge)
+end)
+
+giveBadge:SetDescription("Assigns a scoreboard badge to a player")
+giveBadge:SetExecutionContext(console.Server)
+giveBadge:SetAccess(console.IsSuperAdmin)
+
+giveBadge:AddParameter(console.Player({
+	SingleTarget = true,
+	CheckImmunity = true,
+	NoSelfTarget = false
+}))
+
+giveBadge:AddParameter(console.String({
+	validate.InList({"betatest", "betascr", "bugger"})
+}))
+
+local takeBadge = console.AddCommand("rpa_takebadge", function(ply, target, badge)
+	local badgeId = _G["BADGE_" .. string.upper(badge)]
+
+	if not target:HasBadge(badgeId) then
+		console.Feedback(ply, "ERROR", "%s does not have this badge", target)
+
+		return
+	end
+
+	target:SetScoreboardBadges(target:ScoreboardBadges() - badgeId)
+
+	console.Feedback(ply, "WARNING", "You've taken %s's %s badge", target, badge)
+	console.Feedback(target, "WARNING", "%s has taken your %s badge", ply, badge)
+end)
+
+takeBadge:SetDescription("Removes a scoreboard badge from a player")
+takeBadge:SetExecutionContext(console.Server)
+takeBadge:SetAccess(console.IsSuperAdmin)
+
+takeBadge:AddParameter(console.Player({
+	SingleTarget = true,
+	CheckImmunity = true,
+	NoSelfTarget = false
+}))
+
+takeBadge:AddParameter(console.String({
+	validate.InList({"betatest", "betascr", "bugger"})
+}))
