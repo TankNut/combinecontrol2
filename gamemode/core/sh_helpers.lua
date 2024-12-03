@@ -30,7 +30,9 @@ function BLOB()
 	return {DataType = "BLOB"}
 end
 
--- Shh, they don't have to know
 function FLOAT()
-	return {DataType = "DOUBLE"}
+	return {
+		DataType = "FLOAT",
+		Validate = function(val) return isnumber(val) end
+	}
 end
