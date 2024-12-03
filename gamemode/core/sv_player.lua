@@ -51,6 +51,8 @@ function GM:PlayerInitialSpawn(ply)
 	ply.AFKTime = CurTime()
 
 	if ply:IsBot() then
+		async.Start(meta.LoadCharacter, ply, 2)
+
 		return
 	end
 
