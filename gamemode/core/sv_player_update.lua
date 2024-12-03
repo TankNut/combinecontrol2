@@ -32,29 +32,25 @@ function meta:UpdateMovementSpeed()
 end
 
 function meta:UpdateLoadout()
-	local current = self:GetActiveWeapon()
 	local loadout = hook.Run("GetPlayerLoadout", self)
 	local flag = self:RunCharFlag("Loadout")
 
-	table.Add(loadout, flag)
-
 	-- Inventory weapons
+
+	-- Add last so we can make sure our flag weapons are selected on spawn
+	table.Add(loadout, flag)
 
 	local lookup = table.Lookup(loadout)
 
-	for _, v in ipairs(self:GetWeapons()) do
-		if not lookup[v:GetClass()] then
-			v:Remove()
+	for _, weapon in ipairs(self:GetWeapons()) do
+		if not lookup[weapon:GetClass()] then
+			weapon:Remove()
 		end
 	end
 
-	for k in pairs(lookup) do
-		if not self:HasWeapon(k) then
-			self:Give(k)
+	for _, weapon in ipairs(loadout) do
+		if not self:HasWeapon(weapon) then
+			self:Give(weapon)
 		end
-	end
-
-	if not IsValid(current) and #loadout > 0 then
-		netstream.Send(self, "SelectWeapon", flag[1] or loadout[1])
 	end
 end
