@@ -4,8 +4,9 @@ FLAG.Team = TEAM_UNASSIGNED
 FLAG.Health = 100
 FLAG.Armor = 0
 
-FLAG.Scale = 1
+FLAG.Scale = 0
 
+-- Last weapon on the list is selected on spawn
 FLAG.Loadout = {}
 
 FLAG.BloodColor = BLOOD_COLOR_RED
@@ -26,7 +27,7 @@ function FLAG:VisibleRPName(ply)
 end
 
 function FLAG:PlayerScale(ply)
-	return self.Scale, self.Scale * ply:CharacterScale()
+	return self.Scale != 0 and self.Scale or ply:CharacterScale()
 end
 
 function FLAG:OnSpawn(ply)

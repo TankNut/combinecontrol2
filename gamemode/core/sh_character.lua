@@ -35,6 +35,8 @@ function GM:PostLoadCharacter(ply)
 		GAMEMODE.LastLanguage = nil
 	end
 
+	ply:SetScale(0, true)
+
 	hook.Run("PlayerApplyFlag", ply)
 
 	if SERVER then

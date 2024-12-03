@@ -188,11 +188,7 @@ function GM:CalcMainActivity(ply, vel)
 end
 
 function GM:UpdateAnimation(ply, vel, max)
-	local scale = ply:GetPlayerScale()
-
-	if CLIENT and scale != -1 then
-		max = max * scale
-	end
+	max = max * ply:GetModelScale()
 
 	self.BaseClass:UpdateAnimation(ply, vel, max)
 
