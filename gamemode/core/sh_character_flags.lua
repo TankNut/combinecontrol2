@@ -9,17 +9,30 @@ CharacterVar.Add("Flag", {
 	DataType = VARCHAR(64)
 })
 
-function Add(name, flag)
-	flag.FileName = "flag_" .. name
+function Register(name, flag)
 	flag.ClassName = name
 
-	if flag.FileName == "flag_base" then
+	if not List[name] then
 		List[name] = flag
-	else
-		List[name] = setmetatable(flag, {
+	end
+
+	if name != "base" then
+		setmetatable(flag, {
 			__index = baseclass.Get(flag.Base or "flag_base")
 		})
 	end
+
+	baseclass.Set("flag_" .. name, flag)
+end
+
+function RegisterFile(path)
+	_G.FLAG = {}
+
+	GM:Include(path)
+
+	Register(string.gsub(string.FileName(path), "^flag_", ""), FLAG)
+
+	FLAG = nil
 end
 
 function Load()
@@ -27,17 +40,7 @@ function Load()
 	local files = file.Find(path .. "*.lua", "LUA")
 
 	for _, v in ipairs(files) do
-		_G.FLAG = {}
-
-		GM:Include(path .. v)
-
-		Add(v:FileName():sub(6), FLAG)
-
-		FLAG = nil
-	end
-
-	for _, flag in pairs(List) do
-		baseclass.Set(flag.FileName, flag)
+		RegisterFile(path .. v)
 	end
 end
 
