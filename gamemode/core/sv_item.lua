@@ -2,6 +2,8 @@ module("Item", package.seeall)
 
 TempIndex = TempIndex or 0
 
+local meta = FindMetaTable("Player")
+
 function Create(class, data)
 	assert(List[class], "Attempt to create unknown item type: " .. class)
 
@@ -54,6 +56,11 @@ end
 function GM:CanTakeItem(ply, item)
 	if ply:IsTemporaryCharacter() and not item:IsTemporaryItem() then
 		return false, "You cannot pick up normal items as a temporary character!"
+function meta:GiveItem(class, data)
+	local item = Create(class, data)
+
+	item:SetInventory(self:GetInventory())
+end
 	end
 
 	if ply:InventoryWeight() + item:GetWeight() > ply:MaxInventoryWeight() then
