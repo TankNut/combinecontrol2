@@ -53,19 +53,24 @@ function LoadWorld()
 	end
 end
 
-function GM:CanTakeItem(ply, item)
-	if ply:IsTemporaryCharacter() and not item:IsTemporaryItem() then
-		return false, "You cannot pick up normal items as a temporary character!"
 function meta:GiveItem(class, data)
 	local item = Create(class, data)
 
 	item:SetInventory(self:GetInventory())
 end
+
+netstream.Hook("ItemAction", function(ply, id, name, ...)
+	local item = Get(id)
+
+	if not item then
+		return
 	end
 
-	if ply:InventoryWeight() + item:GetWeight() > ply:MaxInventoryWeight() then
-		return false, "You don't have any space left in your inventory!"
+	local action = item:GetActions()[name]
+
+	if action.ServerOnly then
+		return
 	end
 
-	return true
-end
+	item:HandleServerAction(ply, name, action, ...)
+end)

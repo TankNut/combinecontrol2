@@ -5,6 +5,9 @@ All = All or setmetatable({}, {
 	__mode = "v"
 })
 
+-- Deliberate, we want to clear this every autorefresh
+ActionCache = {}
+
 local meta = FindMetaTable("Player")
 
 PlayerVar.Add("InventoryWeight", {Default = 0})
@@ -19,7 +22,7 @@ function Register(name, item)
 
 	if name != "base" then
 		setmetatable(item, {
-			__index = baseclass.Get(item.Base or "item_base")
+			__index = baseclass.Get("item_" .. item.Base or "item_base")
 		})
 	end
 
@@ -106,4 +109,44 @@ function meta:GetItems()
 	end
 
 	return {}
+end
+
+function GM:PlayerInventoryWeightChanged(ply, old, new, loaded)
+	if CLIENT then
+		self:PMUpdateInventory()
+	end
+end
+
+function GM:PlayerMaxInventoryWeightChanged(ply, old, new, loaded)
+	if CLIENT then
+		self:PMUpdateInventory()
+	end
+end
+
+function GM:CanPickupItem(ply, item)
+	if ply:IsTemporaryCharacter() and not item:IsTemporaryItem() then
+		return false, "You can't pick up normal items as a temporary character!"
+	end
+
+	if ply:InventoryWeight() + item:GetWeight() > ply:MaxInventoryWeight() then
+		return false, "That's too heavy for you to carry!"
+	end
+
+	return true
+end
+
+function GM:CanDropItem(ply, item)
+	if not item:IsOwner(ply) then
+		return false, "You don't own this item!"
+	end
+
+	return true
+end
+
+function GM:CanDestroyItem(ply, item)
+	if not item:IsOwner(ply) then
+		return false, "You don't own this item!"
+	end
+
+	return true
 end

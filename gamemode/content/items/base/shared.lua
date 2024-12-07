@@ -8,6 +8,10 @@ ITEM.Scale = 1
 
 ITEM.Weight = 1
 
+ITEM.Actions = {}
+
+GM:Include("sh_actions.lua")
+GM:Include("sh_equipment.lua")
 GM:Include("sh_data.lua")
 
 GM:Include("sv_database.lua")
@@ -17,6 +21,14 @@ function ITEM:IsTemporaryItem()
 	return self.ID < 0
 end
 
+function ITEM:IsOwner(ply)
+	if CLIENT then
+		return ply:GetItems()[self.ID]
+	else
+		return self.Inventory == ply:GetInventory()
+	end
+end
+
 function ITEM:SetItemAppearance(ent)
 	ent:SetSkin(self:GetSkin())
 
@@ -24,19 +36,5 @@ function ITEM:SetItemAppearance(ent)
 
 	if scale != 1 then
 		ent:SetModelScale(scale, 0.0001)
-	end
-end
-
-if SERVER then
-	function ITEM:OnWorldUse(ply)
-		local ok, err = hook.Run("CanTakeItem", ply, self)
-
-		if not ok then
-			ply:SendChat(nil, "ERROR", err)
-
-			return
-		end
-
-		self:MoveTo(ply:GetInventory())
 	end
 end
