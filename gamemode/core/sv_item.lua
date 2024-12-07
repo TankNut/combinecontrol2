@@ -50,3 +50,15 @@ function LoadWorld()
 		item:Drop(mapData.Pos, mapData.Ang, mapData.Frozen, true)
 	end
 end
+
+function GM:CanTakeItem(ply, item)
+	if ply:IsTemporaryCharacter() and not item:IsTemporaryItem() then
+		return false, "You cannot pick up normal items as a temporary character!"
+	end
+
+	if ply:InventoryWeight() + item:GetWeight() > ply:MaxInventoryWeight() then
+		return false, "You don't have any space left in your inventory!"
+	end
+
+	return true
+end

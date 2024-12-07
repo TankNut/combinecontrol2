@@ -1,3 +1,7 @@
+function ITEM:IsDropped()
+	return IsValid(self.Entity)
+end
+
 function ITEM:RemoveFromCurrent(keepEntity)
 	if not keepEntity and IsValid(self.Entity) then
 		self.Entity.Item = nil

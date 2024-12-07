@@ -94,6 +94,10 @@ function Instance(class, id, data)
 	return instance
 end
 
+function Get(id)
+	return All[id]
+end
+
 function meta:GetItems()
 	if CLIENT and self == lp then
 		return Inventory

@@ -29,6 +29,14 @@ end
 
 if SERVER then
 	function ITEM:OnWorldUse(ply)
+		local ok, err = hook.Run("CanTakeItem", ply, self)
+
+		if not ok then
+			ply:SendChat(nil, "ERROR", err)
+
+			return
+		end
+
 		self:MoveTo(ply:GetInventory())
 	end
 end
