@@ -16,15 +16,7 @@ function console.Feedback(ply, messageType, str, ...)
 	end
 
 	if CLIENT then
-		-- Maybe we should add a backport of eternity/afterglow chat to the list, this is horrid
-		local message = table.Merge(table.Copy(class), {
-			Class		= class,
-			Text		= console.FormatMessage(str, ...)
-		})
-
-		message.Name = nil
-
-		GAMEMODE:AddChatMessage(message)
+		SendLocalChat(messageType, console.FormatMessage(str, ...))
 	elseif istable(ply) then
 		local formattedMessage = console.FormatMessage(str, ...)
 
