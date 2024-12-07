@@ -20,7 +20,7 @@ function ITEM:RemoveFromCurrent(keepEntity)
 	return inventory
 end
 
-function ITEM:MoveTo(inventory, loaded)
+function ITEM:SetInventory(inventory, loaded)
 	local old = self:RemoveFromCurrent()
 
 	inventory:ItemAdded(self, loaded)

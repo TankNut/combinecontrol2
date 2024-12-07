@@ -58,7 +58,7 @@ function meta:LoadItems()
 	for _, data in ipairs(query:Execute()) do
 		local item = Item.Instance(data.Class, data.id, data.CustomData and sfs.decode(data.CustomData) or nil)
 
-		item:MoveTo(self, true)
+		item:SetInventory(self, true)
 	end
 end
 
