@@ -28,7 +28,7 @@ function Delete(id)
 	local item = All[id]
 
 	if item then
-		item:RemoveFromInventory()
+		item:RemoveFromCurrent()
 	end
 
 	async.Start(function()
