@@ -47,7 +47,7 @@ function LoadWorld()
 		local item = Item.Instance(data.Class, data.id, data.CustomData and sfs.decode(data.CustomData) or nil)
 		local mapData = sfs.decode(data.MapData)
 
-		item:Drop(mapData.Pos, mapData.Ang, mapData.Frozen, true)
+		item:SetDropped(mapData.Pos, mapData.Ang, mapData.Frozen, true)
 	end
 end
 
