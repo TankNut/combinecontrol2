@@ -43,6 +43,10 @@ function ITEM:GetActions()
 			for k, v in pairs(actionTable) do
 				if not actions[k] then
 					actions[k] = v
+
+					if not v.Name then
+						v.Name = k
+					end
 				end
 			end
 		end
