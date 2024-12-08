@@ -25,7 +25,7 @@ end
 
 function ITEM:IsOwner(ply)
 	if CLIENT then
-		return ply:GetItems()[self.ID]
+		return tobool(ply:GetItems()[self.ID])
 	else
 		return self.Inventory == ply:GetInventory()
 	end
