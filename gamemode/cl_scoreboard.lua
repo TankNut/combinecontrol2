@@ -257,7 +257,7 @@ function GM:ScoreboardAdd(ply, y, n)
 		return ply:GetPlayerColor()
 	end
 
-	--compound.SetupModelPanel(icon, ply, true)
+	part.Copy(ply, icon.Entity)
 
 	function icon:DoClick()
 	end

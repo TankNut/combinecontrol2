@@ -333,7 +333,7 @@ function GM:PMCreateBio()
 
 	end
 
-	--compound.SetupModelPanel(CCP.PlayerMenu.CharacterModel, LocalPlayer(), true)
+	part.Copy(lp, CCP.PlayerMenu.CharacterModel.Entity)
 
 	function CCP.PlayerMenu.CharacterModel.Entity:GetPlayerColor()
 

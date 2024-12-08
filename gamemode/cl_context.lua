@@ -781,7 +781,7 @@ function GM:CCCreatePlayerViewer(ent)
 		return ent:GetPlayerColor()
 	end
 
-	--compound.SetupModelPanel(CCP.PlayerViewer.CharacterModel, ent, true)
+	part.Copy(ent, CCP.PlayerViewer.CharacterModel.Entity)
 
 	CCP.PlayerViewer.CharacterName = vgui.Create("DLabel", CCP.PlayerViewer)
 	CCP.PlayerViewer.CharacterName:SetText(ent:VisibleRPName())
