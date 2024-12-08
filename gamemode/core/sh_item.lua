@@ -158,22 +158,11 @@ function GM:CanEquipItem(ply, item, slot)
 	end
 
 	if slot then
-		if not table.HasValue(ply:RunCharFlag("EquipmentSlots"), slot) then
-			return false, "You don't have this equipment slot!"
+		if not table.HasValue(item:GetAvailableEquipmentSlots(ply), slot) then
+			return false, "This item doesn't fit in that equipment slot!"
 		end
 	else
-		local ok = false
-		local slots = ply:RunCharFlag("EquipmentSlots")
-
-		for _, itemSlot in pairs(item.EquipmentSlots) do
-			if table.HasValue(slots, itemSlot) then
-				ok = true
-
-				break
-			end
-		end
-
-		if not ok then
+		if #item:GetAvailableEquipmentSlots(ply) < 1 then
 			return false, "You don't have any equipment slots to put this in!"
 		end
 	end

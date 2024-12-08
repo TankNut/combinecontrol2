@@ -3,16 +3,13 @@ ITEM.Actions.Equip = {
 	Priority = 10,
 
 	SubOptions = function(self, ply)
-		local slots = ply:RunCharFlag("EquipmentSlots")
 		local options = {}
 
-		for _, slot in ipairs(slots) do
-			if table.HasValue(self.EquipmentSlots, slot) then
-				table.insert(options, {
-					Name = "Equip as: " .. EquipmentSlot(slot),
-					Value = slot
-				})
-			end
+		for _, slot in ipairs(self:GetAvailableEquipmentSlots(ply)) do
+			table.insert(options, {
+				Name = "Equip as: " .. EquipmentSlot(slot),
+				Value = slot
+			})
 		end
 
 		return options
@@ -46,6 +43,19 @@ ITEM.Actions.Unequip = {
 		self:SetEquipmentSlot(ply, nil)
 	end
 }
+
+function ITEM:GetAvailableEquipmentSlots(ply)
+	local slots = {}
+	local flagSlots = ply:RunCharFlag("EquipmentSlots")
+
+	for _, slot in ipairs(flagSlots) do
+		if table.HasValue(self.EquipmentSlots, slot) then
+			table.insert(slots, slot)
+		end
+	end
+
+	return slots
+end
 
 function ITEM:GetEquipmentSlot()
 	return self:GetData("EquipmentSlot", false)
