@@ -46,6 +46,10 @@ function LoadWorld()
 		query:WhereEqual("StoreID", game.GetMap())
 
 	for _, data in ipairs(query:Execute()) do
+		if not List[data.Class] then
+			continue
+		end
+
 		local item = Item.Instance(data.Class, data.id, data.CustomData and sfs.decode(data.CustomData) or nil)
 		local mapData = sfs.decode(data.MapData)
 

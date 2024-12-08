@@ -73,6 +73,10 @@ function meta:LoadItems()
 		query:WhereEqual("StoreID", self.StoreID)
 
 	for _, data in ipairs(query:Execute()) do
+		if not Item.List[data.Class] then
+			continue
+		end
+
 		local item = Item.Instance(data.Class, data.id, data.CustomData and sfs.decode(data.CustomData) or nil)
 
 		item:SetInventory(self, true)
