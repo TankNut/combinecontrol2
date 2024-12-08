@@ -5,7 +5,7 @@ function ITEM:SaveData()
 
 	local query = GAMEMODE.Database:Update("rp_items")
 		query:Update("CustomData", sfs.encode(self.Data))
-		query:WhereEquals("id", self.ID)
+		query:WhereEqual("id", self.ID)
 	query:Execute()
 end
 
