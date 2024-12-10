@@ -661,7 +661,7 @@ function GM:PMUpdateInventory()
 			ui.ButOptions:SetDisabled(#item:GetAvailableActions(lp, "InventoryButton") < 1)
 
 			function ui.ButOptions:DoClick()
-				itemIcon:DoRightClick("InventoryButton")
+				icon:DoRightClick("InventoryButton")
 			end
 
 			table.insert(ui.InvButtons, ui.ButOptions)
