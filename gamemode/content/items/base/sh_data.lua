@@ -18,6 +18,10 @@ function ITEM:SetData(key, val)
 
 	if CLIENT then
 		self.ReloadTooltip = true
+
+		if self:IsSelected() and IsValid(self.Icon) then
+			self.Icon:DoClick()
+		end
 	else
 		async.Start(self.SaveData, self)
 

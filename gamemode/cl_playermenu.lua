@@ -674,6 +674,7 @@ function GM:PMUpdateInventory()
 
 		if icons[id] then
 			icons[id]:DoClick()
+			reset = false
 		end
 
 		if reset then

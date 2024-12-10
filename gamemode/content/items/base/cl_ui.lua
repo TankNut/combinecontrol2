@@ -8,6 +8,10 @@ function ITEM:DrawUIHighlight(x, y, w, h)
 	end
 end
 
+function ITEM:IsSelected()
+	return IsValid(CCP.PlayerMenu) and CCP.PlayerMenu.SelectedItem == self.ID
+end
+
 function ITEM:ConfigureModelPanel(icon)
 	icon:SetModel(self:GetModel())
 
@@ -29,6 +33,7 @@ function ITEM:CreateInventoryIcon()
 
 	icon:SetSize(48, 48)
 
+	self.Icon = icon
 	self:ConfigureModelPanel(icon)
 
 	local p = icon.Paint
