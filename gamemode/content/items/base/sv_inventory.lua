@@ -77,7 +77,7 @@ end
 
 function ITEM:PreItemMove(loaded)
 	if self:IsEquipped() and not loaded then
-		self:SetEquipped(nil)
+		self:SetEquipmentSlot(ply, nil)
 	end
 end
 
