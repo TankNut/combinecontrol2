@@ -167,6 +167,10 @@ function GM:CanDropItem(ply, item)
 		return false, err
 	end
 
+	if item:IsEquipped() then
+		return false, "You cannot drop items you're wearing!"
+	end
+
 	return item:CanDrop(ply)
 end
 
@@ -175,6 +179,10 @@ function GM:CanDestroyItem(ply, item)
 
 	if not ok then
 		return false, err
+	end
+
+	if item:IsEquipped() then
+		return false, "You cannot destroy items you're wearing!"
 	end
 
 	return item:CanDestroy(ply)
