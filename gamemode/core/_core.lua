@@ -59,6 +59,7 @@ GM:Include("sh_global_vars.lua")
 
 GM:Include("cl_inventory.lua")
 GM:Include("cl_think.lua")
+GM:Include("cl_vgui.lua")
 GM:Include("sh_admin.lua")
 GM:Include("sh_appearance.lua")
 GM:Include("sh_character_flags.lua")
@@ -76,6 +77,8 @@ GM:Include("sv_item.lua")
 GM:Include("sv_player_update.lua")
 GM:Include("sv_player.lua")
 
+GM:LoadFolder("core/vgui")
+GM:LoadFolder("core/gui")
 GM:LoadFolder("core/plugins")
 
 GM:Include(engine.ActiveGamemode() .. "/gamemode/content/sh_defines.lua")

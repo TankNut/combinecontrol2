@@ -8,7 +8,7 @@ function GM:CreateNotesMenu()
 	CCP.PlayerNotes.PerformLayout = CCFramePerformLayout
 	CCP.PlayerNotes:PerformLayout()
 
-	CCP.PlayerNotes.Think = UIAutoClose
+	CCP.PlayerNotes:SetAutoClose(true)
 
 	CCP.PlayerNotes.List = vgui.Create("DListView", CCP.PlayerNotes)
 	CCP.PlayerNotes.List:SetPos(10, 34)
@@ -120,7 +120,7 @@ function GM:ViewNote(data)
 	CCP.NoteViewer.PerformLayout = CCFramePerformLayout
 	CCP.NoteViewer:PerformLayout()
 
-	CCP.NoteViewer.Think = UIAutoClose
+	CCP.NoteViewer:SetAutoClose(true)
 
 	CCP.NoteViewer.Title = vgui.Create("DLabel", CCP.NoteViewer)
 	CCP.NoteViewer.Title:SetText(data["Title"])
@@ -155,7 +155,7 @@ function GM:EditNote(ply, data)
 	CCP.NoteEdit.PerformLayout = CCFramePerformLayout
 	CCP.NoteEdit:PerformLayout()
 
-	CCP.NoteEdit.Think = UIAutoClose
+	CCP.NoteEdit:SetAutoClose(true)
 
 	CCP.NoteEdit.Content = vgui.Create("DTextEntry", CCP.NoteEdit)
 	CCP.NoteEdit.Content:SetPos(10, 34)
@@ -225,7 +225,7 @@ function GM:NoteCreateDialog(ply)
 	CCP.NoteCreation.PerformLayout = CCFramePerformLayout
 	CCP.NoteCreation:PerformLayout()
 
-	CCP.NoteCreation.Think = UIAutoClose
+	CCP.NoteCreation:SetAutoClose(true)
 
 	CCP.NoteCreation.Title = vgui.Create("DTextEntry", CCP.NoteCreation)
 	CCP.NoteCreation.Title:SetFont("CombineControl.LabelSmall")

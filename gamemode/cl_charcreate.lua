@@ -762,7 +762,7 @@ function GM:CreateMOTD()
 	CCP.MOTD.PerformLayout = CCFramePerformLayout
 	CCP.MOTD:PerformLayout()
 
-	CCP.MOTD.Think = UIAutoClose
+	CCP.MOTD:SetAutoClose(true)
 
 	CCP.MOTD.ContentPane = vgui.Create("DScrollPanel", CCP.MOTD)
 	CCP.MOTD.ContentPane:SetPos(10, 34)

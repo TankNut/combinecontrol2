@@ -99,7 +99,7 @@ net.Receive("nAEditInventory", function(len)
 	ui.PerformLayout = CCFramePerformLayout
 	ui:PerformLayout()
 
-	ui.Think = UIAutoClose
+	ui:SetAutoClose(true)
 	ui.Player = targ
 
 	ui.InvButtons = {}

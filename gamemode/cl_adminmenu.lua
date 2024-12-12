@@ -15,7 +15,7 @@ function GM:CreateAdminMenu()
 	CCP.AdminMenu.PerformLayout = CCFramePerformLayout
 	CCP.AdminMenu:PerformLayout()
 
-	CCP.AdminMenu.Think = UIAutoClose
+	CCP.AdminMenu:SetAutoClose(true)
 	CCP.AdminMenu.OnKeyCodePressed = function(self, key)
 		if input.LookupKeyBinding(key) and string.find(input.LookupKeyBinding(key), "showspare2") then
 			self:Close()
@@ -179,7 +179,7 @@ function GM:AdminCreateToolsMenu()
 		CCP.SeeAllFilter.PerformLayout = CCFramePerformLayout
 		CCP.SeeAllFilter:PerformLayout()
 
-		CCP.SeeAllFilter.Think = UIAutoClose
+		CCP.SeeAllFilter:SetAutoClose(true)
 
 		local opts = {
 			{Text = "Players", Var = "cc_seeallplayers"},
@@ -1059,7 +1059,7 @@ function GM:AMCreateBanEntry()
 	CCP.AdminMenu.BanEntry.PerformLayout = CCFramePerformLayout
 	CCP.AdminMenu.BanEntry:PerformLayout()
 
-	CCP.AdminMenu.BanEntry.Think = UIAutoClose
+	CCP.AdminMenu.BanEntry:SetAutoClose(true)
 
 	CCP.AdminMenu.BanEntry.Label1 = vgui.Create("DLabel", CCP.AdminMenu.BanEntry)
 	CCP.AdminMenu.BanEntry.Label1:SetText("SteamID: ")
@@ -1363,7 +1363,7 @@ function GM:AdminCreateRoleplayMenu()
 		CCP.MusicTargets.PerformLayout = CCFramePerformLayout
 		CCP.MusicTargets:PerformLayout()
 
-		CCP.MusicTargets.Think = UIAutoClose
+		CCP.MusicTargets:SetAutoClose(true)
 
 		CCP.MusicTargets.AllPlayers = vgui.Create("DListView", CCP.MusicTargets)
 		CCP.MusicTargets.AllPlayers:SetPos(10, 34)
@@ -1496,7 +1496,7 @@ function GM:AdminCreateRoleplayMenu()
 			CCP.MusicTargets.RadialWin.PerformLayout = CCFramePerformLayout
 			CCP.MusicTargets.RadialWin:PerformLayout()
 
-			CCP.MusicTargets.RadialWin.Think = UIAutoClose
+			CCP.MusicTargets.RadialWin:SetAutoClose(true)
 
 			CCP.MusicTargets.RadialWin.Entry = vgui.Create("DTextEntry", CCP.MusicTargets.RadialWin)
 			CCP.MusicTargets.RadialWin.Entry:SetFont("CombineControl.LabelBig")
@@ -1696,7 +1696,7 @@ function GM:AdminCreateRoleplayMenu()
 		CCP.ItemsList.PerformLayout = CCFramePerformLayout
 		CCP.ItemsList:PerformLayout()
 
-		CCP.ItemsList.Think = UIAutoClose
+		CCP.ItemsList:SetAutoClose(true)
 
 		CCP.ItemsList.Pane = vgui.Create("DScrollPanel", CCP.ItemsList)
 		CCP.ItemsList.Pane:SetSize(570, 406)

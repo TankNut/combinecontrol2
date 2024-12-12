@@ -133,7 +133,7 @@ function GM:CreateNPCModifier(panel, npc, t)
 		CCP.MColor:PerformLayout()
 		CCP.MColor:MakePopup()
 
-		CCP.MColor.Think = UIAutoClose
+		CCP.MColor:SetAutoClose(true)
 
 		CCP.MColor.Mixer = vgui.Create("DColorMixer", CCP.MColor)
 		CCP.MColor.Mixer:Dock(FILL)
