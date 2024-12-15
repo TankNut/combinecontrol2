@@ -217,7 +217,7 @@ function GM:CreateHelpMenu()
 	CCP.HelpMenu.PerformLayout = CCFramePerformLayout
 	CCP.HelpMenu:PerformLayout()
 
-	CCP.HelpMenu:SetAutoClose(true)
+	CCP.HelpMenu:SetCloseOnPause(true)
 	CCP.HelpMenu.OnKeyCodePressed = function(self, key)
 		if input.LookupKeyBinding(key) and string.find(input.LookupKeyBinding(key), "showhelp") then
 			self:Close()

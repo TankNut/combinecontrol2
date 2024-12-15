@@ -8,7 +8,7 @@ function GM:CreatePlayerMenu()
 	CCP.PlayerMenu.PerformLayout = CCFramePerformLayout
 	CCP.PlayerMenu:PerformLayout()
 
-	CCP.PlayerMenu:SetAutoClose(true)
+	CCP.PlayerMenu:SetCloseOnPause(true)
 
 	CCP.PlayerMenu.OnKeyCodePressed = function(self, key)
 		if input.LookupKeyBinding(key) and string.find(input.LookupKeyBinding(key), "showspare1") then
@@ -98,7 +98,7 @@ function GM:PMCreateNameEdit()
 	CCP.PlayerMenu.NameEdit.PerformLayout = CCFramePerformLayout
 	CCP.PlayerMenu.NameEdit:PerformLayout()
 
-	CCP.PlayerMenu.NameEdit:SetAutoClose(true)
+	CCP.PlayerMenu.NameEdit:SetCloseOnPause(true)
 
 	CCP.PlayerMenu.NameEdit.Label = vgui.Create("DLabel", CCP.PlayerMenu.NameEdit)
 	CCP.PlayerMenu.NameEdit.Label:SetText(#LocalPlayer():CharacterName() .. "/" .. self.MaxNameLength)
@@ -200,7 +200,7 @@ function GM:PMCreateDescEdit()
 	CCP.PlayerMenu.DescEdit.PerformLayout = CCFramePerformLayout
 	CCP.PlayerMenu.DescEdit:PerformLayout()
 
-	CCP.PlayerMenu.DescEdit:SetAutoClose(true)
+	CCP.PlayerMenu.DescEdit:SetCloseOnPause(true)
 
 	CCP.PlayerMenu.DescEdit.Label = vgui.Create("DLabel", CCP.PlayerMenu.DescEdit)
 	CCP.PlayerMenu.DescEdit.Label:SetText(#LocalPlayer():Description() .. "/" .. self.MaxDescLength)
@@ -285,7 +285,7 @@ function GM:PMCreateNotes()
 	CCP.PlayerMenu.Notes.PerformLayout = CCFramePerformLayout
 	CCP.PlayerMenu.Notes:PerformLayout()
 
-	CCP.PlayerMenu.Notes:SetAutoClose(true)
+	CCP.PlayerMenu.Notes:SetCloseOnPause(true)
 
 	CCP.PlayerMenu.Notes.Entry = vgui.Create("DTextEntry", CCP.PlayerMenu.Notes)
 	CCP.PlayerMenu.Notes.Entry:SetFont("CombineControl.LabelSmall")

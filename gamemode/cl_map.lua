@@ -71,7 +71,7 @@ net.Receive("nServerOffer", function(len)
 		CCP.ServerOffer.PerformLayout = CCFramePerformLayout
 		CCP.ServerOffer:PerformLayout()
 
-		CCP.ServerOffer:SetAutoClose(true)
+		CCP.ServerOffer:SetCloseOnPause(true)
 
 		CCP.ServerOffer.WarningLabel = vgui.Create("DLabel", CCP.ServerOffer)
 		CCP.ServerOffer.WarningLabel:SetText(GAMEMODE.ConnectMessages[port] and GAMEMODE.ConnectMessages[port] or "!!!Missing/Incorrect transition setup, report this!!!" .. "\n\nIf you go, you will no longer have access to your character in your current location, until you come back. Close this window if you want to stay here.")

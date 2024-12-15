@@ -326,7 +326,7 @@ function GM:CCCreatePlayerData(ply)
 	CCP.PlayerData.PerformLayout = CCFramePerformLayout
 	CCP.PlayerData:PerformLayout()
 
-	CCP.PlayerData:SetAutoClose(true)
+	CCP.PlayerData:SetCloseOnPause(true)
 
 	local y = 34
 

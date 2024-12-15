@@ -35,7 +35,7 @@ function ENT:GetContextOptions(ply)
 				ui.PerformLayout = CCFramePerformLayout
 				ui:PerformLayout()
 
-				ui:SetAutoClose(true)
+				ui:SetCloseOnPause(true)
 
 				ui.Amount = vgui.Create("DTextEntry", ui)
 				ui.Amount:SetPos(10, 34)

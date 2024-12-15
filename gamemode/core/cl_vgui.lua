@@ -1,25 +1,25 @@
-vgui.AutoClosePanels = vgui.AutoClosePanels or {}
+vgui.PauseClosePanels = vgui.PauseClosePanels or {}
 
 local meta = FindMetaTable("Panel")
 
-function meta:GetAutoClose()
-	return self.AutoClose
+function meta:GetCloseOnPause()
+	return self.m_bCloseOnPause
 end
 
-function meta:SetAutoClose(bool)
-	self.AutoClose = bool
+function meta:SetCloseOnPause(bool)
+	self.m_bCloseOnPause = bool
 
 	if bool then
-		vgui.AutoClosePanels[self] = true
+		vgui.PauseClosePanels[self] = true
 	else
-		vgui.AutoClosePanels[self] = nil
+		vgui.PauseClosePanels[self] = nil
 	end
 end
 
 function GM:OnPauseMenuShow()
-	for panel in pairs(vgui.AutoClosePanels) do
+	for panel in pairs(vgui.PauseClosePanels) do
 		if not IsValid(panel) then
-			vgui.AutoClosePanels[panel] = nil
+			vgui.PauseClosePanels[panel] = nil
 
 			continue
 		end
@@ -27,7 +27,7 @@ function GM:OnPauseMenuShow()
 		if vgui.FocusedHasParent(panel) then
 			panel:Remove()
 
-			vgui.AutoClosePanels[panel] = nil
+			vgui.PauseClosePanels[panel] = nil
 
 			return false
 		end

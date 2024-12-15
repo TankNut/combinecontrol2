@@ -50,7 +50,7 @@ net.Receive("nCPattedDown", function(len)
 	ui.PerformLayout = CCFramePerformLayout
 	ui:PerformLayout()
 
-	ui:SetAutoClose(true)
+	ui:SetCloseOnPause(true)
 	ui.Player = targ
 
 	function ui:OnRemove()
@@ -384,7 +384,7 @@ function GM:GetCCOptions(ent, dist)
 					surface.DrawRect(0, 0, w, h)
 				end
 
-				paper:SetAutoClose(true)
+				paper:SetCloseOnPause(true)
 
 				local entry = vgui.Create("DTextEntry", paper)
 				entry:SetFont("CombineControl.Written")
@@ -487,7 +487,7 @@ function GM:CCCreateDoorNameEdit()
 	CCP.DoorNameEdit.PerformLayout = CCFramePerformLayout
 	CCP.DoorNameEdit:PerformLayout()
 
-	CCP.DoorNameEdit:SetAutoClose(true)
+	CCP.DoorNameEdit:SetCloseOnPause(true)
 
 	CCP.DoorNameEdit.Label = vgui.Create("DLabel", CCP.DoorNameEdit)
 	CCP.DoorNameEdit.Label:SetText(#CCSelectedEnt:DoorName() .. "/50")
@@ -565,7 +565,7 @@ function GM:CCCreateDoorOwnersEdit()
 	CCP.DoorOwnersEdit.PerformLayout = CCFramePerformLayout
 	CCP.DoorOwnersEdit:PerformLayout()
 
-	CCP.DoorOwnersEdit:SetAutoClose(true)
+	CCP.DoorOwnersEdit:SetCloseOnPause(true)
 
 	CCP.DoorOwnersEdit.AllPlayers = vgui.Create("DListView", CCP.DoorOwnersEdit)
 	CCP.DoorOwnersEdit.AllPlayers:SetPos(10, 34)
@@ -682,7 +682,7 @@ function GM:CCCreateGiveCredits()
 	CCP.GiveCredits.PerformLayout = CCFramePerformLayout
 	CCP.GiveCredits:PerformLayout()
 
-	CCP.GiveCredits:SetAutoClose(true)
+	CCP.GiveCredits:SetCloseOnPause(true)
 
 	CCP.GiveCredits.Entry = vgui.Create("DTextEntry", CCP.GiveCredits)
 	CCP.GiveCredits.Entry:SetFont("CombineControl.LabelBig")
@@ -756,7 +756,7 @@ function GM:CCCreatePlayerViewer(ent)
 	CCP.PlayerViewer.PerformLayout = CCFramePerformLayout
 	CCP.PlayerViewer:PerformLayout()
 
-	CCP.PlayerViewer:SetAutoClose(true)
+	CCP.PlayerViewer:SetCloseOnPause(true)
 
 	CCP.PlayerViewer.CharacterModel = vgui.Create("DModelPanel", CCP.PlayerViewer)
 	CCP.PlayerViewer.CharacterModel:SetPos(10, 34)

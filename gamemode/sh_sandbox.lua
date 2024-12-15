@@ -1098,7 +1098,7 @@ if CLIENT then
 		CCP.PropProtectionEdit.PerformLayout = CCFramePerformLayout
 		CCP.PropProtectionEdit:PerformLayout()
 
-		CCP.PropProtectionEdit:SetAutoClose(true)
+		CCP.PropProtectionEdit:SetCloseOnPause(true)
 
 		CCP.PropProtectionEdit.AllPlayers = vgui.Create("DListView", CCP.PropProtectionEdit)
 		CCP.PropProtectionEdit.AllPlayers:SetPos(10, 34)

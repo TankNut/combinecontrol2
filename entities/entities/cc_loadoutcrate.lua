@@ -70,7 +70,7 @@ if CLIENT then
 		CCP.LoadoutCrate.PerformLayout = CCFramePerformLayout
 		CCP.LoadoutCrate:PerformLayout()
 
-		CCP.LoadoutCrate:SetAutoClose(true)
+		CCP.LoadoutCrate:SetCloseOnPause(true)
 
 		CCP.LoadoutCrate.WarningLabel = vgui.Create("DLabel", CCP.LoadoutCrate)
 		CCP.LoadoutCrate.WarningLabel:SetText("Be sure to only take what you need - you can only carry so much.")
