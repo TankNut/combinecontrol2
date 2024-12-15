@@ -50,3 +50,11 @@ function ITEM:GetWeight()
 end
 
 function ITEM:GetArmor() return self:GetData("Armor", self.Armor) end
+
+function ITEM:GetRarity()
+	return self:GetData("Rarity", self.Rarity)
+end
+
+function ITEM:GetRarityData()
+	return Item.Rarities[self:GetRarity()] or Item.Rarities[RARITY_COMMON]
+end

@@ -10,6 +10,16 @@ All = All or setmetatable({}, {
 -- Deliberate, we want to clear this every autorefresh
 ActionCache = {}
 
+Rarities = {
+	[RARITY_COMMON] = {Name = "Common"},
+	[RARITY_UNCOMMON] = {Name = "Uncommon", Color = Color(30, 255, 0)},
+	[RARITY_RARE] = {Name = "Rare", Color = Color(0, 112, 221)},
+	[RARITY_EPIC] = {Name = "Epic", Color = Color(163, 53, 238)},
+	[RARITY_LEGENDARY] = {Name = "Legendary", Color = Color(255, 128, 0)},
+	[RARITY_ARTIFACT] = {Name = "Artifact", Color = Color(255, 50, 50)},
+	[RARITY_DEV] = {Name = "Developer", Color = Color(0, 204, 255)}
+}
+
 local meta = FindMetaTable("Player")
 
 PlayerVar.Add("InventoryWeight", {Default = 0})
