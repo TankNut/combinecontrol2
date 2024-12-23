@@ -33,6 +33,8 @@ if CLIENT then
 		for _, item in ipairs(items) do
 			Item.Instance(item[1], item[2], item[3]):SetInventory(self, true)
 		end
+
+		self:RecalculateWeight()
 	end
 else
 	function meta:LoadItems()

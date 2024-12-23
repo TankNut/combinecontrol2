@@ -34,6 +34,8 @@ function ITEM:OnRemove(unloading)
 end
 
 function ITEM:OnMove(old, new, loading)
+	BaseClass.OnMove(self, old, new, loading)
+
 	if SERVER then
 		self.Contents:UpdateReceivers()
 	end
