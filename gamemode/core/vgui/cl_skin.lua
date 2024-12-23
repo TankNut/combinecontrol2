@@ -62,7 +62,7 @@ SKIN.Colours.TooltipText = Color(110, 102, 60)
 
 -- Hook this to a setting at some point
 local function getAlpha()
-	return 250
+	return 230
 end
 
 function SKIN:DrawButton(disabled, w, h)
