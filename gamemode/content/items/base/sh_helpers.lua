@@ -2,6 +2,10 @@ function ITEM:IsTemporaryItem()
 	return self.ID < 0
 end
 
+function ITEM:GetOwner()
+	return self:GetInventory():GetParent()
+end
+
 function ITEM:SetItemAppearance(ent)
 	ent:SetSkin(self:GetSkin())
 
