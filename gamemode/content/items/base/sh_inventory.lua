@@ -1,100 +1,78 @@
 function ITEM:GetInventory()
-	return Inventory.Get(self.InventoryID)
+	if self.InventoryID then
+		return Inventory.Get(self.InventoryID)
+	end
 end
 
-function ITEM:OnMove(old, new, loading)
+function ITEM:ClearInventory()
+	local inventory = self:GetInventory()
+
+	if inventory then
+		self:InventoryRemoved(inventory)
+
+		inventory:RemoveItem(self)
+	end
 end
 
-function ITEM:SetInventory(inventory, loading)
-	if IsValid(self.Entity) then
-		self.Entity.Item = nil
-		self.Entity:Remove()
-		self.Entity = nil
-	end
-
-	local old = self:GetInventory()
-
-	if old then
-		old:RemoveItem(self)
-	end
-
-	self.InventoryID = inventory.ID
-
-	inventory:AddItem(self, loading)
-
-	self:OnMove(old, inventory, loading)
+function ITEM:SetInventory(inventory)
+	local receivers
 
 	if SERVER then
-		self:UpdateNetworking(old, inventory)
+		if IsValid(self.Entity) then
+			self.Entity.Item = nil
+			self.Entity:Remove()
+			self.Entity = nil
+		end
 
-		if not loading then
+		receivers = self:GetReceivers()
+	end
+
+	self:ClearInventory()
+
+	if inventory then
+		inventory:AddItem(self)
+
+		self:InventoryAdded(inventory)
+	end
+
+	if SERVER then
+		self:UpdateNetworking(receivers)
+
+		if inventory then
 			async.Start(self.SaveLocation, self)
 		end
 	end
 end
 
-function ITEM:SetWorldItem(pos, ang, frozen, loading)
-	local old = self:GetInventory()
-
-	if old then
-		old:RemoveItem(self)
-	end
-
-	self.InventoryID = nil
-	self:OnMove(old, nil, loading)
-
-	if CLIENT then
-		return
-	end
-
-	self:UpdateNetworking(old, nil)
-
-	local ent = self.Entity
-
-	if not IsValid(self.Entity) then
-		ent = ents.Create("cc_item")
-		ent:SetModel(self:GetModel())
-
-		self:SetItemAppearance(ent)
-
-		ent.Item = self
-		ent:SetItemName(self:GetData("Name", self.Name))
-		ent:SetItemWeight(self:GetWeight())
-
-		ent:Spawn()
-		ent:Activate()
-
-		self.Entity = ent
-	end
-
-	ent:SetPos(pos)
-	ent:SetAngles(ang)
-
-	if not frozen then
-		ent:PhysWake()
-	end
-
-	ent:SaveMoved()
-end
-
 if SERVER then
-	function ITEM:UpdateNetworking(old, new)
-		if not old and not new then
-			return
+	function ITEM:SetWorldItem(pos, ang, frozen)
+		self:SetInventory(nil)
+
+		local ent = self.Entity
+
+		if not IsValid(self.Entity) then
+			ent = ents.Create("cc_item")
+			ent:SetModel(self:GetModel())
+
+			--self:SetItemAppearance(ent)
+
+			ent.Item = self
+			ent:SetItemName(self:GetName())
+			ent:SetItemWeight(self:GetWeight())
+
+			ent:Spawn()
+			ent:Activate()
+
+			self.Entity = ent
 		end
 
-		if new then
-			if old then
-				local add, move, remove = new:CompareReceivers(old)
+		ent:SetPos(pos)
+		ent:SetAngles(ang)
 
-				netstream.Send(add, "AddItem", self.ClassName, self.ID, self.Data, new.ID)
-				netstream.Send(move, "MoveItem", self.ID, new.ID)
-				netstream.Send(remove, "RemoveItem", self.ID)
-			elseif table.Count(new.Receivers) > 0 then
-				netstream.Send(table.GetKeys(new.Receivers), "AddItem", self.ClassName, self.ID, self.Data, new.ID)
-			end
-		elseif table.Count(old.Receivers) > 0 then
-			netstream.Send(table.GetKeys(old.Receivers), "RemoveItem", self.ID)
+		if not frozen then
+			ent:PhysWake()
 		end
+
+		ent:SaveMoved()
 	end
 end

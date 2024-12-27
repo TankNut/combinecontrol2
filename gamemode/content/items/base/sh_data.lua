@@ -18,10 +18,6 @@ function ITEM:SetData(key, val)
 
 	if CLIENT then
 		self.ReloadTooltip = true
-
-		if self:IsSelected() and IsValid(self.Icon) then
-			self.Icon:DoClick()
-		end
 	else
 		async.Start(self.SaveData, self)
 
@@ -40,13 +36,7 @@ function ITEM:GetModel() return self:GetData("Model", self.Model) end
 function ITEM:GetSkin() return self:GetData("Skin", self.Skin) end
 
 function ITEM:GetWeight()
-	local weight = self:GetData("Weight", self.Weight)
-
-	if self:IsEquipped() then
-		weight = weight * self:GetData("WeightMultiplier", self.WeightMultiplier)
-	end
-
-	return weight
+	return self:GetData("Weight", self.Weight)
 end
 
 function ITEM:GetArmor() return self:GetData("Armor", self.Armor) end

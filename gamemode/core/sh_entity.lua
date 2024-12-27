@@ -14,8 +14,16 @@ function GM:InitPostEntity()
 end
 
 function GM:OnEntityCreated(ent)
+	if not IsValid(ent) then
+		return
+	end
+
 	if CLIENT and ent:EntIndex() > 0 then
 		table.insert(self.VarSyncCache, ent)
+	end
+
+	if ent:IsPlayer() then
+		Inventory.Init(ent)
 	end
 end
 

@@ -1,3 +1,5 @@
+ITEM.Actions = {}
+
 function ITEM:GetActions()
 	local cache = Item.ActionCache[self.ClassName]
 
@@ -133,4 +135,24 @@ else
 	function ITEM:OnWorldUse(ply)
 		self:RunAction(ply, "Pickup")
 	end
+
+	netstream.Hook("ItemAction", function(ply, id, name, ...)
+		local item = Item.Get(id)
+
+		if not item then
+			return
+		end
+
+		if not item:CanRunAction(ply, name) then
+			return
+		end
+
+		local action = item:GetActions()[name]
+
+		if action.ServerOnly then
+			return
+		end
+
+		item:HandleServerAction(ply, name, action, ...)
+	end)
 end

@@ -25,11 +25,12 @@ function Register(name, item)
 	item.ThisClass = "item_" .. name
 	item.Name = item.Name or name
 
+	-- Done to prevent the var from getting inherited
 	local internal = item.Internal; item.Internal = nil
 
 	if name != "base" then
 		setmetatable(item, {
-			__index = baseclass.Get(item.Base and "item_" .. item.Base or "item_base")
+			__index = baseclass.Get(item.Base and "item_" .. item.Base or "item_base"),
 		})
 	end
 
@@ -99,7 +100,8 @@ function Instance(class, id, data)
 		ID = id,
 		Data = data or {}
 	}, {
-		__index = class
+		__index = class,
+		__tostring = function(self) return string.format("Item [%s][%s]", self.ID, self.ClassName) end
 	})
 
 	All[id] = instance
@@ -111,16 +113,6 @@ end
 
 function Get(id)
 	return All[id]
-end
-
-function Remove(id, unloading)
-	local item = All[id]
-
-	if item then
-		item:OnRemove(unloading)
-	end
-
-	All[id] = nil
 end
 
 function GetDropPosition(ply)
@@ -138,15 +130,7 @@ function meta:HasEquipmentSlot(slot)
 end
 
 function GM:CanInteractWithItem(ply, item)
-	if not item:IsOwner(ply) then
-		return false, "You don't own this item!"
-	end
-
-	if item:GetStoreType() != INV_PLAYER then
-		return false, "You cannot interact with items outside of your inventory!"
-	end
-
-	return true
+	return item:CanInteract(ply)
 end
 
 function GM:CanPickupItem(ply, item)
@@ -168,10 +152,6 @@ function GM:CanDropItem(ply, item)
 		return false, err
 	end
 
-	if item:IsEquipped() then
-		return false, "You cannot drop items you're wearing!"
-	end
-
 	return item:CanDrop(ply)
 end
 
@@ -180,10 +160,6 @@ function GM:CanDestroyItem(ply, item)
 
 	if not ok then
 		return false, err
-	end
-
-	if item:IsEquipped() then
-		return false, "You cannot destroy items you're wearing!"
 	end
 
 	return item:CanDestroy(ply)

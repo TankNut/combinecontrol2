@@ -63,8 +63,6 @@ GM:Include("sh_player_vars.lua")
 GM:Include("sh_character_vars.lua")
 GM:Include("sh_global_vars.lua")
 
-GM:Include("cl_inventory.lua")
-GM:Include("cl_item.lua")
 GM:Include("cl_think.lua")
 GM:Include("cl_vgui.lua")
 GM:Include("sh_admin.lua")

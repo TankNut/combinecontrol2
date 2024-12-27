@@ -1,40 +1,38 @@
 local meta = CustomMetaTable("Inventory")
 
-function meta:AddItem(item, loading)
+function meta:AddItem(item)
 	self.Items[item.ID] = item
 
-	if not loading then
-		self:RecalculateWeight()
-
-		if CLIENT then
-			self:CallPanels("Populate", self)
-		end
-	end
+	item.InventoryID = self.ID
 end
 
-function meta:RemoveItem(item, unloading)
-	if item:IsEquipped() then
-		item:SetEquipmentSlot(nil)
-	end
-
+function meta:RemoveItem(item)
 	self.Items[item.ID] = nil
 
-	if not unloading then
-		self:RecalculateWeight()
+	item.InventoryID = nil
+end
 
-		if CLIENT then
-			self:CallPanels("Populate", self)
-		end
+function meta:RecalculateWeight()
+	local weight = 0
+
+	for _, item in pairs(self.Items) do
+		weight = weight + item:GetWeight()
 	end
+
+	self.Weight = weight
 end
 
 if CLIENT then
 	function meta:LoadItems(items)
 		for _, item in ipairs(items) do
-			Item.Instance(item[1], item[2], item[3]):SetInventory(self, true)
+			self:AddItem(Item.Instance(item[1], item[2], item[3]))
 		end
 
-		self:RecalculateWeight()
+		self:ItemsChanged()
+
+		for _, item in pairs(self.Items) do
+			item:OnLoaded()
+		end
 	end
 else
 	function meta:LoadItems()
@@ -47,11 +45,13 @@ else
 				continue
 			end
 
-			local item = Item.Instance(data.Class, data.id, data.CustomData and sfs.decode(data.CustomData) or nil)
-
-			item:SetInventory(self, true)
+			self:AddItem(Item.Instance(data.Class, data.id, data.CustomData and sfs.decode(data.CustomData) or nil))
 		end
 
-		self:RecalculateWeight()
+		self:ItemsChanged()
+
+		for _, item in pairs(self.Items) do
+			item:OnLoaded()
+		end
 	end
 end

@@ -1,15 +1,7 @@
 module("Inventory", package.seeall)
 
 All = All or {}
-Equipment = Equipment or setmetatable({}, {
-	__index = function(self, key)
-		local tab = {}
-
-		self[key] = tab
-
-		return tab
-	end
-})
+Equipment = Equipment or {}
 
 PlayerVar.Add("InventoryWeight", {Default = 0})
 PlayerVar.Add("MaxInventoryWeight", {Default = 0})
@@ -41,26 +33,27 @@ function Create(id, storeType, storeID, parent)
 	return instance
 end
 
-function Get(id)
-	return All[id]
+function Init(ply)
+	Equipment[ply] = {}
 end
 
-function Remove(id)
-	All[id]:OnRemove()
-	All[id] = nil
+function Get(id)
+	return All[id]
 end
 
 function Clear(ply, removed)
 	if SERVER then
 		for _, id in ipairs({ply:InventoryID(), ply:StashID()}) do
-			if Get(id) then
-				Remove(id)
+			local inventory = Get(id)
+
+			if inventory then
+				inventory:Remove()
 			end
 		end
 	end
 
 	if removed then
-		Inventory[ply] = nil
+		Equipment[ply] = nil
 	end
 end
 

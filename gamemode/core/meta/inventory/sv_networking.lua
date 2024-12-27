@@ -52,45 +52,21 @@ function meta:UpdateReceivers()
 			})
 		end
 
-		netstream.Send(targets, "InventoryCreated", self.ID, self.StoreType, self.StoreID, self.Parent, items)
+		netstream.Send(new, "CreateInventory", self.ID, self.StoreType, self.StoreID, self.Parent, items)
 	end
 
 	if #remove > 0 then
-		netstream.Send(remove, "InventoryRemoved", self.ID)
+		netstream.Send(remove, "RemoveInventory", self.ID)
 	end
 
 	self.Receivers = new
 
+	-- Todo: Better way of doing this?
 	for _, item in pairs(self.Items) do
 		if item.Contents then
 			item.Contents:UpdateReceivers()
 		end
 	end
-end
-
-function meta:CompareReceivers(other)
-	local receivers = self.Receivers
-	local otherReceivers = other.Receivers
-
-	local ours = {}
-	local both = {}
-	local theirs = {}
-
-	for ply in pairs(receivers) do
-		if otherReceivers[ply] then
-			table.insert(both, ply)
-		else
-			table.insert(ours, ply)
-		end
-	end
-
-	for ply in pairs(otherReceivers) do
-		if not receivers[ply] then
-			table.insert(theirs, ply)
-		end
-	end
-
-	return ours, both, theirs
 end
 
 function meta:AddListener(ply)
@@ -110,11 +86,3 @@ function meta:RemoveListener(ply)
 	self.Listeners[ply] = nil
 	self:UpdateReceivers()
 end
-
-netstream.Hook("RemoveInventoryListener", function(ply, id)
-	local inventory = Inventory.Get(id)
-
-	if inventory then
-		inventory:RemoveListener(ply)
-	end
-end)

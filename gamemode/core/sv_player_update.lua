@@ -5,11 +5,11 @@ local meta = FindMetaTable("Player")
 function meta:UpdateArmor()
 	local armor = self:RunCharFlag("Armor")
 
-	for _, item in pairs(self:GetItems()) do
-		if item:IsEquipped() then
-			armor = armor + item:GetArmor()
-		end
-	end
+	-- for _, item in pairs(self:GetItems()) do
+	-- 	if item:IsEquipped() then
+	-- 		armor = armor + item:GetArmor()
+	-- 	end
+	-- end
 
 	-- Internally rescales current armor because of the armor plugin
 	self:SetMaxArmor(armor)

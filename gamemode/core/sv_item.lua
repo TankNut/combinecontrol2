@@ -30,7 +30,7 @@ function Delete(id)
 	local item = All[id]
 
 	if item then
-		item:RemoveFromCurrent()
+		item:SetInventory(nil)
 	end
 
 	async.Start(function()
@@ -68,23 +68,3 @@ function meta:GiveTempItem(class, data)
 
 	item:SetInventory(self:GetInventory())
 end
-
-netstream.Hook("ItemAction", function(ply, id, name, ...)
-	local item = Get(id)
-
-	if not item then
-		return
-	end
-
-	if not item:CanRunAction(ply, name) then
-		return
-	end
-
-	local action = item:GetActions()[name]
-
-	if action.ServerOnly then
-		return
-	end
-
-	item:HandleServerAction(ply, name, action, ...)
-end)

@@ -1,10 +1,9 @@
 local temp = Color(0, 127, 31, 25)
-local equip = Color(100, 160, 210, 25)
 
 function ITEM:GetHighlightColor()
-	if self:IsEquipped() then
-		return equip
-	end
+	-- if self:IsEquipped() then
+	-- 	return equip
+	-- end
 
 	if self:IsTemporaryItem() then
 		return temp
@@ -17,24 +16,6 @@ function ITEM:RemovePanels()
 	end
 
 	table.Empty(self.Panels)
-end
-
-function ITEM:IsSelected()
-	return IsValid(CCP.PlayerMenu) and CCP.PlayerMenu.SelectedItem == self.ID
-end
-
-function ITEM:ConfigureModelPanel(icon)
-	icon:SetModel(self:GetModel())
-
-	local ent = icon:GetEntity()
-
-	self:SetItemAppearance(ent)
-
-	local tab = PositionSpawnIcon(ent, ent:GetPos())
-
-	icon:SetFOV(tab.fov)
-	icon:SetCamPos(tab.origin)
-	icon:SetLookAng(tab.angles)
 end
 
 function ITEM:OpenActionMenu()
