@@ -50,5 +50,5 @@ function ITEM:GetRarityData()
 end
 
 function ITEM:GetArmor()
-	return 0
+	return self:IsEquipped() and self.Armor or 0
 end

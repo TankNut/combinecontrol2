@@ -1,4 +1,4 @@
-ITEM.Base = "base_equipment"
+ITEM.Model = Model("models/props_junk/cardboard_box004a.mdl")
 
 ITEM.Weight = 1
 ITEM.EquipmentSlots = {

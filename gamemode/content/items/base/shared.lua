@@ -12,11 +12,16 @@ ITEM.Scale = 1
 
 ITEM.Weight = 1
 
+ITEM.EquipmentSlots = {}
+
+ITEM.Armor = 0
+
 GM:Include("cl_networking.lua")
 GM:Include("cl_ui.lua")
 
 GM:Include("sh_actions.lua")
 GM:Include("sh_data.lua")
+GM:Include("sh_equipment.lua")
 GM:Include("sh_helpers.lua")
 GM:Include("sh_inventory.lua")
 GM:Include("sh_permissions.lua")
@@ -26,8 +31,11 @@ GM:Include("sv_database.lua")
 GM:Include("sv_networking.lua")
 
 GM:Include("actions/actions_base.lua")
+GM:Include("actions/actions_equipment.lua")
 
 function ITEM:Initialize()
+	self.EquipmentLookup = table.Lookup(self.EquipmentSlots)
+
 	if CLIENT then
 		self.Panels = {}
 	end

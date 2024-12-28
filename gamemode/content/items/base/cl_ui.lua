@@ -1,6 +1,11 @@
+local equip = Color(100, 160, 210, 25)
 local temp = Color(0, 127, 31, 25)
 
 function ITEM:GetHighlightColor()
+	if self:IsEquipped() then
+		return equip
+	end
+
 	if self:IsTemporaryItem() then
 		return temp
 	end

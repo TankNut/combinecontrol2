@@ -1,5 +1,3 @@
-ITEM.Actions = {}
-
 ITEM.Actions.Equip = {
 	Priority = 10,
 
