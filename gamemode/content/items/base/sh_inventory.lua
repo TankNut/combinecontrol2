@@ -32,10 +32,6 @@ function ITEM:SetInventory(inventory)
 
 	if inventory then
 		inventory:AddItem(self)
-
-		self:InventoryAdded(inventory)
-
-		inventory:ItemsChanged()
 	end
 
 	if SERVER then
@@ -44,6 +40,12 @@ function ITEM:SetInventory(inventory)
 		if inventory then
 			async.Start(self.SaveLocation, self)
 		end
+	end
+
+	if inventory then
+		self:InventoryAdded(inventory)
+
+		inventory:ItemsChanged()
 	end
 end
 
@@ -57,7 +59,7 @@ if SERVER then
 			ent = ents.Create("cc_item")
 			ent:SetModel(self:GetModel())
 
-			--self:SetItemAppearance(ent)
+			self:SetItemAppearance(ent)
 
 			ent.Item = self
 			ent:SetItemName(self:GetName())
