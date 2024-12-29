@@ -18,6 +18,10 @@ if SERVER then
 	function ITEM:OnDelete()
 	end
 end
+
+function ITEM:OnDropped()
+end
+
 -- Removed from an inventory, called before it actually happens
 function ITEM:InventoryRemoved(inventory)
 	if SERVER and self:IsEquipped() then

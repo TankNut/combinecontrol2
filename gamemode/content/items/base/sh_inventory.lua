@@ -64,6 +64,8 @@ if SERVER then
 			ent:Activate()
 
 			self.Entity = ent
+
+			self:OnDropped()
 		end
 
 		ent:SetPos(pos)
