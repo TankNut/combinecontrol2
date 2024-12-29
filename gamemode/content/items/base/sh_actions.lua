@@ -49,6 +49,10 @@ if CLIENT then
 				continue
 			end
 
+			if action.Hidden then
+				continue
+			end
+
 			if action.CanRun and not action.CanRun(self, lp) then
 				continue
 			end
