@@ -18,6 +18,8 @@ function ITEM:GetActions()
 				if not actions[k] then
 					actions[k] = v
 
+					v.ID = k
+
 					if not v.Name then
 						v.Name = k
 					end

@@ -41,12 +41,12 @@ function ITEM:OpenActionMenu()
 
 			for _, v in ipairs(options) do
 				parent:AddOption(v.Name, function()
-					self:RunAction(lp, action.Name, v.Value)
+					self:RunAction(lp, action.ID, v.Value)
 				end)
 			end
 		else
 			dmenu:AddOption(action.Name, function()
-				self:RunAction(lp, action.Name)
+				self:RunAction(lp, action.ID)
 			end)
 		end
 	end
