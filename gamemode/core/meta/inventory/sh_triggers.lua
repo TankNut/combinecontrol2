@@ -5,7 +5,13 @@ function meta:OnRemove()
 		item:Remove()
 	end
 
-	if SERVER then
+	if CLIENT then
+		local panel = GUI.Get("InventoryPopup")
+
+		if IsValid(panel) and panel.Inventory == self then
+			panel:Remove()
+		end
+	else
 		netstream.Send(self.Receivers, "RemoveInventory", self.ID)
 	end
 end
