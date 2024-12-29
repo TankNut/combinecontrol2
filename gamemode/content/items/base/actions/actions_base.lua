@@ -9,6 +9,15 @@ ITEM.Actions.Pickup = {
 	end
 }
 
+ITEM.Actions.Examine = {
+	ClientOnly = true,
+	Priority = 100,
+
+	Client = function(self, ply)
+		GUI.Open("ItemPopup", self)
+	end
+}
+
 ITEM.Actions.Drop = {
 	Priority = 1,
 
@@ -16,7 +25,7 @@ ITEM.Actions.Drop = {
 		return hook.Run("CanDropItem", ply, self)
 	end,
 	Callback = function(self, ply)
-		self:SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0), false)
+		self:SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0))
 	end
 }
 
