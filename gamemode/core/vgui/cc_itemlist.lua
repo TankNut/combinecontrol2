@@ -33,10 +33,14 @@ function PANEL:Populate(inventory)
 		icon:SetItem(item)
 
 		self.Layout:Add(icon)
+		self:OnIconAdded(icon)
 	end
 
 	self:Sort()
 	self:UpdateWeight()
+end
+
+function PANEL:OnIconAdded(icon)
 end
 
 function PANEL:UpdateWeight()
