@@ -27,13 +27,10 @@ function ITEM:InventoryRemoved(inventory)
 	if SERVER and self:IsEquipped() then
 		self:SetEquipmentSlot(nil)
 	end
-
-	inventory:RecalculateWeight()
 end
 
 -- Added to an inventory, called after it happens
 function ITEM:InventoryAdded(inventory)
-	inventory:RecalculateWeight()
 end
 
 function ITEM:OnEquipped(ply, slot)
