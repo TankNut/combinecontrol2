@@ -130,17 +130,11 @@ function meta:HasEquipmentSlot(slot)
 end
 
 function GM:CanInteractWithItem(ply, item)
-	local storeType = item:GetStoreType()
-
-	if storeType == INV_WORLD then
-		return false, "You cannot interact with dropped items!"
-	elseif storeType == INV_PLAYER then
-		return item:GetPlayer() == ply, "You cannot interact with other player's inventories!"
-	elseif storeType == INV_ITEM then
-		return false, "You cannot interact with items inside of your bag!"
+	if item:GetStoreType() == INV_PLAYER and item:GetPlayer() == ply then
+		return true
 	end
 
-	return false
+	return false, "You can only interact with items in your own inventory!"
 end
 
 function GM:CanDropItem(ply, item)
@@ -163,20 +157,6 @@ function GM:CanDestroyItem(ply, item)
 	return item:CanDestroy(ply)
 end
 
-function GM:CanUseEquipmentSlot(ply, slot)
-	if not ply:HasEquipmentSlot(slot) then
-		return false, "Your character doesn't support that equipment slot!"
-	end
-
-	local item = ply:GetEquipment(slot)
-
-	if item and not hook.Run("CanUnequipItem", ply, item) then
-		return false, "You cannot equip this because of your " .. item:GetName() .. "!"
-	end
-
-	return true
-end
-
 function GM:CanEquipItem(ply, item)
 	local ok, err = hook.Run("CanInteractWithItem", ply, item)
 
@@ -192,7 +172,21 @@ function GM:CanEquipItem(ply, item)
 		return false, "You don't have any equipment slots to put this in!"
 	end
 
-	return item:CanEquip(ply, slot)
+	return item:CanEquip(ply)
+end
+
+function GM:CanUseEquipmentSlot(ply, slot)
+	if not ply:HasEquipmentSlot(slot) then
+		return false, "Your character doesn't support that equipment slot!"
+	end
+
+	local item = ply:GetEquipment(slot)
+
+	if item and not hook.Run("CanUnequipItem", ply, item) then
+		return false, "You cannot equip this because of your " .. item:GetName() .. "!"
+	end
+
+	return true
 end
 
 function GM:CanUnequipItem(ply, item)
@@ -223,15 +217,25 @@ function GM:CanTakeItem(ply, item)
 	local storeType = item:GetStoreType()
 
 	if storeType == INV_ITEM then
-		return hook.Run("CanInteractWithItem", ply, item:GetItem())
+		return hook.Run("CanOpenItemContainer", ply, item:GetItem())
 	end
 
 	return false, "You cannot take this item!"
 end
 
 function GM:CanStoreItem(ply, item, inventory)
-	if inventory.StoreType == INV_ITEM and inventory:GetItem() == item then
-		return false, "You cannot store an item inside of itself!"
+	if inventory.StoreType == INV_ITEM then
+		local container = inventory:GetItem()
+
+		if container == item then
+			return false, "You cannot store an item inside of itself!"
+		end
+
+		local ok, err = hook.Run("CanOpenItemContainer", ply, container)
+
+		if not ok then
+			return false, err
+		end
 	end
 
 	return item:CanStore(ply, inventory)

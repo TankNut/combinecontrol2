@@ -14,7 +14,7 @@ function ITEM:CanDestroy(ply)
 	return true
 end
 
-function ITEM:CanEquip(ply, slot)
+function ITEM:CanEquip(ply)
 	return true
 end
 
