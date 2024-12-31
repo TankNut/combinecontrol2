@@ -240,6 +240,10 @@ function GM:CanStoreItem(ply, item, inventory)
 			return false, "You cannot store an item inside of itself!"
 		end
 
+		if container:IsTemporaryItem() and not item:IsTemporaryItem() then
+			return false, "You cannot store non-temporary items in this!"
+		end
+
 		local ok, err = hook.Run("CanOpenItemContainer", ply, container)
 
 		if not ok then
