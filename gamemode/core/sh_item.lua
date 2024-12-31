@@ -15,7 +15,7 @@ Rarities = {
 	[RARITY_EPIC] = {Name = "Epic", Color = Color(163, 53, 238)},
 	[RARITY_LEGENDARY] = {Name = "Legendary", Color = Color(255, 128, 0)},
 	[RARITY_ARTIFACT] = {Name = "Artifact", Color = Color(255, 50, 50)},
-	[RARITY_DEV] = {Name = "Developer", Color = Color(0, 204, 255)}
+	[RARITY_DEVELOPER] = {Name = "Developer", Color = Color(0, 204, 255)}
 }
 
 local meta = FindMetaTable("Player")
