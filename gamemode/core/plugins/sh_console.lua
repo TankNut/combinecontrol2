@@ -159,7 +159,11 @@ console.Parser("SteamID", function(ply, args, last, options)
 	options = table.Copy(options)
 	options.SingleTarget = true
 
-	return console.FindPlayer(ply, val, options):SteamID()
+	local ok, target = console.FindPlayer(ply, val, options)
+
+	-- Target will be an error message if ok is false
+	return ok, ok and target:SteamID() or target
+end)
 end)
 
 hook.Add("LoadContent", "console", function()
