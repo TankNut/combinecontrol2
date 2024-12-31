@@ -1,6 +1,9 @@
 ITEM.Name = nil -- Just here for clarity's sake
 ITEM.Description = "Whoever made this item forgot to add a description!"
+
 ITEM.Rarity = RARITY_COMMON
+ITEM.Category = "Misc"
+ITEM.Tags = {}
 
 ITEM.Internal = true
 

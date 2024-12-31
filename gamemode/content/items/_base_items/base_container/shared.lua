@@ -1,5 +1,6 @@
 DEFINE_BASECLASS("item_base")
 
+ITEM.Category = "Container"
 ITEM.Internal = true
 
 ITEM.BaseWeight = 0

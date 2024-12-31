@@ -33,7 +33,7 @@ function ITEM:GetName() return self:GetData("Name", self.Name) end
 function ITEM:GetDescription() return self:GetData("Description", self.Description) end
 
 function ITEM:GetRarity() return self:GetData("Rarity", self.Rarity) end
-function ITEM:GetRarityData() return Item.Rarities[self:GetRarity()] or Item.Rarities[RARITY_COMMON] end
+function ITEM:GetRarityData() return Item.Rarities[self:GetRarity()] end
 
 function ITEM:GetWeight()
 	local weight = self:GetData("Weight", self.Weight)
@@ -47,4 +47,15 @@ end
 
 function ITEM:GetArmor()
 	return self:IsEquipped() and self.Armor or 0
+end
+
+function ITEM:GetCategory() return self:GetData("Category", self.Category) end
+function ITEM:GetTags()
+	local tags = {self:GetRarityData().Name, self:GetCategory()}
+
+	for _, tag in ipairs(self:GetData("Tags", self.Tags)) do
+		table.insert(tags, tag)
+	end
+
+	return tags
 end

@@ -36,10 +36,19 @@ function Register(name, item)
 
 	baseclass.Set(item.ThisClass, item)
 
-	List[name] = baseclass.Get(item.ThisClass)
+	local registered = baseclass.Get(item.ThisClass)
+
+	-- baseclass.Set being stupid
+	for k, v in pairs(registered) do
+		if istable(v) then
+			registered[k] = item[k]
+		end
+	end
+
+	List[name] = registered
 
 	if not internal then
-		Spawnable[name] = baseclass.Get(item.ThisClass)
+		Spawnable[name] = registered
 	end
 end
 
