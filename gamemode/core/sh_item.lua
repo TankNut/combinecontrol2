@@ -101,6 +101,12 @@ function Load()
 	RegisterFolder(engine.ActiveGamemode() .. "/gamemode/content/items/")
 end
 
+function OnReloaded()
+	for _, item in pairs(All) do
+		item:OnReloaded()
+	end
+end
+
 function Instance(class, id, data)
 	assert(not All[id], "Attempt to instance an already loaded item ID: " .. id)
 	class = assert(List[class], "Attempt to instance unknown item type: " .. class)

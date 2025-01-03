@@ -14,6 +14,12 @@ function ITEM:OnRemove()
 	end
 end
 
+function ITEM:OnReloaded()
+	if CLIENT then
+		self.Tooltip = nil
+	end
+end
+
 if SERVER then
 	function ITEM:OnDelete()
 	end

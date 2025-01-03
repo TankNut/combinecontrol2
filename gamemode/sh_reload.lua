@@ -13,6 +13,8 @@ function GM:OnReloaded()
 
 	self.BaseClass:OnReloaded()
 
+	Item.OnReloaded()
+
 	if CLIENT then
 
 		derma.RefreshSkins()
