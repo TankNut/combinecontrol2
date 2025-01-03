@@ -54,24 +54,27 @@ function ITEM:OpenActionMenu()
 	dmenu:Open()
 end
 
+local defaultColor = Color(192, 192, 192)
 local template = [[
-<font=CombineControl.LabelBig><colour=ltgrey>%s</colour></font>
-<font=CombineControl.LabelSmall><colour=white>%s</colour></font>
-]]
+<font=CombineControl.LabelBig><col=%s>%s</col></font>
+<font=CombineControl.LabelSmall>%s</font>]]
+
+function ITEM:GetTooltip()
+	return string.format(template, self:GetRarityData().Color or defaultColor, self:GetName(), self:GetDescription())
+end
 
 function ITEM:DrawTooltip()
-	if not self.Tooltip or self.ReloadTooltip then
-		self.Tooltip = markup.Parse(string.format(template, self:GetName(), self:GetDescription()), 256)
-		self.ReloadTooltip = false
+	if not self.Tooltip then
+		self.Tooltip = scribe.Parse(self:GetTooltip(), 256)
 	end
 
 	local x, y = gui.MouseX() + 15 , gui.MouseY() + 5
-	local w, h = self.Tooltip:Size()
+	local w, h = self.Tooltip:GetSize()
 
-	surface.SetDrawColor(0, 0, 0, 240)
+	surface.SetDrawColor(30, 30, 30, 230)
 	surface.DrawRect(x - 5, y - 5, w + 10, h + 10)
 
-	surface.SetDrawColor(0, 0, 0, 255)
+	surface.SetDrawColor(20, 20, 20, 230)
 	surface.DrawOutlinedRect(x - 5, y - 5, w + 10, h + 10)
 
 	self.Tooltip:Draw(x, y)

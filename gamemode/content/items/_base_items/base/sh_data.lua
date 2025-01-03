@@ -17,7 +17,7 @@ function ITEM:SetData(key, val)
 	end
 
 	if CLIENT then
-		self.ReloadTooltip = true
+		self.Tooltip = nil
 	else
 		async.Start(self.SaveData, self)
 
