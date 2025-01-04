@@ -1193,14 +1193,6 @@ concommand.AddAdmin("rpa_infiniteammo", function(ply, targ, bool)
 	targ:SetInfiniteAmmo(bool)
 end, false, {TYPE_ENTITY, TYPE_BOOL})
 
-concommand.AddAdmin("rpa_heal", function(ply, targ)
-	targ:SetHealth(targ:GetMaxHealth())
-
-	if SERVER then
-		
-	end
-end, false, {TYPE_ENTITY})
-
 concommand.AddAdmin("rpa_setspawnoverride", function(ply)
 	if GAMEMODE.EntryPortSpawns[1] and not GAMEMODE.SpawnBackup then
 		GAMEMODE.SpawnBackup = GAMEMODE.EntryPortSpawns[1]
