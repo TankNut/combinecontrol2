@@ -59,3 +59,9 @@ function ITEM:GetTags()
 
 	return tags
 end
+
+if CLIENT then
+	function ITEM:GetIconCamera()
+		return Angle(self:GetData("IconAngle", self.IconAngle)), self:GetData("IconFOV", self.IconFOV)
+	end
+end

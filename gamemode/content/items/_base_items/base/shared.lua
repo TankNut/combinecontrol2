@@ -14,6 +14,9 @@ ITEM.EquipmentSlots = {}
 
 ITEM.Armor = 0
 
+ITEM.IconAngle = Angle()
+ITEM.IconFOV = 14
+
 GM:Include("cl_networking.lua")
 GM:Include("cl_ui.lua")
 

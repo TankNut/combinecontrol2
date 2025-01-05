@@ -2,6 +2,7 @@ local PANEL = {}
 DEFINE_BASECLASS("DModelPanel")
 
 AccessorFunc(PANEL, "Item", "Item")
+AccessorFunc(PANEL, "OrbitDistance", "OrbitDistance")
 
 function PANEL:Init()
 	self:SetSize(48, 48)
@@ -16,11 +17,12 @@ function PANEL:SetItem(item)
 
 	item:SetItemAppearance(ent)
 
-	local tab = PositionSpawnIcon(ent, ent:GetPos())
+	self:SetOrbitDistance(ent:GetModelRadius() + 75)
 
-	self:SetFOV(tab.fov)
-	self:SetCamPos(tab.origin)
-	self:SetLookAng(tab.angles)
+	local angle, fov = item:GetIconCamera()
+
+	self:SetLookAng(angle)
+	self:SetFOV(fov)
 end
 
 function PANEL:OnRemove()
@@ -35,6 +37,11 @@ end
 
 function PANEL:LayoutEntity(ent)
 	self.colColor = ent:GetColor()
+
+	local mins, maxs = ent:GetModelBounds()
+
+	self.OrbitPoint = (mins + maxs) / 2
+	self.vCamPos = self.OrbitPoint - self.aLookAngle:Forward() * self.OrbitDistance
 end
 
 function PANEL:OnCursorEntered()
