@@ -71,6 +71,8 @@ function ITEM:DrawTooltip()
 	local x, y = gui.MouseX() + 15 , gui.MouseY() + 5
 	local w, h = self.Tooltip:GetSize()
 
+	w = math.max(w, 256)
+
 	surface.SetDrawColor(30, 30, 30, 230)
 	surface.DrawRect(x - 5, y - 5, w + 10, h + 10)
 
