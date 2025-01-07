@@ -4,6 +4,8 @@ function ITEM:OnRemove()
 	if SERVER then
 		self.Contents:Remove()
 	end
+
+	BaseClass.OnRemove(self)
 end
 
 if SERVER then
