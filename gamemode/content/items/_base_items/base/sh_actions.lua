@@ -81,6 +81,24 @@ if CLIENT then
 	end
 end
 
+function ITEM:CanRunAction(ply, name)
+	local action = self:GetActions()[name]
+
+	if not action then
+		return false
+	end
+
+	if action.CanRun then
+		local ok = action.CanRun(self, ply)
+
+		if not ok then
+			return false
+		end
+	end
+
+	return true
+end
+
 function ITEM:RunAction(ply, name, ...)
 	local feedback = function(err, ...)
 		if not err then
