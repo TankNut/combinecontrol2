@@ -19,8 +19,8 @@ function ITEM:RemovePanels()
 	table.Empty(self.Panels)
 end
 
-function ITEM:OpenActionMenu()
-	local actions = self:GetAvailableActions()
+function ITEM:OpenActionMenu(context)
+	local actions = self:GetAvailableActions(context)
 
 	if #actions < 1 then
 		return

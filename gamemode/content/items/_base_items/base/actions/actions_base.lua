@@ -13,6 +13,10 @@ ITEM.Actions.Examine = {
 	ClientOnly = true,
 	Priority = 100,
 
+	Hidden = {
+		Examine = true
+	},
+
 	Client = function(self, ply)
 		GUI.Open("ItemPopup", self)
 	end
@@ -20,6 +24,10 @@ ITEM.Actions.Examine = {
 
 ITEM.Actions.Drop = {
 	Priority = 1,
+
+	Hidden = {
+		Examine = true
+	},
 
 	CanRun = function(self, ply)
 		return hook.Run("CanDropItem", ply, self)
@@ -30,6 +38,10 @@ ITEM.Actions.Drop = {
 }
 
 ITEM.Actions.Destroy = {
+	Hidden = {
+		Examine = true
+	},
+
 	CanRun = function(self, ply)
 		return hook.Run("CanDestroyItem", ply, self)
 	end,

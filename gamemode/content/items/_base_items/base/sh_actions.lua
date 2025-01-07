@@ -20,9 +20,7 @@ function ITEM:GetActions()
 
 					v.ID = k
 
-					if not v.Name then
-						v.Name = k
-					end
+					if not v.Name then v.Name = k end
 				end
 			end
 		end
@@ -41,7 +39,7 @@ end
 
 if CLIENT then
 	-- Used for generating different listings based on what kind of UI is used, doesn't actually restrict anything
-	function ITEM:GetAvailableActions()
+	function ITEM:GetAvailableActions(context)
 		local actions = {}
 
 		for name, action in pairs(self:GetActions()) do
@@ -49,8 +47,16 @@ if CLIENT then
 				continue
 			end
 
-			if action.Hidden then
-				continue
+			local hidden = action.Hidden
+
+			if hidden then
+				if hidden == true then
+					continue
+				end
+
+				if istable(hidden) and hidden[context] then
+					continue
+				end
 			end
 
 			if action.CanRun and not action.CanRun(self, lp) then

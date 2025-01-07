@@ -40,7 +40,6 @@ ITEM.Actions.EquipSlot = {
 }
 
 ITEM.Actions.Unequip = {
-	Categories = {Rightclick = true, InventoryButton = true},
 	Priority = 10,
 
 	CanRun = function(self, ply)
