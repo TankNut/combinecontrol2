@@ -19,12 +19,12 @@ SKIN.Colors.FillDark = Color(30, 30, 30)
 
 SKIN.Text = {}
 
-SKIN.Text.Normal = Color(200, 200, 200)
-SKIN.Text.Hover = Color(255, 255, 255)
-SKIN.Text.Primary = SKIN.Colors.Primary
-SKIN.Text.Disabled = Color(150, 150, 150)
-SKIN.Text.Highlight = Color(40, 40, 40)
-SKIN.Text.Bad = Color(200, 0, 0)
+SKIN.Text.Normal = Color(200, 200, 200):Register("cc_normal")
+SKIN.Text.Hover = Color(255, 255, 255):Register("cc_hover")
+SKIN.Text.Primary = SKIN.Colors.Primary:Register("cc_primary")
+SKIN.Text.Disabled = Color(150, 150, 150):Register("cc_disabled")
+SKIN.Text.Highlight = Color(40, 40, 40):Register("cc_highlight")
+SKIN.Text.Bad = Color(200, 0, 0):Register("cc_bad")
 
 -- Overrides for hardcoded values
 
