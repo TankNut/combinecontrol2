@@ -52,3 +52,15 @@ end)
 hook.Add("Move", "buff", function(ply, mv)
 	HookPlayer(ply, "Move", mv)
 end)
+
+if SERVER then
+	hook.Add("PlayerDeath", "buff", function(ply)
+		HookPlayer(ply, "OnDeath")
+
+		for name, buff in pairs(ply:GetBuffs()) do
+			if buff.RemoveOnDeath then
+				ply:RemoveBuff(name, true)
+			end
+		end
+	end)
+end
