@@ -292,7 +292,11 @@ function GM:GetFallDamage(ply, speed)
 		return 0
 	end
 
-	return (speed - 526.5) * (100 / 200)
+	local damage = (speed - 526.5) * (100 / 200)
+
+	hook.Run("OnTakeFallDamage", ply, damage)
+
+	return damage
 end
 
 function GM:CanPlayerSuicide(ply)
