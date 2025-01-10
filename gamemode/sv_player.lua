@@ -281,18 +281,20 @@ end
 function GM:ScaleNPCDamage(ply, hitgroup, dmginfo)
 end
 
+function GM:BlockFallDamage(ply)
+	return ply:RunCharFlag("NoFallDamage")
+end
+
 function GM:GetFallDamage(ply, speed)
-	if ply:RunCharFlag("NoFallDamage") then
-		return 0
-	end
-
-	local exo = ply:GetEquipment(EQUIPMENT_EXO)
-
-	if exo and exo.NoFallDamage then
+	if hook.Run("BlockFallDamage", ply) then
 		return 0
 	end
 
 	local damage = (speed - 526.5) * (100 / 200)
+
+	if damage <= 0 then
+		return 0
+	end
 
 	hook.Run("OnTakeFallDamage", ply, damage)
 
