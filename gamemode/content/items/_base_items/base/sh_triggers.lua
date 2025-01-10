@@ -5,8 +5,10 @@ function ITEM:OnLoaded()
 end
 
 function ITEM:OnRemove()
-	if self:IsEquipped() then
-		Inventory.Equipment[self:GetPlayer()][self:GetEquipmentSlot()] = nil
+	local ply = self:GetPlayer()
+
+	if self:IsEquipped() and IsValid(ply) then
+		Inventory.Equipment[ply][self:GetEquipmentSlot()] = nil
 	end
 
 	if CLIENT then

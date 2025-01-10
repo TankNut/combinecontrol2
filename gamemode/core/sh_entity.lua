@@ -33,9 +33,9 @@ function GM:EntityRemoved(ent, fullUpdate)
 	end
 
 	if ent:IsPlayer() and not fullUpdate then
-		PlayerVar.Clear(ent)
-		CharacterVar.Clear(ent)
 		Inventory.Clear(ent, true)
+		CharacterVar.Clear(ent)
+		PlayerVar.Clear(ent)
 	end
 end
 
