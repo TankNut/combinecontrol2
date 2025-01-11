@@ -54,6 +54,7 @@ end
 function GM:LoadContent()
 	CharacterFlag.Load()
 	Item.Load()
+	Language.Load()
 end
 
 -- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
@@ -74,6 +75,7 @@ GM:Include("sh_global.lua")
 GM:Include("sh_hull.lua")
 GM:Include("sh_inventory.lua")
 GM:Include("sh_item.lua")
+GM:Include("sh_language.lua")
 GM:Include("sh_player.lua")
 GM:Include("sh_sandbox.lua")
 GM:Include("sv_character.lua")

@@ -41,6 +41,7 @@ function GM:PostLoadCharacter(ply)
 
 	if SERVER then
 		ply:Spawn()
+		ply:CheckLanguage()
 	end
 end
 
