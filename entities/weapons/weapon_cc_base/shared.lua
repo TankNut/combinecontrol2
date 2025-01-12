@@ -307,38 +307,6 @@ end
 
 function SWEP:Deploy()
 
-	if self.Donator then
-
-		if type(self.Donator) == "table" then
-
-			if not table.HasValue(self.Donator, self.Owner:SteamID()) and not self.Owner:IsDeveloper() then
-
-				self:Remove()
-
-				if CLIENT then
-					GAMEMODE:AddChat("The donator has chosen to restrict this weapon, and you have not been authorized to use it!", Color(200, 0, 0, 255))
-				end
-
-				return false
-			end
-
-		elseif type(self.Donator) == "string" then
-
-			if not (string.Trim(self.Donator) == self.Owner:SteamID()) and not self.Owner:IsDeveloper() then
-
-				self:Remove()
-
-				if CLIENT then
-					GAMEMODE:AddChat("The donator has chosen to restrict this weapon, and you have not been authorized to use it!", Color(200, 0, 0, 255))
-				end
-
-				return false
-			end
-
-		end
-
-	end
-
 	self.Owner:GetViewModel():SetBodygroup(self.BodygroupCategory or 1, self.Bodygroup or 0)
 	self.Owner:GetViewModel():SetSkin(self.Skin or 0)
 
