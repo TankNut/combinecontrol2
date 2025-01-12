@@ -125,7 +125,7 @@ if SERVER then
 
 		if self:IsBeingSearched() then
 			if self.SearchPlayer != ply then
-				ply:SendChat(nil, "ERROR", "Someone else is already searching through here!")
+				ply:SendChat("ERROR", "Someone else is already searching through here!")
 			end
 
 			return
@@ -137,7 +137,7 @@ if SERVER then
 
 		self:EmitSound("items/ammocrate_open.wav")
 
-		ply:SendChat(nil, "WARNING", "Searching...")
+		ply:SendChat("WARNING", "Searching...")
 	end
 
 	function ENT:Think()
@@ -159,7 +159,7 @@ if SERVER then
 			self:EmitSound("items/ammocrate_close.wav")
 
 			if IsValid(self.SearchPlayer) then
-				self.SearchPlayer:SendChat(nil, "ERROR", "Something interrupted your search!")
+				self.SearchPlayer:SendChat("ERROR", "Something interrupted your search!")
 			end
 		end
 
@@ -208,7 +208,7 @@ if SERVER then
 
 		if ply.LootCharges < 1 then
 			stats.RateLimit = stats.RateLimit + 1
-			ply:SendChat(nil, "WARNING", table.Random(self.RateLimitPhrases), nil)
+			ply:SendChat("WARNING", table.Random(self.RateLimitPhrases), nil)
 
 			return
 		end
@@ -224,7 +224,7 @@ if SERVER then
 				phrases = self.RarePhrases
 			end
 
-			ply:SendChat(nil, "WARNING", table.Random(phrases), nil)
+			ply:SendChat("WARNING", table.Random(phrases), nil)
 
 			GAMEMODE.LootStats.Players[ply:SteamID()] = stats
 
@@ -240,7 +240,7 @@ if SERVER then
 			amt = override
 		end
 
-		ply:SendChat(nil, "WARNING", string.format("You found an item! (%s%s)",
+		ply:SendChat("WARNING", string.format("You found an item! (%s%s)",
 			GAMEMODE:GetDefaultItemKey(self.StoredItem, "Name"),
 			amt > 1 and " x" .. amt or ""
 		))

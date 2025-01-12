@@ -70,7 +70,7 @@ if SERVER then
 		local wep = ply:GetActiveWeapon()
 
 		if not IsValid(wep) or (not wep.Tekka and not wep.TRP) then
-			ply:SendChat(nil, "ERROR", "You can't find anything useful in here.")
+			ply:SendChat("ERROR", "You can't find anything useful in here.")
 
 			return
 		end
@@ -90,7 +90,7 @@ if SERVER then
 		end
 
 		if not ammo or not self.Whitelist[ammo] then
-			ply:SendChat(nil, "ERROR", "You can't find anything useful in here.")
+			ply:SendChat("ERROR", "You can't find anything useful in here.")
 
 			return
 		end
@@ -114,7 +114,7 @@ if SERVER then
 		end
 
 		if amt < 1 then
-			ply:SendChat(nil, "ERROR", "You can't find anything useful in here.")
+			ply:SendChat("ERROR", "You can't find anything useful in here.")
 
 			return
 		end
@@ -128,7 +128,7 @@ if SERVER then
 			end)
 		end
 
-		ply:SendChat(nil, "INFO", "You refill your ammo.")
+		ply:SendChat("INFO", "You refill your ammo.")
 
 		self:EmitSound("BaseCombatCharacter.AmmoPickup")
 	end

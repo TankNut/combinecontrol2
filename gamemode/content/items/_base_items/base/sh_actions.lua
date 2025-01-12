@@ -105,13 +105,7 @@ function ITEM:RunAction(ply, name, ...)
 			return
 		end
 
-		err = string.format(err, ...)
-
-		if CLIENT then
-			SendLocalChat("ERROR", err)
-		else
-			ply:SendChat(nil, "ERROR", err)
-		end
+		ply:SendChat("ERROR", string.format(err, ...))
 	end
 
 	local action = self:GetActions()[name]
@@ -150,14 +144,14 @@ if CLIENT then
 			local ok, err = action.Client(self, ply, ...)
 
 			if not ok and err then
-				SendLocalChat("ERROR", err)
+				lp:SendChat("ERROR", err)
 			end
 		else
 			if action.Client then
 				local args = {action.Client(self, ply, ...)}
 
 				if not table.remove(args, 1) and args[1] then
-					SendLocalChat("ERROR", args[1])
+					lp:SendChat("ERROR", args[1])
 
 					return
 				end
@@ -175,7 +169,7 @@ else
 		local ok, err = action.Callback(self, ply, ...)
 
 		if not ok and err then
-			ply:SendChat(nil, "ERROR", err)
+			ply:SendChat("ERROR", err)
 		end
 	end
 
@@ -193,7 +187,7 @@ else
 		local action = item:GetActions()[name]
 
 		if action and action.ServerOnly then
-			ply:SendChat(nil, "ERROR", "You cannot run this command from your client!")
+			ply:SendChat("ERROR", "You cannot run this command from your client!")
 
 			return
 		end

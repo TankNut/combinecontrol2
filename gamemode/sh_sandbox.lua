@@ -103,7 +103,7 @@ net.Receive("nPropDescTooLong", function (len)
 	if SERVER then return end
 
 	local maxChars = net.ReadFloat()
-	GAMEMODE:AddChat("Prop descriptions are limited to " .. maxChars, Color(200, 0, 0, 255))
+	lp:SendChat("ERROR", "Prop descriptions are limited to " .. maxChars)
 end)
 
 net.Receive("nRequestPropData", function(len, ply)

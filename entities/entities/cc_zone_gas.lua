@@ -35,11 +35,11 @@ function ENT:Enter(ply, transition)
 		local immunity = ply:IsGasImmune()
 
 		if immunity == true then
-			ply:SendChat(nil, "WARNING", "There's some kind of gas lingering in the air.")
+			ply:SendChat("WARNING", "There's some kind of gas lingering in the air.")
 		elseif isnumber(immunity) then
-			ply:SendChat(nil, "WARNING", "There's some kind of gas lingering in the air. You shouldn't stick around for long.")
+			ply:SendChat("WARNING", "There's some kind of gas lingering in the air. You shouldn't stick around for long.")
 		else
-			ply:SendChat(nil, "WARNING", "There's something in the air that's making your eyes water and your lungs burn!")
+			ply:SendChat("WARNING", "There's something in the air that's making your eyes water and your lungs burn!")
 		end
 	end
 end
@@ -72,9 +72,9 @@ function ENT:Exit(ply, transition)
 
 	if SERVER and not transition then
 		if ply:IsGasImmune() == true then
-			ply:SendChat(nil, "WARNING", "The air seems clear here.")
+			ply:SendChat("WARNING", "The air seems clear here.")
 		else
-			ply:SendChat(nil, "WARNING", "Relief washes over you as you take a deep breath of fresh air. You should be fine now.")
+			ply:SendChat("WARNING", "Relief washes over you as you take a deep breath of fresh air. You should be fine now.")
 		end
 	end
 end

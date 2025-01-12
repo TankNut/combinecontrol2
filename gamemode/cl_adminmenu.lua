@@ -1128,19 +1128,19 @@ function GM:AMCreateBanEntry()
 
 				else
 
-					GAMEMODE:AddChat("Error: Negative duration specified.", Color(200, 0, 0, 255))
+					lp:SendChat("ERROR", "Error: Negative duration specified.")
 
 				end
 
 			else
 
-				GAMEMODE:AddChat("Error: Invalid duration specified.", Color(200, 0, 0, 255))
+				lp:SendChat("ERROR", "Error: Invalid duration specified.")
 
 			end
 
 		else
 
-			GAMEMODE:AddChat("Error: Invalid SteamID specified.", Color(200, 0, 0, 255))
+			lp:SendChat("ERROR", "Error: Invalid SteamID specified.")
 
 		end
 

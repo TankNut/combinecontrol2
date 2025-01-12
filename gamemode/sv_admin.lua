@@ -23,19 +23,19 @@ function concommand.AddAdminVariable(cmd, var, default, friendlyvar, sa)
 	local function c(ply, _, args)
 
 		if not ply:IsAdmin() then
-			ply:SendChat(nil, "ERROR", "You need to be an admin to do this")
+			ply:SendChat("ERROR", "You need to be an admin to do this")
 
 			return
 		end
 
 		if sa and not ply:IsSuperAdmin() then
-			ply:SendChat(nil, "ERROR", "You need to be a superadmin to do this")
+			ply:SendChat("ERROR", "You need to be a superadmin to do this")
 
 			return
 		end
 
 		if not args[1] then
-			ply:SendChat(nil, "ERROR", "Error: No value specified.")
+			ply:SendChat("ERROR", "Error: No value specified.")
 
 			return
 		end

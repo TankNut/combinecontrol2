@@ -45,7 +45,7 @@ net.Receive("nBuyItem", function(len, ply)
 	-- 	GAMEMODE:WriteLog("item_business_buy", {Char = GAMEMODE:LogCharacter(ply), Item = GAMEMODE:LogItem(ent), Amount = amt, Price = cost})
 	-- end)
 
-	-- ply:SendChat(nil, "INFO", string.format("Purchased %s (x%s) for %s.", item.Name, amt, util.FormatCurrency(cost)))
+	-- ply:SendChat("INFO", string.format("Purchased %s (x%s) for %s.", item.Name, amt, util.FormatCurrency(cost)))
 end)
 
 net.Receive("nSellItem", function(len, ply)
@@ -68,6 +68,6 @@ net.Receive("nSellItem", function(len, ply)
 	-- ply:SetMoney(ply:Money() + price)
 	-- ply:UpdateCharacterField("Money", tostring(ply:Money()))
 
-	-- ply:SendChat(nil, "INFO", string.format("Sold %s (x%s) for %s.", item.Name, amt, util.FormatCurrency(price)))
+	-- ply:SendChat("INFO", string.format("Sold %s (x%s) for %s.", item.Name, amt, util.FormatCurrency(price)))
 	-- GAMEMODE:WriteLog("item_business_sell", {Char = GAMEMODE:LogCharacter(ply), Item = GAMEMODE:LogItem(item), Amount = amt, Price = price})
 end)

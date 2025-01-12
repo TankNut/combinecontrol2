@@ -63,7 +63,7 @@ net.Receive("nADestroyItem", function(len, ply)
 		return
 	end
 
-	item.Player:SendChat(nil, "WARNING", ply:Nick() .. " removed your item \"" .. item:GetName() .. "\".")
+	item.Player:SendChat("WARNING", ply:Nick() .. " removed your item \"" .. item:GetName() .. "\".")
 
 	GAMEMODE:WriteLog("item_destroy_admin", {Admin = GAMEMODE:LogPlayer(ply), Char = GAMEMODE:LogCharacter(item.Player), Ply = GAMEMODE:LogPlayer(item.Player), Item = GAMEMODE:LogItem(item)})
 	GAMEMODE:DeleteItem(item)
@@ -79,7 +79,7 @@ net.Receive("nATakeItem", function(len, ply)
 
 	local owner = item.Player
 
-	owner:SendChat(nil, "WARNING", ply:Nick() .. " took your item \"" .. item:GetName() .. "\".")
+	owner:SendChat("WARNING", ply:Nick() .. " took your item \"" .. item:GetName() .. "\".")
 
 	item:SetItemLocation(ITEM_PLAYER, ply:CharID())
 
@@ -244,7 +244,7 @@ end
 function GM:CreateItem(ply, classname, arguments, temp)
 	if temp then
 		if class.IsChildOf(classname, "base_stacking") then
-			ply:SendChat(nil, "ERROR", "Error: Stacking items cannot be temp items.")
+			ply:SendChat("ERROR", "Error: Stacking items cannot be temp items.")
 
 			return
 		end

@@ -182,13 +182,13 @@ if CLIENT then
 				local item = self:GetParent().Item
 
 				if not LocalPlayer():CanTakeItem(item) then
-					GAMEMODE:AddChat("That's too heavy for you to carry.", Color(200, 0, 0, 255))
+					lp:SendChat("ERROR", "That's too heavy for you to carry.")
 
 					return
 				end
 
 				if LocalPlayer():HasItem(item) then
-					GAMEMODE:AddChat("You already have one of those.", Color(200, 0, 0, 255))
+					lp:SendChat("ERROR", "You already have one of those.")
 
 					return
 				end
@@ -222,7 +222,7 @@ if CLIENT then
 	net.Receive("nLoadoutCrate", nLoadoutCrate)
 
 	function nLoadoutCrateNotAllowed(len)
-		GAMEMODE:AddChat("You can't seem to find anything useful in this crate.", Color(200, 0, 0, 255))
+		lp:SendChat("ERROR", "You can't seem to find anything useful in this crate.")
 	end
 	net.Receive("nLoadoutCrateNotAllowed", nLoadoutCrateNotAllowed)
 else

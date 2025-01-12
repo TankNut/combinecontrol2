@@ -17,7 +17,7 @@ ENT.Radius 				= 32
 
 function ENT:SpawnFunction(ply, tr, classname)
 	if tr.HitNormal:Dot(Vector(0, 0, 1)) <= 0 then
-		ply:SendChat(nil, "ERROR", "Error: Mines cannot be placed on walls!")
+		ply:SendChat("ERROR", "Error: Mines cannot be placed on walls!")
 
 		return
 	end

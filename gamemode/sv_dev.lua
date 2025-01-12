@@ -159,7 +159,7 @@ function ccCSay(ply, cmd, args, text)
 
 	text = string.Trim(text)
 
-	GAMEMODE:SendChat(nil, player.GetAll(), "WARNING", text)
+	Chat.Send(player.GetAll(), "WARNING", text)
 end
 concommand.Add("csay", ccCSay)
 
@@ -182,6 +182,6 @@ function ccASay(ply, cmd, args, text)
 
 	end
 
-	GAMEMODE:SendChat(nil, rf, "ADMIN", text)
+	Chat.Send(rf, "ADMIN", text)
 end
 concommand.Add("asay", ccASay)

@@ -16,15 +16,15 @@ function console.Feedback(ply, messageType, str, ...)
 	end
 
 	if CLIENT then
-		SendLocalChat(messageType, console.FormatMessage(str, ...))
+		lp:SendChat(messageType, console.FormatMessage(str, ...))
 	elseif istable(ply) then
 		local formattedMessage = console.FormatMessage(str, ...)
 
 		for _, v in ipairs(ply) do
-			v:SendChat(nil, messageType, formattedMessage)
+			v:SendChat(messageType, formattedMessage)
 		end
 	else
-		ply:SendChat(nil, messageType, console.FormatMessage(str, ...))
+		ply:SendChat(messageType, console.FormatMessage(str, ...))
 	end
 end
 

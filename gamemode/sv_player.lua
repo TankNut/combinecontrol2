@@ -640,7 +640,7 @@ local function RollDice(ply, cmd, args)
 	end
 
 	local rf = ply:GetRF(450, 450)
-	GAMEMODE:SendChat(nil, rf, "WARNING", output)
+	Chat.Send(rf, "WARNING", output)
 end
 concommand.Add("rp_roll", RollDice)
 

@@ -32,7 +32,7 @@ net.Receive("nCReceiveCredits", function(len)
 	local amt = net.ReadFloat()
 	local ply = net.ReadEntity()
 
-	GAMEMODE:AddChat(ply:VisibleRPName() .. " gave you " .. util.FormatCurrency(amt) .. ".", Color(200, 200, 200, 255))
+	lp:SendChat("GENERIC", ply:VisibleRPName() .. " gave you " .. util.FormatCurrency(amt) .. ".")
 end)
 
 net.Receive("nCPattedDown", function(len)
@@ -241,7 +241,7 @@ function GM:GetCCOptions(ent, dist)
 							net.WriteEntity(ent)
 						net.SendToServer()
 					else
-						self:AddChat("You need more money to do that!", Color(200, 0, 0, 255))
+						lp:SendChat("ERROR", "You need more money to do that!")
 					end
 				end, nil, 100}
 
@@ -252,7 +252,7 @@ function GM:GetCCOptions(ent, dist)
 						net.WriteEntity(ent)
 					net.SendToServer()
 
-					self:AddChat("You sold the door for 80% of its original value (" .. util.FormatCurrency(ent:DoorPrice() * 0.8) .. ").", Color(229, 201, 98, 255))
+					lp:SendChat("NOTICE", "You sold the door for 80% of its original value (" .. util.FormatCurrency(ent:DoorPrice() * 0.8) .. ").")
 				end, nil, 100}
 
 				table.insert(tab, option)
@@ -355,10 +355,10 @@ function GM:GetCCOptions(ent, dist)
 		elseif ent:GetClass() == "cc_item" then
 			if ent.Item and #ent.Item.Description > 0 then
 				local option = {"Examine", function()
-					self:AddChat(ent.Item.Description, Color(200, 200, 200, 255))
+					lp:SendChat("GENERIC", ent.Item.Description)
 
 					if #ent.Item:GetProperty("UserDescription") > 0 then
-						self:AddChat(ent.Item:GetProperty("UserDescription"), Color(200, 200, 200, 255))
+						lp:SendChat("GENERIC", ent.Item:GetProperty("UserDescription"))
 					end
 				end, nil, 100}
 
@@ -366,7 +366,7 @@ function GM:GetCCOptions(ent, dist)
 			end
 		elseif ent:GetClass() == "cc_vendingmachine" then
 			local option = {"Examine", function()
-				self:AddChat("Only Breen Water is in stock. The machine says they costs " .. util.FormatCurrency(7) .. " each.", Color(200, 200, 200, 255))
+				lp:SendChat("GENERIC", "Only Breen Water is in stock. The machine says they costs " .. util.FormatCurrency(7) .. " each.")
 			end, nil, 100}
 
 			table.insert(tab, option)
@@ -545,7 +545,7 @@ function GM:CCCreateDoorNameEdit()
 
 		else
 
-			GAMEMODE:AddChat("Error: Name must be between 1 and 50 characters.", Color(200, 0, 0, 255))
+			lp:SendChat("ERROR", "Error: Name must be between 1 and 50 characters.")
 
 		end
 
@@ -713,7 +713,7 @@ function GM:CCCreateGiveCredits()
 
 		if LocalPlayer():GetPos():Distance(CCSelectedEnt:GetPos()) > 100 then
 
-			GAMEMODE:AddChat("They're too far away.", Color(200, 200, 200, 255))
+			lp:SendChat("GENERIC", "They're too far away.")
 			return
 
 		end
@@ -729,11 +729,11 @@ function GM:CCCreateGiveCredits()
 				net.WriteEntity(CCSelectedEnt)
 			net.SendToServer()
 
-			GAMEMODE:AddChat("You gave " .. CCSelectedEnt:VisibleRPName() .. " " .. util.FormatCurrency(val) .. ".", Color(200, 200, 200, 255))
+			lp:SendChat("GENERIC", "You gave " .. CCSelectedEnt:VisibleRPName() .. " " .. util.FormatCurrency(val) .. ".")
 
 		else
 
-			GAMEMODE:AddChat("You don't have this much money!", Color(200, 0, 0, 255))
+			lp:SendChat("ERROR", "You don't have this much money!")
 
 		end
 

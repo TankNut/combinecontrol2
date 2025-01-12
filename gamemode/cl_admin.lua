@@ -9,21 +9,19 @@ net.Receive("nARemove", function(len)
 	local nick = net.ReadString()
 	local ply = net.ReadEntity()
 
-	GAMEMODE:AddChat(ply:Nick() .. " removed " .. nick .. ".", Color(229, 201, 98, 255))
+	lp:SendChat("NOTICE", ply:Nick() .. " removed " .. nick .. ".")
 end)
 
 net.Receive("nAQuizBan", function(len)
 	local nick = net.ReadString()
 	local mode = net.ReadFloat()
 
+	
+
 	if mode == 1 then
-
-		GAMEMODE:AddChat(nick .. " was auto-banned for " .. GAMEMODE.QuizBanTime .. " minutes for failing the quiz.", Color(229, 201, 98, 255))
-
+		lp:SendChat("NOTICE", nick .. " was auto-banned for " .. GAMEMODE.QuizBanTime .. " minutes for failing the quiz.")
 	else
-
-		GAMEMODE:AddChat(nick .. " was auto-banned for " .. GAMEMODE.QuizBanTime * 2 .. " minutes for failing the quiz.", Color(229, 201, 98, 255))
-
+		lp:SendChat("NOTICE", nick .. " was auto-banned for " .. GAMEMODE.QuizBanTime * 2 .. " minutes for failing the quiz.")
 	end
 end)
 
@@ -76,7 +74,7 @@ net.Receive("nAPlayOverwatch", function(len)
 end)
 
 net.Receive("nATooTight", function(len)
-	GAMEMODE:AddChat("Error: You're in too tight a space to do this.", Color(200, 0, 0, 255))
+	lp:SendChat("ERROR", "Error: You're in too tight a space to do this.")
 end)
 
 net.Receive("nAEditInventory", function(len)

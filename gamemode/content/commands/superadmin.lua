@@ -96,7 +96,7 @@ local explode = console.AddCommand("rpa_explode", function(ply, target)
 	explosion:Fire("Explode")
 
 	GAMEMODE:WriteLog("admin_explode", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target)})
-	GAMEMODE:SendChat(nil, player.GetAll(), "WARNING", ply:Nick() .. " exploded " .. target:Nick())
+	Chat.Send(player.GetAll(), "WARNING", ply:Nick() .. " exploded " .. target:Nick())
 end)
 
 explode:SetDescription("Explodes a player for some reason")

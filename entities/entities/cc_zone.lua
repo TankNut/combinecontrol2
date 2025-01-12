@@ -11,7 +11,7 @@ function ENT:SpawnFunction(ply, tr, classname)
 	local weapon = ply:GetActiveWeapon()
 
 	if not IsValid(weapon) or weapon:GetClass() != "trp_zonemarker" then
-		ply:SendChat(nil, "ERROR", "You have to have your zone marker out to create a zone!")
+		ply:SendChat("ERROR", "You have to have your zone marker out to create a zone!")
 
 		return
 	end
@@ -20,7 +20,7 @@ function ENT:SpawnFunction(ply, tr, classname)
 	local maxs = ply:ZoneMaxs()
 
 	if mins == vector_origin and maxs == vector_origin then
-		ply:SendChat(nil, "ERROR", "You don't have a zone configured!")
+		ply:SendChat("ERROR", "You don't have a zone configured!")
 
 		return
 	end

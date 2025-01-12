@@ -486,7 +486,7 @@ function SWEP:PrimaryFire()
 		self:SetMalfunction(true)
 
 		if SERVER then
-			ply:SendChat(nil, "WARNING", "Your weapon is jammed!")
+			ply:SendChat("WARNING", "Your weapon is jammed!")
 		end
 	end
 
