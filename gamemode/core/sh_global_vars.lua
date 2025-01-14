@@ -18,7 +18,7 @@ function Add(name, data)
 	local hookName = "On" .. name .. "Changed"
 
 	GM[name] = function()
-		return Store[name] or default
+		return Store[name] or util.SafeCopy(default)
 	end
 
 	GM["Set" .. name] = function(_, val, loading)

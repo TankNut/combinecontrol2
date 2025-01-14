@@ -41,7 +41,7 @@ function Add(name, data)
 	meta[name] = function(ply)
 		local val = cache[ply]
 
-		return val == nil and default or val
+		return val == nil and util.SafeCopy(default) or val
 	end
 
 	meta["Set" .. name] = function(ply, val, loading)
