@@ -1,6 +1,9 @@
 local restart = console.AddCommand("rpa_restart", function(ply)
 	GAMEMODE:WriteLog("admin_restart", {Admin = GAMEMODE:LogPlayer(ply)})
-	Chat.Send(player.GetAll(), "ERRORBIG", console.FormatMessage("%s is restarting the server in 5 seconds", ply))
+	Chat.Send("GENERIC", {
+		Text = console.FormatMessage("<giant>%s is restarting the server in 5 seconds", ply),
+		Color = Color(200, 0, 0)
+	})
 
 	timer.Simple(5, function()
 		game.ConsoleCommand("changelevel " .. game.GetMap() .. "\n")
@@ -11,27 +14,38 @@ restart:SetDescription("Restarts the server on the current map")
 restart:SetExecutionContext(console.Server)
 restart:SetAccess(console.IsAdmin)
 
+local function printMaps(maps)
+	MsgC(Color(214, 172, 19), "Valid Maps:\n")
+	for _, map in ipairs(maps) do
+		MsgC(Color(229, 201, 98, 255), "\t", map, "\n")
+	end
+end
+
 if CLIENT then
 	netstream.Hook("MapList", function(data)
-		MsgC(Color(214, 172, 19), "Valid Maps:\n")
-
-		for _, v in pairs(data.Maps) do
-			MsgC(Color(229, 201, 98, 255), "\t", v, "\n")
-		end
+		printMaps(data.Maps)
 	end)
 end
 
 local changeLevel = console.AddCommand("rpa_changelevel", function(ply, map)
-	if not table.HasValue(game.GetMapList(), map) then
-		netstream.Send(ply, "MapList", {
-			Maps = game.GetMapList()
-		})
+	local maps = game.GetMapList()
+	if not table.HasValue(maps, map) then
+		if IsValid(ply) then
+			netstream.Send(ply, "MapList", {
+				Maps = maps
+			})
+		else
+			printMaps(maps)
+		end
 
 		return
 	end
 
 	GAMEMODE:WriteLog("admin_changelevel", {Admin = GAMEMODE:LogPlayer(ply), Map = map})
-	Chat.Send(player.GetAll(), "ERRORBIG", ply:Nick() .. " is changing the map to " .. map .. " in 5 seconds")
+	Chat.Send("GENERIC", {
+		Text = console.FormatMessage("<giant>%s is changing the map to %s in 5 seconds", ply, map),
+		Color = Color(200, 0, 0)
+	})
 
 	file.Write("cc_maps/" .. game.GetPort() .. ".txt", map)
 	timer.Simple(5, function()
@@ -46,7 +60,7 @@ changeLevel:SetAccess(console.IsAdmin)
 changeLevel:AddOptional(console.String())
 
 local aiDisabled = console.AddCommand("rpa_aidisabled", function (ply, bool)
-	Chat.Send(player.GetAdmins(), "NOTICE", console.FormatMessage("%s has %s AI thinking", ply, bool and "disabled" or "enabled"))
+	Chat.Send("NOTICE", console.FormatMessage("%s has %s AI thinking", ply, bool and "disabled" or "enabled"), player.GetAdmins())
 
 	RunConsoleCommand("ai_disabled", bool and 1 or 0)
 end)
@@ -58,14 +72,14 @@ aiDisabled:SetAccess(console.IsAdmin)
 aiDisabled:AddParameter(console.Bool())
 
 local yell = console.AddCommand("rpa_yell", function(ply, message)
-	Chat.Send(player.GetAll(), "ADMINYELL", message)
+	Chat.Send("ADMINYELL", {Name = console.RPName(ply), Text = message})
 end)
 
 yell:SetDescription("Announces a large-text message to all players")
 yell:SetExecutionContext(console.Server)
 yell:SetAccess(console.IsAdmin)
 
-yell:AddOptional(console.String())
+yell:AddParameter(console.String())
 
 local heal = console.AddCommand("rpa_heal", function(ply, targets)
 	for _,target in pairs(targets) do
@@ -128,7 +142,7 @@ local deadmin = console.AddCommand("rpa_deadmin", function(ply)
 	ply:SetUserGroup("user")
 
 	console.Feedback(ply, "NOTICE", "You've deadminned yourself")
-	Chat.Send(player.GetAdmins(), "NOTICE", string.format("%s has deadminned themselves.", ply:Nick()))
+	Chat.Send("NOTICE", string.format("%s has deadminned themselves.", ply:Nick()), player.GetAdmins())
 end)
 
 deadmin:SetDescription("Removes yourself from the admin role")

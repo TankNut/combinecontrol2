@@ -32,6 +32,10 @@ function console.IsAdmin(ply) return ply:IsAdmin() end
 function console.IsSuperAdmin(ply) return ply:IsSuperAdmin() end
 function console.IsDeveloper(ply) return ply:IsDeveloper() end
 
+function console.RPName(ply)
+	return IsValid(ply) and ply:VisibleRPName() or "CONSOLE"
+end
+
 function console.FindPlayer(ply, str, options)
 	if not str or #str < 1 then
 		return false, "No target found"
