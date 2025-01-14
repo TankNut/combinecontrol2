@@ -1,33 +1,5 @@
 local meta = FindMetaTable("Player")
 
-hook.Add("CC.SH.InitEnts", "SV.Items.InitEnts", function()
-	GAMEMODE:DBLoadWorldItems()
-end)
-
-hook.Add("CC.SV.ShutDown", "SV.Items.ShutDown", function()
-	for _, v in pairs(GAMEMODE.Items) do
-		if v.StoreType == ITEM_WORLD then
-			v:SaveLocation()
-		end
-	end
-end)
-
-net.Receive("nDestroyItem", function(len, ply)
-	local id = net.ReadInt(32)
-	local item = GAMEMODE:GetItem(id)
-
-	if not item then
-		return
-	end
-
-	if not item:CanDestroy(ply) then
-		return
-	end
-
-	GAMEMODE:WriteLog("item_destroy", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Item = GAMEMODE:LogItem(item)})
-	GAMEMODE:DeleteItem(item)
-end)
-
 net.Receive("nDropItem", function(len, ply)
 	local id = net.ReadInt(32)
 	local item = GAMEMODE:GetItem(id)

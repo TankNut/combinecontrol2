@@ -950,54 +950,6 @@ concommand.AddAdmin("rpa_adminradio", function(ply, bool)
 	ply:SetAdminRadio(bool)
 end, false, {TYPE_BOOL})
 
-concommand.AddAdmin("rpa_createlootpoint", function(ply, pool)
-	if not GAMEMODE.Loot.Enabled then
-		ply:SendChat("ERROR", "Loot is disabled")
-
-		return
-	end
-
-	local prop = ply:GetEyeTrace().Entity
-
-	if not IsValid(prop) or prop:GetClass() != "prop_physics" then
-		ply:SendChat("ERROR", "You need to be looking at a prop")
-
-		return
-	end
-
-	if not GAMEMODE.Loot.Rates[pool] then
-		ply:SendChat("ERROR", "This loot pool doesn't exist")
-
-		return
-	end
-
-	local ent = ents.Create("cc_loot")
-
-	ent:SetModel(prop:GetModel())
-	ent:SetPos(prop:GetPos())
-	ent:SetAngles(prop:GetAngles())
-
-	ent:Spawn()
-	ent:Activate()
-
-	ent:RegisterWithLootPool(pool)
-
-	prop:Remove()
-
-	GAMEMODE:SaveLootPoints()
-
-	local pos = ent:GetPos()
-
-	GAMEMODE:WriteLog("admin_createlootpoint", {
-		Admin = GAMEMODE:LogPlayer(ply),
-		X = math.Round(pos.x, 2),
-		Y = math.Round(pos.y, 2),
-		Z = math.Round(pos.z, 2),
-		Pool = ent:GetLootPool(),
-		Mdl = ent:GetModel()
-	})
-end, false, {TYPE_STRING})
-
 function GM:PlayerNoClip(ply)
 	if ply:PassedOut() then return false end
 	if ply:Bottify() then return false end
@@ -1119,51 +1071,6 @@ end, false, {TYPE_NUMBER, TYPE_NUMBER})
 concommand.AddAdmin("rpa_radiostatic", function(ply, severity)
 	GAMEMODE.RadioJammed = severity > 0 and severity or nil
 end, false, {TYPE_NUMBER})
-
-concommand.AddAdmin("rpa_createloot", function(ply, pool)
-	if not GAMEMODE.Loot.Pools[pool] then
-		ply:SendChat("NOTICE", "Available loot types:")
-
-		for k in SortedPairs(GAMEMODE.Loot.Pools) do
-			ply:SendChat("NOTICE", string.format("  %s", k))
-		end
-
-		return
-	end
-
-	local loot = GAMEMODE:ResolveLoot(pool)
-
-	if not loot then
-		return
-	end
-
-	local amt = 1
-	local override = GAMEMODE:GetDefaultItemKey(loot, "LootAmount")
-
-	if istable(override) then
-		amt = math.random(override[1], override[2])
-	elseif isnumber(override) then
-		amt = override
-	end
-
-	if class.IsChildOf(loot, "base_stacking") then
-		GAMEMODE:DBCreateItem(loot, ITEM_WORLD, GAMEMODE:GetItemDropLocation(ply), function(item)
-			item:SetAmount(amt)
-
-			GAMEMODE:WriteLog("item_created_admin", {Item = GAMEMODE:LogItem(item), Ply = GAMEMODE:LogPlayer(ply)})
-		end)
-	else
-		for i = 1, amt do
-			GAMEMODE:DBCreateItem(loot, ITEM_WORLD, GAMEMODE:GetItemDropLocation(ply), function(item)
-				if item.UseCondition and item.LootCondition then
-					item:SetCondition(math.EasedFrac(math.random(), item.LootCondition[1], item.LootCondition[2], math.ease.InCubic))
-				end
-
-				GAMEMODE:WriteLog("item_created_admin", {Item = GAMEMODE:LogItem(item), Ply = GAMEMODE:LogPlayer(ply)})
-			end)
-		end
-	end
-end, false, {TYPE_STRING})
 
 concommand.AddAdmin("rpa_givetempadmin", function(ply, targ)
 	local tab = {}

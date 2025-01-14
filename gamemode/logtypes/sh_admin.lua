@@ -117,11 +117,3 @@ end)
 GM:RegisterLogType("admin_playurl", LOG_ADMIN, function(data)
 	return string.format("%s played url %s", GAMEMODE:FormatPlayer(data.Admin), data.URL)
 end)
-
-GM:RegisterLogType("admin_createlootpoint", LOG_ADMIN, function(data)
-	return string.format("%s created a loot point at (%s, %s, %s) (%s) with model %s", GAMEMODE:FormatPlayer(data.Admin), data.X, data.Y, data.Z, data.Pool, data.Mdl)
-end)
-
-GM:RegisterLogType("admin_deletelootpoint", LOG_ADMIN, function(data)
-	return string.format("%s has deleted the loot point at (%s, %s, %s) (%s)", GAMEMODE:FormatPlayer(data.Admin), data.X, data.Y, data.Z, data.Pool)
-end)

@@ -80,7 +80,6 @@ util.AddNetworkString("nSellItem")
 
 util.AddNetworkString("nWritePaper")
 
-util.AddNetworkString("nIntroStart")
 util.AddNetworkString("nFlashRed")
 
 util.AddNetworkString("nToggleHolster")
@@ -118,10 +117,6 @@ util.AddNetworkString("nAddNotification")
 util.AddNetworkString("nAddPropProtection")
 util.AddNetworkString("nRemovePropProtection")
 
-util.AddNetworkString("nConnect")
-util.AddNetworkString("nServerOffer")
-util.AddNetworkString("nServerOfferAccept")
-
 util.AddNetworkString("nSwapItem")
 
 util.AddNetworkString("nAListCharacters")
@@ -133,15 +128,11 @@ util.AddNetworkString("nACharacterLookup")
 util.AddNetworkString("nSetNightvision")
 util.AddNetworkString("nToggleNightvision")
 
-util.AddNetworkString("nSetCombineCamera")
-util.AddNetworkString("nResetCombineCamera")
-
 util.AddNetworkString("nSetCharCreate")
 
 util.AddNetworkString("nSendItem")
 util.AddNetworkString("nUnloadItem")
 
-util.AddNetworkString("nDestroyItem")
 util.AddNetworkString("nDropItem")
 util.AddNetworkString("nUseItem")
 

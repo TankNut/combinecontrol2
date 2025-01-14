@@ -37,14 +37,6 @@ end
 
 function GM:DrawStencilEnt(ent, thermal)
 	ent:DrawModel()
-
-	for _, v in pairs(ent:GetChildren()) do
-		if v:GetClass() != "cc_attachment" or v:GetModelSlot() == "exo" then
-			continue
-		end
-
-		v:DrawModel()
-	end
 end
 
 local white = Material("engine/singlecolor")

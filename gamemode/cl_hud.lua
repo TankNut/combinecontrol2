@@ -111,56 +111,6 @@ function GM:ShouldDoThirdPerson(ply)
 	return true
 end
 
-GM.IntroCamDelay = 15
-
-function GM:StartIntroCam()
-	if not self.IntroCamData then return end
-
-	self.IntroCamStart = CurTime()
-	self:PlayMusic("music/hl2_song26_trainstation1.mp3", 0)
-end
-
-net.Receive("nIntroStart", function(len)
-	local force = net.ReadFloat()
-
-	if force == 0 and GAMEMODE.QuizEnabled then
-
-		if cookie.GetNumber("cc_doneintro", 0) < 2 then
-
-			GAMEMODE:CreateQuiz()
-
-		end
-
-	else
-
-		if GAMEMODE.IntroCinematicEnabled then
-
-			GAMEMODE:StartIntroCam()
-
-		else
-
-			GAMEMODE.QueueCharCreate = false
-			cookie.Set("cc_doneintro", 2)
-
-			GAMEMODE:CreateCharEditor()
-
-		end
-
-	end
-end)
-
-function GM:InIntroCam()
-	if not self.IntroCamData then return false end
-
-	if self.IntroCamStart and CurTime() - self.IntroCamStart < self.IntroCamDelay * #self.IntroCamText then
-
-		return true
-
-	end
-
-	return false
-end
-
 function GM:CalcView(ply, pos, ang, fov, znear, zfar)
 	local view = self.BaseClass:CalcView(ply, pos, ang, fov, znear, zfar)
 
@@ -189,55 +139,6 @@ function GM:CalcView(ply, pos, ang, fov, znear, zfar)
 
 			return view
 		end
-	end
-
-	local camera = ply:CombineCamera()
-
-	if IsValid(camera) then
-		local attach = camera:GetAttachment(2)
-
-		if camera:IsPlayer() then
-			view.origin = camera:EyePos()
-			view.angles = camera:EyeAngles()
-
-			return view
-		else
-			if camera:GetClass() == "npc_combine_camera" then
-				attach.Ang:RotateAroundAxis(attach.Ang:Forward(), -90)
-				attach.Ang:RotateAroundAxis(attach.Ang:Up(), -90)
-			end
-
-			attach.Pos = attach.Pos + attach.Ang:Forward() * 5
-
-			view.origin = attach.Pos
-			view.angles = attach.Ang
-
-			return view
-		end
-	end
-
-	if self.IntroCamStart and self.IntroCamData and (CurTime() - self.IntroCamStart) < (self.IntroCamDelay * #self.IntroCamText) then
-		local stage = math.Clamp(math.ceil((CurTime() - self.IntroCamStart) / self.IntroCamDelay), 1, #self.IntroCamText)
-		local p1, p2, a1, a2
-
-		if self.IntroCamData[stage] then
-			p1 = self.IntroCamData[stage][1][1]
-			p2 = self.IntroCamData[stage][1][2]
-			a1 = self.IntroCamData[stage][2][1]
-			a2 = self.IntroCamData[stage][2][2]
-		else
-			p1 = self.IntroCamData[#self.IntroCamData][1][1]
-			p2 = self.IntroCamData[#self.IntroCamData][1][2]
-			a1 = self.IntroCamData[#self.IntroCamData][2][1]
-			a2 = self.IntroCamData[#self.IntroCamData][2][2]
-		end
-
-		local mul = ((CurTime() - self.IntroCamStart) / self.IntroCamDelay) - (stage - 1)
-
-		view.origin = LerpVector(mul, p1, p2)
-		view.angles = LerpAngle(mul, a1, a2)
-
-		return view
 	end
 
 	if (self.CharCreate or CCP.Quiz) and self.GetHL2CamPos then
@@ -276,8 +177,6 @@ function GM:CalcView(ply, pos, ang, fov, znear, zfar)
 end
 
 function GM:ShouldDrawLocalPlayer(ply)
-	if self:InIntroCam() then return true end
-	if IsValid(ply:CombineCamera()) then return true end
 	if cookie.GetNumber("cc_thirdperson", 0) == 1 then return self:ShouldDoThirdPerson(ply) end
 
 	return false
@@ -291,82 +190,6 @@ function GM:DrawCharCreate()
 		else
 			draw.DrawBackgroundBlur(1)
 		end
-	end
-end
-
-function GM:DrawFancyIntro()
-	if self.IntroCamStart and self.IntroCamData and (CurTime() - self.IntroCamStart) < (self.IntroCamDelay * #self.IntroCamText) then
-		local stage = math.Clamp(math.ceil((CurTime() - self.IntroCamStart) / self.IntroCamDelay), 1, #self.IntroCamText)
-
-		if self.IntroCamText[stage] then
-			local timesince = (CurTime() - self.IntroCamStart) - ((stage - 1) * self.IntroCamDelay)
-			local a = 1
-
-			if timesince < 2.5 then
-				a = timesince / 2.5
-			end
-
-			if timesince > self.IntroCamDelay - 1 then
-				a = 1 - (timesince - (self.IntroCamDelay - 1))
-			end
-
-			local _, h = surface.GetTextSize(self.IntroCamText[stage])
-			h = h + 20
-			draw.RoundedBox(0, 0, ScrH() * (360 / 480) - 10, ScrW(), h, Color(30, 30, 30, a * 200))
-			draw.DrawText(self.IntroCamText[stage], "CombineControl.HL2CreditText", ScrW() * (96 / 640), ScrH() * (360 / 480), Color(255, 255, 255, a * 128), 0)
-		end
-	end
-end
-
-function GM:DrawQuiz()
-	draw.DrawBackgroundBlur(1)
-end
-
-function GM:DrawCombineCamera()
-	local text = "REC " .. os.date("!%Y-%m-%d %H:%M:%S")
-	local ent = LocalPlayer():CombineCamera()
-
-	local pos = ent:GetPos()
-	pos.x = math.floor(pos.x)
-	pos.y = math.floor(pos.y)
-	pos.z = math.floor(pos.z)
-
-	local attach = ent:GetAttachment(2)
-	local id = ent:EntIndex()
-
-	if ent:GetClass() == "npc_combine_camera" then
-		attach.Ang:RotateAroundAxis(attach.Ang:Forward(), -90)
-		attach.Ang:RotateAroundAxis(attach.Ang:Up(), -90)
-
-		id = ent:GetNWString("camname")
-	end
-
-	attach.Ang.p = math.floor(attach.Ang.p)
-	attach.Ang.y = math.floor(attach.Ang.y)
-	attach.Ang.r = math.floor(attach.Ang.r)
-
-	text = text .. "\nCAMERA #" .. id
-	text = text .. "\nCOORD " .. pos.x .. " " .. pos.y .. " " .. pos.z
-	text = text .. "\nANG " .. attach.Ang.p .. " " .. attach.Ang.y .. " " .. attach.Ang.r
-
-	draw.DrawText(text, "CombineControl.CombineCamera", 10, 10, Color(255, 0, 0, 255), 0)
-
-	for _, v in player.Iterator() do
-
-		local poss = (v:EyePos() + Vector(0, 0, 10)):ToScreen()
-
-		if v:Ragdoll() and v:Ragdoll():IsValid() then
-
-			poss = (v:Ragdoll():EyePos() + Vector(0, 0, 10)):ToScreen()
-
-		end
-
-		if (poss.visible and GAMEMODE:CanSeePos(pos, v:EyePos(), {ent, v}) and pos:Distance(v:GetPos()) < 1024) and v:Alive() then
-
-			draw.DrawText(v:VisibleRPName(), "CombineControl.CombineCameraSmall", poss.x, poss.y, Color(200, 200, 200, 255), 1)
-
-		end
-
 	end
 end
 
@@ -1134,21 +957,6 @@ end
 function GM:HUDPaint()
 	if not CCP then return end
 
-	if self:InIntroCam() then
-		self:DrawFancyIntro()
-		return
-	end
-
-	if CCP.Quiz then
-		self:DrawQuiz()
-		return
-	end
-
-	if IsValid(LocalPlayer():CombineCamera()) then
-		self:DrawCombineCamera()
-		return
-	end
-
 	self:DrawCharCreate()
 
 	if not self.CharCreate then
@@ -1389,8 +1197,6 @@ function GM:RenderScreenspaceEffects()
 
 	frame = FrameNumber()
 
-	if self:InIntroCam() then return end
-
 	if LocalPlayer():PassedOut() then
 		local tab = {}
 
@@ -1447,25 +1253,7 @@ function GM:RenderScreenspaceEffects()
 		end
 	end
 
-	if IsValid(LocalPlayer():CombineCamera()) then
-		DrawMaterialOverlay("effects/combine_binocoverlay", 0)
-
-		local tab = {}
-
-		tab[ "$pp_colour_addr" ] 		= 0
-		tab[ "$pp_colour_addg" ] 		= 0
-		tab[ "$pp_colour_addb" ] 		= 0
-		tab[ "$pp_colour_brightness" ] 	= 0
-		tab[ "$pp_colour_contrast" ] 	= 1
-		tab[ "$pp_colour_colour" ] 		= 0
-		tab[ "$pp_colour_mulr" ] 		= 0
-		tab[ "$pp_colour_mulg" ] 		= 0
-		tab[ "$pp_colour_mulb" ] 		= 0
-
-		DrawColorModify(tab)
-	end
-
-	local weapon = LocalPlayer():GetActiveWeapon()
+	local weapon = lp:GetActiveWeapon()
 
 	if IsValid(weapon) and weapon.RenderScreenspaceEffects then
 		weapon:RenderScreenspaceEffects()
@@ -1842,14 +1630,6 @@ hook.Add("PreDrawOutlines", "CL.Hud.Outlines", function()
 		local color = (ent:IsPlayer() and ent != target) and GAMEMODE:GetTeamColor(ent) or color_white
 
 		local tab = {ent}
-
-		for _, child in pairs(ent:GetChildren()) do
-			if child:GetClass() != "cc_attachment" then
-				continue
-			end
-
-			table.insert(tab, child)
-		end
 
 		local weapon = ent.GetActiveWeapon and ent:GetActiveWeapon()
 

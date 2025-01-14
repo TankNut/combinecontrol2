@@ -32,21 +32,11 @@ surface.CreateFont("CombineControl.ChatRadio", {
 	size = 14,
 	weight = 500})
 
-surface.CreateFont("CombineControl.CombineCamera", {
-	font = "Courier New",
-	size = 30,
-	weight = 500})
-
 surface.CreateFont("CombineControl.CombineScanner", {
 	font = "Lucida Sans Typewriter",
 	antialias = false,
 	weight = 800,
 	size = 18 })
-
-surface.CreateFont("CombineControl.CombineCameraSmall", {
-	font = "Courier New",
-	size = 15,
-	weight = 500})
 
 surface.CreateFont("CombineControl.ChatBold", {
 	font = GM.FontFace,
@@ -63,11 +53,6 @@ surface.CreateFont("CombineControl.ChatHuge", {
 	font = GM.FontFace,
 	size = 20,
 	weight = 700})
-
-surface.CreateFont("CombineControl.HL2CreditText", {
-	font = "Trebuchet MS",
-	size = 20,
-	weight = 900})
 
 surface.CreateFont("CombineControl.PlayerFont", {
 	font = GM.FontFace,

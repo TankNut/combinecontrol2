@@ -1,13 +1,12 @@
 GM.ConsoleLog = false
 
 function GM:DataFolder()
-	return "cc_" .. self.DataFolders[self.LogLocation or self.CurrentLocation or LOCATION_CITY]
+	return "cc_tnb"
 end
 
 function GM:SetupDataDirectories()
 	file.CreateDir(self:DataFolder())
 	file.CreateDir("combinecontrol/savedprops/v3")
-	file.CreateDir("combinecontrol/loot")
 	file.CreateDir(self:DataFolder() .. "/logs")
 	file.CreateDir(self:DataFolder() .. "/logs/" .. os.date("!%Y-%m-%d"))
 end

@@ -32,7 +32,6 @@ include("sh_pon.lua")
 include("sh_utils.lua")
 include("sh_weapons.lua")
 include("sh_sound.lua")
-include("sh_dev.lua")
 
 include("cl_logging.lua")
 include("cl_admin.lua")

@@ -10,7 +10,6 @@ include("config/sh_config.lua")
 
 include("sh_utils.lua")
 
-include("config/sv_loot.lua")
 include("config/motd.lua")
 include("shared.lua")
 
@@ -29,14 +28,12 @@ include("sh_sandbox.lua")
 include("sh_pon.lua")
 include("sh_weapons.lua")
 include("sh_sound.lua")
-include("sh_dev.lua")
 
 include("sv_logging.lua")
 include("sv_admin.lua")
 include("sv_business.lua")
 include("sv_charcreate.lua")
 include("sv_context.lua")
-include("sv_dev.lua")
 include("sv_logs.lua")
 include("sv_net.lua")
 include("sv_npc.lua")
@@ -46,7 +43,6 @@ include("sv_player.lua")
 include("sv_playsounds.lua")
 include("sv_resource.lua")
 include("sv_security.lua")
-include("sv_sockets.lua")
 include("sv_sql.lua")
 include("sv_think.lua")
 include("sv_weapon.lua")
@@ -77,7 +73,6 @@ AddCSLuaFile("sh_sandbox.lua")
 AddCSLuaFile("sh_pon.lua")
 AddCSLuaFile("sh_weapons.lua")
 AddCSLuaFile("sh_sound.lua")
-AddCSLuaFile("sh_dev.lua")
 
 AddCSLuaFile("cl_logging.lua")
 AddCSLuaFile("cl_admin.lua")
@@ -120,20 +115,11 @@ function GM:Initialize()
 
 	game.ConsoleCommand("sk_antlion_worker_spit_grenade_dmg 100\n")
 
-	if game.IsDedicated() and not self.PrivateMode then
+	concommand.Remove("gm_save")
 
-		game.ConsoleCommand("sv_allowcslua 0\n")
-
-		concommand.Remove("gm_save")
-		concommand.Add("gm_save", function(ply)
-			GAMEMODE:LogSecurity(ply:SteamID(), "n/a", ply:VisibleRPName(), "Tried to run command gm_save!")
-		end)
-
-	else
-
-		game.ConsoleCommand("sv_allowcslua 1\n")
-
-	end
+	concommand.Add("gm_save", function(ply)
+		GAMEMODE:LogSecurity(ply:SteamID(), "n/a", ply:VisibleRPName(), "Tried to run command gm_save!")
+	end)
 
 	self:InitSQL()
 

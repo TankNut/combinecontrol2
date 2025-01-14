@@ -282,30 +282,6 @@ net.Receive("nCRadioChannel", function(len, ply)
 	end
 end)
 
-net.Receive("nDeleteLootPoint", function(len, ply)
-	if not ply:IsAdmin() then
-		return
-	end
-
-	local ent = net.ReadEntity()
-
-	if IsValid(ent) and ent:GetClass() == "cc_loot" then
-		local pos = ent:GetPos()
-
-		GAMEMODE:WriteLog("admin_deletelootpoint", {
-			Admin = GAMEMODE:LogPlayer(ply),
-			X = math.Round(pos.x, 2),
-			Y = math.Round(pos.y, 2),
-			Z = math.Round(pos.z, 2),
-			Pool = ent:GetLootPool()
-		})
-
-		ent:Remove()
-
-		GAMEMODE:SaveLootPoints()
-	end
-end)
-
 net.Receive("nWorldEnt", function(len, ply)
 	local ent = net.ReadEntity()
 

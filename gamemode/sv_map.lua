@@ -13,7 +13,6 @@ hook.Add("CC.SH.InitEnts", "SV.Map.InitEnts", function()
 	GAMEMODE.FilterDamage:Spawn()
 
 	GAMEMODE:SpawnSavedProps()
-	GAMEMODE:SpawnLootPoints()
 
 	if #ents.FindByClass("cc_loadoutcrate") == 0 and GAMEMODE.LoadoutCrates then
 		for _, v in pairs(GAMEMODE.LoadoutCrates) do
@@ -391,14 +390,6 @@ function GM:SetupPlayerVisibility(ply, viewent)
 	if self.GetCACamPos then
 
 		AddOriginToPVS(self:GetCACamPos())
-
-	end
-
-	local camera = ply:CombineCamera()
-
-	if IsValid(camera) then
-
-		AddOriginToPVS(camera:GetPos())
 
 	end
 end

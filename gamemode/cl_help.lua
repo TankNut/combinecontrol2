@@ -169,24 +169,6 @@ function GM:RefreshHelpMenuContent()
 		/ev - Broadcast an IC event.
 		/lev - Localised version /ev (~yell range)]]})
 
-		table.insert(self.HelpContent, {"Loot", [[New system for keeping players busy.
-
-		Loot is distributed through loot points, these are placed down by admins and can be disguised as /any/ prop. These points will slowly fill themselves up and give their contents to players when they interact with them.
-
-		Basic mechanics are as follows:
-		- The system has several 'pools' defined, you can find those below.
-		- Each pool runs on it's own separate timer.
-		- Once a timer expires a new item is added to any point belonging to the same pool. If a point already contains an item then it'll be overwritten.
-		- If the player count falls below a certain threshold for a pool, all points belonging to that pool empty out.
-
-		Pools are placed down with rpa_createlootpoint <pool> and removed using the context menu.
-
-		Currently we have 4 pools:
-		- pool_domestic (Household items, basic clothing and basic weapons/ammo)
-		- pool_tech (Electrical supplies and tools)
-		- pool_military (Military weapons and ammo)
-		- pool_scav (All kinds of junk, small chances for low-grade armor and weapons/ammo)]]})
-
 		table.insert(self.HelpContent, {"New commands", [[Commands new to TRP 3, specifically ones not mentioned before.
 
 		rpa_setlight [group] [style] - Used to set the light style of persistent light entities, the group of an entity can be found through seeall.
@@ -198,8 +180,6 @@ function GM:RefreshHelpMenuContent()
 		rpa_setarmorystock [armory] [item] [stock] [create] - Sets the stock level for a certain item inside of a certain armory, a stock of 0 removes the item, a stock of -1 makes it available in infinite amounts and anything else gives it a limited stock. The create option is for superadmins to create a new armory alltogether.
 
 		rpa_deletearmory [armory] - Superadmin only, deletes an armory and wipes the access from every player.
-
-		rpa_createloot [pool] - Lets you spawn random loot items based on any of the existing pools.
 
 		rpa_setplayerflag [player] [flag] - Gives a player a player flag, multiple flags can be given by adding all of the flags at once (e.g. 012 for events, ground and air vehicles)]]})
 	end

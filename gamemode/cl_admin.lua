@@ -12,19 +12,6 @@ net.Receive("nARemove", function(len)
 	lp:SendChat("NOTICE", ply:Nick() .. " removed " .. nick .. ".")
 end)
 
-net.Receive("nAQuizBan", function(len)
-	local nick = net.ReadString()
-	local mode = net.ReadFloat()
-
-	
-
-	if mode == 1 then
-		lp:SendChat("NOTICE", nick .. " was auto-banned for " .. GAMEMODE.QuizBanTime .. " minutes for failing the quiz.")
-	else
-		lp:SendChat("NOTICE", nick .. " was auto-banned for " .. GAMEMODE.QuizBanTime * 2 .. " minutes for failing the quiz.")
-	end
-end)
-
 net.Receive("nASeeAll", function(len)
 	GAMEMODE.SeeAll = not GAMEMODE.SeeAll
 end)

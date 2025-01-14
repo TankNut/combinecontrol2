@@ -440,14 +440,6 @@ function GM:GetCCOptions(ent, dist)
 
 				table.insert(tab, option)
 			end
-		elseif ent:GetClass() == "cc_loot" and lp:IsAdmin() then
-			local option = {"Delete", function()
-				net.Start("nDeleteLootPoint")
-					net.WriteEntity(ent)
-				net.SendToServer()
-			end, nil, 100}
-
-			table.insert(tab, option)
 		elseif ent.IsWorldEnt then
 			for _, v in pairs(ent:GetContextOptions(LocalPlayer())) do
 				table.insert(tab, {v.Name, function()

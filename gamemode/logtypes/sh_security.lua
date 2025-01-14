@@ -10,14 +10,6 @@ GM:RegisterLogType("security_banned", LOG_SECURITY, function(data)
 	end
 end)
 
-GM:RegisterLogType("security_privatemode", LOG_SECURITY, function(data)
-	return string.format("Access denied: %s [%s] (Private mode)", data.Nick, data.SteamID)
-end)
-
 GM:RegisterLogType("security_badpassword", LOG_SECURITY, function(data)
 	return string.format("Access denied: %s [%s] (Bad password: %s)", data.Nick, data.SteamID, data.Password)
-end)
-
-GM:RegisterLogType("security_failedquiz", LOG_SECURITY, function(data)
-	return string.format("Access denied: %s (Failed quiz)", GAMEMODE:FormatPlayer(data.Ply))
 end)

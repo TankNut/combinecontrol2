@@ -38,27 +38,8 @@ function GM:PlayerBindPress(ply, bind, down)
 
 	end
 
-	if down and self:InIntroCam() then
-
-		return true
-
-	end
-
 	if down and not self.AllowedProgressBinds[bind] and table.Count(self.TimedProgressBars) > 0 then
 		table.Empty(self.TimedProgressBars)
-	end
-
-	if down and IsValid(ply:CombineCamera()) then
-
-		if bind != "messagemode" then
-
-			net.Start("nResetCombineCamera")
-			net.SendToServer()
-
-			return true
-
-		end
-
 	end
 
 	if down and string.find(bind, "messagemode") then

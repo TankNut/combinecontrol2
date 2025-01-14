@@ -29,7 +29,3 @@ end)
 GM:RegisterLogType("item_business_sell", LOG_ITEMS, function(data)
 	return string.format("%s sold %s (x%s) for %s", GAMEMODE:FormatCharacter(data.Char), GAMEMODE:FormatItem(data.Item), data.Amount, util.FormatCurrency(data.Price))
 end)
-
-GM:RegisterLogType("item_loot", LOG_ITEMS, function(data)
-	return string.format("%s has looted %s from the loot point at (%s, %s, %s) (%s)", GAMEMODE:FormatCharacter(data.Char), GAMEMODE:FormatItem(data.Item), data.X, data.Y, data.Z, data.Pool)
-end)

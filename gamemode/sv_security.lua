@@ -52,12 +52,6 @@ function GM:CheckPassword(steamid, networkid, svpass, pass, name)
 		end
 	end
 
-	if self.PrivateMode and not table.HasValue(self.PrivateSteamIDs, steamid) then
-		self:WriteLog("security_privatemode", {SteamID = steamid, Nick = name, IP = networkid})
-
-		return false, self.TestingClosedMessage
-	end
-
 	if svpass != "" and pass != svpass then
 		self:WriteLog("security_badpassword", {SteamID = steamid, Nick = name, IP = networkid, Password = pass})
 
@@ -66,33 +60,3 @@ function GM:CheckPassword(steamid, networkid, svpass, pass, name)
 
 	return true
 end
-
-net.Receive("nQuizBan", function(len, ply)
-	local mode = net.ReadFloat()
-
-	GAMEMODE:WriteLog("security_failedquiz", {Ply = GAMEMODE:LogPlayer(ply)})
-
-	if mode == 1 then
-		local nick = ply:Nick()
-
-		GAMEMODE:AddBan(ply:SteamID(), GAMEMODE.QuizBanTime, "Failed quiz.")
-
-		ply:Kick("Failed quiz")
-
-		net.Start("nAQuizBan")
-			net.WriteString(nick)
-			net.WriteFloat(mode)
-		net.Broadcast()
-	else
-		local nick = ply:Nick()
-
-		GAMEMODE:AddBan(ply:SteamID(), GAMEMODE.QuizBanTime * 2, "Failed quiz.")
-
-		ply:Kick("Failed quiz")
-
-		net.Start("nAQuizBan")
-			net.WriteString(nick)
-			net.WriteFloat(mode)
-		net.Broadcast()
-	end
-end)

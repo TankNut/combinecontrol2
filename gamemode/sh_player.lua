@@ -26,7 +26,6 @@ GM.PlayerAccessors = {
 	{"LastNotesUpdate", 	false, 	"Float", 	0},
 	{"IsOOCMuted", 			false, 	"Bit", 		false},
 	{"IsTravelBanned", 		false, 	"Bit", 		false},
-	{"CombineCamera", 		true, 	"Entity", 	NULL},
 	{"AdminRadio", 			true, 	"Bit", 		false},
 	{"PlayerScale",			false,	"Float",	1},
 	{"CharacterScale", 		true, 	"Float", 	1},

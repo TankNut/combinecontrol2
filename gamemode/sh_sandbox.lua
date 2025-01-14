@@ -828,50 +828,6 @@ function GM:CanProperty(ply, prop, ent)
 	return true
 end
 
-function GM:SaveLootPoints()
-	local text = ""
-
-	for _, v in ipairs(ents.FindByClass("cc_loot")) do
-		text = text .. util.TableToJSON({
-			Pos = v:GetPos(),
-			Ang = v:GetAngles(),
-			Mdl = v:GetModel(),
-			Pool = v:GetLootPool()
-		}) .. "\n"
-	end
-
-	file.Write("combinecontrol/loot/" .. self:GetMapRedirect() .. ".txt", text)
-end
-
-function GM:SpawnLootPoints()
-	local str = file.Read("combinecontrol/loot/" .. self:GetMapRedirect() .. ".txt")
-
-	if not str then
-		return
-	end
-
-	local tab = string.Explode("\n", str)
-
-	for _, v in pairs(tab) do
-		local data = util.JSONToTable(v)
-
-		if not data then
-			continue
-		end
-
-		local ent = ents.Create("cc_loot")
-
-		ent:SetModel(data.Mdl)
-		ent:SetPos(data.Pos)
-		ent:SetAngles(data.Ang)
-
-		ent:Spawn()
-		ent:Activate()
-
-		ent:RegisterWithLootPool(data.Pool)
-	end
-end
-
 local classes = {
 	["prop_physics"] = true,
 	["prop_effect"] = true

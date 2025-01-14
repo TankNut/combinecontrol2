@@ -58,18 +58,6 @@ function meta:SetPhysgunColor()
 	self:SetWeaponColor(vec)
 end
 
-net.Receive("nSetCombineCamera", function(len, ply)
-	local ent = net.ReadEntity()
-
-	if IsValid(ent) then
-		ply:SetCombineCamera(ent)
-	end
-end)
-
-net.Receive("nResetCombineCamera", function(len, ply)
-	ply:SetCombineCamera(NULL)
-end)
-
 net.Receive("nSetCharCreate", function(len, ply)
 	local bool = net.ReadBool()
 
