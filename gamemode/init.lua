@@ -6,6 +6,7 @@ GM.Config = GM.Config or {}
 include("sh_enum.lua")
 include("sh_fixes.lua")
 
+include("core/sh_config.lua")
 include("config/sv_config.lua")
 include("config/sh_config.lua")
 
@@ -55,6 +56,7 @@ AddCSLuaFile("sh_enum.lua")
 AddCSLuaFile("sh_fixes.lua")
 AddCSLuaFile("sh_utils.lua")
 
+AddCSLuaFile("core/sh_config.lua")
 AddCSLuaFile("config/sh_config.lua")
 AddCSLuaFile("config/motd.lua")
 AddCSLuaFile("shared.lua")

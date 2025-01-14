@@ -60,7 +60,7 @@ end
 
 -- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
 GM:Include("enums.lua")
-GM:Include("sh_config.lua")
+--GM:Include("sh_config.lua")
 GM:Include("sh_helpers.lua")
 GM:Include("sh_player_vars.lua")
 GM:Include("sh_character_vars.lua")
