@@ -7,10 +7,10 @@ function console.PrintError(ply, str, ...)
 end
 
 function console.Feedback(ply, messageType, str, ...)
-	local class = assert(GAMEMODE.MessageTypes[messageType], "Invalid message type")
+	local class = assert(Chat.List[messageType], "Invalid message type")
 
 	if not IsValid(ply) then
-		MsgC(class.TextColor, console.FormatMessage(str, ...), "\n")
+		MsgC(class.ConsoleColor or class.Color, console.FormatMessage(str, ...), "\n")
 
 		return
 	end
