@@ -1,6 +1,7 @@
 MsgC(Color(200, 200, 200, 255), "Loading serverside...\n")
 
 GM.FullyLoaded = GM.FullyLoaded or false
+GM.Config = GM.Config or {}
 
 include("sh_enum.lua")
 include("sh_fixes.lua")

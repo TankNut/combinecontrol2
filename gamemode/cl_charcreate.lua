@@ -337,7 +337,7 @@ function GM:CreateCharCreate()
 				curModel:SetModel(self.ModelPath, self.SkinNumber)
 			end
 
-			local numSkins = GAMEMODE.CitizenModels[self.ModelPath]
+			local numSkins = Config.Get("CitizenModels")[self.ModelPath]
 			if numSkins > 1 then
 				local x, y = 0, 0
 				for i = 0, numSkins - 1 do
@@ -364,7 +364,7 @@ function GM:CreateCharCreate()
 
 		local x, y = 0, 0
 		local clicked = false
-		for k in SortedPairs(self.CitizenModels) do
+		for k in SortedPairs(Config.Get("CitizenModels")) do
 			local icon = vgui.Create("SpawnIcon", modelPicker)
 				icon:SetPos(5 + x, 30 + y)
 				icon:SetSize(56, 56)

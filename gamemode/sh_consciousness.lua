@@ -154,7 +154,7 @@ hook.Add("CC.SV.PlayerThink", "SH.Consciousness.PlayerThink", function(plys)
 				end
 			end
 
-			ply.ConsciousUpdate = CurTime() + GAMEMODE.ConsciousnessRate
+			ply.ConsciousUpdate = CurTime() + Config.Get("ConsciousnessRate")
 
 			ply:TakeCDamage(-1)
 		end

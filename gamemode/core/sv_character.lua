@@ -94,7 +94,7 @@ end
 
 netstream.Hook("CreateCharacter", function(ply, name, desc, model, skin)
 	local mul = ply:IsSuperAdmin() and 3 or ply:IsAdmin() and 2 or 1
-	if table.Count(ply:CharacterList()) >= GAMEMODE.MaxCharacters * mul then return end
+	if table.Count(ply:CharacterList()) >= Config.Get("MaxCharacters") * mul then return end
 	if not ply:IsAdmin() and GAMEMODE.CurrentLocation != LOCATION_CITY then return end
 
 	if GAMEMODE:CheckCharacterValidity(name, desc, model, skin) then

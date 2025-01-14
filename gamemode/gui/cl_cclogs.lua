@@ -171,7 +171,7 @@ function PANEL:Init()
 	self.LimitEntry:SetFont("CombineControl.LabelMedium")
 	self.LimitEntry:SetPos(570, 396)
 	self.LimitEntry:SetSize(100, 20)
-	self.LimitEntry:SetText(GAMEMODE.DefaultLogLines)
+	self.LimitEntry:SetText(Config.Get("DefaultLogLines"))
 	self.LimitEntry:PerformLayout()
 
 	self.LimitEntry.AllowInput = function(pnl, val)

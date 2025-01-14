@@ -140,23 +140,23 @@ function GM:CheckNameValidity(name)
 end
 
 function GM:CheckCharacterValidity(name, desc, model, skin)
-	if #name < self.MinNameLength then
-		return false, "Name must be longer than " .. self.MinNameLength .. " characters."
+	if #name < Config.Get("MinNameLength") then
+		return false, "Name must be longer than " .. Config.Get("MinNameLength") .. " characters."
 	end
 
-	if #name > self.MaxNameLength then
-		return false, "Name must be shorter than " .. self.MaxNameLength .. " characters."
+	if #name > Config.Get("MaxNameLength") then
+		return false, "Name must be shorter than " .. Config.Get("MaxNameLength") .. " characters."
 	end
 
-	if #desc > self.MaxDescLength then
-		return false, "Description must be shorter than " .. self.MaxDescLength .. " characters."
+	if #desc > Config.Get("MaxDescLength") then
+		return false, "Description must be shorter than " .. Config.Get("MaxDescLength") .. " characters."
 	end
 
-	if not self.CitizenModels[string.lower(model)] then
+	if not Config.Get("CitizenModels")[string.lower(model)] then
 		return false, "Invalid model."
 	end
 
-	if skin < 0 or skin > GAMEMODE.CitizenModels[model] then
+	if skin < 0 or skin > Config.Get("CitizenModels")[model] then
 		return false, "Invalid skin."
 	end
 

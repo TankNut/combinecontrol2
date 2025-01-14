@@ -141,7 +141,7 @@ function GM:ReadLogs(filters, callback)
 		end
 	end
 
-	local limit = math.Clamp(filters.limit or GAMEMODE.DefaultLogLines, 1, GAMEMODE.MaxLogLines)
+	local limit = math.Clamp(filters.limit or Config.Get("DefaultLogLines"), 1, Config.Get("MaxLogLines"))
 	local query = string.format([[
 	SELECT
 		$logs.Identifier,

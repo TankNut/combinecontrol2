@@ -275,9 +275,10 @@ end
 
 function GM:GetMapRedirect()
 	local map = game.GetMap()
+	local config = Config.Get("MapRedirect")
 
-	while self.MapRedirect[map] do
-		map = self.MapRedirect[map]
+	while config[map] do
+		map = config[map]
 	end
 
 	return map

@@ -17,7 +17,7 @@ net.Receive("nChangeRPName", function(len, ply)
 
 	name = string.Trim(name)
 
-	if #name <= GAMEMODE.MaxNameLength and #name >= GAMEMODE.MinNameLength and GAMEMODE:CheckNameValidity(name) then
+	if #name <= Config.Get("MaxNameLength") and #name >= Config.Get("MinNameLength") and GAMEMODE:CheckNameValidity(name) then
 		GAMEMODE:WriteLog("character_setname", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Name = name})
 
 		ply:SetCharacterName(name)
@@ -30,7 +30,7 @@ net.Receive("nChangeTitle", function(len, ply)
 
 	desc = string.Trim(desc)
 
-	if #desc <= GAMEMODE.MaxDescLength then
+	if #desc <= Config.Get("MaxDescLength") then
 		GAMEMODE:WriteLog("character_setdesc", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), New = desc})
 
 		ply:SetDescription(desc)

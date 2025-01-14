@@ -1,6 +1,7 @@
 MsgC(Color(200, 200, 200, 255), "Loading clientside...\n")
 
 GM.FullyLoaded = GM.FullyLoaded or false
+GM.Config = GM.Config or {}
 
 if not CCP then
 	CCP = {} -- CombineControl Panels.

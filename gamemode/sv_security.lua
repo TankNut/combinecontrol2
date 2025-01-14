@@ -38,7 +38,7 @@ function GM:CheckPassword(steamid, networkid, svpass, pass, name)
 				reason = " (" .. r .. ")."
 			end
 
-			return false, "You're permabanned" .. reason .. " Apply for an unban at " .. self.WebsiteURL .. "."
+			return false, "You're permabanned" .. reason .. " Apply for an unban at " .. Config.Get("WebsiteURL") .. "."
 		else
 			self:WriteLog("security_banned", {Duration = t, SteamID = steamid, Nick = name, IP = networkid})
 
@@ -48,7 +48,7 @@ function GM:CheckPassword(steamid, networkid, svpass, pass, name)
 				reason = " (" .. r .. ")."
 			end
 
-			return false, "You're banned for " .. t .. " more minutes" .. reason .. " Apply for an unban at " .. self.WebsiteURL .. "."
+			return false, "You're banned for " .. t .. " more minutes" .. reason .. " Apply for an unban at " .. Config.Get("WebsiteURL") .. "."
 		end
 	end
 

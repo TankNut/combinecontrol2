@@ -80,7 +80,7 @@ net.Receive("nSetItemUserDescription", function(len, ply)
 		return
 	end
 
-	if #desc > GAMEMODE.MaxItemDescLength then
+	if #desc > Config.Get("MaxItemDescLength") then
 		return
 	end
 

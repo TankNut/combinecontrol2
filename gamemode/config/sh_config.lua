@@ -1,27 +1,22 @@
 -- Web integration
-GM.MOTDURL			= ""
-GM.SteamGroupURL	= ""
-GM.WebsiteURL		= "http://taconbanana.com"
+GM.Config.SteamGroupURL	= ""
+GM.Config.WebsiteURL    = "http://taconbanana.com"
 
 -- ONLY ADDONS THAT HAVE CUSTOM MODELS OR TEXTURES FOR CLIENT DOWNLOADS
 -- FOR THE LOVE OF GOD DON'T FUCK IT LIKE EVERY OTHER ITERATION DID
-GM.WorkshopAddons = {}
+GM.Config.WorkshopAddons = {}
+GM.Config.MapRedirect    = {}
 
-GM.WorkshopMaps = {} -- Should not be needed, maps are automatically made available for download if mounted from the workshop collection
+GM.Config.AllowedNameCharacters = "!?#abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 .-'áàâäçéèêëíìîïóòôöúùûüÿÁÀÂÄßÇÉÈÊËÍÌÎÏÓÒÔÖÚÙÛÜŸ"
+GM.Config.MinNameLength = 3
+GM.Config.MaxNameLength = 40
+GM.Config.MaxDescLength = 2000
+GM.Config.MaxCharacters = 15
 
-GM.MapRedirect = {}
+GM.Config.PlayerSight = 1024
+GM.Config.ConsciousnessRate = 0.7
 
-GM.AllowedNameCharacters = "!?#abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 .-'áàâäçéèêëíìîïóòôöúùûüÿÁÀÂÄßÇÉÈÊËÍÌÎÏÓÒÔÖÚÙÛÜŸ"
-GM.MinNameLength		= 3
-GM.MaxNameLength		= 40
-GM.MaxDescLength		= 2000
-GM.MaxCharacters		= 15
-
-GM.WeaponRecoilMul 		= Angle(0.5, 1, 0)
-GM.PlayerSight 			= 1024
-GM.ConsciousnessRate 	= 0.7
-
-GM.CitizenModels = {
+GM.Config.CitizenModels = {
 	["models/tnb/heads/trp/male_01.mdl"] = 4,
 	["models/tnb/heads/trp/male_02.mdl"] = 4,
 	["models/tnb/heads/trp/male_03.mdl"] = 4,
@@ -41,17 +36,17 @@ GM.CitizenModels = {
 }
 
 -- General Gameplay
-GM.FistsHaveEffectOnPlayers	= true
-GM.DoorRammingEnabled		= true
-GM.UntieOnDeath				= true
+GM.Config.FistsHaveEffectOnPlayers = true
+GM.Config.DoorRammingEnabled = true
+GM.Config.UntieOnDeath = true
 
-GM.MaxItemDescLength 		= 300
+GM.Config.MaxItemDescLength = 300
 
 -- AFK Autokicker
-GM.AFKKickerEnabled			= true
-GM.AFKPercentage			= 0.90
-GM.AFKTime					= 600
+GM.Config.AFKKickerEnabled = true
+GM.Config.AFKPercentage = 0.90
+GM.Config.AFKTime = 600
 
 -- Admin stuff
-GM.DefaultLogLines 			= 200
-GM.MaxLogLines 				= 500
+GM.Config.DefaultLogLines = 200
+GM.Config.MaxLogLines = 500

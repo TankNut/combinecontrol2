@@ -93,7 +93,7 @@ function GM:PlayerBindPress(ply, bind, down)
 		end
 
 		local mul = LocalPlayer():IsSuperAdmin() and 3 or LocalPlayer():IsAdmin() and 2 or 1
-		if table.Count(ply:CharacterList()) >= self.MaxCharacters*mul or (not LocalPlayer():IsAdmin() and GAMEMODE.CurrentLocation != LOCATION_CITY) then
+		if table.Count(ply:CharacterList()) >= Config.Get("MaxCharacters") * mul or (not LocalPlayer():IsAdmin() and GAMEMODE.CurrentLocation != LOCATION_CITY) then
 			self.CCMode = CC_SELECT_C
 		else
 			self.CCMode = CC_CREATESELECT_C

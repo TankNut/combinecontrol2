@@ -204,7 +204,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 		end
 	end
 
-	if self.UntieOnDeath then
+	if Config.Get("UntieOnDeath") then
 		ply:SetTiedUp(false)
 	end
 
@@ -250,7 +250,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 end
 
 function GM:PlayerSilentDeath(ply)
-	if self.UntieOnDeath then
+	if Config.Get("UntieOnDeath") then
 
 		ply:SetTiedUp(false)
 
@@ -575,7 +575,7 @@ hook.Add("CC.SV.PlayerThink", "SV.Player.AFKThink", function(plys)
 	for i = 1, #plys do
 		local ply = plys[i]
 
-		if GAMEMODE.AFKKickerEnabled and CurTime() - (ply.AFKTime or 0) > GAMEMODE.AFKTime and (#player.GetAll() / game.MaxPlayers()) > GAMEMODE.AFKPercentage and not ply:IsAdmin() and not ply:IsEventCoordinator() then
+		if Config.Get("AFKKickerEnabled") and CurTime() - (ply.AFKTime or 0) > Config.Get("AFKTime") and (#player.GetAll() / game.MaxPlayers()) > Config.Get("AFKPercentage") and not ply:IsAdmin() and not ply:IsEventCoordinator() then
 
 			ply:Kick("Auto-kicked for being AFK")
 		end

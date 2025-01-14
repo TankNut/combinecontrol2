@@ -119,17 +119,17 @@ function GM:PMCreateNameEdit()
 
 		if CCP.PlayerMenu.NameEdit.Label then
 
-			local val = self:GetValue()
+			local val = string.Trim(self:GetValue())
 
 			local col = Color(200, 200, 200, 255)
 
-			if #string.Trim(val) > GAMEMODE.MaxNameLength or #string.Trim(val) < GAMEMODE.MinNameLength then
+			if #val > Config.Get("MaxNameLength") or #val < Config.Get("MinNameLength") then
 
 				col = Color(200, 0, 0, 255)
 
 			end
 
-			CCP.PlayerMenu.NameEdit.Label:SetText(#string.Trim(val) .. "/" .. GAMEMODE.MaxNameLength)
+			CCP.PlayerMenu.NameEdit.Label:SetText(#val .. "/" .. Config.Get("MaxNameLength"))
 			CCP.PlayerMenu.NameEdit.Label:SetTextColor(col)
 
 		end
@@ -156,7 +156,7 @@ function GM:PMCreateNameEdit()
 
 		local val = string.Trim(CCP.PlayerMenu.NameEdit.Entry:GetValue())
 
-		if #val <= GAMEMODE.MaxNameLength and #val >= GAMEMODE.MinNameLength then
+		if #val <= Config.Get("MaxNameLength") and #val >= Config.Get("MinNameLength") then
 
 			if GAMEMODE:CheckNameValidity(val) then
 
@@ -174,7 +174,7 @@ function GM:PMCreateNameEdit()
 
 		else
 
-			lp:SendChat("ERROR", "Name must be between " .. GAMEMODE.MinNameLength .. " and " .. GAMEMODE.MaxNameLength .. " characters.")
+			lp:SendChat("ERROR", "Name must be between " .. Config.Get("MinNameLength") .. " and " .. Config.Get("MaxNameLength") .. " characters.")
 
 		end
 
@@ -926,25 +926,25 @@ function GM:PMCreateSettings()
 			cookie.Set("cc_noscopelabels", val and 1 or 0)
 		end
 
-	if GAMEMODE.SteamGroupURL != "" then
+	if Config.Get("SteamGroupURL") != "" then
 		local steamBtn = vgui.Create("DButton", CCP.PlayerMenu.ContentPane)
 			steamBtn:SetFont("CombineControl.LabelSmall")
 			steamBtn:SetText("Open Steam Group")
 			steamBtn:SetPos(10, 306)
 			steamBtn:SetSize(120, 30)
 			function steamBtn:DoClick()
-				gui.OpenURL(GAMEMODE.SteamGroupURL)
+				gui.OpenURL(Config.Get("SteamGroupURL"))
 			end
 	end
 
-	if GAMEMODE.WebsiteURL != "" then
+	if Config.Get("WebsiteURL") != "" then
 		local websiteBtn = vgui.Create("DButton", CCP.PlayerMenu.ContentPane)
 			websiteBtn:SetFont("CombineControl.LabelSmall")
 			websiteBtn:SetText("Open Website")
 			websiteBtn:SetPos(10, 346)
 			websiteBtn:SetSize(120, 30)
 			function websiteBtn:DoClick()
-				gui.OpenURL(GAMEMODE.WebsiteURL)
+				gui.OpenURL(Config.Get("WebsiteURL"))
 			end
 	end
 

@@ -69,7 +69,7 @@ setCharacterName:AddParameter(console.Player({
 }))
 
 setCharacterName:AddParameter(console.String({
-	validate.Min(GM.MinNameLength),
-	validate.Max(GM.MaxNameLength),
-	validate.AllowedCharacters(GM.AllowedNameCharacters)
+	validate.Min(Config.Get("MinNameLength")),
+	validate.Max(Config.Get("MaxNameLength")),
+	validate.AllowedCharacters(Config.Get("AllowedNameCharacters"))
 }))

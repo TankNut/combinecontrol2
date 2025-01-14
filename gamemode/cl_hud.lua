@@ -323,13 +323,14 @@ end
 function GM:GetPlayerSight()
 	local ply = LocalPlayer()
 	local wep = ply:GetActiveWeapon()
+	local config = Config.Get("PlayerSight")
 
 	if self.FlashbangStart and CurTime() - self.FlashbangStart < 5 then
 		return 0
 	elseif IsValid(wep) and wep.InScope and wep:InScope() then
-		return self.PlayerSight * wep:GetZoom()
+		return config * wep:GetZoom()
 	else
-		return self.PlayerSight
+		return config
 	end
 end
 

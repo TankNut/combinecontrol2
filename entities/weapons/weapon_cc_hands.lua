@@ -61,7 +61,7 @@ function SWEP:Initialize()
 	self:SetWeaponHoldType(self.HoldType)
 	self:SetWeaponHoldTypeHolster(self.HoldTypeHolster)
 
-	if not GAMEMODE.DoorRammingEnabled then
+	if not Config.Get("DoorRammingEnabled") then
 
 		self.InfoText = [[Holstered - Primary: Knock on doors.
 Holstered - Secondary: Nothing.
@@ -183,7 +183,7 @@ function SWEP:FistDamage()
 
 			end
 
-			if GAMEMODE.FistsHaveEffectOnPlayers then
+			if Config.Get("FistsHaveEffectOnPlayers") then
 
 				if tr.Entity:IsPlayer() then
 
@@ -228,7 +228,7 @@ function SWEP:FistDamage()
 end
 
 function SWEP:Reload()
-	if not GAMEMODE.DoorRammingEnabled then return end
+	if not Config.Get("DoorRammingEnabled") then return end
 
 	if not self.NextReload then self.NextReload = CurTime() end
 
