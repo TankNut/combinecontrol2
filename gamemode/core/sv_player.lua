@@ -63,12 +63,8 @@ function GM:PlayerSpawn(ply)
 	ply.SpawnPos = ply:GetPos()
 
 	-- Might want to update the bird workflow at some point
-	if not ply.FirstSpawn then
-		ply.FirstSpawn = true
-
-		ply:SetModel(table.Random({"models/crow.mdl", "models/pigeon.mdl", "models/seagull.mdl"}))
-
-		--ply:LoadPlayerNotes()
+	if not ply:HasCharacter() then
+		ply:UpdateAppearance()
 
 		ply:SetNotSolid(true)
 		ply:SetMoveType(MOVETYPE_NOCLIP)

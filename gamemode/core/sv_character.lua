@@ -79,6 +79,18 @@ function meta:LoadCharacter(id)
 	hook.Run("PostLoadCharacter", self)
 end
 
+function meta:UnloadCharacter()
+	self:SetCharID(0)
+
+	for _, var in pairs(CharacterVar.Vars) do
+		self["Set" .. var.Name](self, nil, true)
+	end
+
+	Inventory.Clear(self)
+
+	self:Spawn()
+end
+
 netstream.Hook("DeleteCharacter", function(ply, id)
 	if not ply:CharacterList()[id] then
 		return
@@ -94,6 +106,10 @@ function meta:DeleteCharacter(id)
 	characters[id] = nil
 
 	self:SetCharacterList(characters)
+
+	if self:CharID() == id then
+		self:UnloadCharacter()
+	end
 end
 
 function Delete(id)

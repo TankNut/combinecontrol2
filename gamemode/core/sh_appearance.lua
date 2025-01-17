@@ -27,29 +27,38 @@ end
 
 if SERVER then
 	function meta:UpdateAppearance()
-		local appearance = self:RunCharFlag("GetModelData")
-		local items = self:GetItems()
+		local appearance = {}
 
-		for _, item in pairs(items) do
-			if not item.GetModelData then
-				continue
+		if not self:HasCharacter() then
+			appearance._base = {
+				Model = table.Random({"models/crow.mdl", "models/pigeon.mdl", "models/seagull.mdl"})
+			}
+		else
+			appearance = self:RunCharFlag("GetModelData")
+
+			local items = self:GetItems()
+
+			for _, item in pairs(items) do
+				if not item.GetModelData then
+					continue
+				end
+
+				local data = item:GetModelData(self)
+
+				if data then
+					table.Merge(appearance, data)
+				end
 			end
 
-			local data = item:GetModelData(self)
+			self:RunCharFlag("PostModelData", appearance)
 
-			if data then
-				table.Merge(appearance, data)
+			for _, item in pairs(items) do
+				if not item.PostModelData then
+					continue
+				end
+
+				item:PostModelData(self, appearance)
 			end
-		end
-
-		self:RunCharFlag("PostModelData", appearance)
-
-		for _, item in pairs(items) do
-			if not item.PostModelData then
-				continue
-			end
-
-			item:PostModelData(self, appearance)
 		end
 
 		local base = assert(appearance._base, "UpdateAppearance somehow ended up without _base model data!")

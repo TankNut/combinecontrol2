@@ -29,8 +29,12 @@ function GM:OnCharacterListChanged(ply, old, new, loaded)
 end
 
 function GM:OnCharIDChanged(ply, old, new, loaded)
-	if CLIENT and ply == lp and old == 0 then
-		self:CreateMOTD()
+	if CLIENT and ply == lp then
+		if old == 0 then
+			self:CreateMOTD()
+		elseif new == 0 then
+			GUI.Open("CharacterSelect")
+		end
 	end
 end
 
