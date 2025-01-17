@@ -207,9 +207,7 @@ end
 
 function GM:Move(ply, move)
 	if not ply:HasCharacter() then
-		move:SetMaxSpeed(0)
-		move:SetMaxClientSpeed(0)
-		move:SetVelocity(Vector())
+		return true
 	end
 
 	if ply.FreezeTime and CurTime() < ply.FreezeTime then
