@@ -3,7 +3,6 @@ CLASS.SortOrder = 1
 
 CLASS.Models = {
 	Model("models/tnb/heads/trp/male_01.mdl"),
-	Model("models/tnb/heads/trp/male_01.mdl"),
 	Model("models/tnb/heads/trp/male_02.mdl"),
 	Model("models/tnb/heads/trp/male_03.mdl"),
 	Model("models/tnb/heads/trp/male_04.mdl"),
