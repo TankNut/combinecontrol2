@@ -1,10 +1,9 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self.Scroll = self.Canvas:Add("DHorizontalScroller")
-	self.Scroll:Dock(FILL)
-
-	self:SetTall(56)
+	self.Layout = self.Canvas:Add("DTileLayout")
+	self.Layout:SetBaseSize(56)
+	self.Layout:Dock(FILL)
 end
 
 function PANEL:Setup(args, val, options)
@@ -22,10 +21,10 @@ function PANEL:Setup(args, val, options)
 end
 
 function PANEL:Populate(mdl)
-	self.Scroll:Clear()
+	self.Layout:Clear()
 
 	for i = 0, util.GetModelSkins(mdl) - 1 do
-		local icon = self.Scroll:Add("SpawnIcon")
+		local icon = vgui.Create("SpawnIcon")
 
 		icon:SetSize(56, 56)
 		icon:SetModel(mdl, i)
@@ -35,8 +34,10 @@ function PANEL:Populate(mdl)
 			self:SetOption(i)
 		end
 
-		self.Scroll:AddPanel(icon)
+		self.Layout:Add(icon)
 	end
+
+	self:InvalidateLayout()
 end
 
 function PANEL:OnOptionChanged(key, val)
