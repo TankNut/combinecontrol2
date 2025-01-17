@@ -132,7 +132,7 @@ function PANEL:SetPage(val)
 
 	for _, id in ipairs(self:GetCurrentOptions()) do
 		local option = self.CharType.Options[id]
-		local panel = self.Content:Add("CC_CharCreate_" .. option.Type)
+		local panel = self.Content:Add(option.Panel)
 
 		panel.CharCreate = self
 		panel.ID = id

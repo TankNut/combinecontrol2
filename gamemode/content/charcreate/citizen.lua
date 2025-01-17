@@ -32,22 +32,22 @@ CLASS.Pages = {
 
 CLASS.Options = {
 	Name = {
-		Name = "Name", Type = "Name",
+		Name = "Name", Panel = "CC_CharCreate_Name",
 		Field = "CharacterName",
-		Args = {RandomNames = {"Male", "Female"}}
+		Args = {RandomNames = {"Masculine", "Feminine"}}
 	},
 	Description = {
-		Name = "Description", Type = "Multiline",
+		Name = "Description", Panel = "CC_CharCreate_Multiline",
 		Field = "CharacterDescription",
 		Args = {}
 	},
 	Model = {
-		Name = "Model", Type = "Model",
+		Name = "Model", Panel = "CC_CharCreate_Model",
 		Field = "CharacterModel",
 		Args = {Models = CLASS.Models}
 	},
 	Skin = {
-		Name = "Skin", Type = "Skin",
+		Name = "Skin", Panel = "CC_CharCreate_Skin",
 		Field = "CharacterSkin",
 		Args = {Option = "Model"}
 	}
