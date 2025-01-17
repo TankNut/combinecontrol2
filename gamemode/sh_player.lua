@@ -206,20 +206,22 @@ function GM:FreezePlayer(ply, time)
 end
 
 function GM:Move(ply, move)
-	if ply.FreezeTime and CurTime() < ply.FreezeTime then
-
+	if not ply:HasCharacter() then
 		move:SetMaxSpeed(0)
 		move:SetMaxClientSpeed(0)
 		move:SetVelocity(Vector())
+	end
 
+	if ply.FreezeTime and CurTime() < ply.FreezeTime then
+		move:SetMaxSpeed(0)
+		move:SetMaxClientSpeed(0)
+		move:SetVelocity(Vector())
 	end
 
 	if ply:PassedOut() then
-
 		move:SetMaxSpeed(0)
 		move:SetMaxClientSpeed(0)
 		move:SetVelocity(Vector())
-
 	end
 
 	local func = ply:RunCharFlag("Move")
