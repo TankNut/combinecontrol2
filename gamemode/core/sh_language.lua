@@ -37,20 +37,28 @@ function GetOverride(lang, index)
 	end
 end
 
-if SERVER then
-	function SetupCharacter(fields)
-		local field = {}
+function GetDefaultLanguages()
+	local languages = {}
 
-		for _, v in ipairs(List) do
-			if field.Default then
-				field[v.Command] = field.Default
-			end
+	for _, lang in ipairs(List) do
+		if lang.Default then
+			languages[lang.Command] = lang.Default
 		end
 	end
+
+	return languages
+end
+
+function GM:CanSpeakLanguage(ply, lang)
+	return ply:Languages()[lang] == true
 end
 
 function meta:CanSpeakLanguage(lang)
 	return hook.Run("CanSpeakLanguage", self, lang)
+end
+
+function GM:CanUnderstandLanguage(ply, lang)
+	return ply:Languages()[lang] != nil
 end
 
 function meta:CanUnderstandLanguage(lang)
@@ -62,10 +70,10 @@ if SERVER then
 		local languages = self:Languages()
 		local active = self:ActiveLanguage()
 
-		if active and (not Language.Lookup[active] or not languages[active]) then
-			for _, v in pairs(Language.List) do
-				if languages[v[1]] then
-					self:SetActiveLanguage(v[1])
+		if not active or not Language.Lookup[active] or not languages[active] then
+			for _, lang in pairs(Language.List) do
+				if languages[lang.Command] then
+					self:SetActiveLanguage(lang.Command)
 
 					return
 				end
@@ -100,12 +108,4 @@ if SERVER then
 			self:CheckLanguage()
 		end
 	end
-end
-
-function GM:CanSpeakLanguage(ply, lang)
-	return ply:Languages()[lang] == true
-end
-
-function GM:CanUnderstandLanguage(ply, lang)
-	return ply:Languages()[lang] != nil
 end

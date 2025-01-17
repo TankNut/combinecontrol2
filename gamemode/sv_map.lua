@@ -380,20 +380,6 @@ hook.Add("OnEntityCreated", "SV.Map.OnEntityCreated", function(ent)
 	end)
 end)
 
-function GM:SetupPlayerVisibility(ply, viewent)
-	if self.GetHL2CamPos and ply.CharCreate then
-
-		AddOriginToPVS(self:GetHL2CamPos()[1])
-
-	end
-
-	if self.GetCACamPos then
-
-		AddOriginToPVS(self:GetCACamPos())
-
-	end
-end
-
 function GM:CreateMicrowave(pos, ang, broken, char)
 	local prop = ents.Create("cc_stove")
 	prop:SetPos(pos)

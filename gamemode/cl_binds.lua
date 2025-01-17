@@ -32,10 +32,8 @@ GM.AllowedProgressBinds = {}
 GM.AllowedProgressBinds["messagemode"] = true
 
 function GM:PlayerBindPress(ply, bind, down)
-	if down and not self.CharCreateOpened then
-
+	if not ply:HasCharacter() then
 		return true
-
 	end
 
 	if down and not self.AllowedProgressBinds[bind] and table.Count(self.TimedProgressBars) > 0 then
@@ -92,13 +90,7 @@ function GM:PlayerBindPress(ply, bind, down)
 			return true
 		end
 
-		local mul = LocalPlayer():IsSuperAdmin() and 3 or LocalPlayer():IsAdmin() and 2 or 1
-		if table.Count(ply:CharacterList()) >= Config.Get("MaxCharacters") * mul or (not LocalPlayer():IsAdmin() and GAMEMODE.CurrentLocation != LOCATION_CITY) then
-			self.CCMode = CC_SELECT_C
-		else
-			self.CCMode = CC_CREATESELECT_C
-		end
-		self:CreateCharEditor()
+		GUI.Open("CharacterSelect")
 
 		return true
 

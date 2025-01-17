@@ -52,10 +52,12 @@ function GM:LoadFolder(path, subFile)
 end
 
 function GM:LoadContent()
-	CharacterFlag.Load()
-	Item.Load()
 	Language.Load()
+
+	CharacterFlag.Load()
+	CharCreate.Load()
 	Chat.Load()
+	Item.Load()
 end
 
 -- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
@@ -72,6 +74,7 @@ GM:Include("sh_admin.lua")
 GM:Include("sh_appearance.lua")
 GM:Include("sh_character_flags.lua")
 GM:Include("sh_character.lua")
+GM:Include("sh_charcreate.lua")
 GM:Include("sh_chat.lua")
 GM:Include("sh_entity.lua")
 GM:Include("sh_global.lua")
@@ -92,7 +95,10 @@ GM:LoadFolder("core/vgui")
 GM:LoadFolder("core/gui")
 GM:LoadFolder("core/plugins", "_plugin.lua")
 
-GM:Include(engine.ActiveGamemode() .. "/gamemode/content/sh_defines.lua")
+local contentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
+
+GM:Include(contentFolder .. "sh_defines.lua")
+GM:Include(contentFolder .. "sh_names.lua")
 
 hook.Call("LoadContent", GM)
 

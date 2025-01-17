@@ -58,12 +58,6 @@ function meta:SetPhysgunColor()
 	self:SetWeaponColor(vec)
 end
 
-net.Receive("nSetCharCreate", function(len, ply)
-	local bool = net.ReadBool()
-
-	ply.CharCreate = bool
-end)
-
 function GM:FindUseEntity(ply, ent)
 	if ply:PassedOut() then return end
 	if ply:TiedUp() and not (ent and ent:IsValid() and ent:IsVehicle()) then return end

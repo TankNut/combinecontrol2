@@ -14,7 +14,7 @@ function meta:LoadCharacterList()
 	local characters = {}
 
 	for _, row in pairs(data) do
-		characters[row.id] = row.NameOverride or row.Name
+		characters[row.id] = row.NameOverride or row.Name or "Unknown"
 	end
 
 	self:SetCharacterList(characters, true)
@@ -38,6 +38,12 @@ function meta:CreateCharacter(fields)
 			end
 		end
 	local _, id = query:Execute()
+
+	local characters = self:CharacterList()
+	characters[id] = fields.CharacterNameOverride or fields.CharacterName or "Unknown"
+
+	self:SetCharacterList(characters)
+	self:LoadCharacter(id)
 
 	return id
 end
@@ -69,8 +75,17 @@ function meta:LoadCharacter(id)
 	Inventory.Load(self)
 
 	netstream.Send(self, "PostLoadCharacter")
+
 	hook.Run("PostLoadCharacter", self)
 end
+
+netstream.Hook("DeleteCharacter", function(ply, id)
+	if not ply:CharacterList()[id] then
+		return
+	end
+
+	ply:DeleteCharacter(id)
+end)
 
 function meta:DeleteCharacter(id)
 	Delete(id)
@@ -87,29 +102,6 @@ function Delete(id)
 		query:WhereEqual("id", id)
 	query:Execute()
 end
-
-function GM:PreCreateCharacter(ply, fields)
-	Language.SetupCharacter(fields)
-end
-
-netstream.Hook("CreateCharacter", function(ply, name, desc, model, skin)
-	local mul = ply:IsSuperAdmin() and 3 or ply:IsAdmin() and 2 or 1
-	if table.Count(ply:CharacterList()) >= Config.Get("MaxCharacters") * mul then return end
-	if not ply:IsAdmin() and GAMEMODE.CurrentLocation != LOCATION_CITY then return end
-
-	if GAMEMODE:CheckCharacterValidity(name, desc, model, skin) then
-		local fields = {
-			Name = name,
-			Description = desc,
-			Model = model,
-			Skin = skin
-		}
-
-		hook.Run("PreCreateCharacter", ply, fields)
-
-		ply:LoadCharacter(ply:CreateCharacter(fields))
-	end
-end)
 
 netstream.Hook("SelectCharacter", function(ply, id)
 	if not ply:CharacterList()[id] then

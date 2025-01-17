@@ -35,7 +35,7 @@ end
 
 local matBlurScreen = Material("pp/blurscreen")
 
-function draw.DrawBackgroundBlur(frac)
+function draw.DrawBackgroundBlur(frac, x, y, w, h)
 	DisableClipping(true)
 
 	surface.SetMaterial(matBlurScreen)
@@ -46,7 +46,7 @@ function draw.DrawBackgroundBlur(frac)
 		matBlurScreen:SetFloat("$blur", frac * 5 * (i / 3))
 		matBlurScreen:Recompute()
 		render.UpdateScreenEffectTexture()
-		surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
+		surface.DrawTexturedRect(x or 0, y or 0, w or ScrW(), h or ScrH())
 
 	end
 
@@ -141,18 +141,6 @@ function GM:CalcView(ply, pos, ang, fov, znear, zfar)
 		end
 	end
 
-	if (self.CharCreate or CCP.Quiz) and self.GetHL2CamPos then
-		local tab = self:GetHL2CamPos()
-
-		self.ThirdCurPos = view.origin
-		self.ThirdCurAng = view.angles
-
-		view.origin = tab[1]
-		view.angles = tab[2]
-
-		return view
-	end
-
 	if cookie.GetNumber("cc_headbob", 0) == 1 then
 		local hmul = 0
 		local len2d = ply:GetVelocity():Length2D()
@@ -180,17 +168,6 @@ function GM:ShouldDrawLocalPlayer(ply)
 	if cookie.GetNumber("cc_thirdperson", 0) == 1 then return self:ShouldDoThirdPerson(ply) end
 
 	return false
-end
-
-function GM:DrawCharCreate()
-	if self.CharCreate then
-		if not self.GetHL2CamPos then
-			surface.SetDrawColor(0, 0, 0, 255)
-			surface.DrawRect(0, 0, ScrW(), ScrH())
-		else
-			draw.DrawBackgroundBlur(1)
-		end
-	end
 end
 
 function GM:DrawConsciousness()
@@ -868,7 +845,7 @@ function GM:DrawWarnings()
 end
 
 function GM:DrawUnconnected()
-	if not self.CharCreateOpened then
+	if not lp:HasCharacter() and not vgui.CursorVisible() then
 		surface.SetDrawColor(0, 0, 0, 150)
 		surface.DrawRect(0, 0, ScrW(), ScrH())
 
@@ -956,54 +933,50 @@ function GM:DrawNotifications()
 end
 
 function GM:HUDPaint()
-	if not CCP then return end
+	if not CCP or not lp:HasCharacter() then return end
 
-	self:DrawCharCreate()
+	local mode = lp:OverlayMode()
 
-	if not self.CharCreate then
-		local mode = LocalPlayer():OverlayMode()
+	if mode == OVERLAY_TARGET then
+		self:DrawTargetHUD()
+	end
 
-		if mode == OVERLAY_TARGET then
-			self:DrawTargetHUD()
-		end
+	self:DrawTimedProgress()
 
-		self:DrawTimedProgress()
+	if cookie.GetNumber("cc_hud", 1) == 1 and not self.Mastermind then
+		self:DrawDamage()
+		self:DrawConsciousness()
+		self:DrawPassedOut()
+		self:DrawDoors()
 
-		if cookie.GetNumber("cc_hud", 1) == 1 and not self.Mastermind then
-			self:DrawDamage()
-			self:DrawConsciousness()
-			self:DrawPassedOut()
-			self:DrawDoors()
-
-			if mode != OVERLAY_TARGET then
-				self:DrawEntities()
-				self:DrawPlayerInfo()
-				self:DrawHealthBars()
-			end
-
-			self:DrawAmmo()
-			self:DrawWeaponSelect()
-			self:DrawNotifications()
-		end
-
-		if self.Mastermind then
+		if mode != OVERLAY_TARGET then
 			self:DrawEntities()
+			self:DrawPlayerInfo()
+			self:DrawHealthBars()
 		end
 
-		if cookie.GetNumber("cc_hud", 1) != 1 then
-			self:DrawConsciousness()
-			self:DrawPassedOut()
-			self:DrawWeaponSelect()
-		end
+		self:DrawAmmo()
+		self:DrawWeaponSelect()
+		self:DrawNotifications()
+	end
 
-		self:DrawWarnings()
-		self:DrawUnconnected()
+	if self.Mastermind then
+		self:DrawEntities()
+	end
 
-		local wep = LocalPlayer():GetActiveWeapon()
+	if cookie.GetNumber("cc_hud", 1) != 1 then
+		self:DrawConsciousness()
+		self:DrawPassedOut()
+		self:DrawWeaponSelect()
+	end
 
-		if IsValid(wep) and wep.HUDPaint then
-			wep:HUDPaint()
-		end
+	self:DrawWarnings()
+	self:DrawUnconnected()
+
+	local wep = LocalPlayer():GetActiveWeapon()
+
+	if IsValid(wep) and wep.HUDPaint then
+		wep:HUDPaint()
 	end
 end
 

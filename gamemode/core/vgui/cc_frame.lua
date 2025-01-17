@@ -100,7 +100,17 @@ function PANEL:PerformLayout()
 	end
 end
 
+function PANEL:PaintFullScreen(x, y, w, h)
+end
+
 function PANEL:Paint(w, h)
+	local was = DisableClipping(true)
+	local x, y = self:LocalToScreen(0, 0)
+
+	self:PaintFullScreen(x * -1, y * -1, ScrW(), ScrH())
+
+	DisableClipping(was)
+
 	derma.SkinHook("Paint", "Frame", self, w, h)
 end
 

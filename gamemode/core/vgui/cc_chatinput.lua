@@ -73,4 +73,4 @@ function PANEL:AllowInput(char)
 	end
 end
 
-derma.DefineControl("CC_ChatInput", "Chat input panel", PANEL, "DTextEntry")
+derma.DefineControl("CC_ChatInput", "", PANEL, "DTextEntry")

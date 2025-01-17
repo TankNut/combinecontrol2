@@ -1,14 +1,4 @@
-util.AddNetworkString("nCharacterList")
 util.AddNetworkString("nRequestPData")
-
-util.AddNetworkString("nOpenCharCreate")
-util.AddNetworkString("nCreateCharacter")
-util.AddNetworkString("nSelectCharacter")
-util.AddNetworkString("nDeleteCharacter")
-util.AddNetworkString("nSetNewbieStatus")
-
-util.AddNetworkString("nChangeRPName")
-util.AddNetworkString("nChangeTitle")
 
 util.AddNetworkString("nAAdminPanel")
 
@@ -127,8 +117,6 @@ util.AddNetworkString("nACharacterLookup")
 
 util.AddNetworkString("nSetNightvision")
 util.AddNetworkString("nToggleNightvision")
-
-util.AddNetworkString("nSetCharCreate")
 
 util.AddNetworkString("nSendItem")
 util.AddNetworkString("nUnloadItem")

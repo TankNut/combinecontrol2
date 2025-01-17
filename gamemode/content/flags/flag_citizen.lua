@@ -16,7 +16,7 @@ function FLAG:GetModelData(ply)
 			Skin = ply:CharacterSkin()
 		},
 		Body = {
-			Model = string.format("models/tnb/clothing/trp/body/%s_survivor.mdl", ply:Gender(mdl))
+			Model = string.format("models/tnb/clothing/trp/body/%s_survivor.mdl", util.GetModelGender(mdl))
 		}
 	}
 end

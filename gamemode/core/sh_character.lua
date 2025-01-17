@@ -23,16 +23,21 @@ function meta:IsTemporaryCharacter()
 end
 
 function GM:OnCharacterListChanged(ply, old, new, loaded)
-	if CLIENT and loaded then
-		self.CCMode = table.Count(new) > 0 and CC_CREATESELECT_C or CC_CREATE
-		self:CreateCharEditor()
+	if CLIENT and (loaded or GUI.Get("CharacterSelect")) then
+		GUI.Open("CharacterSelect")
+	end
+end
+
+function GM:OnCharIDChanged(ply, old, new, loaded)
+	if CLIENT and ply == lp and old == 0 then
+		self:CreateMOTD()
 	end
 end
 
 function GM:PostLoadCharacter(ply)
 	if CLIENT then
-		-- This needs to become a var
-		GAMEMODE.LastLanguage = nil
+		GUI.Close("CharacterCreate")
+		GUI.Close("CharacterSelect")
 	end
 
 	ply:SetScale(0, true)
