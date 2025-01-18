@@ -114,6 +114,12 @@ function PANEL:UpdateProgress(ok)
 	local page = self.Page
 	local max = #self.CharType.Pages
 
+	if page == max then
+		self.Next:SetText("Finish")
+	else
+		self.Next:SetText("Next")
+	end
+
 	if not ok then
 		page = page - 1
 	end
