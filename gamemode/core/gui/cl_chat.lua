@@ -71,6 +71,10 @@ function PANEL:Init()
 	end
 end
 
+function PANEL:Close()
+	self:OnClose()
+end
+
 function PANEL:OnClose()
 	Chat.Hide()
 end
