@@ -19,17 +19,56 @@ function PANEL:Setup(names, val)
 		buttons:SetTall(22)
 		buttons:SetPaintBackground(false)
 
-		for _, index in ipairs(args.RandomNames) do
-			local button = buttons:Add("DButton")
+		local button = buttons:Add("DButton")
 
-			button:DockMargin(0, 0, 5, 0)
-			button:Dock(LEFT)
-			button:SetText("Random " .. index)
-			button:SizeToContentsX(20)
+		button:DockMargin(0, 0, 5, 0)
+		button:Dock(LEFT)
+		button:SetText("Random Names")
+		button:SizeToContentsX(20)
 
-			button.DoClick = function()
-				self.Entry:SetValue(CharCreate.GetRandomName(index))
+		-- Override func to prevent the menu from closing when clicked
+		local func = function(pnl, mousecode)
+			DButton.OnMouseReleased(pnl, mousecode)
+
+			if self.m_MenuClicking and mousecode == MOUSE_LEFT then
+				self.m_MenuClicking = false
 			end
+		end
+
+		button.DoClick = function()
+			local dmenu = DermaMenu(false, button)
+			local tree = {
+				_panel = dmenu
+			}
+
+			for _, index in ipairs(names) do
+				local exploded = string.Explode("/", index)
+				local node = tree
+
+				for k, name in ipairs(exploded) do
+					if k == #exploded then
+						node._panel:AddOption(name, function()
+							self.Entry:SetValue(CharCreate.GetRandomName(index))
+						end).OnMouseReleased = func
+
+						continue
+					end
+
+					if not tree[name] then
+						local submenu, panel = node._panel:AddSubMenu(name)
+
+						panel.OnMouseReleased = func
+
+						tree[name] = {
+							_panel = submenu
+						}
+					end
+
+					node = tree[name]
+				end
+			end
+
+			dmenu:Open()
 		end
 	end
 
