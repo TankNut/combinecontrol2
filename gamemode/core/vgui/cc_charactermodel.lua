@@ -42,16 +42,20 @@ function PANEL:SetModel(mdl)
 	self.Entity:SetCycle(cycle)
 end
 
-function PANEL:SetSkin(num)
-	self.Entity:SetSkin(num)
-end
+function PANEL:SetAppearance(appearance)
+	local base = assert(appearance._base, "SetAppearance somehow ended up without _base model data!")
 
-function PANEL:SetParts(parts)
-	local ent = self.Entity
+	self:SetModel(base.Model)
 
-	part.Clear(ent)
+	local ent = self:GetEntity()
 
-	for name, data in pairs(parts) do
+	ent:ApplyModel(base)
+
+	for name, data in pairs(appearance) do
+		if name == "_base" then
+			continue
+		end
+
 		local partType = data._type or "ModelPart"; data._type = nil
 
 		if partType == "ModelPart" and data.Bonemerge == nil then

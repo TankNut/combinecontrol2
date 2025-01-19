@@ -143,7 +143,11 @@ function PANEL:PerformLayout(w, h)
 end
 
 function PANEL:UpdateModel(key)
-	self.CharType:SetupModelPanel(self.Model, self.Options, key)
+	local appearance = self.CharType:GetAppearance(self.Options, key)
+
+	if appearance then
+		self.Model:SetAppearance(appearance)
+	end
 end
 
 function PANEL:SetOption(key, val)

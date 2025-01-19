@@ -90,18 +90,23 @@ if CLIENT then
 		"Model", "Skin"
 	})
 
-	function CLASS:SetupModelPanel(panel, options, key)
+	function CLASS:GetAppearance(options, key)
 		if key and not updateFields[key] then
 			return
 		end
 
-		panel:SetModel(options.Model or self.Models[1])
-		panel:SetSkin(options.Skin or 0)
+		local base = {
+			Model = options.Model or self.Models[1],
+			Skin = options.Skin or 0
+		}
 
-		panel:SetParts({
-			Body = {
-				Model = string.format("models/tnb/clothing/trp/body/%s_survivor.mdl", util.GetModelGender(panel:GetModel()))
-			}
-		})
+		local body = {
+			Model = string.format("models/tnb/clothing/trp/body/%s_survivor.mdl", util.GetModelGender(base.Model))
+		}
+
+		return {
+			_base = base,
+			Body = body
+		}
 	end
 end
