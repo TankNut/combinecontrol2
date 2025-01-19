@@ -25,7 +25,6 @@ function PANEL:Init()
 	self.Next = self.Buttons:Add("DButton")
 	self.Next:Dock(RIGHT)
 	self.Next:SetWide(50)
-	self.Next:SetText("Next")
 
 	self.Next:SetDisabled(true)
 
@@ -37,15 +36,10 @@ function PANEL:Init()
 	self.Back:DockMargin(0, 0, 0, 0)
 	self.Back:Dock(LEFT)
 	self.Back:SetWide(50)
-	self.Back:SetText("Back")
 
 	self.Back.DoClick = function(pnl)
 		self:GoBack()
 	end
-
-	self.Progress = self.Buttons:Add("CCProgressBar")
-	self.Progress:DockMargin(5, 0, 5, 0)
-	self.Progress:Dock(FILL)
 
 	self.Model = self:Add("CC_CharacterModel")
 	self.Model:Dock(FILL)
@@ -92,7 +86,7 @@ function PANEL:CheckPage()
 	local options = self.CharType.Options
 	local rules = {}
 
-	for _, id in ipairs(self:GetCurrentOptions()) do
+	for _, id in ipairs(self:GetPageData().Options) do
 		rules[id] = self.CharType.Validate[id]
 	end
 
@@ -105,38 +99,24 @@ function PANEL:CheckPage()
 	self.Next:SetDisabled(not ok)
 	self.Next:SetTooltip(err)
 
-	self:UpdateProgress(ok)
-
 	return ok
 end
 
-function PANEL:UpdateProgress(ok)
-	local page = self.Page
-	local max = #self.CharType.Pages
-
-	if page == max then
-		self.Next:SetText("Finish")
-	else
-		self.Next:SetText("Next")
-	end
-
-	if not ok then
-		page = page - 1
-	end
-
-	self.Progress:SetProgress(page / max)
-	self.Progress:SetProgressText(string.format("%s%%", page / max * 100))
+function PANEL:GetPageData(index)
+	return self.CharType.Pages[index or self.Page]
 end
 
-function PANEL:GetCurrentOptions()
-	return self.CharType.Pages[self.Page]
+function PANEL:PageCount()
+	return #self.CharType.Pages
 end
 
-function PANEL:SetPage(val)
-	self.Page = val
+function PANEL:SetPage(index)
+	self.Page = index
 	self.Content:Clear()
 
-	for _, id in ipairs(self:GetCurrentOptions()) do
+	local data = self:GetPageData()
+
+	for _, id in ipairs(data.Options) do
 		local option = self.CharType.Options[id]
 		local panel = self.Content:Add(option.Panel)
 
@@ -147,7 +127,19 @@ function PANEL:SetPage(val)
 		panel:Setup(option.Args, self.Options[id], self.Options)
 	end
 
+	self.Back:SetText(index == 1 and "Cancel" or "Back: " .. self:GetPageData(index - 1).Name)
+	self.Next:SetText(index == self:PageCount() and "Finish" or "Next: " .. self:GetPageData(index + 1).Name)
+
+	self:InvalidateLayout()
+
 	self:CheckPage()
+end
+
+function PANEL:PerformLayout(w, h)
+	BaseClass.PerformLayout(self, w, h)
+
+	self.Back:SizeToContentsX(25)
+	self.Next:SizeToContentsX(25)
 end
 
 function PANEL:UpdateModel(key)

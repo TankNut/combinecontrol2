@@ -25,8 +25,9 @@ CLASS.Fields = {
 }
 
 CLASS.Pages = {
-	{"Name", "Description"},
-	{"Model", "Skin"}
+	{Name = "Basic Information", Options = {"Name", "Description"}},
+	{Name = "Appearance", Options = {"Model", "Skin"}},
+	{Name = "Options", Options = {"Language"}}
 }
 
 CLASS.Options = {
