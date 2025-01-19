@@ -19,7 +19,7 @@ function PANEL:Init()
 	topBar:SetPaintBackground(false)
 	topBar:SetTall(20)
 
-	self.Tabs = cookie.GetNumber("cc_chatfilter", -1)
+	self.Tabs = cookie.GetNumber("cc_chat_tabs", 0)
 	self.Buttons = {}
 
 	local tabs = {
@@ -83,14 +83,14 @@ function PANEL:SaveTabConfig()
 	local val = 0
 
 	for _, v in pairs(self.Buttons) do
-		if v.Active then
+		if not v.Active then
 			val = val + v.Tab
 		end
 	end
 
 	self.Tabs = val
 
-	cookie.Set("afterglow_chat_tabs", val)
+	cookie.Set("cc_chat_tabs", val)
 end
 
 function PANEL:CanSeeTab(tab)
@@ -98,7 +98,7 @@ function PANEL:CanSeeTab(tab)
 		return true
 	end
 
-	return self.Tabs == -1 or tobool(bit.band(self.Tabs, tab))
+	return not tobool(bit.band(self.Tabs, tab))
 end
 
 function PANEL:AddMessage(message, consoleMessage, tabs)
