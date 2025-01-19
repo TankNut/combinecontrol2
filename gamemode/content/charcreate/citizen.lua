@@ -20,6 +20,10 @@ CLASS.Models = {
 	Model("models/tnb/heads/trp/female_53.mdl")
 }
 
+CLASS.OptionalLanguages = {
+	"rus"
+}
+
 CLASS.Fields = {
 	Languages = Language.GetDefaultLanguages()
 }
@@ -33,6 +37,7 @@ CLASS.Pages = {
 CLASS.Options = {
 	Name = {
 		Name = "Name", Panel = "CC_CharCreate_Name",
+		Description = "Your text here!\nAnd here!",
 		Field = "CharacterName",
 		Args = {
 			"English/Masculine",
@@ -53,6 +58,14 @@ CLASS.Options = {
 		Name = "Skin", Panel = "CC_CharCreate_Skin",
 		Field = "CharacterSkin",
 		Args = "Model"
+	},
+	Language = {
+		Name = "Extra language", Panel = "CC_CharCreate_Dropdown",
+		Args = table.Add({
+			{Name = "None", Value = nil},
+		}, table.Map(CLASS.OptionalLanguages, function(lang)
+			return {Name = Language.Get(lang).Name, Value = lang}
+		end))
 	}
 }
 
@@ -82,6 +95,10 @@ CLASS.Validate = {
 		validate.Callback(function(val)
 			return val < util.GetModelSkins(validate.Cache.Model), "Skin index out of bounds"
 		end)
+	},
+	Language = {
+		validate.String(),
+		validate.InList(CLASS.OptionalLanguages)
 	}
 }
 
@@ -108,5 +125,11 @@ if CLIENT then
 			_base = base,
 			Body = body
 		}
+	end
+else
+	function CLASS:PreCreateCharacter(ply, fields, options)
+		if options.Language then
+			fields.Languages[options.Language] = true
+		end
 	end
 end

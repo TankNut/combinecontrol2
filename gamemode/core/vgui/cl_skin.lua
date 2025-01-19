@@ -284,6 +284,10 @@ function SKIN:PaintMenuOption(panel, w, h)
 	end
 end
 
+function SKIN:PaintComboBox(panel, w, h)
+	self:PaintButton(panel, w, h)
+end
+
 function SKIN:PaintScoreboard(panel, w, h)
 	surface.SetDrawColor(ColorAlpha(self.Colors.FillDark, getAlpha()))
 	surface.DrawRect(0, 0, w, h)
