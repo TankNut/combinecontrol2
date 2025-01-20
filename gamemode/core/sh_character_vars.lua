@@ -68,6 +68,24 @@ function Add(name, data)
 		end
 	end
 
+	meta["SetTemp" .. name] = function(ply, val)
+		if val == default then val = nil end
+
+		if validate and val != nil and not validate(val) then
+			error(string.format("Set value '%s' doesn't match database type %s", val, dataType), 2)
+		end
+
+		local old = cache[ply]
+
+		cache[ply] = val
+
+		hook.Run(hookName, ply, old, val == nil and default or val)
+
+		if SERVER and not serverOnly then
+			netstream.Send(private and ply or nil, index, ply, val)
+		end
+	end
+
 	if CLIENT then
 		netstream.Hook(index, function(ply, val, loading)
 			local old = cache[ply]

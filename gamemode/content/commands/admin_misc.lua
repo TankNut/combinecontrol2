@@ -139,7 +139,7 @@ setHealth:AddParameter(console.Number({
 }))
 
 local deadmin = console.AddCommand("rpa_deadmin", function(ply)
-	ply:SetUserGroup("user")
+	ply:SetTempUserGroup("user")
 
 	console.Feedback(ply, "NOTICE", "You've deadminned yourself")
 	Chat.Send("NOTICE", string.format("%s has deadminned themselves.", ply:Nick()), player.GetAdmins())
