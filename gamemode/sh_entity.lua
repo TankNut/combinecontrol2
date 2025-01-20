@@ -47,12 +47,6 @@ end
 
 if CLIENT then
 	hook.Add("NetworkEntityCreated", "SH.Entity.NetworkEntityCreated", function(ent)
-		if ent:IsNPC() then
-			net.Start("nRequestNPCData")
-				net.WriteEntity(ent)
-			net.SendToServer()
-		end
-
 		if ent:GetClass() == "prop_physics" then
 			net.Start("nRequestPropData")
 				net.WriteEntity(ent)

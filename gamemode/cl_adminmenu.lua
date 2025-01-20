@@ -115,20 +115,6 @@ function GM:CreateAdminMenu()
 	end
 	CCP.AdminMenu.TopBar.Buttons[6]:PerformLayout()
 
-	CCP.AdminMenu.TopBar.Buttons[7] = vgui.Create("DButton", CCP.AdminMenu.TopBar)
-	CCP.AdminMenu.TopBar.Buttons[7]:SetFont("CombineControl.LabelSmall")
-	CCP.AdminMenu.TopBar.Buttons[7]:SetText("Mastermind")
-	CCP.AdminMenu.TopBar.Buttons[7]:SetPos(689, 10)
-	CCP.AdminMenu.TopBar.Buttons[7]:SetSize(100, 26)
-	CCP.AdminMenu.TopBar.Buttons[7].DoClick = function(self)
-
-		if not GAMEMODE.Mastermind then GAMEMODE.Mastermind = false end
-
-		GAMEMODE.Mastermind = not GAMEMODE.Mastermind
-
-	end
-	CCP.AdminMenu.TopBar.Buttons[7]:PerformLayout()
-
 	CCP.AdminMenu.ContentPane = vgui.Create("DPanel", CCP.AdminMenu)
 	CCP.AdminMenu.ContentPane:SetPos(0, 74)
 	CCP.AdminMenu.ContentPane:SetSize(800, 426)

@@ -18,31 +18,6 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 	if ply:PassedOut() and not table.HasValue(self.HandsWeapons, new:GetClass()) then return true end
 	if ply:TiedUp() and not table.HasValue(self.HandsWeapons, new:GetClass()) then return true end
 
-	for _, v in ipairs(ents.GetNPCs()) do
-
-		if not v:IsValid() then return end
-		if v:NPCHatesWeapons() == 1 then
-
-			local class = new:GetClass()
-
-			if class != "weapon_cc_hands" and class != "weapon_physgun" and class != "gmod_tool" and class != "weapon_physcannon" then
-
-				v:AddEntityRelationship(ply, D_HT, 99)
-
-			else
-
-				if not ply:Visible(v) then
-
-					self:RefreshNPCRelationship(v)
-
-				end
-
-			end
-
-		end
-
-	end
-
 	self.BaseClass:PlayerSwitchWeapon(ply, old, new)
 end
 

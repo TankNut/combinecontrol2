@@ -1,33 +1,3 @@
-GM.TimedProgressBars = {}
-
-function GM:CreateTimedProgressBar(time, text, ply, cb)
-	if time <= 0 then
-		cb(self)
-
-		return
-	end
-
-	if ply == game.GetWorld() then
-		ply = LocalPlayer()
-	end
-
-	table.insert(self.TimedProgressBars, {
-		Start = CurTime(),
-		End = CurTime() + time,
-		Text = text,
-		Player = ply,
-		CB = cb
-	})
-end
-
-net.Receive("nCreateTimedProgressBar", function(len)
-	local t = net.ReadFloat()
-	local text = net.ReadString()
-	local targ = net.ReadEntity()
-
-	GAMEMODE:CreateTimedProgressBar(t, text, targ, function() end)
-end)
-
 net.Receive("nCReceiveCredits", function(len)
 	local amt = net.ReadFloat()
 	local ply = net.ReadEntity()
@@ -35,201 +5,20 @@ net.Receive("nCReceiveCredits", function(len)
 	lp:SendChat("GENERIC", ply:VisibleRPName() .. " gave you " .. util.FormatCurrency(amt) .. ".")
 end)
 
-net.Receive("nCPattedDown", function(len)
-	local targ = net.ReadEntity()
-
-	CCP.PatDown = vgui.Create("DFrame")
-
-	local ui = CCP.PatDown
-
-	ui:SetSize(800, 426)
-	ui:Center()
-	ui:SetTitle("Inventory")
-	ui.lblTitle:SetFont("CombineControl.Window")
-	ui:MakePopup()
-	ui.PerformLayout = CCFramePerformLayout
-	ui:PerformLayout()
-
-	ui:SetCloseOnPause(true)
-	ui.Player = targ
-
-	function ui:OnRemove()
-		net.Start("nClosePlayerInventory")
-			net.WriteEntity(self.Player)
-		net.SendToServer()
-	end
-
-	function ui:Update()
-		local ply = self.Player
-
-		if not IsValid(ply) then
-			return
-		end
-
-		local inv = ply.Inventory
-		local x = 0
-		local y = 0
-
-		self.InvScroll:Clear()
-
-		local icons = {}
-
-		for _, item in SortedPairs(inv) do
-			local icon = item:CreateInventoryIcon(INVTYPE_PATDOWN)
-
-			icons[icon.ID] = icon
-
-			self.InvScroll:AddItem(icon)
-
-			icon:SetPos(x, y)
-
-			x = x + 48 + 10
-
-			if x > self.InvScroll:GetWide() - 48 then
-				x = 0
-				y = y + 48 + 10
-			end
-
-			function icon:DoClick()
-				ui.SelectedItem = item
-
-				item:ConfigureModelPanel(ui.InvModel)
-
-				ui.InvTitle:SetText(item:GetName())
-				ui.InvDesc:SetText(item:GetDescription())
-
-				item:GetAuxDescription(ui.InvDesc)
-
-				if IsValid(ui.ButExamine) then
-					ui.ButExamine:Remove()
-				end
-
-				ui.ButExamine = vgui.Create("DButton", ui)
-				ui.ButExamine:SetFont("CombineControl.LabelSmall")
-				ui.ButExamine:SetText("Examine")
-				ui.ButExamine:SetPos(ui:GetWide() - 110, ui:GetTall() - 30)
-				ui.ButExamine:SetSize(100, 20)
-
-				if item:GetProperty("Generic") or #item:GetProperty("UserDescription") <= 0 then
-					ui.ButExamine:SetDisabled(true)
-				end
-
-				function ui.ButExamine:DoClick()
-					item:CreateUserDescription()
-				end
-			end
-
-		end
-
-		if self.SelectedItem then
-			local reset = true
-			local id = self.SelectedItem.ID
-
-			if inv[id] then
-				reset = false
-
-				icons[id]:DoClick()
-			end
-
-			if reset then
-				self:Reset()
-			end
-		end
-	end
-
-	function ui:Reset()
-		local inv = self.Player.Inventory
-
-		self.InvModel:SetModel("")
-		self.InvTitle:SetText("")
-
-		if table.Count(inv) == 0 then
-			self.InvDesc:SetText("They don't have any items.")
-		else
-			self.InvDesc:SetText("No item selected.")
-		end
-	end
-
-	ui.InvModel = vgui.Create("DModelPanel", ui)
-	ui.InvModel:SetPos(420, 34)
-	ui.InvModel:SetModel("")
-	ui.InvModel:SetSize(ui:GetWide() - 430, 200)
-	ui.InvModel:SetFOV(20)
-	ui.InvModel:SetCamPos(Vector(50, 50, 50))
-	ui.InvModel:SetLookAt(Vector(0, 0, 0))
-
-	ui.InvModel.LayoutEntity = stub
-
-	local p = ui.InvModel.Paint
-
-	function ui.InvModel:Paint(w, h)
-		surface.SetDrawColor(30, 30, 30, 150)
-		surface.DrawRect(0, 0, w, h)
-
-		surface.SetDrawColor(20, 20, 20, 100)
-		surface.DrawOutlinedRect(0, 0, w, h)
-
-		p(self, w, h)
-	end
-
-	ui.InvTitle = vgui.Create("DLabel", ui)
-	ui.InvTitle:SetText("")
-	ui.InvTitle:SetPos(420, 244)
-	ui.InvTitle:SetFont("CombineControl.LabelGiant")
-	ui.InvTitle:SetSize(ui:GetWide() - 430, 22)
-	ui.InvTitle:PerformLayout()
-
-	ui.InvDesc = vgui.Create("RichText", ui)
-	ui.InvDesc:SetText("No item selected.")
-	ui.InvDesc:SetPos(420, 274)
-	ui.InvDesc:SetSize(ui:GetWide() - 430 - 110, 144)
-	ui.InvDesc:SetVerticalScrollbarEnabled(false)
-	ui.InvDesc:SetWrap(true)
-
-	function ui.InvDesc:PerformLayout()
-		self:SetFontInternal("CombineControl.LabelSmall")
-		self:SetBGColor(Color(0, 0, 0, 0))
-	end
-
-	ui.InvScroll = vgui.Create("DScrollPanel", ui)
-	ui.InvScroll:SetPos(10, 34)
-	ui.InvScroll:SetSize(400, ui:GetTall() - 50)
-
-	function ui.InvScroll:Paint(w, h)
-		surface.SetDrawColor(30, 30, 30, 150)
-		surface.DrawRect(0, 0, w, h)
-
-		surface.SetDrawColor(20, 20, 20, 100)
-		surface.DrawOutlinedRect(0, 0, w, h)
-	end
-
-	ui:Reset()
-	ui:Update()
-end)
-
 function GM:GetCCOptions(ent, dist)
 	local tab = {}
-	local lp = LocalPlayer()
 
-	if ent and ent:IsValid() and ent:GetClass() == "prop_ragdoll" then
-
+	if IsValid(ent) and ent:GetClass() == "prop_ragdoll" then
 		for _, v in player.Iterator() do
-
-			if v:Ragdoll() and v:Ragdoll():IsValid() and v:Ragdoll() == ent then
-
+			if IsValid(v:Ragdoll()) and v:Ragdoll() == ent then
 				ent = v
 				CCSelectedEnt = ent
-
 			end
-
 		end
-
 	end
 
-	if ent and ent:IsValid() then
-
+	if IsValid(ent) then
 		if ent:IsDoor() then
-
 			if LocalPlayer():TiedUp() then return tab end
 			if LocalPlayer():PassedOut() then return tab end
 
@@ -296,52 +85,6 @@ function GM:GetCCOptions(ent, dist)
 			end, nil, 100}
 
 			table.insert(tab, option)
-
-			local option = {"Pat Down", function()
-				net.Start("nCPatDownStart")
-					net.WriteEntity(ent)
-				net.SendToServer()
-
-				local mul = 1
-
-				GAMEMODE:CreateTimedProgressBar(5 * mul, "Patting Down...", ent, function()
-					net.Start("nCPatDown")
-						net.WriteEntity(ent)
-					net.SendToServer()
-				end)
-			end, nil, 100}
-
-			table.insert(tab, option)
-
-			if ent:TiedUp() then
-				local option = {"Untie", function()
-					net.Start("nCUntieStart")
-						net.WriteEntity(ent)
-					net.SendToServer()
-
-					GAMEMODE:CreateTimedProgressBar(2, "Untying...", ent, function()
-						net.Start("nCUntie")
-							net.WriteEntity(ent)
-						net.SendToServer()
-					end)
-				end, nil, 100}
-
-				table.insert(tab, option)
-			elseif lp:HasItem("zipties") then
-				local option = {"Tie Up", function()
-					net.Start("nCTieUpStart")
-						net.WriteEntity(ent)
-					net.SendToServer()
-
-					GAMEMODE:CreateTimedProgressBar(5, "Tying...", ent, function()
-						net.Start("nCTieUp")
-							net.WriteEntity(ent)
-						net.SendToServer()
-					end)
-				end, nil, 100}
-
-				table.insert(tab, option)
-			end
 
 			if ent:PassedOut() and lp:HasItem("weapon_cc_knife") and ent:GetVelocity():Length2D() <= 5 then
 				local option = {"Slit Throat", function()
@@ -799,81 +542,6 @@ end
 
 function GM:CreateCCContext(ent)
 	CloseDermaMenus()
-
-	CCSelectedEnt = ent
-	local dist = 0
-
-	local ply = LocalPlayer()
-
-	if ent and ent:IsValid() then
-
-		dist = ply:GetPos():Distance(ent:GetPos())
-
-	end
-
-	local options = self:GetCCOptions(CCSelectedEnt, dist)
-
-	gui.EnableScreenClicker(true)
-
-	local menu = DermaMenu()
-	menu:SetPos(gui.MousePos())
-
-	self:GenerateSoundMenu(menu)
-
-	local equipment
-
-	for _, v in SortedPairs(ply:GetAllEquipment()) do
-		local itemOptions = v:GetInventoryOptions(ply)
-		local subMenu
-
-		for k, option in pairs(itemOptions) do
-			if option.Context then
-				equipment = equipment or menu:AddSubMenu("Equipment")
-				subMenu = subMenu or equipment:AddSubMenu(v:GetName())
-
-				local func = function()
-					option.Func(v, ply)
-
-					net.Start("nUseItem")
-						net.WriteInt(v.ID, 32)
-						net.WriteInt(k, 8)
-					net.SendToServer()
-				end
-
-				subMenu:AddOption(option.Name, function()
-					if option.Delay then
-						GAMEMODE:CreateTimedProgressBar(option.Delay, option.DelayName, LocalPlayer(), function()
-							func()
-						end)
-					else
-						func()
-					end
-				end)
-			end
-		end
-	end
-
-	for _, v in pairs(options) do
-
-		if not v[4] or (v[4] and dist <= v[4]) then
-
-			menu:AddOption(v[1], function()
-
-				gui.EnableScreenClicker(false)
-
-				if (not CCSelectedEnt or not CCSelectedEnt:IsValid()) and not v[3] then return end
-
-				if not v[3] and CCSelectedEnt and CCSelectedEnt:IsValid() and LocalPlayer():GetPos():Distance(CCSelectedEnt:GetPos()) > v[4] then return end
-
-				v[2](CCSelectedEnt)
-
-			end)
-
-		end
-
-	end
-
-	menu:Open()
 end
 
 function GM:RemoveCCContext(d)

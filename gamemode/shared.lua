@@ -403,15 +403,6 @@ GM.BusinessLicenses[BUSINESS_QUARTERMASTER] = {"Quartermaster"}
 --GM.BusinessLicenses[BUSINESS_ILLEGAL] = {"Illegal.", 500} --drugs, melee, scrap weapons, some clothes relevent to class
 --GM.BusinessLicenses[BUSINESS_SPECIAL] = {"Special Supply"} --exo gear, top tier guns, top tier augs maybe......flag set only like classic blackmarket
 
-GM.Traits = {}
-GM.Traits[TRAIT_NONE] = {"None", "No trait."}
---prepping some traits for Tekka
---GM.Traits[TRAIT_MECHANIC] = {"Mechanic", "Can repair weapons, craft specialist ammo types and explosives, and can assemble the frames of Exoskeletons."}
---GM.Traits[TRAIT_RUNNER] = {"Runner", "Higher carry weight, can climb short walls, quieter footsteps, can use 'City Speak' language."}
---GM.Traits[TRAIT_CITYRAT] = {"City Rat", "Can craft drugs, scrap ammo and crude explosives, can use 'City Speak' language."}
---GM.Traits[TRAIT_TRADER] = {"Trader", "Benefits from trade connections to get better deals on buying and selling items."}
---GM.Traits[TRAIT_MEDICAL] = {"Medical Technician", "Can install augmentations, can craft stimpacks, can assemble Exoskeleton interface modules."}
-
 GM.Langs = {}
 GM.Langs[LANG_ENGLISH] = {"English", "The default language. Pick this if you do not want additional languages for your character."}
 GM.Langs[LANG_RUSSIAN] = {"Russian", "Can additionally speak Russian with /rus."}
@@ -421,19 +412,6 @@ GM.Langs[LANG_SPANISH] = {"Spanish", "Can additionally speak Spanish with /spa."
 GM.Langs[LANG_FRENCH] = {"French", "Can additionally speak French with /fre."}
 GM.Langs[LANG_GERMAN] = {"German", "Can additionally speak German with /ger."}
 GM.Langs[LANG_ITALIAN] = {"Italian", "Can additionally speak Italian with /ita."}
-
-GM.TraitsList = {
-}
-
---tekka traitslist as above
---[[GM.TraitsList = {
-	TRAIT_MECHANIC,
-	TRAIT_RUNNER,
-	TRAIT_CITYRAT,
-	TRAIT_TRADER,
-	TRAIT_MEDICAL
-}
-]]
 
 GM.LangsList = {
 	LANG_ENGLISH,

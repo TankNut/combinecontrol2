@@ -182,41 +182,6 @@ function GM:DrawConsciousness()
 	end
 end
 
-function GM:DrawTimedProgress()
-	local yc = 0
-
-	if not self.TimedProgressBars then self.TimedProgressBars = {} end
-
-	for k, v in pairs(self.TimedProgressBars) do
-		if v.Start and CurTime() < v.End then
-			local ply = v.Player
-			local y = surface.GetFontHeight("CombineControl.LabelBig")
-
-			if not IsValid(ply) or ply:GetPos():Distance(LocalPlayer():GetPos()) > 100 or ply:GetVelocity():Length() > 5 or LocalPlayer():GetVelocity():Length() > 5 then
-				table.remove(self.TimedProgressBars, k)
-
-				continue
-			end
-
-			surface.SetDrawColor(30, 30, 30, 200)
-			surface.DrawRect(ScrW() / 2 - 400 / 2, ScrH() / 2 + 40 + yc, 400, 40)
-
-			surface.SetDrawColor(150, 20, 20, 255)
-			surface.DrawRect(ScrW() / 2 - 400 / 2 + 1, ScrH() / 2 + 40 + 1 + yc, (400 - 2) * math.min((CurTime() - v.Start) / (v.End - v.Start), 1), 40 - 2)
-
-			draw.DrawText(v.Text, "CombineControl.LabelBig", ScrW() / 2, ScrH() / 2 + 40 + y / 2 + yc, Color(200, 200, 200, 255), 1)
-		end
-
-		if v.End and CurTime() >= v.End then
-			v.CB(self)
-
-			table.remove(self.TimedProgressBars, k)
-		end
-
-		yc = yc + 60
-	end
-end
-
 function GM:DrawPassedOut()
 	if LocalPlayer():PassedOut() then
 		if not LocalPlayer():Alive() then
@@ -941,9 +906,7 @@ function GM:HUDPaint()
 		self:DrawTargetHUD()
 	end
 
-	self:DrawTimedProgress()
-
-	if cookie.GetNumber("cc_hud", 1) == 1 and not self.Mastermind then
+	if cookie.GetNumber("cc_hud", 1) == 1 then
 		self:DrawDamage()
 		self:DrawConsciousness()
 		self:DrawPassedOut()
@@ -958,10 +921,6 @@ function GM:HUDPaint()
 		self:DrawAmmo()
 		self:DrawWeaponSelect()
 		self:DrawNotifications()
-	end
-
-	if self.Mastermind then
-		self:DrawEntities()
 	end
 
 	if cookie.GetNumber("cc_hud", 1) != 1 then
@@ -992,47 +951,6 @@ function GM:HUDShouldDraw(str)
 	return true
 end
 
-GM.MastermindMat = Material("vgui/white")
-
-function GM:RenderNPCTargets()
-	if self.Mastermind then
-		for _, v in ipairs(ents.GetNPCs()) do
-			if v:NPCTargetPos() != Vector() then
-				local col = v:NPCMastermindColor()
-
-				cam.Start3D2D(v:NPCTargetPos() + Vector(0, 0, 1), Angle(), 1)
-					surface.SetTexture(surface.GetTextureID("effects/select_ring"))
-					surface.SetDrawColor(col.x, col.y, col.z, 255)
-					surface.DrawTexturedRect(-10, -10, 20, 20)
-				cam.End3D2D()
-
-				render.DrawLine(v:GetPos(), v:NPCTargetPos(), Color(col.x, col.y, col.z, 255), false)
-			end
-		end
-
-		if IsValid(self.MastermindSelected) then
-			local trace = {}
-			trace.start = LocalPlayer():GetShootPos()
-			trace.endpos = trace.start + gui.ScreenToVector(gui.MousePos()) * 32768
-			trace.filter = LocalPlayer()
-
-			if self.MastermindMouse and self.MastermindMouse == 109 then
-				trace.endpos = LocalPlayer():GetPos()
-			end
-
-			local tr = util.TraceLine(trace)
-
-			cam.Start3D2D(tr.HitPos + Vector(0, 0, 1), Angle(), 1)
-				surface.SetTexture(surface.GetTextureID("effects/select_ring"))
-				surface.SetDrawColor(200, 200, 200, 255)
-				surface.DrawTexturedRect(-10, -10, 20, 20)
-			cam.End3D2D()
-
-			render.DrawLine(self.MastermindSelected:GetPos(), tr.HitPos, Color(200, 200, 200, 255), false)
-		end
-	end
-end
-
 function GM:PostDrawOpaqueRenderables()
 	for _, v in player.Iterator() do
 		local wep = v:GetActiveWeapon()
@@ -1041,8 +959,6 @@ function GM:PostDrawOpaqueRenderables()
 			wep:PostDrawOpaqueRenderables()
 		end
 	end
-
-	self:RenderNPCTargets()
 
 	if self.MapPostDrawOpaqueRenderables then
 		self:MapPostDrawOpaqueRenderables()
@@ -1065,25 +981,6 @@ function GM:PostRenderVGUI()
 	end
 end
 
-function GM:GetCursorNPC(max)
-	local dist = max
-	local ent = nil
-
-	for _, v in ipairs(ents.GetNPCs()) do
-		local pos = v:GetPos():ToScreen()
-		local x, y = gui.MousePos()
-
-		local d = math.sqrt((pos.x - x) ^ 2 + (pos.y - y) ^ 2)
-
-		if d < dist then
-			ent = v
-			dist = d
-		end
-	end
-
-	return ent
-end
-
 function GM:GetCursorEnt()
 	local trace = {}
 	trace.start = LocalPlayer():GetShootPos()
@@ -1097,52 +994,6 @@ function GM:GetCursorEnt()
 end
 
 function GM:PreDrawHalos()
-	if self.Mastermind then
-		local hEnt = nil
-
-		if vgui.IsHoveringWorld() and not self.MastermindSelected then
-			hEnt = self:GetCursorNPC(200)
-		end
-
-		if hEnt then
-			if IsValid(hEnt:GetActiveWeapon()) then
-				halo.Add({hEnt, hEnt:GetActiveWeapon()}, Color(255, 255, 255, 255), 4, 4, 2, true, true)
-			else
-				halo.Add({hEnt}, Color(255, 255, 255, 255), 4, 4, 2, true, true)
-			end
-		end
-
-		local tab = {}
-
-		for _, v in ipairs(ents.GetNPCs()) do
-			if v != hEnt then
-				if not tab[v:NPCMastermindColor()] then
-					tab[v:NPCMastermindColor()] = {}
-				end
-
-				table.insert(tab[v:NPCMastermindColor()], v)
-
-				if v.GetActiveWeapon and v:GetActiveWeapon() and v:GetActiveWeapon():IsValid() then
-					table.insert(tab[v:NPCMastermindColor()], v:GetActiveWeapon())
-				end
-			end
-		end
-
-		for _, v in ipairs(ents.FindByClass("prop_vehicle_apc")) do
-			if v != hEnt then
-				if not tab[v:NPCMastermindColor()] then
-					tab[v:NPCMastermindColor()] = {}
-				end
-
-				table.insert(tab[v:NPCMastermindColor()], v)
-			end
-		end
-
-		for k, v in pairs(tab) do
-			halo.Add({v}, Color(k.x, k.y, k.z, 255), 2, 2, 1, true, true)
-		end
-	end
-
 	if GAMEMODE.SeeAll and IsValid(LocalPlayer():GetActiveWeapon()) and GAMEMODE.WeaponOutText[LocalPlayer():GetActiveWeapon():GetClass()] then
 		local tab = {}
 

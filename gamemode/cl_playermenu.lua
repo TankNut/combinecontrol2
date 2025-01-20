@@ -387,25 +387,6 @@ function GM:PMCreateBio()
 	end
 	CCP.PlayerMenu.CharacterDescEdit:PerformLayout()
 
-	local traits = {}
-
-	for _, v in pairs(self.TraitsList) do
-
-		if LocalPlayer():HasTrait(v) then
-
-			table.insert(traits, self.Traits[v][1])
-
-		end
-
-	end
-
-	CCP.PlayerMenu.CharacterTrait = vgui.Create("DLabel", CCP.PlayerMenu.ContentPane)
-	CCP.PlayerMenu.CharacterTrait:SetText("Traits: " .. table.concat(traits, ", "))
-	CCP.PlayerMenu.CharacterTrait:SetPos(220, 376)
-	CCP.PlayerMenu.CharacterTrait:SetFont("CombineControl.LabelSmall")
-	CCP.PlayerMenu.CharacterTrait:SizeToContents()
-	CCP.PlayerMenu.CharacterTrait:PerformLayout()
-
 	local langs = {}
 
 	for _, v in pairs(self.LangsList) do

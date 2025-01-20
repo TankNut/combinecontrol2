@@ -1,43 +1,8 @@
 local meta = FindMetaTable("Player")
 
-GM.MastermindBinds = {
-	"+forward",
-	"+back",
-	"+moveright",
-	"+moveleft",
-	"+jump",
-	"+duck",
-	"+speed",
-	"+use",
-	"+attack",
-	"+attack2",
-	"+menu_context",
-	"+menu",
-	"+showscores",
-	"+jump",
-	"gm_showspare1",
-	"noclip",
-	"undo",
-	"jpeg",
-	"impulse 100",
-	"slot1",
-	"slot2",
-	"slot3",
-	"invnext",
-	"invprev",
-	"rp_thirdperson",
-}
-
-GM.AllowedProgressBinds = {}
-GM.AllowedProgressBinds["messagemode"] = true
-
 function GM:PlayerBindPress(ply, bind, down)
 	if not ply:HasCharacter() then
 		return true
-	end
-
-	if down and not self.AllowedProgressBinds[bind] and table.Count(self.TimedProgressBars) > 0 then
-		table.Empty(self.TimedProgressBars)
 	end
 
 	if down and string.find(bind, "messagemode") then
@@ -50,28 +15,6 @@ function GM:PlayerBindPress(ply, bind, down)
 
 		self:CreateAdminMenu()
 		return true
-
-	end
-
-	if down and self.Mastermind then
-
-		if not table.HasValue(self.MastermindBinds, bind) then
-
-			if bind == "gm_showhelp" then
-
-				self:CreateNPCModifierMenu()
-
-			end
-
-			if bind == "gm_showteam" then
-
-				self:CreateNPCCreatorMenu()
-
-			end
-
-			return true
-
-		end
 
 	end
 
@@ -131,88 +74,6 @@ function GM:PlayerBindPress(ply, bind, down)
 
 		return true
 
-	end
-
-	if down and string.find(bind, "+menu_context") then
-
-		if LocalPlayer():GetActiveWeapon() and LocalPlayer():GetActiveWeapon():IsValid() and LocalPlayer():GetActiveWeapon():GetClass() != "gmod_tool" then
-
-			if self.Mastermind then
-
-				gui.EnableScreenClicker(true)
-
-			else
-
-				local trace = {}
-				trace.start = LocalPlayer():GetShootPos()
-				trace.endpos = trace.start + LocalPlayer():GetAimVector() * 32768
-				trace.filter = LocalPlayer()
-				local tr = util.TraceLine(trace)
-
-				self:CreateCCContext(tr.Entity)
-				gui.EnableScreenClicker(true)
-
-			end
-
-			self.CCContext = true
-
-			return true
-
-		end
-
-	end
-
-	if not down and string.find(bind, "+menu_context") then
-
-		gui.EnableScreenClicker(false)
-		self.MastermindSelected = nil
-
-		if LocalPlayer():GetActiveWeapon() and LocalPlayer():GetActiveWeapon() != NULL and LocalPlayer():GetActiveWeapon():GetClass() != "gmod_tool" then
-
-			if not self.Mastermind then
-
-				self:RemoveCCContext()
-
-			end
-
-			self.CCContext = false
-
-			return true
-
-		end
-
-	end
-
-	if string.lower(ply:GetModel()) == "models/stalker.mdl" then
-
-		if down and string.find(bind, "+jump") and ply:GetMoveType() == MOVETYPE_WALK then
-
-			return true
-
-		end
-
-		if down and string.find(bind, "+duck") and ply:GetMoveType() == MOVETYPE_WALK then
-
-			return true
-
-		end
-
-	end
-
-	if string.lower(ply:GetModel()) == "models/hunter.mdl" then
-
-		if down and string.find(bind, "+duck") and ply:GetMoveType() == MOVETYPE_WALK then
-
-			return true
-
-		end
-
-	end
-
-	if string.lower( ply:GetModel() ) == "models/combine_scanner.mdl" then
-		if down and string.find( bind, "+duck" ) and ply:GetMoveType() == 4 then
-			return true
-		end
 	end
 
 	if ply.FreezeTime and CurTime() < ply.FreezeTime then

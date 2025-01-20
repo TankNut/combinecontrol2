@@ -80,8 +80,6 @@ function GM:PlayerSpawn(ply)
 	ply:SetMoveType(MOVETYPE_WALK)
 
 	ply:UpdateLoadout()
-
-	self:RefreshNPCRelationships()
 end
 
 -- Todo: Expand on this
