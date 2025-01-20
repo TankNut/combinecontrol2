@@ -10,8 +10,8 @@ local setCharacterModel = console.AddCommand("rpa_setcharmodel", function (ply, 
 
 	GAMEMODE:WriteLog("admin_setmodel", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target), Model = mdl})
 
-	console.Feedback(ply, "NOTICE", "You've set %s's character model to \"%s\"", target, mdl)
-	console.Feedback(target, "NOTICE", "%s has set your character model to \"%s\"", ply, mdl)
+	console.Feedback(ply, "NOTICE", "You've set %s's character model to %s", target, mdl)
+	console.Feedback(target, "NOTICE", "%s has set your character model to %s", ply, mdl)
 end)
 
 setCharacterModel:SetDescription("Updates a player's current character model")
@@ -32,8 +32,8 @@ local setCharacterSkin = console.AddCommand("rpa_setcharskin", function (ply, ta
 
 	GAMEMODE:WriteLog("admin_setskin", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target), Skin = skin})
 
-	console.Feedback(ply, "NOTICE", "You've set %s's character skin to \"%d\"", target, skin)
-	console.Feedback(target, "NOTICE", "%s has set your character skin to \"%d\"", ply, skin)
+	console.Feedback(ply, "NOTICE", "You've set %s's character skin to %d", target, skin)
+	console.Feedback(target, "NOTICE", "%s has set your character skin to %d", ply, skin)
 end)
 
 setCharacterSkin:SetDescription("Updates a player's current character skin")
@@ -54,8 +54,8 @@ local setCharacterName = console.AddCommand("rpa_setcharname", function (ply, ta
 
 	GAMEMODE:WriteLog("admin_setname", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target), Name = name})
 
-	console.Feedback(ply, "NOTICE", "You've set %s's character name to \"%s\"", target, name)
-	console.Feedback(target, "NOTICE", "%s has set your character name to \"%s\"", ply, name)
+	console.Feedback(ply, "NOTICE", "You've set %s's character name to %s", target, name)
+	console.Feedback(target, "NOTICE", "%s has set your character name to %s", ply, name)
 end)
 
 setCharacterName:SetDescription("Updates a player's current character name")

@@ -119,8 +119,8 @@ heal:AddParameter(console.Player({
 local setHealth = console.AddCommand("rpa_sethealth", function(ply, target, max)
 	target:SetHealth(max)
 
-	console.Feedback(ply, "NOTICE", "You've set %s's health to \"%d\"", target, max)
-	console.Feedback(target, "NOTICE", "%s set your health to \"%d\"", ply, max)
+	console.Feedback(ply, "NOTICE", "You've set %s's health to %d", target, max)
+	console.Feedback(target, "NOTICE", "%s set your health to %d", ply, max)
 end)
 
 setHealth:SetDescription("Manually sets a player's health bar")
@@ -139,10 +139,10 @@ setHealth:AddParameter(console.Number({
 }))
 
 local deadmin = console.AddCommand("rpa_deadmin", function(ply)
-	ply:SetTempUserGroup("user")
+	ply:SetUserGroup("user", true)
 
 	console.Feedback(ply, "NOTICE", "You've deadminned yourself")
-	Chat.Send("NOTICE", string.format("%s has deadminned themselves.", ply:Nick()), player.GetAdmins())
+	Chat.Send("NOTICE", string.format("%s has deadminned themself", ply:Nick()), player.GetAdmins())
 end)
 
 deadmin:SetDescription("Removes yourself from the admin role")
