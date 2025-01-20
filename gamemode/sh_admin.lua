@@ -570,66 +570,6 @@ concommand.AddAdmin("rpa_settrait", function(ply, targ, trait)
 	targ:SendChat("NOTICE", ply:Nick() .. " set your trait to " .. name)
 end, false, {TYPE_ENTITY, TYPE_STRING})
 
-local nametolang = {}
-nametolang["english"] = LANG_ENGLISH
-nametolang["russian"] = LANG_RUSSIAN
-nametolang["chinese"] = LANG_CHINESE
-nametolang["japanese"] = LANG_JAPANESE
-nametolang["spanish"] = LANG_SPANISH
-nametolang["french"] = LANG_FRENCH
-nametolang["german"] = LANG_GERMAN
-nametolang["italian"] = LANG_ITALIAN
-
-concommand.AddAdmin("rpa_givelang", function(ply, targ, lang)
-	local name = string.lower(lang) or "english"
-
-	lang = nametolang[name]
-
-	if not lang then
-		ply:SendChat("ERROR", "Invalid language")
-
-		return
-	end
-
-	if targ:HasLang(lang) then
-		ply:SendChat("ERROR", "They already speak this langauge")
-
-		return
-	end
-
-	targ:SetLang(targ:Lang() + lang)
-
-	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " gave player " .. targ:CharacterName() .. " " .. name .. ".", ply)
-
-	ply:SendChat("NOTICE", "You gave " .. targ:CharacterName() .. " the ability to speak " .. name)
-	targ:SendChat("NOTICE", ply:Nick() .. " gave you the ability to speak " .. name)
-end, false, {TYPE_ENTITY, TYPE_STRING})
-
-concommand.AddAdmin("rpa_takelang", function(ply, targ, lang)
-	local name = string.lower(lang) or "english"
-
-	lang = nametolang[name]
-
-	if not lang then
-		ply:SendChat("ERROR", "Invalid language")
-
-		return
-	end
-
-	if not targ:HasLang(lang) then
-		ply:SendChat("ERROR", "They don't speak this langauge")
-
-		return
-	end
-
-	targ:SetLang(targ:Lang() - lang)
-
-	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " took " .. name .. " from " .. targ:CharacterName() .. ".", ply)
-
-	ply:SendChat("NOTICE", "You took the ability to speak " .. name .. " from " .. targ:CharacterName())
-	targ:SendChat("NOTICE", ply:Nick() .. " took away the ability to speak " .. name)
-end, false, {TYPE_ENTITY, TYPE_STRING})
-
 local function OOCMute(ply, targ)
 	local val = not tobool(targ:IsOOCMuted())
 	local str = " unmuted "

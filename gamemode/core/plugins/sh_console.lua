@@ -214,6 +214,16 @@ console.Parser("Item", function(ply, args, last, options)
 	return true, nil
 end)
 
+console.Parser("Language", function(ply, args, last, options)
+	local val = console.ReadArg(args, last)
+
+	if not val or #val < 1 or not Language.Get(val) then
+		return false, "Must be a valid language"
+	end
+
+	return true, val
+end)
+
 hook.Add("LoadContent", "console", function()
 	local path = string.format("%s/gamemode/content/commands/", engine.ActiveGamemode())
 	local files = file.Find(path .. "*.lua", "LUA")

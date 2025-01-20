@@ -73,3 +73,61 @@ setCharacterName:AddParameter(console.String({
 	validate.Max(Config.Get("MaxNameLength")),
 	validate.AllowedCharacters(Config.Get("AllowedNameCharacters"))
 }))
+
+local giveCharacterLanguage = console.AddCommand("rpa_givecharlang", function(ply, target, lang)
+	local languageName = Language.Get(lang).Name
+
+	if target:CanSpeakLanguage(lang) then
+		console.Feedback(ply, "ERROR", "%s can already speak %s", target:VisibleRPName(), languageName)
+
+		return
+	end
+
+	target:GiveLanguage(lang, true)
+
+	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " gave player " .. target:CharacterName() .. " " .. languageName .. ".", ply)
+
+	console.Feedback(ply, "NOTICE", "You've given %s the ability to speak %s", target:VisibleRPName(), languageName)
+	console.Feedback(target, "NOTICE", "%s has given you the ability to speak %s", ply, languageName)
+end)
+
+giveCharacterLanguage:SetDescription("Gives a spoken language to a player's character")
+giveCharacterLanguage:SetExecutionContext(console.Server)
+giveCharacterLanguage:SetAccess(console.IsAdmin)
+
+giveCharacterLanguage:AddParameter(console.Player({
+	SingleTarget = true,
+	CheckImmunity = false,
+	NoSelfTarget = false
+}))
+
+giveCharacterLanguage:AddParameter(console.Language())
+
+local takeCharacterLanguage = console.AddCommand("rpa_takecharlang", function(ply, target, lang)
+	local languageName = Language.Get(lang).Name
+
+	if not target:CanSpeakLanguage(lang) then
+		console.Feedback(ply, "ERROR", "%s does not speak %s", target:VisibleRPName(), languageName)
+
+		return
+	end
+
+	target:TakeLanguage(lang)
+
+	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " took " .. languageName ..  " from player " .. target:CharacterName() .. ".", ply)
+
+	console.Feedback(ply, "NOTICE", "You've taken %s's ability to speak %s", target:VisibleRPName(), languageName)
+	console.Feedback(target, "NOTICE", "%s has taken your the ability to speak %s", ply, languageName)
+end)
+
+takeCharacterLanguage:SetDescription("Takes a spoken language from a player's character")
+takeCharacterLanguage:SetExecutionContext(console.Server)
+takeCharacterLanguage:SetAccess(console.IsAdmin)
+
+takeCharacterLanguage:AddParameter(console.Player({
+	SingleTarget = true,
+	CheckImmunity = false,
+	NoSelfTarget = false
+}))
+
+takeCharacterLanguage:AddParameter(console.Language())
