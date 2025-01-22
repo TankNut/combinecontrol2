@@ -294,14 +294,14 @@ function GM:AdminCreateToolsMenu()
 
 	CCP.AdminMenu.OOCDisableBut = vgui.Create("DButton", CCP.AdminMenu.ContentPane)
 	CCP.AdminMenu.OOCDisableBut:SetFont("CombineControl.LabelSmall")
-	CCP.AdminMenu.OOCDisableBut:SetText(self:OOCDisabled() and "Enable" or "Disable")
+	CCP.AdminMenu.OOCDisableBut:SetText(GAMEMODE:OOCDelay() == -1 and "Enable" or "Disable")
 	CCP.AdminMenu.OOCDisableBut:SetPos(360, 130)
 	CCP.AdminMenu.OOCDisableBut:SetSize(100, 20)
 	function CCP.AdminMenu.OOCDisableBut:DoClick()
-		CCP.AdminMenu.OOCDisableBut:SetText(GAMEMODE:OOCDisabled() and "Disable" or "Enable")
+		local alreadyDisabled = GAMEMODE:OOCDelay() == -1
+		CCP.AdminMenu.OOCDisableBut:SetText(alreadyDisabled and "Disable" or "Enable")
 
-		net.Start("nDisableOOC")
-		net.SendToServer()
+		RunConsoleCommand("rpa_oocdelay", alreadyDisabled and 0 or -1)
 	end
 	CCP.AdminMenu.OOCDisableBut:PerformLayout()
 

@@ -143,4 +143,3 @@ util.AddNetworkString("nRefreshEditUI")
 util.AddNetworkString("nDeleteLootPoint")
 
 util.AddNetworkString("nWorldEnt")
-util.AddNetworkString("nDisableOOC")

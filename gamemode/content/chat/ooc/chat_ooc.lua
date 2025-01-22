@@ -16,6 +16,32 @@ end
 
 if SERVER then
 	function CLASS:Parse(ply, lang, cmd, text)
+		if ply:OOCMuted() == 1 then
+			ply:SendChat("ERROR", "You are muted from OOC chat.")
+
+			return
+		end
+
+		if not ply:IsAdmin() then
+			local delay = GAMEMODE:OOCDelay()
+
+			if delay == -1 then
+				ply:SendChat("ERROR", "OOC chat is currently disabled.")
+
+				return
+			elseif delay > 0 then
+				local time = (ply.LastOOC or 0) + delay
+
+				if time > CurTime() then
+					ply:SendChat("ERROR", "You must wait " .. string.NiceTime(time - CurTime()) .. " to use OOC chat again.")
+
+					return
+				end
+			end
+		end
+
+		ply.LastOOC = CurTime()
+
 		return {
 			Name = ply:VisibleRPName(),
 			Color = team.GetColor(ply:Team()),

@@ -148,3 +148,23 @@ end)
 deadmin:SetDescription("Removes yourself from the admin role")
 deadmin:SetExecutionContext(console.Server)
 deadmin:SetAccess(console.IsAdmin)
+
+local oocDelay = console.AddCommand("rpa_oocdelay", function(ply, delay)
+	GAMEMODE:SetOOCDelay(delay)
+	GAMEMODE:LogAdmin("[V] " .. ply:Nick() .. " set variable \"rpa_oocdelay\" to \"" .. tonumber(delay) .. "\".", ply)
+
+	if delay < 0 then
+		Chat.Send("NOTICE", ply:Nick() .. " has disabled OOC chat.")
+	else
+		Chat.Send("NOTICE", ply:Nick() .. " has set the OOC delay to " .. string.NiceTime(delay) .. ".")
+	end
+end)
+
+oocDelay:SetDescription("Sets the global out-of-character chat delay, -1 to disable")
+oocDelay:SetExecutionContext(console.Server)
+oocDelay:SetAccess(console.IsAdmin)
+
+oocDelay:AddParameter(console.Number({
+	validate.Min(-1),
+	validate.Max(86400)
+}))

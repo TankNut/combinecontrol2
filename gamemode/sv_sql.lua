@@ -120,7 +120,6 @@ GM.SQLTables.players = {
 	["PlayerFlags"] 		= {Type = "VARCHAR(128)", 	Default = ""},
 	["ScoreboardBadges"] 	= {Type = "INT", 			Default = "0"},
 	["LastNotesUpdate"] 	= {Type = "INT", 			Default = "0"},
-	["IsOOCMuted"] 			= {Type = "INT", 			Default = "0"},
 	["IsTravelBanned"] 		= {Type = "INT", 			Default = "0"},
 	["DonatorActive"] 		= {Type = "INT", 			Default = "0"},
 }

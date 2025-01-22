@@ -570,22 +570,6 @@ concommand.AddAdmin("rpa_settrait", function(ply, targ, trait)
 	targ:SendChat("NOTICE", ply:Nick() .. " set your trait to " .. name)
 end, false, {TYPE_ENTITY, TYPE_STRING})
 
-local function OOCMute(ply, targ)
-	local val = not tobool(targ:IsOOCMuted())
-	local str = " unmuted "
-
-	if val then
-		str = " muted "
-	end
-
-	targ:SetIsOOCMuted(val)
-
-	GAMEMODE:LogAdmin("[M] " .. ply:Nick() .. str .. targ:Nick() .. " from OOC.", ply)
-
-	ply:SendChat("NOTICE", "You" .. str .. targ:CharacterName() .. " from OOC")
-	targ:SendChat("NOTICE", ply:Nick() .. str .. "you from OOC")
-end
-
 -- local nametolicense = {}
 -- nametolicense["generic"] = BUSINESS_GENERIC
 -- nametolicense["clothing"] = BUSINESS_CLOTHING
@@ -645,9 +629,6 @@ end
 -- 	ply:SendChat("NOTICE", "You took " .. targ:CharacterName() .. "'s " .. name .. " license.")
 -- 	targ:SendChat("NOTICE", ply:Nick() .. " took your " .. name .. " license.")
 -- end, false, {TYPE_ENTITY, TYPE_STRING})
-
-concommand.AddAdmin("rpa_oocmute", OOCMute, false, {TYPE_ENTITY})
-concommand.AddAdmin("rpa_mute", OOCMute, false, {TYPE_ENTITY})
 
 concommand.AddAdmin("rpa_travelban", function(ply, targ)
 	local val = not tobool(targ:IsTravelBanned())

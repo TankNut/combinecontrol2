@@ -73,3 +73,24 @@ setToolTrust:AddParameter(console.Player({
 setToolTrust:AddParameter(console.String({
 	validate.InList(table.GetKeys(toolTrustMapping))
 }))
+
+local oocMute = console.AddCommand("rpa_oocmute", function (ply, target, bool)
+	target:SetOOCMuted(bool and 1 or 0)
+
+	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s ooc mute to " .. tostring(bool), ply)
+
+	console.Feedback(ply, "NOTICE", "You %s %s from OOC chat", bool and "muted" or "unmuted", target)
+	console.Feedback(target, "NOTICE", "%s has %s you from OOC chat", ply, bool and "muted" or "unmuted")
+end)
+
+oocMute:SetDescription("Mute or unmutes a player from OOC chat")
+oocMute:SetExecutionContext(console.Server)
+oocMute:SetAccess(console.IsAdmin)
+
+oocMute:AddParameter(console.Player({
+	SingleTarget = true,
+	CheckImmunity = true,
+	NoSelfTarget = false
+}))
+
+oocMute:AddParameter(console.Bool())

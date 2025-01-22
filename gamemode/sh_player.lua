@@ -24,7 +24,6 @@ GM.PlayerAccessors = {
 	{"Hidden",				false, 	"Bit",		false},
 	{"LastPMSender",		true,	"String",	""},
 	{"LastNotesUpdate", 	false, 	"Float", 	0},
-	{"IsOOCMuted", 			false, 	"Bit", 		false},
 	{"IsTravelBanned", 		false, 	"Bit", 		false},
 	{"AdminRadio", 			true, 	"Bit", 		false},
 	{"PlayerScale",			false,	"Float",	1},

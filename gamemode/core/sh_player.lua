@@ -6,3 +6,5 @@ PlayerVar.Add("ScoreboardBadges", {Default = 0, Persist = true, DataType = INT()
 
 PlayerVar.Add("DonatorActive", {Default = false})
 PlayerVar.Add("Appearance", {Default = {}})
+
+PlayerVar.Add("OOCMuted", {Default = 0, Persist = true, DataType = TINYINT()})

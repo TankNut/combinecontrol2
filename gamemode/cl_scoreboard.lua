@@ -334,7 +334,7 @@ function GM:CCCreatePlayerData(ply)
 		y = CreateBadge(CCP.PlayerData, self.UnreadNotesMat, "Unread Player Notes", y)
 	end
 
-	if LocalPlayer():IsAdmin() and ply:IsOOCMuted() then
+	if LocalPlayer():IsAdmin() and ply:OOCMuted() == 1 then
 		y = CreateBadge(CCP.PlayerData, self.OOCMutedMat, "OOC Muted", y)
 	end
 
