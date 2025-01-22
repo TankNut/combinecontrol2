@@ -84,6 +84,8 @@ function PANEL:Paint(w, h)
 		draw.Circle(w - 6, h - 6, 4, 8)
 		surface.DrawCircle(w - 6, h - 6, 4, 20, 20, 20, 230)
 	end
+
+	self.Item:DrawItemIcon(w, h)
 end
 
 derma.DefineControl("CC_ItemIcon", "", PANEL, "DModelPanel")

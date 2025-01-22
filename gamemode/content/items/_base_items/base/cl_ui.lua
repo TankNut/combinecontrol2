@@ -90,3 +90,6 @@ function ITEM:DrawTooltip()
 
 	self.Tooltip:Draw(x, y)
 end
+
+function ITEM:DrawItemIcon(w, h)
+end
