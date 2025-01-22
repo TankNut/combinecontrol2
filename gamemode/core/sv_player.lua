@@ -90,11 +90,11 @@ end
 function GM:GetPlayerLoadout(ply)
 	local tab = {}
 
-	if ply:ToolTrust() > 0 or ply:IsAdmin() then
+	if ply:ToolTrust() > TOOLTRUST_BANNED or ply:IsAdmin() then
 		table.insert(tab, "gmod_tool")
 	end
 
-	if ply:PhysTrust() > 0 or ply:IsAdmin() then
+	if ply:PhysTrust() > PHYSTRUST_BANNED or ply:IsAdmin() then
 		table.insert(tab, "weapon_physgun")
 	end
 

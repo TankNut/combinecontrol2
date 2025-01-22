@@ -216,8 +216,8 @@ function GM:LimitReachedProcess(ply, str)
 	local c = cvars.Number("sbox_max" .. str, 0)
 
 	if str == "props" then
-		if ply:ToolTrust() == 1 then c = c * 2 end
-		if ply:ToolTrust() == 2 then c = c * 5 end
+		if ply:ToolTrust() == TOOLTRUST_BASIC then c = c * 2 end
+		if ply:ToolTrust() == TOOLTRUST_ADVANCED then c = c * 5 end
 	end
 
 	if ply:GetCount(str) < c or c < 0 then return true end
@@ -245,7 +245,7 @@ end
 
 function GM:PlayerSpawnedProp(ply, model, ent)
 	if not table.HasValue(self.PropWhitelist, string.lower(model)) then
-		if not ply:IsAdmin() and ent:BoundingRadius() > 800 and ply:ToolTrust() == 2 then
+		if not ply:IsAdmin() and ent:BoundingRadius() > 800 and ply:ToolTrust() == TOOLTRUST_ADVANCED then
 			self:LogSandbox("[S] " .. ply:VisibleRPName() .. " tried to spawn prop " .. model .. ", but it was too big (" .. math.Round(ent:BoundingRadius()) .. " > 800).", ply)
 
 			ent:Remove()
@@ -257,7 +257,7 @@ function GM:PlayerSpawnedProp(ply, model, ent)
 			return false
 		end
 
-		if not ply:IsAdmin() and ent:BoundingRadius() > 200 and ply:ToolTrust() == 1 then
+		if not ply:IsAdmin() and ent:BoundingRadius() > 200 and ply:ToolTrust() == TOOLTRUST_BASIC then
 			self:LogSandbox("[S] " .. ply:VisibleRPName() .. " tried to spawn prop " .. model .. ", but it was too big (" .. math.Round(ent:BoundingRadius()) .. " > 200).", ply)
 
 			ent:Remove()
@@ -269,7 +269,7 @@ function GM:PlayerSpawnedProp(ply, model, ent)
 			return false
 		end
 
-		if not ply:IsAdmin() and ent:BoundingRadius() > 100 and ply:ToolTrust() == 0 then
+		if not ply:IsAdmin() and ent:BoundingRadius() > 100 and ply:ToolTrust() == TOOLTRUST_BANNED then
 			self:LogSandbox("[S] " .. ply:VisibleRPName() .. " tried to spawn prop " .. model .. ", but it was too big (" .. math.Round(ent:BoundingRadius()) .. " > 100).", ply)
 
 			ent:Remove()
@@ -282,7 +282,7 @@ function GM:PlayerSpawnedProp(ply, model, ent)
 		end
 	end
 
-	if ply:ToolTrust() < 1 and not ply:IsAdmin() then
+	if ply:ToolTrust() < TOOLTRUST_BASIC and not ply:IsAdmin() then
 		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	end
 
@@ -305,9 +305,9 @@ function GM:PlayerSpawnEffect(ply, model)
 	if ply:PassedOut() then return false end
 	if ply:TiedUp() then return false end
 
-	if ply:PropTrust() == 0 then return false end
+	if ply:PropTrust() == PROPTRUST_BANNED then return false end
 
-	if ply:ToolTrust() < 2 then
+	if ply:ToolTrust() < TOOLTRUST_ADVANCED then
 		if not ply.NextPropSpawn then ply.NextPropSpawn = 0 end
 		if CurTime() < ply.NextPropSpawn then return false end
 		ply.NextPropSpawn = CurTime() + 1
@@ -359,9 +359,9 @@ function GM:PlayerSpawnProp(ply, model)
 	if ply:PassedOut() then return false end
 	if ply:TiedUp() then return false end
 
-	if ply:PropTrust() == 0 then return false end
+	if ply:PropTrust() == PROPTRUST_BANNED then return false end
 
-	if ply:ToolTrust() < 2 then
+	if ply:ToolTrust() < TOOLTRUST_ADVANCED then
 		if not ply.NextPropSpawn then ply.NextPropSpawn = 0 end
 		if CurTime() < ply.NextPropSpawn then return false end
 		ply.NextPropSpawn = CurTime() + 1
@@ -559,13 +559,13 @@ function GM:CanTool(ply, tr, tool)
 	if ply:PassedOut() then return false end
 	if ply:TiedUp() then return false end
 
-	if ply:ToolTrust() == 0 then return false end
+	if ply:ToolTrust() == TOOLTRUST_BANNED then return false end
 
 	if table.HasValue(self.ToolTrustBlacklist, tool) then return false end
 
-	if ply:ToolTrust() == 1 and not table.HasValue(self.ToolTrustBasic, tool) then return false end
+	if ply:ToolTrust() == TOOLTRUST_BASIC and not table.HasValue(self.ToolTrustBasic, tool) then return false end
 
-	if ply:ToolTrust() < 2 and ent:PropSteamID() and ent:PropSteamID() != ply:SteamID() then
+	if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() and ent:PropSteamID() != ply:SteamID() then
 		local tab = {}
 
 		for _, v in player.Iterator() do
@@ -618,9 +618,9 @@ function GM:OnPhysgunFreeze(wep, phys, ent, ply)
 	if ent:GetClass() == "prop_vehicle_apc" then return false end
 	if ent:IsPlayer() then return false end
 
-	if ply:PhysTrust() == 0 then return false end
+	if ply:PhysTrust() == PHYSTRUST_BANNED then return false end
 
-	if ply:ToolTrust() < 2 and ent:PropSteamID() and ent:PropSteamID() != ply:SteamID() then
+	if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() and ent:PropSteamID() != ply:SteamID() then
 		local tab = {}
 
 		for _, v in player.Iterator() do
@@ -661,9 +661,9 @@ function GM:OnPhysgunReload(physgun, ply)
 
 		if ply:IsAdmin() then return self.BaseClass:OnPhysgunReload(physgun, ply) end
 
-		if ply:PhysTrust() == 0 then return false end
+		if ply:PhysTrust() == PHYSTRUST_BANNED then return false end
 
-		if ply:ToolTrust() < 2 and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
+		if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
 			local tab = {}
 
 			for _, v in player.Iterator() do
@@ -725,9 +725,9 @@ function GM:PhysgunPickup(ply, ent)
 	if ent:IsNPC() then return false end
 	if ent:GetClass() == "prop_vehicle_apc" then return false end
 
-	if ply:PhysTrust() == 0 then return false end
+	if ply:PhysTrust() == PHYSTRUST_BANNED then return false end
 
-	if ply:ToolTrust() < 2 and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
+	if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
 		local tab = {}
 
 		for _, v in player.Iterator() do
@@ -739,7 +739,7 @@ function GM:PhysgunPickup(ply, ent)
 		if not table.HasValue(tab, ply) then return false end
 	end
 
-	if ply:ToolTrust() == 0 and ent:GetPos():Distance(ply:GetPos()) > 300 then return false end
+	if ply:ToolTrust() == TOOLTRUST_BANNED and ent:GetPos():Distance(ply:GetPos()) > 300 then return false end
 
 	local ret = self.BaseClass:PhysgunPickup(ply, ent)
 
@@ -782,9 +782,9 @@ function GM:CanPlayerUnfreeze(ply, ent, phys)
 
 	if ply:IsAdmin() then return self.BaseClass:CanPlayerUnfreeze(ply, ent, phys) end
 
-	if ply:PhysTrust() == 0 then return false end
+	if ply:PhysTrust() == PHYSTRUST_BANNED then return false end
 
-	if ply:ToolTrust() < 2 and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
+	if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
 		local tab = {}
 
 		for _, v in player.Iterator() do

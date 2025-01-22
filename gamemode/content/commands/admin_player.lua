@@ -1,5 +1,5 @@
 local setPhysTrust = console.AddCommand("rpa_setphystrust", function (ply, target, bool)
-	target:SetPhysTrust(bool and 1 or 0)
+	target:SetPhysTrust(bool and PHYSTRUST_ENABLED or PHYSTRUST_BANNED)
 	target:UpdateLoadout()
 
 	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s phystrust to " .. tostring(bool), ply)
@@ -21,7 +21,7 @@ setPhysTrust:AddParameter(console.Player({
 setPhysTrust:AddParameter(console.Bool())
 
 local setPropTrust = console.AddCommand("rpa_setproptrust", function (ply, target, bool)
-	target:SetPropTrust(bool and 1 or 0)
+	target:SetPropTrust(bool and PROPTRUST_ENABLED or PROPTRUST_BANNED)
 	target:UpdateLoadout()
 
 	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s proptrust to " .. tostring(bool), ply)
@@ -43,9 +43,9 @@ setPropTrust:AddParameter(console.Player({
 setPropTrust:AddParameter(console.Bool())
 
 local toolTrustMapping = {
-	banned = 0,
-	basic = 1,
-	advanced = 2
+	banned = TOOLTRUST_BANNED,
+	basic = TOOLTRUST_BASIC,
+	advanced = TOOLTRUST_ADVANCED
 }
 
 local setToolTrust = console.AddCommand("rpa_settooltrust", function (ply, target, trust)

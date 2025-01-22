@@ -484,7 +484,7 @@ function GM:AdminPlayerMenuEnable(ply)
 	CCP.AdminMenu.ModelBut:SetDisabled(false)
 	CCP.AdminMenu.CharFlag:SetValue(ply:CharFlags())
 
-	if ply:PhysTrust() == 0 then
+	if ply:PhysTrust() == PHYSTRUST_BANNED then
 		CCP.AdminMenu.PhysTrust0:SetDisabled(true)
 		CCP.AdminMenu.PhysTrust1:SetDisabled(false)
 	else
@@ -492,7 +492,7 @@ function GM:AdminPlayerMenuEnable(ply)
 		CCP.AdminMenu.PhysTrust1:SetDisabled(true)
 	end
 
-	if ply:PropTrust() == 0 then
+	if ply:PropTrust() == PROPTRUST_BANNED then
 		CCP.AdminMenu.PropTrust0:SetDisabled(true)
 		CCP.AdminMenu.PropTrust1:SetDisabled(false)
 	else
@@ -500,11 +500,11 @@ function GM:AdminPlayerMenuEnable(ply)
 		CCP.AdminMenu.PropTrust1:SetDisabled(true)
 	end
 
-	if ply:ToolTrust() == 0 then
+	if ply:ToolTrust() == TOOLTRUST_BANNED then
 		CCP.AdminMenu.TT0:SetDisabled(true)
 		CCP.AdminMenu.TT1:SetDisabled(false)
 		CCP.AdminMenu.TT2:SetDisabled(false)
-	elseif ply:ToolTrust() == 1 then
+	elseif ply:ToolTrust() == TOOLTRUST_BASIC then
 		CCP.AdminMenu.TT0:SetDisabled(false)
 		CCP.AdminMenu.TT1:SetDisabled(true)
 		CCP.AdminMenu.TT2:SetDisabled(false)
