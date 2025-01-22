@@ -8,9 +8,9 @@ SKIN.DermaVersion 	= 1
 
 SKIN.Colors = {}
 
-SKIN.Colors.Primary = HSVToColor(0, 1, 0.8)
+SKIN.Colors.Primary = HSVToColor(0, 1, 0.8):Register("cc_primary")
 
-SKIN.Colors.Border = Color(20, 20, 20)
+SKIN.Colors.Border = Color(20, 20, 20):Register("cc_border")
 SKIN.Colors.TextEntry = Color(35, 35, 35)
 
 SKIN.Colors.FillLight = Color(60, 60, 60)
@@ -21,7 +21,7 @@ SKIN.Text = {}
 
 SKIN.Text.Normal = Color(200, 200, 200):Register("cc_normal")
 SKIN.Text.Hover = Color(255, 255, 255):Register("cc_hover")
-SKIN.Text.Primary = SKIN.Colors.Primary:Register("cc_primary")
+SKIN.Text.Primary = SKIN.Colors.Primary
 SKIN.Text.Disabled = Color(150, 150, 150):Register("cc_disabled")
 SKIN.Text.Highlight = Color(40, 40, 40):Register("cc_highlight")
 SKIN.Text.Bad = Color(200, 0, 0):Register("cc_bad")
