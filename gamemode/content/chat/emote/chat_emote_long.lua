@@ -1,11 +1,11 @@
-CLASS.Name = "Emote"
-CLASS.Description = "Perform an action."
+CLASS.Name = "Long Emote"
+CLASS.Description = "Perform an action at a greater distance."
 
-CLASS.Commands = {"me"}
-CLASS.Aliases = {":", "em"}
+CLASS.Commands = {"lme"}
+CLASS.Aliases = {":", "lem"}
 
-CLASS.Range = 400
-CLASS.MuffledRange = 150
+CLASS.Range = 800
+CLASS.MuffledRange = 400
 
 CLASS.Tabs = TAB_IC
 
@@ -19,7 +19,7 @@ if CLIENT then
 			text = " " .. text
 		end
 
-		return string.format("<c=%s>** %s%s", self.Color, data.Name, text)
+		return string.format("<c=%s>** %s%s", self.Color, data.Name, text), string.format("<c=%s>[L] ** %s%s", self.Color, data.Name, text)
 	end
 end
 
