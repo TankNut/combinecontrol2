@@ -15,7 +15,6 @@ util.AddNetworkString("nAPlayOverwatch")
 util.AddNetworkString("nATooTight")
 util.AddNetworkString("nAEditInventory")
 util.AddNetworkString("nWarnName")
-util.AddNetworkString("nAStopSound")
 
 util.AddNetworkString("nQuizBan")
 util.AddNetworkString("nAQuizBan")

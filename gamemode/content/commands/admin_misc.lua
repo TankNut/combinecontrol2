@@ -168,3 +168,17 @@ oocDelay:AddParameter(console.Number({
 	validate.Min(-1),
 	validate.Max(86400)
 }))
+
+if CLIENT then
+	netstream.Hook("StopSound", function()
+		RunConsoleCommand("stopsound")
+	end)
+end
+
+local stopSound = console.AddCommand("rpa_stopsound", function(ply)
+	netstream.Broadcast("StopSound")
+end)
+
+stopSound:SetDescription("Forces all clients to run the stopsound command")
+stopSound:SetExecutionContext(console.Server)
+stopSound:SetAccess(console.IsAdmin)

@@ -290,10 +290,6 @@ net.Receive("nAEditInventory", function(len)
 	ui:Update()
 end)
 
-net.Receive("nAStopSound", function(len)
-	RunConsoleCommand("stopsound")
-end)
-
 net.Receive("nAListCharacters", function(len)
 	local steamID = net.ReadString()
 	local tab = net.ReadTable()

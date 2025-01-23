@@ -87,11 +87,6 @@ function concommand.AddAdmin(cmd, func, sa, typeList)
 	end
 end
 
-concommand.AddAdmin("rpa_stopsound", function(ply)
-	net.Start("nAStopSound")
-	net.Broadcast()
-end, false)
-
 concommand.AddAdmin("rpa_invisible", function(ply, targ, bool)
 	GAMEMODE:WriteLog("admin_invisible", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Bool = bool})
 	targ:SetNoDraw(bool)
