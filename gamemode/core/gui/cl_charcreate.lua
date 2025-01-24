@@ -46,7 +46,7 @@ function PANEL:Init()
 	self.Model = self:Add("CC_CharacterModel")
 	self.Model:Dock(FILL)
 	self.Model:SetAllowManipulation(true)
-	self.Model.Zoom = 0.6
+	self.Model:SetBaseYaw(20)
 
 	self:MakePopup()
 	self:Center()

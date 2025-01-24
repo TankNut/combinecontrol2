@@ -184,12 +184,6 @@ function GM:PMCreateNameEdit()
 	CCP.PlayerMenu.NameEdit.Entry.OnEnter = CCP.PlayerMenu.NameEdit.OK.DoClick
 end
 
-hook.Add("OnVisibleRPNameChanged", "playermenu", function(ply, val)
-	if ply == LocalPlayer() and CCP.PlayerMenu and CCP.PlayerMenu.CharacterName then
-		CCP.PlayerMenu.CharacterName:SetText(val)
-	end
-end)
-
 function GM:PMCreateDescEdit()
 	CCP.PlayerMenu.DescEdit = vgui.Create("DFrame")
 	CCP.PlayerMenu.DescEdit:SetSize(400, 304)

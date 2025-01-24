@@ -41,7 +41,7 @@ function GM:PlayerBindPress(ply, bind, down)
 
 	if down and string.find(bind, "showspare1") then
 
-		self:CreatePlayerMenu()
+		GUI.Open("PlayerMenu")
 		return true
 
 	end

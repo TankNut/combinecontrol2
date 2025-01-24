@@ -5,17 +5,35 @@ AccessorFunc(PANEL, "AllowManipulation", "AllowManipulation")
 AccessorFunc(PANEL, "CamPosRange", "CamPosRange")
 AccessorFunc(PANEL, "LookAtRange", "LookAtRange")
 AccessorFunc(PANEL, "FOVRange", "FOVRange")
-AccessorFunc(PANEL, "Flipped", "Flipped")
+
+AccessorFunc(PANEL, "BaseYaw", "BaseYaw")
+AccessorFunc(PANEL, "Player", "Player")
 
 function PANEL:Init()
-	self.Zoom = 0
-
-	self:SetCamPosRange({Vector(100, 100, 50), Vector(50, 50, 64)})
+	self:SetCamPosRange({Vector(100, 0, 50), Vector(50, 0, 64)})
 	self:SetLookAtRange({Vector(0, 0, 36), Vector(0, 0, 64)})
-	self:SetFOVRange({20, 11})
+	self:SetFOVRange({45, 25})
 
-	self.Dragging = false
-	self.DragStart = 0
+	self:SetBaseYaw(0)
+
+	self.MouseYaw = 0
+	self.YawAdd = 0
+	self.Zoom = 0.6
+
+	hook.Add("OnAppearanceChanged", self, self.OnAppearanceChanged)
+end
+
+function PANEL:OnAppearanceChanged(ply, old, new)
+	if ply != self:GetPlayer() then
+		return
+	end
+
+	self:SetAppearance(new)
+end
+
+function PANEL:SetPlayer(ply)
+	self:SetAppearance(ply:Appearance())
+	self.Player = ply
 end
 
 function PANEL:SetEntity(ent)
@@ -67,12 +85,9 @@ function PANEL:SetAppearance(appearance)
 end
 
 function PANEL:LayoutEntity(ent)
-	if self:GetAnimated() then
-		self:RunAnimation()
-	end
-
-	local baseYaw = self.Flipped and 65 or 20
 	local pos, look, fov = self:GetCameraTarget()
+
+	print(fov)
 
 	if not ent.PanelLayoutDone then
 		ent.PanelLayoutDone = true
@@ -81,7 +96,7 @@ function PANEL:LayoutEntity(ent)
 		self:SetLookAt(look)
 		self:SetFOV(fov)
 
-		ent:SetAngles(Angle(0, baseYaw, 0))
+		ent:SetAngles(Angle(0, self:GetBaseYaw(), 0))
 	end
 
 	if not self.AllowManipulation then
@@ -92,32 +107,32 @@ function PANEL:LayoutEntity(ent)
 	self:SetLookAt(self:GetLookAt():Approach(look, 10))
 	self:SetFOV(math.ApproachSpeed(self:GetFOV(), fov, 10))
 
-	local ang = Angle(0, baseYaw, 0)
+	local ang = Angle(0, self:GetBaseYaw(), 0)
 
 	if self.Dragging then
-		local diff = gui.MouseX() - self.DragStart
-
-		if self.Mouse then
-			ang = Angle(0, baseYaw + diff, 0)
-		else
-			ang = ent:GetAngles() + Angle(0, diff * 0.25, 0)
-		end
+		self.MouseYaw = self.MouseYaw + self:GetMouseDrag()
 	end
+
+	self.YawAdd = math.ApproachSpeed(self.YawAdd, self.MouseYaw, 30)
+
+	ang:Sub(Angle(0, self.YawAdd, 0))
 
 	local att = ent:GetAttachment(ent:LookupAttachment("eyes"))
 	local height = att.Pos.z or 64
 	local dir = att.Ang:Forward() or ent:GetForward()
 
-	ent:SetAngles(ent:GetAngles():Approach(ang, 30))
+	ent:SetAngles(ang)
 	ent:SetEyeTarget(Vector(0, 0, height) + dir * 50)
 end
 
 function PANEL:GetCameraTarget()
 	local pos = LerpVector(self.Zoom, unpack(self.CamPosRange))
 	local look = LerpVector(self.Zoom, unpack(self.LookAtRange))
-	local fov = Lerp(self.Zoom, unpack(self.FOVRange))
 
-	return self.Entity:GetPos() + pos, self.Entity:GetPos() + look, fov
+	local fov = Lerp(self.Zoom, unpack(self.FOVRange))
+	local ratio = self:GetWide() / self:GetTall()
+
+	return self.Entity:GetPos() + pos, self.Entity:GetPos() + look, fov * ratio
 end
 
 function PANEL:OnMouseWheeled(delta)
@@ -128,25 +143,37 @@ function PANEL:OnMouseWheeled(delta)
 	end
 end
 
+function PANEL:GetMouseDrag()
+	if not self.Dragging then
+		return 0
+	end
+
+	local offset = gui.MouseX() - self.DragStart
+	local diff = self.LastDrag - offset
+
+	self.LastDrag = offset
+
+	return diff
+end
+
 function PANEL:OnMousePressed(mouse)
 	if self.AllowManipulation then
-		self:MouseCapture(true)
+		if mouse == MOUSE_LEFT then
+			self:MouseCapture(true)
 
-		self.Dragging = true
-		self.DragStart = gui.MouseX()
-		self.Mouse = mouse == MOUSE_LEFT
+			self.Dragging = true
+			self.DragStart = gui.MouseX()
+			self.LastDrag = 0
+		else
+			self.YawAdd = math.NormalizeAngle(self.YawAdd)
+			self.MouseYaw = 0
+		end
 	end
 end
 
 function PANEL:OnMouseReleased()
 	self:MouseCapture(false)
 	self.Dragging = false
-
-	local ang = self.Entity:GetAngles()
-
-	ang:Normalize()
-
-	self.Entity:SetAngles(ang)
 end
 
 derma.DefineControl("CC_CharacterModel", "", PANEL, "DModelPanel")
