@@ -84,10 +84,18 @@ function PANEL:SetAppearance(appearance)
 	end
 end
 
+function PANEL:GetCameraTarget()
+	local pos = LerpVector(self.Zoom, unpack(self.CamPosRange))
+	local look = LerpVector(self.Zoom, unpack(self.LookAtRange))
+
+	local fov = Lerp(self.Zoom, unpack(self.FOVRange))
+	local ratio = self:GetWide() / self:GetTall()
+
+	return self.Entity:GetPos() + pos, self.Entity:GetPos() + look, fov * ratio
+end
+
 function PANEL:LayoutEntity(ent)
 	local pos, look, fov = self:GetCameraTarget()
-
-	print(fov)
 
 	if not ent.PanelLayoutDone then
 		ent.PanelLayoutDone = true
@@ -123,16 +131,6 @@ function PANEL:LayoutEntity(ent)
 
 	ent:SetAngles(ang)
 	ent:SetEyeTarget(Vector(0, 0, height) + dir * 50)
-end
-
-function PANEL:GetCameraTarget()
-	local pos = LerpVector(self.Zoom, unpack(self.CamPosRange))
-	local look = LerpVector(self.Zoom, unpack(self.LookAtRange))
-
-	local fov = Lerp(self.Zoom, unpack(self.FOVRange))
-	local ratio = self:GetWide() / self:GetTall()
-
-	return self.Entity:GetPos() + pos, self.Entity:GetPos() + look, fov * ratio
 end
 
 function PANEL:OnMouseWheeled(delta)
