@@ -1,3 +1,5 @@
+local logger = log.Create("items")
+
 function ITEM:GetData(key, fallback)
 	if self.Data[key] != nil then
 		return self.Data[key]
@@ -9,6 +11,8 @@ end
 function ITEM:SetData(key, val)
 	local old = self.Data[key]
 	local hookName = "On" .. key .. "Changed"
+
+	logger:Debug("Data: %s -> [%s] = '%s'", self, key, val)
 
 	self.Data[key] = val
 

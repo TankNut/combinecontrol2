@@ -19,11 +19,14 @@ Rarities = {
 }
 
 local meta = FindMetaTable("Player")
+local logger = log.Create("items")
 
 function Register(name, item)
 	item.ClassName = name
 	item.ThisClass = "item_" .. name
 	item.Name = item.Name or name
+
+	logger:Info("Registered: %s%s", name, item.Base and " : " .. item.Base or "")
 
 	-- Done to prevent the var from getting inherited
 	local internal = item.Internal; item.Internal = nil
@@ -85,8 +88,13 @@ function OnReloaded()
 end
 
 function Instance(class, id, data)
-	assert(not All[id], "Attempt to instance an already loaded item ID: " .. id)
 	class = assert(List[class], "Attempt to instance unknown item type: " .. class)
+
+	if All[id] then
+		logger:Warning("Tried to instance already loaded item: %s", All[id])
+
+		return All[id]
+	end
 
 	local instance = setmetatable({
 		ID = id,
@@ -95,6 +103,8 @@ function Instance(class, id, data)
 		__index = class,
 		__tostring = function(self) return string.format("Item [%s][%s]", self.ID, self.ClassName) end
 	})
+
+	logger:Debug("Instance: %s", instance)
 
 	All[id] = instance
 

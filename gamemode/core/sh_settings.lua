@@ -11,8 +11,8 @@ if CLIENT then
 	end
 end
 
-local logger = log.Create("settings")
 local meta = FindMetaTable("Player")
+local logger = log.Create("settings")
 
 PlayerVar.Add("StoredSettings", {
 	Default = {},

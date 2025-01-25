@@ -3,6 +3,7 @@ module("Item", package.seeall)
 TempIndex = TempIndex or 0
 
 local meta = FindMetaTable("Player")
+local logger = log.Create("items")
 
 function Create(class, data)
 	assert(List[class], "Attempt to create unknown item type: " .. class)
@@ -31,6 +32,8 @@ function LoadWorld()
 		query:WhereEqual("StoreType", INV_WORLD)
 		query:WhereEqual("StoreID", game.GetMap())
 
+	local i = 0
+
 	for _, data in ipairs(query:Execute()) do
 		if not List[data.Class] then
 			continue
@@ -39,9 +42,13 @@ function LoadWorld()
 		local item = Item.Instance(data.Class, data.id, data.CustomData and sfs.decode(data.CustomData) or nil)
 		local mapData = sfs.decode(data.MapData)
 
+		i = i + 1
+
 		item:SetWorldItem(mapData.Pos, mapData.Ang, mapData.Frozen)
 		item:OnLoaded()
 	end
+
+	logger:Info("Loaded %s world items", i)
 end
 
 function meta:GiveItem(class, data)

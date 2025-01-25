@@ -1,3 +1,5 @@
+local logger = log.Create("items")
+
 -- Internal data
 ITEM.Base = nil
 ITEM.Internal = true
@@ -59,6 +61,8 @@ function ITEM:Initialize()
 end
 
 function ITEM:Remove()
+	logger:Debug("Remove: %s", self)
+
 	self:OnRemove()
 
 	Item.All[self.ID] = nil
