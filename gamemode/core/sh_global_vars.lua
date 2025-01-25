@@ -17,39 +17,50 @@ function Add(name, data)
 
 	local hookName = "On" .. name .. "Changed"
 
-	GM[name] = function()
-		return Store[name] or util.SafeCopy(default)
+	local get = function()
+		local value = Store[name]
+
+		if value == nil then
+			return util.SafeCopy(data.Default)
+		end
+
+		return value
 	end
 
-	GM["Set" .. name] = function(_, val, loading)
-		if val == default then val = nil end
+	local set = function(value, loading)
+		local old = get()
+		Store[name] = value
+		local new = get()
 
-		local old = Store[name]
+		if not istable(old) and new == old then
+			return true
+		end
 
-		Store[name] = val
+		hook.Run(hookName, old, new, loading)
+	end
 
-		hook.Run(hookName, old, val == nil and default or val, loading)
+	GM[name] = get
+	GM["Set" .. name] = function(_, value, loading)
+		if value == default then value = nil end
+
+		if set(value, loading) then
+			return
+		end
 
 		if SERVER then
-			netstream.Broadcast(index, val, loading)
+			netstream.Broadcast(index, value, loading)
 		end
 	end
 
 	if CLIENT then
-		netstream.Hook(index, function(val, loading)
-			local old = Store[name]
-
-			Store[name] = val
-
-			hook.Run(hookName, old, val == nil and default or val, loading)
-		end)
+		netstream.Hook(index, set)
 	end
 end
 
 if CLIENT then
 	netstream.Hook("BulkGlobalVars", function(data)
-		for name, val in pairs(data) do
-			GAMEMODE["Set" .. name](GAMEMODE, val, true)
+		for name, value in pairs(data) do
+			GAMEMODE["Set" .. name](GAMEMODE, value, true)
 		end
 	end)
 else

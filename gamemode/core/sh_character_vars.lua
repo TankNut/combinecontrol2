@@ -38,62 +38,69 @@ function Add(name, data)
 		return
 	end
 
-	meta[name] = function(ply)
-		local val = cache[ply]
+	local get = function(ply)
+		local value = cache[ply]
 
-		return val == nil and util.SafeCopy(default) or val
-	end
-
-	meta["Set" .. name] = function(ply, val, loading)
-		if val == default then val = nil end
-
-		if validate and val != nil and not validate(val) then
-			error(string.format("Set value '%s' doesn't match database type %s", val, dataType), 2)
+		if value == nil then
+			return util.SafeCopy(data.Default)
 		end
 
-		local old = cache[ply]
+		return value
+	end
 
-		cache[ply] = val
+	local set = function(ply, value, loading)
+		local old = get(ply)
+		cache[ply] = value
+		local new = get(ply)
 
-		hook.Run(hookName, ply, old, val == nil and default or val, loading)
+		if not istable(old) and new == old then
+			return true
+		end
+
+		hook.Run(hookName, ply, old, new, loading)
+	end
+
+	meta[name] = get
+	meta["Set" .. name] = function(ply, value, loading)
+		if value == default then value = nil end
+
+		if validate and value != nil and not validate(value) then
+			error(string.format("Set value '%s' doesn't match database type %s", value, dataType), 2)
+		end
+
+		if set(ply, value, loading) then
+			return
+		end
 
 		if SERVER then
 			if not loading then
-				Save(ply:CharID(), data, val)
+				Save(ply:CharID(), data, value)
 			end
 
 			if not serverOnly then
-				netstream.Send(private and ply or nil, index, ply, val, loading)
+				netstream.Send(private and ply or nil, index, ply, value, loading)
 			end
 		end
 	end
 
-	meta["SetTemp" .. name] = function(ply, val)
-		if val == default then val = nil end
+	meta["SetTemp" .. name] = function(ply, value)
+		if value == default then value = nil end
 
-		if validate and val != nil and not validate(val) then
-			error(string.format("Set value '%s' doesn't match database type %s", val, dataType), 2)
+		if validate and value != nil and not validate(value) then
+			error(string.format("Set value '%s' doesn't match database type %s", value, dataType), 2)
 		end
 
-		local old = cache[ply]
-
-		cache[ply] = val
-
-		hook.Run(hookName, ply, old, val == nil and default or val)
+		if set(ply, value) then
+			return
+		end
 
 		if SERVER and not serverOnly then
-			netstream.Send(private and ply or nil, index, ply, val)
+			netstream.Send(private and ply or nil, index, ply, value)
 		end
 	end
 
 	if CLIENT then
-		netstream.Hook(index, function(ply, val, loading)
-			local old = cache[ply]
-
-			cache[ply] = val
-
-			hook.Run(hookName, ply, old, val == nil and default or val, loading)
-		end)
+		netstream.Hook(index, set)
 	end
 end
 
@@ -105,8 +112,8 @@ end
 
 if CLIENT then
 	netstream.Hook("BulkCharacterVars", function(ply, data)
-		for name, val in pairs(data) do
-			ply["SetCharacter" .. name](ply, val, true)
+		for name, value in pairs(data) do
+			ply["SetCharacter" .. name](ply, value, true)
 		end
 	end)
 else
@@ -122,7 +129,7 @@ else
 		end
 	end
 
-	function Save(id, var, val)
+	function Save(id, var, value)
 		if id <= 0 then
 			return
 		end
@@ -130,12 +137,12 @@ else
 		async.Start(function()
 			local query = GAMEMODE.Database:Update("rp_characters")
 
-			if val == nil then
+			if value == nil then
 				query:UpdateRaw(var.Field, "NULL")
 			else
-				val = var.DataType == "BLOB" and sfs.encode(val) or val
+				value = var.DataType == "BLOB" and sfs.encode(value) or value
 
-				query:Update(var.Field, val)
+				query:Update(var.Field, value)
 			end
 
 			query:WhereEqual("id", id)
