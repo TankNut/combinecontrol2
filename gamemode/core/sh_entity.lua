@@ -6,7 +6,7 @@ function GM:InitPostEntity()
 		net.Start("nRequestPData")
 		net.SendToServer()
 
-		Settings.Load()
+		Settings.LoadClient()
 
 		return
 	end

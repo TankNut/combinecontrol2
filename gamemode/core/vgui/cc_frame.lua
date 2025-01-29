@@ -6,7 +6,6 @@ AccessorFunc(PANEL, "Draggable", "Draggable")
 
 function PANEL:Init()
 	self:SetSkin("CombineControlNew")
-	self:DockPadding(1, 1, 1, 1)
 end
 
 function PANEL:Close()

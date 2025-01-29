@@ -38,6 +38,7 @@ function GM:LoadFolder(dir, subFile)
 end
 
 function GM:LoadContent()
+	Settings.Load()
 	Language.Load()
 
 	CharacterFlag.Load()

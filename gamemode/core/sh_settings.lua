@@ -25,15 +25,16 @@ PlayerVar.Add("StoredSettings", {
 function Add(name, data, category)
 	data = {
 		Key = name,
+		Name = data.Name or name,
 		VarName = name .. "Setting",
 		Default = data.Default,
 		ClientOnly = tobool(data.ClientOnly),
 		Private = tobool(data.Private),
-		Validate = data.Validate,
-		Category = category or "Misc"
+		Validate = assert(data.Validate, "Setting is missing validation rules"),
+		Category = category or "Misc",
+		Panel = data.Panel,
+		Args = data.Args
 	}
-
-	assert(data.Validate, "Cannot add settings without some kind of validation!")
 
 	if not data.ClientOnly then
 		PlayerVar.Add(data.VarName, {
@@ -67,18 +68,28 @@ function Add(name, data, category)
 
 	List[name] = data
 
-	for _, v in ipairs(Categories) do
-		if v.Category == category then
-			table.insert(v, data)
+	if data.Panel then -- Editable in F3
+		for _, v in ipairs(Categories) do
+			if v.Name == data.Category then
+				table.insert(v, data)
 
-			return
+				return
+			end
 		end
-	end
 
-	table.insert(Categories, {
-		Category = category,
-		[1] = data
-	})
+		table.insert(Categories, {
+			Name = data.Category,
+			[1] = data
+		})
+	end
+end
+
+function Load()
+	GM:LoadFolder(ContentFolder .. "settings/")
+
+	for _, plugin in ipairs(PluginFolders) do
+		GM:LoadFolder(plugin .. "settings/")
+	end
 end
 
 if CLIENT then
@@ -92,7 +103,7 @@ if CLIENT then
 		return val
 	end
 
-	function Load()
+	function LoadClient()
 		local sqlData = sql.Query("SELECT * FROM cc_settings")
 
 		if not sqlData then
@@ -260,9 +271,3 @@ if SERVER then
 		logger:Info("Loaded %s player var settings for %s", i, ply)
 	end
 end
-
-Add("Test", {
-	Default = false,
-	Private = true,
-	Validate = validate.Bool()
-})
