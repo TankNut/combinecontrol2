@@ -144,6 +144,10 @@ if CLIENT then
 	end
 
 	function Receive(name, data)
+		if isstring(data) then
+			data = {Text = data}
+		end
+
 		local command = List[name]
 		local message, consoleMessage = command:OnReceive(data)
 
