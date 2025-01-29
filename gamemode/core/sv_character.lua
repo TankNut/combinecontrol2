@@ -127,6 +127,30 @@ netstream.Hook("SelectCharacter", function(ply, id)
 	ply:LoadCharacter(id)
 end)
 
+netstream.Hook("ChangeCharacterName", function(ply, new)
+	if not ply:HasCharacter() or not hook.Run("CanChangeCharacterName", ply) then
+		return
+	end
+
+	if not validate.Value(new, Config.Get("CharacterNameRules")) then
+		return
+	end
+
+	ply:SetCharacterName(new)
+end)
+
+netstream.Hook("ChangeCharacterDescription", function(ply, new)
+	if not ply:HasCharacter() or not hook.Run("CanChangeCharacterDescription", ply) then
+		return
+	end
+
+	if not validate.Value(new, Config.Get("CharacterDescriptionRules")) then
+		return
+	end
+
+	ply:SetCharacterDescription(new)
+end)
+
 function GM:OnCharacterNameChanged(ply, old, new)
 	ply:UpdateVisibleName()
 end

@@ -9,9 +9,35 @@ function PANEL:Init()
 
 	self.ChangeName = self:Add("DButton")
 	self.ChangeName:SetText("Change Name")
+	self.ChangeName:SetDisabled(not hook.Run("CanChangeCharacterName", lp))
+
+	self.ChangeName.DoClick = function()
+		async.Start(function()
+			netstream.Send("ChangeCharacterName",
+				GUI.Open("Input", "string", "Change Character Name", {
+					Default = lp:CharacterName(),
+					Validate = Config.Get("CharacterNameRules"),
+					Name = "Your name"
+				})
+			)
+		end)
+	end
 
 	self.ChangeDescription = self:Add("DButton")
 	self.ChangeDescription:SetText("Change Description")
+	self.ChangeDescription:SetDisabled(not hook.Run("CanChangeCharacterDescription", lp))
+
+	self.ChangeDescription.DoClick = function()
+		async.Start(function()
+			netstream.Send("ChangeCharacterDescription",
+				GUI.Open("Input", "multiline", "Change Character Description", {
+					Default = lp:CharacterDescription(),
+					Validate = Config.Get("CharacterDescriptionRules"),
+					Name = "Your description"
+				})
+			)
+		end)
+	end
 
 	self.MiscInfo = self:Add("ScribeLabel")
 

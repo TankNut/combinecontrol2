@@ -63,6 +63,18 @@ function GM:OnCharacterSkinChanged(ply, old, new, loaded)
 	if SERVER and not loaded then ply:UpdateAppearance() end
 end
 
+function GM:CanChangeCharacterName(ply)
+	if not ply:RunCharFlag("CanChangeName") then
+		return false
+	end
+
+	return #ply:CharacterNameOverride() == 0
+end
+
+function GM:CanChangeCharacterDescription(ply)
+	return tobool(ply:RunCharFlag("CanChangeDescription"))
+end
+
 if CLIENT then
 	netstream.Hook("PostLoadCharacter", function()
 		hook.Run("PostLoadCharacter", lp)

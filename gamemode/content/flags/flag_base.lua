@@ -22,6 +22,9 @@ FLAG.RunSpeed = 190
 FLAG.JumpPower = 200
 FLAG.CrouchSpeed = 60
 
+FLAG.CanChangeName = true
+FLAG.CanChangeDescription = true
+
 function FLAG:GetSpeeds(ply)
 	return self.SlowWalkSpeed, self.WalkSpeed, self.RunSpeed, self.JumpPower, self.CrouchSpeed
 end
