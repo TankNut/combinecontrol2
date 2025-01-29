@@ -33,7 +33,8 @@ function Add(name, data, category)
 		Validate = assert(data.Validate, "Setting is missing validation rules"),
 		Category = category or "Misc",
 		Panel = data.Panel,
-		Args = data.Args
+		Args = data.Args,
+		CanAccess = data.CanAccess
 	}
 
 	if not data.ClientOnly then
@@ -148,6 +149,10 @@ if CLIENT then
 	function Get(key)
 		local data = assert(List[key], "Attempt to get non-existent setting " .. key)
 
+		if data.CanAccess and not data.CanAccess(lp) then
+			return util.SafeCopy(data.Default)
+		end
+
 		if data.ClientOnly then
 			return get(data)
 		else
@@ -200,6 +205,10 @@ end
 function meta:GetSetting(key)
 	local data = assert(List[key], "Attempt to get non-existent setting " .. key)
 
+	if data.CanAccess and not data.CanAccess(self) then
+		return util.SafeCopy(data.Default)
+	end
+
 	if data.ClientOnly then
 		assert(CLIENT, "Attempt to get client-only setting on SERVER")
 		assert(self == lp, "Attempt to get another player's client-only setting")
@@ -227,6 +236,10 @@ if SERVER then
 		local data = List[key]
 
 		if not data or data.ClientOnly then
+			return
+		end
+
+		if data.CanAccess and not data.CanAccess(ply) then
 			return
 		end
 

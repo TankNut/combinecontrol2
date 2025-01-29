@@ -19,8 +19,13 @@ function PANEL:Setup(data)
 	self.Header:SetText(data.Name)
 
 	local alt = false
+	local empty = true
 
 	for _, setting in ipairs(data) do
+		if setting.CanAccess and not setting.CanAccess(lp) then
+			continue
+		end
+
 		local panel = self:Add(setting.Panel)
 
 		panel:Dock(TOP)
@@ -28,6 +33,13 @@ function PANEL:Setup(data)
 		panel:Configure(setting)
 
 		alt = not alt
+		empty = false
+	end
+
+	if empty then
+		self:Remove()
+
+		return
 	end
 
 	self:InvalidateLayout()
