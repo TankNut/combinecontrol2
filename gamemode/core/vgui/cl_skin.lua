@@ -60,6 +60,8 @@ SKIN.Colours.Properties.Label_Disabled		= GWEN.TextureColor( 4 + 8 * 16, 508 )
 
 SKIN.Colours.TooltipText = Color(110, 102, 60)
 
+SKIN.colNumSliderNotch = SKIN.Colors.FillLight
+
 -- Hook this to a setting at some point
 local function getAlpha()
 	return 230
@@ -69,7 +71,9 @@ function SKIN:DrawButton(disabled, w, h)
 	surface.SetDrawColor(disabled and self.Colors.FillDark or self.Colors.FillLight)
 	surface.DrawRect(0, 0, w, h)
 
-	surface.SetDrawColor(self.Colors.FillMedium)
+	local col = self.Colors.Border
+
+	surface.SetDrawColor(col.r, col.g, col.b, 150)
 	surface.DrawOutlinedRect(0, 0, w, h)
 end
 
@@ -136,6 +140,24 @@ function SKIN:PaintButton(panel, w, h)
 	end
 
 	self:DrawButton(bool, w, h)
+end
+
+function SKIN:PaintCheckBox(panel, w, h)
+	self:DrawButton(panel:GetDisabled(), w, h)
+
+	local col = self.Colors.Primary
+	local alpha = 0
+
+	if panel.Depressed then
+		alpha = 255
+	elseif panel:GetChecked() then
+		alpha = panel:IsHovered() and 150 or 100
+	end
+
+	if alpha > 0 then
+		surface.SetDrawColor(col.r, col.g, col.b, alpha)
+		surface.DrawRect(3, 3, w - 6, h - 6)
+	end
 end
 
 function SKIN:PaintTextEntry(panel, w, h)
@@ -250,14 +272,16 @@ function SKIN:PaintProgressBar(panel, w, h)
 	surface.SetDrawColor(self.Colors.Primary)
 	surface.DrawRect(1, 1, width * math.Clamp(panel:GetProgress(), 0, 1), h - 2)
 
-	draw.SimpleText(panel:GetText(), "afterglow.labelsmall", w * 0.5, h * 0.5, self.Text.Normal, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	draw.SimpleText(panel:GetText(), "CombineControl.LabelSmall", w * 0.5, h * 0.5, self.Text.Normal, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
 function SKIN:PaintHighlight(x, y, w, h)
-	surface.SetDrawColor(ColorAlpha(self.Colors.Primary, 25))
+	local col = self.Colors.Primary
+
+	surface.SetDrawColor(col.r, col.g, col.b, 25)
 	surface.DrawRect(x, y, w, h)
 
-	surface.SetDrawColor(ColorAlpha(self.Colors.Primary, 100))
+	surface.SetDrawColor(col.r, col.g, col.b, 100)
 	surface.DrawOutlinedRect(x, y, w, h)
 end
 
@@ -296,7 +320,7 @@ function SKIN:PaintScoreboard(panel, w, h)
 	surface.DrawRect(0, 0, w, 50)
 	surface.DrawOutlinedRect(0, 0, w, h)
 
-	draw.DrawText(Config.Get("ServerName"), "afterglow.labelmassive", 10, 10, self.Text.Normal)
+	draw.DrawText(Config.Get("ServerName"), "CombineControl.LabelMassive", 10, 10, self.Text.Normal)
 end
 
 function SKIN:PaintScoreboardEntry(panel, w, h)
@@ -312,13 +336,13 @@ function SKIN:PaintScoreboardEntry(panel, w, h)
 
 	local ply = panel:GetPlayer()
 
-	draw.SimpleText(ply:GetVisibleName(), "afterglow.labelsmall", h + 19, math.Round(h * 0.33), self.Text.Normal, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-	draw.SimpleText(ply:GetShortDescription(), "afterglow.labelsmall", h + 19, math.Round(h * 0.66), self.Text.Disabled, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(ply:GetVisibleName(), "CombineControl.LabelSmall", h + 19, math.Round(h * 0.33), self.Text.Normal, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(ply:GetShortDescription(), "CombineControl.LabelSmall", h + 19, math.Round(h * 0.66), self.Text.Disabled, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
-	draw.DrawText(ply:Ping(), "afterglow.labelsmall", w - 20, 5, self.Text.Normal, TEXT_ALIGN_RIGHT)
+	draw.DrawText(ply:Ping(), "CombineControl.LabelSmall", w - 20, 5, self.Text.Normal, TEXT_ALIGN_RIGHT)
 
 	if LocalPlayer():IsAdmin() then
-		draw.DrawText(ply:Nick(), "afterglow.labelsmall", w - 20, 40, self.Text.Normal, TEXT_ALIGN_RIGHT)
+		draw.DrawText(ply:Nick(), "CombineControl.LabelSmall", w - 20, 40, self.Text.Normal, TEXT_ALIGN_RIGHT)
 	end
 
 	surface.SetDrawColor(color_white)
@@ -327,6 +351,20 @@ function SKIN:PaintScoreboardEntry(panel, w, h)
 		surface.SetMaterial(v.Material)
 		surface.DrawTexturedRect(w - 14 - (k * 18), 22, 16, 16)
 	end
+end
+
+function SKIN:PaintSliderKnob(panel, w, h)
+	surface.SetDrawColor(panel:GetDisabled() and self.Colors.FillDark or self.Colors.FillLight)
+
+	local x = w * 0.2 + 1
+	local width = w * 0.6
+
+	surface.DrawRect(x, 0, width, h)
+
+	local col = self.Colors.Border
+
+	surface.SetDrawColor(col.r, col.g, col.b, 150)
+	surface.DrawOutlinedRect(x, 0, width, h)
 end
 
 derma.DefineSkin("CombineControlNew", "", SKIN)
