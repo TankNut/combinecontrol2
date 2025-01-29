@@ -15,8 +15,7 @@ GM.Config.CharacterNameRules = {
 GM.Config.CharacterDescriptionRules = {
 	validate.Required(),
 	validate.String(),
-	validate.Max(2000),
-	validate.AllowedCharacters("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ áàâäçéèêëíìîïóòôöúùûüÿÁÀÂÄßÇÉÈÊËÍÌÎÏÓÒÔÖÚÙÛÜŸ.-0123456789',\n!?@#$%^&*(){}[]_=|\\\"><`~")
+	validate.Max(2000)
 }
 
 GM.Config.MaxCharacters = 15
