@@ -4,10 +4,21 @@ GM.Config.WebsiteURL    = "http://taconbanana.com"
 
 GM.Config.MapRedirect    = {}
 
-GM.Config.AllowedNameCharacters = "!?#abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 .-'áàâäçéèêëíìîïóòôöúùûüÿÁÀÂÄßÇÉÈÊËÍÌÎÏÓÒÔÖÚÙÛÜŸ"
-GM.Config.MinNameLength = 3
-GM.Config.MaxNameLength = 40
-GM.Config.MaxDescLength = 2000
+GM.Config.CharacterNameRules = {
+	validate.Required(),
+	validate.String(),
+	validate.Min(3),
+	validate.Max(40),
+	validate.AllowedCharacters("!?#abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 .-'áàâäçéèêëíìîïóòôöúùûüÿÁÀÂÄßÇÉÈÊËÍÌÎÏÓÒÔÖÚÙÛÜŸ")
+}
+
+GM.Config.CharacterDescriptionRules = {
+	validate.Required(),
+	validate.String(),
+	validate.Max(2000),
+	validate.AllowedCharacters("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ áàâäçéèêëíìîïóòôöúùûüÿÁÀÂÄßÇÉÈÊËÍÌÎÏÓÒÔÖÚÙÛÜŸ.-0123456789',\n!?@#$%^&*(){}[]_=|\\\"><`~")
+}
+
 GM.Config.MaxCharacters = 15
 
 GM.Config.ShortDescLength = 64

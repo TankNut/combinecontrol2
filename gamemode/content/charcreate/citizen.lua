@@ -70,19 +70,8 @@ CLASS.Options = {
 }
 
 CLASS.Validate = {
-	Name = {
-		validate.Required(),
-		validate.String(),
-		validate.Min(Config.Get("MinNameLength")),
-		validate.Max(Config.Get("MaxNameLength")),
-		validate.AllowedCharacters(Config.Get("AllowedNameCharacters"))
-	},
-	Description = {
-		validate.Required(),
-		validate.String(),
-		validate.Max(Config.Get("MaxDescLength")),
-		validate.AllowedCharacters(Config.Get("AllowedNameCharacters"))
-	},
+	Name = Config.Get("CharacterNameRules"),
+	Description = Config.Get("CharacterDescriptionRules"),
 	Model = {
 		validate.Required(),
 		validate.String(),
