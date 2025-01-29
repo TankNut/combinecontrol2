@@ -94,13 +94,13 @@ if SERVER then
 		local charType = Get(id)
 		local fields = table.Copy(charType.Fields)
 
+		charType:PreCreateCharacter(ply, fields, options)
+
 		for k, v in pairs(charType.Options) do
 			if v.Field then
 				fields[v.Field] = options[k]
 			end
 		end
-
-		charType:PreCreateCharacter(ply, fields, options)
 
 		ply:CreateCharacter(fields)
 
