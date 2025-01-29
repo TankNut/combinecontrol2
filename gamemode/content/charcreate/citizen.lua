@@ -117,6 +117,8 @@ if CLIENT then
 	end
 else
 	function CLASS:PreCreateCharacter(ply, fields, options)
+		options.Description = string.Escape(options.Description)
+
 		if options.Language then
 			fields.Languages[options.Language] = true
 		end

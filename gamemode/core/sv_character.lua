@@ -144,6 +144,8 @@ netstream.Hook("ChangeCharacterDescription", function(ply, new)
 		return
 	end
 
+	new = string.Escape(new)
+
 	if not validate.Value(new, Config.Get("CharacterDescriptionRules")) then
 		return
 	end
