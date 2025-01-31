@@ -28,7 +28,7 @@ function RegisterFolder(dir)
 	end)
 end
 
-hook.Add("LoadContent", "buff", function()
+hook.Add("LoadContent", "plugins.buff", function()
 	RegisterFolder(ContentFolder .. "buffs/")
 
 	for _, plugin in ipairs(PluginFolders) do
@@ -36,10 +36,10 @@ hook.Add("LoadContent", "buff", function()
 	end
 end)
 
-hook.Add("Move", "buff", function(ply, mv) PlayerHook(ply, "Move", mv) end)
+hook.Add("Move", "plugins.buff", function(ply, mv) PlayerHook(ply, "Move", mv) end)
 
 if SERVER then
-	hook.Add("PlayerDeath", "buff", function(ply)
+	hook.Add("PlayerDeath", "plugins.buff", function(ply)
 		PlayerHook(ply, "OnDeath")
 
 		for name, buff in pairs(ply:GetBuffs()) do
@@ -49,7 +49,7 @@ if SERVER then
 		end
 	end)
 
-	hook.Add("BlockFallDamage", "buff", function(ply)
+	hook.Add("BlockFallDamage", "plugins.buff", function(ply)
 		return PlayerHook(ply, "BlockFallDamage")
 	end)
 end

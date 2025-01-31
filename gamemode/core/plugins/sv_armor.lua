@@ -9,7 +9,7 @@ function meta:SetMaxArmor(val)
 	self:SetArmor(math.min(self.ArmorFraction * val, val))
 end
 
-hook.Add("PlayerPostThink", "armor", function(ply)
+hook.Add("PlayerPostThink", "plugins.armor", function(ply)
 	local max = ply:GetMaxArmor()
 
 	if max > 0 then
@@ -17,6 +17,6 @@ hook.Add("PlayerPostThink", "armor", function(ply)
 	end
 end)
 
-hook.Add("PlayerSpawn", "armor", function(ply)
+hook.Add("PlayerSpawn", "plugins.armor", function(ply)
 	ply.ArmorFraction = 1
 end)
