@@ -10,6 +10,7 @@ end
 include("sh_enum.lua")
 include("sh_fixes.lua")
 
+include("core/enums.lua")
 include("core/sh_config.lua")
 include("config/sh_config.lua")
 
