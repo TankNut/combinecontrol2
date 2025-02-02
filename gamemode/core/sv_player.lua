@@ -90,12 +90,15 @@ end
 function GM:GetPlayerLoadout(ply)
 	local tab = {}
 
-	if ply:ToolTrust() > TOOLTRUST_BANNED or ply:IsAdmin() then
-		table.insert(tab, "gmod_tool")
+	local config = Config.Get("ToolTrust")
+	local trust = ply:GetToolTrust()
+
+	if trust >= config.Physgun then
+		table.insert(tab, "weapon_physgun")
 	end
 
-	if ply:PhysTrust() > PHYSTRUST_BANNED or ply:IsAdmin() then
-		table.insert(tab, "weapon_physgun")
+	if trust >= config.Toolgun then
+		table.insert(tab, "gmod_tool")
 	end
 
 	return tab

@@ -196,9 +196,9 @@ function GM:PlayerSpawnedProp(ply, model, ent)
 		end
 	end
 
-	if ply:ToolTrust() < TOOLTRUST_BASIC and not ply:IsAdmin() then
-		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
-	end
+	-- if ply:ToolTrust() < TOOLTRUST_BASIC and not ply:IsAdmin() then
+	-- 	ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
+	-- end
 
 	ent:SetPropCreator(ply:VisibleRPName())
 	ent:SetPropSteamID(ply:SteamID())
@@ -252,10 +252,6 @@ function GM:PlayerSpawnNPC(ply, npctype, weapon)
 	end
 
 	return false
-end
-
-function GM:PlayerSpawnObject(ply, model, skin)
-	return self.BaseClass:PlayerSpawnObject(ply, model, skin)
 end
 
 function GM:PlayerSpawnProp(ply, model)
@@ -400,117 +396,6 @@ function GM:NoToolLog(ply, tr, tool)
 	return false
 end
 
-function GM:CanTool(ply, tr, tool)
-	local ent = tr.Entity
-
-	if (ply:IsDeveloper() and IsValid(ent) and ent:IsPlayer()) and tool == "remover" then
-		local ed = EffectData()
-			ed:SetEntity(ent)
-		util.Effect("entity_remove", ed, true, true)
-
-		ply:GetActiveWeapon():EmitSound(Sound("Airboat.FireGunRevDown"))
-		ply:GetActiveWeapon():SendWeaponAnim(ACT_VM_PRIMARYATTACK)
-		ply:SetAnimation(PLAYER_ATTACK1)
-
-		local effectdata = EffectData()
-			effectdata:SetOrigin(tr.HitPos)
-			effectdata:SetNormal(tr.HitNormal)
-			effectdata:SetEntity(ent)
-			effectdata:SetAttachment(tr.PhysicsBone)
-		util.Effect("selection_indicator", effectdata)
-
-		effectdata = EffectData()
-			effectdata:SetOrigin(tr.HitPos)
-			effectdata:SetStart(ply:GetShootPos())
-			effectdata:SetAttachment(1)
-			effectdata:SetEntity(ply:GetActiveWeapon())
-		util.Effect("ToolTracer", effectdata)
-
-		if SERVER then
-			local nick = ent:VisibleRPName()
-
-			ent:Kick("Kicked by " .. ply:Nick())
-
-			GAMEMODE:LogAdmin("[K] " .. ply:Nick() .. " removed player " .. nick .. ".", ply)
-
-			net.Start("nARemove")
-				net.WriteString(nick)
-				net.WriteEntity(ply)
-			net.Broadcast()
-		end
-
-		return true
-	end
-
-	if ent.CanTool and not ent:CanTool(ply) then
-		return false
-	end
-
-	if ent:PropSaved() == 1 then return false end
-	if table.HasValue(self.SandboxBlacklist, ent:GetClass()) and not ent.BlacklistException then return false end
-	if ent:IsVehicle() and ent.Static then return false end
-
-	if ply:IsAdmin() then
-		if SERVER then
-			if tool == "remover" and IsValid(ent) and ent:GetClass() == "cc_item" and ent.Item then
-				GAMEMODE:WriteLog("item_destroy", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Item = GAMEMODE:LogItem(ent.Item)})
-			end
-
-			if self:NoToolLog(ply, tr, tool) then return true end
-
-			GAMEMODE:WriteLog("sandbox_tool", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Tool = tool, Ent = tostring(tr.Entity)})
-			self:LogSandbox("[T] " .. ply:VisibleRPName() .. " used tool " .. tool .. " on " .. ent:GetClass() .. ".", ply)
-		end
-
-		return true
-	end
-
-	if ent:IsPlayer() then return false end
-	if ent:IsNPC() then return false end
-	if ent:GetClass() == "prop_vehicle_apc" then return false end
-	if string.find(ent:GetClass(), "wac_*") then return ply:IsAdmin() end
-
-	if ply:PassedOut() then return false end
-	if ply:TiedUp() then return false end
-
-	if ply:ToolTrust() == TOOLTRUST_BANNED then return false end
-
-	if table.HasValue(self.ToolTrustBlacklist, tool) then return false end
-
-	if ply:ToolTrust() == TOOLTRUST_BASIC and not table.HasValue(self.ToolTrustBasic, tool) then return false end
-
-	if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() and ent:PropSteamID() != ply:SteamID() then
-		local tab = {}
-
-		for _, v in player.Iterator() do
-			if v:SteamID() == ent:PropSteamID() then
-				tab = v:PropProtection()
-			end
-		end
-
-		if not table.HasValue(tab, ply) then return false end
-	end
-
-	if tool == "remover" and IsValid(ent) and ent:GetClass() == "prop_ragdoll" and IsValid(ent:PropFakePlayer()) then return false end
-
-	if self.BaseClass:CanTool(ply, tr, tool) then
-		if SERVER then
-			if tool == "remover" and IsValid(ent) and ent:GetClass() == "cc_item" and ent.Item then
-				GAMEMODE:WriteLog("item_destroy", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Item = GAMEMODE:LogItem(ent.Item)})
-			end
-
-			if self:NoToolLog(ply, tr, tool) then return true end
-
-			GAMEMODE:WriteLog("sandbox_tool", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Tool = tool, Ent = tostring(tr.Entity)})
-			self:LogSandbox("[T] " .. ply:VisibleRPName() .. " used tool " .. tool .. " on " .. tr.Entity:GetClass() .. ".", ply)
-		end
-
-		return true
-	end
-
-	return false
-end
-
 function GM:OnPhysgunFreeze(wep, phys, ent, ply)
 	if table.HasValue(self.SandboxBlacklist, ent:GetClass()) and not ent.BlacklistException then return false end
 	if ent:IsVehicle() and ent.Static then return false end
@@ -599,85 +484,6 @@ function GM:OnPhysgunReload(physgun, ply)
 	end
 
 	return false
-end
-
-function GM:PhysgunPickup(ply, ent)
-	if ent:PropSaved() == 1 then return false end
-	if ent:IsVehicle() and ent.Static then return false end
-	if table.HasValue(self.SandboxBlacklist, ent:GetClass()) and not ent.BlacklistException then return false end
-	if ent.CanPhysgun and not ent:CanPhysgun(ply) then return false end
-
-	if ent.Chairs then
-		for _, v in pairs(ent.Chairs) do
-			if v:GetPassenger(0) != NULL then
-				return false
-			end
-		end
-	end
-
-	if ply:IsAdmin() and self.BaseClass:PhysgunPickup(ply, ent) then
-		ent.PhysgunActive = true
-
-		return true
-	end
-
-	if ent:IsPlayer() then
-		if ply:IsAdmin() then
-			if ent:IsAdmin() and not ply:IsSuperAdmin() then
-				return false
-			else
-				ent:SetMoveType(MOVETYPE_NOCLIP)
-
-				return true
-			end
-		else
-			return false
-		end
-
-	end
-
-	if ent:IsNPC() then return false end
-	if ent:GetClass() == "prop_vehicle_apc" then return false end
-
-	if ply:PhysTrust() == PHYSTRUST_BANNED then return false end
-
-	if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
-		local tab = {}
-
-		for _, v in player.Iterator() do
-			if v:SteamID() == ent:PropSteamID() then
-				tab = v:PropProtection()
-			end
-		end
-
-		if not table.HasValue(tab, ply) then return false end
-	end
-
-	if ply:ToolTrust() == TOOLTRUST_BANNED and ent:GetPos():Distance(ply:GetPos()) > 300 then return false end
-
-	local ret = self.BaseClass:PhysgunPickup(ply, ent)
-
-	if ret then
-		ent.PhysgunActive = true
-
-		return true
-	end
-end
-
-function GM:PhysgunDrop(ply, ent)
-	self.BaseClass:PhysgunDrop(ply, ent)
-
-	if not ply:IsAdmin() then
-		ent:SetVelocity(Vector())
-	end
-
-	if ent:IsPlayer() then
-		ent:SetMoveType(MOVETYPE_WALK)
-	end
-
-	ent.PhysgunActive = false
-
-	return true
 end
 
 function GM:CanPlayerUnfreeze(ply, ent, phys)
