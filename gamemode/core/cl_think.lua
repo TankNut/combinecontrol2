@@ -20,6 +20,6 @@ function GM:Think()
 	if #self.VarSyncCache > 0 then
 		netstream.Send("RequestEntityVars", self.VarSyncCache)
 
-		table.Empty(self.VarSyncCache)
+		self.VarSyncCache = {}
 	end
 end
