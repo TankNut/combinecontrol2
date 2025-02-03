@@ -1,5 +1,3 @@
-util.AddNetworkString("nRequestPData")
-
 util.AddNetworkString("nAAdminPanel")
 
 util.AddNetworkString("nAUpdateAdminVariable")
@@ -34,7 +32,6 @@ util.AddNetworkString("nSmoke")
 util.AddNetworkString("nRequestPlayerData")
 util.AddNetworkString("nRequestAllPlayerData")
 util.AddNetworkString("nRequestDoorData")
-util.AddNetworkString("nRequestPropData")
 
 util.AddNetworkString("nPlayVCD")
 

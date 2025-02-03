@@ -1,84 +1,6 @@
 local meta = FindMetaTable("Entity")
 local pmeta = FindMetaTable("Player")
 
-GM.PropAccessors = {
-	{"Creator", 	"String",	""},
-	{"SteamID", 	"String",	""},
-	{"FakePlayer", "Entity",	NULL},
-	{"Saved", 		"Float",	0},
-	{"Description",	"String", ""}
-}
-
-for k, v in pairs(GM.PropAccessors) do
-
-	meta["SetProp" .. v[1]] = function(self, val)
-		if CLIENT then return end
-
-		if self["Prop" .. v[1] .. "Val"] == val then return end
-
-		self["Prop" .. v[1] .. "Val"] = val
-
-		net.Start("nSetProp" .. v[1])
-			net.WriteEntity(self)
-			net["Write" .. v[2]](val)
-		net.Broadcast()
-
-	end
-
-	meta["Prop" .. v[1]] = function(self)
-
-		if self["Prop" .. v[1] .. "Val"] == false then
-
-			return false
-
-		end
-
-		return self["Prop" .. v[1] .. "Val"] or v[3]
-
-	end
-
-	if SERVER then
-
-		util.AddNetworkString("nSetProp" .. v[1])
-
-	else
-
-		local function nRecvData(len)
-
-			local prop = net.ReadEntity()
-			local val = net["Read" .. v[2]]()
-
-			if prop and prop:IsValid() then
-
-				prop["Prop" .. v[1] .. "Val"] = val
-
-			end
-
-		end
-		net.Receive("nSetProp" .. v[1], nRecvData)
-
-	end
-end
-
-function meta:InitializePropAccessors()
-	for _, v in pairs(GAMEMODE.PropAccessors) do
-
-		self[v[1] .. "Val"] = v[3]
-
-	end
-end
-
-function meta:SyncPropData(ply)
-	for _, n in pairs(GAMEMODE.PropAccessors) do
-
-		net.Start("nSetProp" .. n[1])
-			net.WriteEntity(self)
-			net["Write" .. n[2]](self["Prop" .. n[1]](self))
-		net.Send(ply)
-
-	end
-end
-
 if SERVER then
 	net.Receive("nSetPropDesc", function(len, ply)
 		local MAX_CHARS = 140
@@ -104,14 +26,6 @@ net.Receive("nPropDescTooLong", function (len)
 
 	local maxChars = net.ReadFloat()
 	lp:SendChat("ERROR", "Prop descriptions are limited to " .. maxChars)
-end)
-
-net.Receive("nRequestPropData", function(len, ply)
-	if CLIENT then return end
-
-	local ent = net.ReadEntity()
-
-	ent:SyncPropData(ply)
 end)
 
 GM.PropBlacklist = {

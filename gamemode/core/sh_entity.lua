@@ -2,15 +2,13 @@ function GM:InitPostEntity()
 	-- Legacy code
 	hook.Run("CC.SH.InitEnts")
 
+	-- Legacy code ends
 	if CLIENT then
-		net.Start("nRequestPData")
-		net.SendToServer()
-
 		Settings.LoadClient()
 
 		return
 	end
-	-- Legacy code ends
+
 
 	hook.Run("LoadDatabase")
 end
@@ -34,10 +32,14 @@ function GM:EntityRemoved(ent, fullUpdate)
 		self:LegacyEntityRemoved(ent)
 	end
 
-	if ent:IsPlayer() and not fullUpdate then
-		Inventory.Clear(ent, true)
-		CharacterVar.Clear(ent)
-		PlayerVar.Clear(ent)
+	if not fullUpdate then
+		if ent:IsPlayer() then
+			Inventory.Clear(ent, true)
+			CharacterVar.Clear(ent)
+			PlayerVar.Clear(ent)
+		else
+			EntityVar.Clear(ent)
+		end
 	end
 end
 
@@ -51,6 +53,8 @@ if SERVER then
 			if ent:IsPlayer() then
 				PlayerVar.Sync(ent, ply)
 				CharacterVar.Sync(ent, ply)
+			else
+				EntityVar.Sync(ent, ply)
 			end
 		end
 	end)

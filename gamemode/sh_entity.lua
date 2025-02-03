@@ -44,13 +44,3 @@ function GM:EntityEmitSound(data)
 		return false
 	end
 end
-
-if CLIENT then
-	hook.Add("NetworkEntityCreated", "SH.Entity.NetworkEntityCreated", function(ent)
-		if ent:GetClass() == "prop_physics" then
-			net.Start("nRequestPropData")
-				net.WriteEntity(ent)
-			net.SendToServer()
-		end
-	end)
-end

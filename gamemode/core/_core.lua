@@ -54,6 +54,7 @@ GM:Include("sh_helpers.lua")
 GM:Include("sh_player_vars.lua")
 GM:Include("sh_character_vars.lua")
 GM:Include("sh_global_vars.lua")
+GM:Include("sh_entity_vars.lua")
 GM:Include("sh_settings.lua")
 
 GM:Include("cl_think.lua")
