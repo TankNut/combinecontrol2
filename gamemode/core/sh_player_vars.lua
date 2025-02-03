@@ -130,7 +130,7 @@ else
 			data[var] = players[ply]
 		end
 
-		if #data > 0 then
+		if table.Count(data) > 0 then
 			netstream.Send(requester, "BulkPlayerVars", ply, data)
 		end
 	end
