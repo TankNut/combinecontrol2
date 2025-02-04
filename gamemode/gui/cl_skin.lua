@@ -1,8 +1,8 @@
-local meta = FindMetaTable("Panel")
+local PANEL = FindMetaTable("Panel")
 
 local matHover = Material("vgui/spawnmenu/hover")
 
-function meta:DrawSelections()
+function PANEL:DrawSelections()
 	if (not self.m_bSelectable) then return end
 	if (not self.m_bSelected) then return end
 

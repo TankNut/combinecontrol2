@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 CharacterVar.Add("CharacterMoney", {
 	Default = 0,
@@ -7,18 +7,18 @@ CharacterVar.Add("CharacterMoney", {
 	DataType = INT()
 })
 
-function meta:GetMoney()
+function PLAYER:GetMoney()
 	return self:CharacterMoney()
 end
 
-function meta:HasMoney(amt)
+function PLAYER:HasMoney(amt)
 	return self:CharacterMoney() >= amt
 end
 
-function meta:AddMoney(amt)
+function PLAYER:AddMoney(amt)
 	self:SetMoney(self:CharacterMoney() + amt)
 end
 
-function meta:SetMoney(amt)
+function PLAYER:SetMoney(amt)
 	self:SetCharacterMoney(math.max(amt, 0))
 end

@@ -302,11 +302,11 @@ function util.FromGrid(x, y)
 end
 
 if CLIENT then
-	local meta = FindMetaTable("Vector")
+	local VECTOR = FindMetaTable("Vector")
 
-	meta.ToScreenOld = meta.ToScreenOld or meta.ToScreen
+	VECTOR.ToScreenOld = VECTOR.ToScreenOld or VECTOR.ToScreen
 
-	function meta:ToScreen()
+	function VECTOR:ToScreen()
 		local tab = self:ToScreenOld()
 
 		if GAMEMODE:Cursed() == 2 or (GAMEMODE:Cursed() == 1 and GAMEMODE:AprilFools()) then

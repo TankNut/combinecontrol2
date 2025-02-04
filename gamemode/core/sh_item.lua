@@ -18,7 +18,7 @@ Rarities = {
 	[RARITY_DEVELOPER] = {Name = "Developer", Color = Color(0, 204, 255):Register("rarity_developer")}
 }
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 local logger = log.Create("items")
 
 function Register(name, item)
@@ -176,7 +176,7 @@ function GetDropPosition(ply)
 	return tr.HitPos + tr.HitNormal * 10
 end
 
-function meta:HasEquipmentSlot(slot)
+function PLAYER:HasEquipmentSlot(slot)
 	return table.HasValue(self:RunCharFlag("EquipmentSlots"), slot)
 end
 

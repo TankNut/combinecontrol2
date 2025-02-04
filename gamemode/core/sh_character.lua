@@ -13,13 +13,13 @@ CharacterVar.Add("CharacterDescription", {Default = "", Private = true, Field = 
 CharacterVar.Add("CharacterModel", {Default = "models/player/skeleton.mdl", ServerOnly = true, Field = "Model", DataType = VARCHAR(128)})
 CharacterVar.Add("CharacterSkin", {Default = 0, ServerOnly = true, Field = "Skin", DataType = TINYINT()})
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
-function meta:HasCharacter()
+function PLAYER:HasCharacter()
 	return self:CharID() != 0
 end
 
-function meta:IsTemporaryCharacter()
+function PLAYER:IsTemporaryCharacter()
 	return self:CharID() < 0
 end
 

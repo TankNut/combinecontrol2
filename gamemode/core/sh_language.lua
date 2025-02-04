@@ -2,7 +2,7 @@ module("Language", package.seeall)
 
 Lookup = Lookup or {}
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 CharacterVar.Add("Languages", {
 	Default = {},
@@ -53,7 +53,7 @@ function GM:CanSpeakLanguage(ply, lang)
 	return ply:Languages()[lang] == true
 end
 
-function meta:CanSpeakLanguage(lang)
+function PLAYER:CanSpeakLanguage(lang)
 	return hook.Run("CanSpeakLanguage", self, lang)
 end
 
@@ -61,12 +61,12 @@ function GM:CanUnderstandLanguage(ply, lang)
 	return ply:Languages()[lang] != nil
 end
 
-function meta:CanUnderstandLanguage(lang)
+function PLAYER:CanUnderstandLanguage(lang)
 	return hook.Run("CanUnderstandLanguage", self, lang)
 end
 
 if SERVER then
-	function meta:CheckLanguage()
+	function PLAYER:CheckLanguage()
 		local languages = self:Languages()
 		local active = self:ActiveLanguage()
 
@@ -83,7 +83,7 @@ if SERVER then
 		end
 	end
 
-	function meta:GiveLanguage(lang, speak)
+	function PLAYER:GiveLanguage(lang, speak)
 		speak = tobool(speak)
 
 		local languages = self:Languages()
@@ -97,7 +97,7 @@ if SERVER then
 		end
 	end
 
-	function meta:TakeLanguage(lang)
+	function PLAYER:TakeLanguage(lang)
 		local languages = self:Languages()
 
 		languages[lang] = nil

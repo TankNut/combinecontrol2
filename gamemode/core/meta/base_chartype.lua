@@ -8,7 +8,7 @@ CLASS.Pages = {} -- The GUI layout, contains tables for pages which contain opti
 CLASS.Options = {} -- The actual options used to build the GUI
 CLASS.Validate = {} -- Validation rules for options
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 function CLASS:GetName()
 	return self.Name or self.ID
@@ -24,7 +24,7 @@ if CLIENT then
 	end
 else
 	function CLASS:GiveItem(ply, ...)
-		local func = ply:IsTemporaryCharacter() and meta.GiveTempItem or meta.GiveItem
+		local func = ply:IsTemporaryCharacter() and PLAYER.GiveTempItem or PLAYER.GiveItem
 
 		func(ply, ...)
 	end

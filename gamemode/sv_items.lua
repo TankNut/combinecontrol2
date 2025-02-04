@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 net.Receive("nDropItem", function(len, ply)
 	local id = net.ReadInt(32)
@@ -246,7 +246,7 @@ function GM:DeleteItem(item)
 	self:UnloadItem(item)
 end
 
-function meta:GiveItem(classname, amount, callback)
+function PLAYER:GiveItem(classname, amount, callback)
 	if class.IsChildOf(classname, "base_stacking") then
 		local existing = self:GetFirstItem(classname)
 

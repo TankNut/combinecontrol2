@@ -11,7 +11,7 @@ if CLIENT then
 	end
 end
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 local logger = log.Create("settings")
 
 PlayerVar.Add("StoredSettings", {
@@ -156,7 +156,7 @@ if CLIENT then
 		if data.ClientOnly then
 			return get(data)
 		else
-			return meta[data.VarName](lp)
+			return PLAYER[data.VarName](lp)
 		end
 	end
 
@@ -180,7 +180,7 @@ if CLIENT then
 				hook.Run("On" .. data.VarName .. "Changed", lp, old, new)
 			end
 		else
-			meta["Set" .. data.VarName](lp, value)
+			PLAYER["Set" .. data.VarName](lp, value)
 			netstream.Send("SetSetting", key, value)
 		end
 	end
@@ -202,7 +202,7 @@ if CLIENT then
 	netstream.Hook("ForceSetting", Set)
 end
 
-function meta:GetSetting(key)
+function PLAYER:GetSetting(key)
 	local data = assert(List[key], "Attempt to get non-existent setting " .. key)
 
 	if data.CanAccess and not data.CanAccess(self) then
@@ -215,12 +215,12 @@ function meta:GetSetting(key)
 
 		return Get(key)
 	else
-		return meta[data.VarName](self)
+		return PLAYER[data.VarName](self)
 	end
 end
 
 if SERVER then
-	function meta:SetSetting(key, value)
+	function PLAYER:SetSetting(key, value)
 		local data = assert(List[key], "Attempt to set non-existent setting " .. key)
 
 		if data.ClientOnly then
@@ -228,7 +228,7 @@ if SERVER then
 
 			netstream.Send("ForceSetting", key, value)
 		else
-			meta["Set" .. data.VarName](self, value)
+			PLAYER["Set" .. data.VarName](self, value)
 		end
 	end
 
@@ -251,7 +251,7 @@ if SERVER then
 			return
 		end
 
-		meta["Set" .. data.VarName](ply, value)
+		PLAYER["Set" .. data.VarName](ply, value)
 	end)
 
 	function GM:OnStoredSettingsChanged(ply, old, new, loaded)
@@ -278,7 +278,7 @@ if SERVER then
 
 			logger:Debug("Load player var: %s[%s] = '%s'", ply, key, value)
 
-			meta["Set" .. data.VarName](ply, value, true)
+			PLAYER["Set" .. data.VarName](ply, value, true)
 		end
 
 		logger:Info("Loaded %s player var settings for %s", i, ply)

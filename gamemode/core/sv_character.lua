@@ -1,8 +1,8 @@
 module("Character", package.seeall)
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
-function meta:LoadCharacterList()
+function PLAYER:LoadCharacterList()
 	local query = GAMEMODE.Database:Select("rp_characters")
 		query:Select("id")
 		query:Select("Name")
@@ -20,7 +20,7 @@ function meta:LoadCharacterList()
 	self:SetCharacterList(characters, true)
 end
 
-function meta:CreateCharacter(fields)
+function PLAYER:CreateCharacter(fields)
 	local query = GAMEMODE.Database:Insert("rp_characters")
 		query:Insert("SteamID", self:SteamID())
 
@@ -48,7 +48,7 @@ function meta:CreateCharacter(fields)
 	return id
 end
 
-function meta:LoadCharacter(id)
+function PLAYER:LoadCharacter(id)
 	local query = GAMEMODE.Database:Select("rp_characters")
 		query:WhereEqual("id", id)
 		query:WhereNull("Deleted_At")
@@ -79,7 +79,7 @@ function meta:LoadCharacter(id)
 	hook.Run("PostLoadCharacter", self)
 end
 
-function meta:UnloadCharacter()
+function PLAYER:UnloadCharacter()
 	self:SetCharID(0)
 
 	for _, var in pairs(CharacterVar.Vars) do
@@ -99,7 +99,7 @@ netstream.Hook("DeleteCharacter", function(ply, id)
 	ply:DeleteCharacter(id)
 end)
 
-function meta:DeleteCharacter(id)
+function PLAYER:DeleteCharacter(id)
 	Delete(id)
 
 	local characters = self:CharacterList()

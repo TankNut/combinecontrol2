@@ -1,5 +1,5 @@
-local meta = FindMetaTable("Entity")
-local pmeta = FindMetaTable("Player")
+local ENTITY = FindMetaTable("Entity")
+local PLAYER = FindMetaTable("Player")
 
 hook.Add("EntityTakeDamage", "SV.Door.EntityTakeDamage", function(ent, dmg)
 	if ent:GetClass() == "prop_door_rotating" and (ent.NextBreach or 0) < CurTime() then
@@ -97,7 +97,7 @@ function GM:ExplodeDoor(door, force, explode)
 	end)
 end
 
-function pmeta:BuyDoor(ent)
+function PLAYER:BuyDoor(ent)
 	self:AddMoney(-ent:DoorPrice())
 
 	ent:SetDoorOwners({self:CharID()})
@@ -111,13 +111,13 @@ function pmeta:BuyDoor(ent)
 	end
 end
 
-function pmeta:SellDoor(ent)
+function PLAYER:SellDoor(ent)
 	self:AddMoney(math.floor(ent:DoorPrice() * 0.8))
 
 	ent:ResetDoor()
 end
 
-function meta:ResetDoor()
+function ENTITY:ResetDoor()
 	self:SetDoorOwners({})
 	self:SetDoorName(self:DoorOriginalName())
 	self:Fire("Unlock")

@@ -9,8 +9,8 @@ PlayerVar.Add("MaxInventoryWeight", {Default = 0})
 PlayerVar.Add("InventoryID", {Default = 0})
 PlayerVar.Add("StashID", {Default = 0})
 
-local meta = CustomMetaTable("Inventory")
-local pmeta = FindMetaTable("Player")
+local INVENTORY = CustomMetaTable("Inventory")
+local PLAYER = FindMetaTable("Player")
 
 function Create(id, storeType, storeID, parent)
 	if not id then
@@ -24,7 +24,7 @@ function Create(id, storeType, storeID, parent)
 		StoreType = storeType,
 		StoreID = storeID,
 		Parent = parent
-	}, meta)
+	}, INVENTORY)
 
 	All[id] = instance
 
@@ -66,19 +66,19 @@ if SERVER then
 	end
 end
 
-function pmeta:GetInventory()
+function PLAYER:GetInventory()
 	return Get(self:InventoryID())
 end
 
-function pmeta:GetStash()
+function PLAYER:GetStash()
 	return Get(self:StashID())
 end
 
-function pmeta:GetItems()
+function PLAYER:GetItems()
 	return self:GetInventory().Items
 end
 
-function pmeta:GetEquipment(slot)
+function PLAYER:GetEquipment(slot)
 	if slot then
 		return Equipment[self][slot]
 	else

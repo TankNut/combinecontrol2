@@ -1,5 +1,5 @@
-local meta = FindMetaTable("Player")
-local emeta = FindMetaTable("Entity")
+local PLAYER = FindMetaTable("Player")
+local ENTITY = FindMetaTable("Entity")
 
 PlayerVar.Add("ToolTrust", {Default = TOOLTRUST_UNTRUSTED, Persist = true, DataType = TINYINT()})
 
@@ -15,11 +15,11 @@ function GM:GetToolTrust(ply)
 	return ply:ToolTrust()
 end
 
-function meta:GetToolTrust()
+function PLAYER:GetToolTrust()
 	return hook.Run("GetToolTrust", self)
 end
 
-function emeta:IsProtectedEntity()
+function ENTITY:IsProtectedEntity()
 	-- Permaprops return true
 
 	local class = self:GetClass()
@@ -146,13 +146,13 @@ if SERVER then
 		return cleanup.ccAdd(ply, name, ent)
 	end
 
-	if not meta.ccAddCount then
-		meta.ccAddCount = meta.AddCount
+	if not PLAYER.ccAddCount then
+		PLAYER.ccAddCount = PLAYER.AddCount
 	end
 
-	function meta:AddCount(name, ent)
+	function PLAYER:AddCount(name, ent)
 		-- Set owner
 
-		return meta.ccAddCount(self, name, ent)
+		return PLAYER.ccAddCount(self, name, ent)
 	end
 end

@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 GM.PlayerAccessors = {
 	{"NewbieStatus", 		false, 	"Float", 	NEWBIE_STATUS_NEW},
@@ -41,7 +41,7 @@ GM.PlayerAccessors = {
 for k, v in pairs(GM.PlayerAccessors) do
 	local name, private, vartype, default = v[1], v[2], v[3], v[4]
 
-	meta["Set" .. name] = function(ply, val, force)
+	PLAYER["Set" .. name] = function(ply, val, force)
 		if val == nil then
 			return
 		end
@@ -82,7 +82,7 @@ for k, v in pairs(GM.PlayerAccessors) do
 		return val
 	end
 
-	meta[name] = function(ply)
+	PLAYER[name] = function(ply)
 		if ply[name .. "Val"] == nil then
 			return default
 		end
@@ -138,7 +138,7 @@ hook.Add("OnEntityCreated", "SH.Player.OnEntityCreated", function(ent)
 	end
 end)
 
-function meta:SyncAllData(ply)
+function PLAYER:SyncAllData(ply)
 	for _, v in pairs(GAMEMODE.PlayerAccessors) do
 		local name, private, vartype = v[1], v[2], v[3]
 
@@ -156,7 +156,7 @@ function meta:SyncAllData(ply)
 	end
 end
 
-function meta:SyncAllOtherData()
+function PLAYER:SyncAllOtherData()
 	for _, v in player.Iterator() do
 
 		if v != self then
@@ -246,13 +246,13 @@ function GM:SetupMove(ply, move)
 	return self.BaseClass:SetupMove(ply, move)
 end
 
-function meta:Ragdoll()
+function PLAYER:Ragdoll()
 	if self:RagdollIndex() == -1 then return NULL end
 
 	return ents.GetByIndex(self:RagdollIndex())
 end
 
-function meta:SetRagdoll(ent)
+function PLAYER:SetRagdoll(ent)
 	self:SetRagdollIndex(ent:EntIndex())
 end
 
@@ -434,7 +434,7 @@ function GM:StartCommand(bot, cmd)
 	bot:SetEyeAngles(eyeang)
 end
 
-function meta:HasBadge(b)
+function PLAYER:HasBadge(b)
 	if bit.band(self:ScoreboardBadges(), b) == b then return true end
 	return false
 end
@@ -491,7 +491,7 @@ function player.GetByCharID(id)
 	end
 end
 
-function meta:HasFaceCovered()
+function PLAYER:HasFaceCovered()
 	for k, v in pairs(self.Equipment) do
 		if v.CoversFace then
 			return true
@@ -501,7 +501,7 @@ function meta:HasFaceCovered()
 	return false
 end
 
-function meta:IsGasImmune()
+function PLAYER:IsGasImmune()
 	if self:GetMoveType() == MOVETYPE_NOCLIP or self:RunCharFlag("GasImmune", false) then
 		return true
 	end
@@ -523,7 +523,7 @@ function meta:IsGasImmune()
 	return val != 0 and val or false
 end
 
-function meta:IsArmed()
+function PLAYER:IsArmed()
 	local wep = self:GetActiveWeapon()
 
 	if IsValid(wep) then
@@ -537,7 +537,7 @@ function meta:IsArmed()
 	return false
 end
 
-function meta:CanIgnoreTravelRestrictions(chardata)
+function PLAYER:CanIgnoreTravelRestrictions(chardata)
 	return self:IsAdmin()
 	-- if self:IsAdmin() then return true end
 	-- if not chardata then return false end
@@ -569,7 +569,7 @@ local blacklist = {
 	ammo_20mm = true
 }
 
-function meta:HasInfiniteAmmo(ammo)
+function PLAYER:HasInfiniteAmmo(ammo)
 	if self:InfiniteAmmo() then
 		return true
 	end
@@ -581,6 +581,6 @@ function meta:HasInfiniteAmmo(ammo)
 	return self:RunCharFlag("InfiniteAmmo")
 end
 
-function meta:GetPlayerColor()
+function PLAYER:GetPlayerColor()
 	return Vector(0.2, 0.2, 0.2)
 end

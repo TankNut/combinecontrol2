@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Entity")
+local ENTITY = FindMetaTable("Entity")
 
 function game.GetDoors()
 	local tab = {}
@@ -16,7 +16,7 @@ function game.GetDoors()
 	return tab
 end
 
-function meta:CopyBodygroups(ent)
+function ENTITY:CopyBodygroups(ent)
 	for i = 1, 8 do
 		self:SetBodygroup(i, ent:GetBodygroup(i))
 	end

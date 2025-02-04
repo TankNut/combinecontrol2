@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 function GM:PlayerNotes(viewer, ply)
 	net.Start("nPlayerNotes")
@@ -72,7 +72,7 @@ util.AddNetworkString("nEditNote")
 util.AddNetworkString("nRemoveNote")
 util.AddNetworkString("nRefreshNotes")
 
-function meta:LoadPlayerNotes()
+function PLAYER:LoadPlayerNotes()
 	local function cb(res)
 		self.PlayerNotes = {}
 
@@ -87,7 +87,7 @@ function meta:LoadPlayerNotes()
 		]], self:SteamID(), cb)
 end
 
-function meta:AddPlayerNote(title, content, author)
+function PLAYER:AddPlayerNote(title, content, author)
 	local timestamp = os.date("!%m/%d/%y %H:%M:%S")
 	local steamid = self:SteamID()
 	local name = author:Nick()
@@ -121,7 +121,7 @@ function meta:AddPlayerNote(title, content, author)
 	GAMEMODE.SQL:Insert("$notes", data, cb)
 end
 
-function meta:AddAutomatedPlayerNote(title, content, author)
+function PLAYER:AddAutomatedPlayerNote(title, content, author)
 	local timestamp = os.date("!%m/%d/%y %H:%M:%S")
 	local data = {
 		SteamID = self:SteamID(),
@@ -150,7 +150,7 @@ function meta:AddAutomatedPlayerNote(title, content, author)
 	GAMEMODE.SQL:Insert("$notes", data, cb)
 end
 
-function meta:EditPlayerNote(id, content, author)
+function PLAYER:EditPlayerNote(id, content, author)
 	local name = author:Nick()
 	local data = {
 		Content = content,
@@ -175,7 +175,7 @@ function meta:EditPlayerNote(id, content, author)
 	GAMEMODE.SQL:Update("$notes", data, "id = ?", id, cb)
 end
 
-function meta:RemovePlayerNote(id, remover)
+function PLAYER:RemovePlayerNote(id, remover)
 	local function cb(res)
 		local tab = self.PlayerNotes[id]
 		local name = remover:Nick()

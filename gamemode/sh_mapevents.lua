@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Entity")
+local ENTITY = FindMetaTable("Entity")
 
 function GM:AddMapEvent(name, func)
 	if not self.MapEvents then self.MapEvents = {} end
@@ -165,7 +165,7 @@ function ME.CreateMonsterGeneric(name, pos, ang, model, flags)
 	return ent
 end
 
-function meta:AddOutput(output, targ, input, param, delay, once)
+function ENTITY:AddOutput(output, targ, input, param, delay, once)
 	if not param then param = "" end
 	if not delay then delay = 0 end
 	if not once then once = 0 end

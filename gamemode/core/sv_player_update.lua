@@ -1,8 +1,8 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 -- This might change later but for now I'm just stuffing all the generic 'recalculate this' functions into one file to ease my suffering
 
-function meta:UpdateArmor()
+function PLAYER:UpdateArmor()
 	local armor = self:RunCharFlag("Armor")
 
 	for _, item in pairs(self:GetItems()) do
@@ -13,7 +13,7 @@ function meta:UpdateArmor()
 	self:SetMaxArmor(armor)
 end
 
-function meta:UpdateVisibleName()
+function PLAYER:UpdateVisibleName()
 	local name
 
 	if #self:CharacterNameOverride() > 0 then
@@ -23,7 +23,7 @@ function meta:UpdateVisibleName()
 	self:SetVisibleRPName(name or self:RunCharFlag("VisibleRPName"))
 end
 
-function meta:UpdateVisibleDescription()
+function PLAYER:UpdateVisibleDescription()
 	local description = self:RunCharFlag("VisibleDescription")
 
 	self:SetVisibleDescription(description)
@@ -38,7 +38,7 @@ function meta:UpdateVisibleDescription()
 	self:SetShortDescription(short)
 end
 
-function meta:UpdateMovementSpeed()
+function PLAYER:UpdateMovementSpeed()
 	local slow, walk, run, jump, crouch = self:RunCharFlag("GetSpeeds")
 
 	self:SetSlowWalkSpeed(slow)
@@ -48,7 +48,7 @@ function meta:UpdateMovementSpeed()
 	self:SetCrouchedWalkSpeed(crouch / walk)
 end
 
-function meta:UpdateLoadout()
+function PLAYER:UpdateLoadout()
 	local loadout = self:RunCharFlag("Loadout")
 
 	table.Add(loadout, hook.Run("GetPlayerLoadout", self))
@@ -70,6 +70,6 @@ function meta:UpdateLoadout()
 	end
 end
 
-function meta:UpdateMaxWeight()
+function PLAYER:UpdateMaxWeight()
 	self:SetMaxInventoryWeight(30)
 end

@@ -34,14 +34,14 @@ function BUFF:RemoveStacks(amount)
 end
 
 -- Mini metatable for some timer-related helpers
-local meta = {}
-meta.__index = meta
+local TIMER = {}
+TIMER.__index = TIMER
 
-function meta:TimeElapsed()
+function TIMER:TimeElapsed()
 	return CurTime() - self.Start
 end
 
-function meta:TimeLeft()
+function TIMER:TimeLeft()
 	if not self.Duration then
 		return
 	end
@@ -49,7 +49,7 @@ function meta:TimeLeft()
 	return self.Duration - self:TimeElapsed()
 end
 
-function meta:TimeFraction()
+function TIMER:TimeFraction()
 	if not self.Duration then
 		return
 	end
@@ -57,11 +57,11 @@ function meta:TimeFraction()
 	return math.TimeFraction(self.Start, self.Start + self.Duration, CurTime())
 end
 
-function meta:IntervalElapsed()
+function TIMER:IntervalElapsed()
 	return CurTime() - self.LastTick
 end
 
-function meta:IntervalLeft()
+function TIMER:IntervalLeft()
 	if not self.TickInterval then
 		return
 	end
@@ -69,7 +69,7 @@ function meta:IntervalLeft()
 	return self.TickInterval - self:IntervalElapsed()
 end
 
-function meta:IntervalFraction()
+function TIMER:IntervalFraction()
 	if not self.TickInterval then
 		return
 	end
@@ -90,7 +90,7 @@ function BUFF:AddTimer(name, start, duration, tickInterval, data)
 		TickInterval = tickInterval,
 
 		Data = data or {}
-	}, meta)
+	}, TIMER)
 
 	return index
 end

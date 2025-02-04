@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 GM.WeaponSelectOpenTime = 2
 
@@ -61,7 +61,7 @@ local function sort(a, b)
 	end
 end
 
-function meta:GetWeaponsInSlot(n)
+function PLAYER:GetWeaponsInSlot(n)
 	local w = self:GetWeapons()
 	local t = {}
 
@@ -76,7 +76,7 @@ function meta:GetWeaponsInSlot(n)
 	return t
 end
 
-function meta:FindSlotsFromWeapon()
+function PLAYER:FindSlotsFromWeapon()
 	local wep = self:GetActiveWeapon()
 
 	if wep != NULL then

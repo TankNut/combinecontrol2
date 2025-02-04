@@ -2,7 +2,7 @@ module("Item", package.seeall)
 
 TempIndex = TempIndex or 0
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 local logger = log.Create("items")
 
 function Create(class, data)
@@ -51,13 +51,13 @@ function LoadWorld()
 	logger:Info("Loaded %s world items", i)
 end
 
-function meta:GiveItem(class, data)
+function PLAYER:GiveItem(class, data)
 	local item = Create(class, data)
 
 	item:SetInventory(self:GetInventory())
 end
 
-function meta:GiveTempItem(class, data)
+function PLAYER:GiveTempItem(class, data)
 	local item = CreateTemp(class, data)
 
 	item:SetInventory(self:GetInventory())

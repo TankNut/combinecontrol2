@@ -1,12 +1,12 @@
 vgui.PauseClosePanels = vgui.PauseClosePanels or {}
 
-local meta = FindMetaTable("Panel")
+local PANEL = FindMetaTable("Panel")
 
-function meta:GetCloseOnPause()
+function PANEL:GetCloseOnPause()
 	return self.m_bCloseOnPause
 end
 
-function meta:SetCloseOnPause(bool)
+function PANEL:SetCloseOnPause(bool)
 	self.m_bCloseOnPause = bool
 
 	if bool then
@@ -16,7 +16,7 @@ function meta:SetCloseOnPause(bool)
 	end
 end
 
-function meta:OnPauseMenu()
+function PANEL:OnPauseMenu()
 	self:Remove()
 
 	return true

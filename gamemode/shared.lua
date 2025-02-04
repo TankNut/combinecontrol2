@@ -13,8 +13,8 @@ end
 
 math.randomseed(os.time())
 
-local meta = FindMetaTable("Player")
-local emeta = FindMetaTable("Entity")
+local PLAYER = FindMetaTable("Player")
+local ENTITY = FindMetaTable("Entity")
 
 stub = function() end -- Used in several places, might as well make it global
 
@@ -75,7 +75,7 @@ function YRES(y)
 	return y * (ScrH() / 480)
 end
 
-function meta:IsFemale(mdl)
+function PLAYER:IsFemale(mdl)
 	mdl = mdl or string.lower(self.CharModel or self:GetModel())
 
 	if string.find(mdl, "female") then return true end
@@ -88,7 +88,7 @@ function meta:IsFemale(mdl)
 	return false
 end
 
-function meta:Gender(mdl)
+function PLAYER:Gender(mdl)
 	return self:IsFemale(mdl) and "female" or "male"
 end
 
@@ -215,11 +215,11 @@ function GM:CanSeePos(pos1, pos2, filter)
 	return tr.Fraction == 1, tr.Fraction
 end
 
-function meta:CanSee(ent)
+function PLAYER:CanSee(ent)
 	return GAMEMODE:CanSeePos(self:EyePos(), ent:EyePos(), {self, ent})
 end
 
-function emeta:IsDoor()
+function ENTITY:IsDoor()
 	if self:GetClass() == "prop_door_rotating" then return true end
 	if self:GetClass() == "func_door_rotating" then return true end
 	if self:GetClass() == "func_door" then return true end
@@ -424,17 +424,17 @@ GM.LangsList = {
 	LANG_ITALIAN
 }
 
-function meta:HasTrait(trait)
+function PLAYER:HasTrait(trait)
 	if bit.band(self:Trait(), trait) == trait then return true end
 	return false
 end
 
-function meta:HasLang(lang)
+function PLAYER:HasLang(lang)
 	if bit.band(self:Lang(), lang) == lang then return true end
 	return false
 end
 
-function meta:HasLicense(license)
+function PLAYER:HasLicense(license)
 	if istable(license) then
 		for _, lic in pairs(license) do
 			if self:HasLicense(lic) then return true end

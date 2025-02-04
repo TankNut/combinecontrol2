@@ -11,7 +11,7 @@ Default = {
 PlayerVar.Add("Scale", {Default = 0})
 CharacterVar.Add("CharacterScale", {Default = 1, Field = "Scale", DataType = FLOAT()})
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 function AddType(name, data)
 	data.Standing = data.Standing or Default.Standing
@@ -38,7 +38,7 @@ function Find(mdl)
 	return Default
 end
 
-function meta:UpdateHull()
+function PLAYER:UpdateHull()
 	local hull = Find(self:GetModel())
 	local scale = hook.Run("GetPlayerScale", self)
 

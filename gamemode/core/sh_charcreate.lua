@@ -7,7 +7,7 @@ Class.__index = Class
 
 Names = Names or {}
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 function Register(data)
 	List[data.ID] = setmetatable(data, Class)
@@ -108,11 +108,11 @@ if SERVER then
 	end
 end
 
-function meta:CanUseCharacterType(id)
+function PLAYER:CanUseCharacterType(id)
 	return tobool(Get(id))
 end
 
-function meta:GetCharacterTypes()
+function PLAYER:GetCharacterTypes()
 	local tab = {}
 
 	for id in SortedPairsByMemberValue(List, "SortOrder") do

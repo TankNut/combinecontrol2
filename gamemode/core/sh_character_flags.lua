@@ -2,7 +2,7 @@ module("CharacterFlag", package.seeall)
 
 List = List or {}
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 CharacterVar.Add("CharacterFlag", {
 	Default = "citizen",
@@ -51,16 +51,16 @@ function Load()
 	end
 end
 
-function meta:GetCharFlag()
-	return List[meta.CharacterFlag(self)]
+function PLAYER:GetCharFlag()
+	return List[PLAYER.CharacterFlag(self)]
 end
 
-function meta:RunCharFlag(name, ...)
+function PLAYER:RunCharFlag(name, ...)
 	return hook.Run("RunCharFlag", self, name, ...)
 end
 
 function GM:RunCharFlag(ply, name, ...)
-	local flag = List[meta.CharacterFlag(ply)]
+	local flag = List[PLAYER.CharacterFlag(ply)]
 
 	if isfunction(flag[name]) then
 		return flag[name](flag, ply, ...)

@@ -9,8 +9,8 @@ ConsoleCommands = ConsoleCommands or {}
 Class = Class or {}
 Class.__index = Class
 
-local entity = FindMetaTable("Entity")
-local meta = FindMetaTable("Player")
+local ENTITY = FindMetaTable("Entity")
+local PLAYER = FindMetaTable("Player")
 
 function Register(data)
 	List[data.Name] = setmetatable(data, Class)
@@ -179,7 +179,7 @@ else
 	end
 end
 
-function entity:CanHear(pos)
+function ENTITY:CanHear(pos)
 	return util.TraceLine({
 		start = self:IsPlayer() and self:EyePos() or self:WorldSpaceCenter(),
 		endpos = pos,
@@ -188,7 +188,7 @@ function entity:CanHear(pos)
 	}).Fraction == 1
 end
 
-function meta:SendChat(name, data)
+function PLAYER:SendChat(name, data)
 	if CLIENT then
 		assert(self == lp, "Attempt to SendChat to a non-local player")
 

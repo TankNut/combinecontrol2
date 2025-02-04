@@ -1,6 +1,6 @@
-local meta = CustomMetaTable("Inventory")
+local INVENTORY = CustomMetaTable("Inventory")
 
-function meta:GetReceivers()
+function INVENTORY:GetReceivers()
 	local receivers = {}
 
 	for listener in pairs(self.Listeners) do
@@ -22,7 +22,7 @@ function meta:GetReceivers()
 	return receivers
 end
 
-function meta:UpdateReceivers()
+function INVENTORY:UpdateReceivers()
 	local old = self.Receivers
 	local new = self:GetReceivers()
 
@@ -69,7 +69,7 @@ function meta:UpdateReceivers()
 	end
 end
 
-function meta:AddListener(ply)
+function INVENTORY:AddListener(ply)
 	if self.Listeners[ply] then
 		return
 	end
@@ -78,7 +78,7 @@ function meta:AddListener(ply)
 	self:UpdateReceivers()
 end
 
-function meta:RemoveListener(ply)
+function INVENTORY:RemoveListener(ply)
 	if not self.Listeners[ply] then
 		return
 	end

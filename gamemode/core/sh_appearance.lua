@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 function GM:OnAppearanceChanged(ply, old, new, loaded)
 	ply:UpdateHull()
@@ -30,7 +30,7 @@ function GM:OnAppearanceChanged(ply, old, new, loaded)
 end
 
 if SERVER then
-	function meta:UpdateAppearance()
+	function PLAYER:UpdateAppearance()
 		local appearance = {}
 
 		if not self:HasCharacter() then

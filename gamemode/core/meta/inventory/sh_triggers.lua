@@ -1,6 +1,6 @@
-local meta = CustomMetaTable("Inventory")
+local INVENTORY = CustomMetaTable("Inventory")
 
-function meta:OnRemove()
+function INVENTORY:OnRemove()
 	for _, item in pairs(self.Items) do
 		item:Remove()
 	end
@@ -16,7 +16,7 @@ function meta:OnRemove()
 	end
 end
 
-function meta:ItemsChanged()
+function INVENTORY:ItemsChanged()
 	self:RecalculateWeight()
 
 	if CLIENT then
@@ -24,7 +24,7 @@ function meta:ItemsChanged()
 	end
 end
 
-function meta:WeightChanged()
+function INVENTORY:WeightChanged()
 	if self.StoreType == INV_PLAYER then
 		self:GetPlayer():SetInventoryWeight(self.Weight)
 	elseif self.StoreType == INV_ITEM then

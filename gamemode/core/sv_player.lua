@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 function GM:OnPlayerReady(ply)
 	GlobalVar.Sync(ply)
@@ -9,7 +9,7 @@ function GM:OnPlayerReady(ply)
 	end)
 end
 
-function meta:FullRestore()
+function PLAYER:FullRestore()
 	self:SetHealth(self:GetMaxHealth())
 	self:SetArmor(self:GetMaxArmor())
 
@@ -51,7 +51,7 @@ function GM:PlayerInitialSpawn(ply)
 	ply.AFKTime = CurTime()
 
 	if ply:IsBot() then
-		async.Start(meta.LoadCharacter, ply, 2)
+		async.Start(PLAYER.LoadCharacter, ply, 2)
 
 		return
 	end

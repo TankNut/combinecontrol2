@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 PlayerVar.Add("UserGroup", {
 	Default = "user",
@@ -13,7 +13,7 @@ local immunity = {
 	superadmin = 2
 }
 
-function meta:CanTarget(target)
+function PLAYER:CanTarget(target)
 	if self:IsDeveloper() then
 		return true
 	end
@@ -21,23 +21,23 @@ function meta:CanTarget(target)
 	return (immunity[self:UserGroup()] or 0) >= (immunity[target:UserGroup()] or 0)
 end
 
-function meta:IsAdmin()
+function PLAYER:IsAdmin()
 	return self:IsDeveloper() or self:IsSuperAdmin() or self:UserGroup() == "admin"
 end
 
-function meta:IsSuperAdmin()
+function PLAYER:IsSuperAdmin()
 	return self:IsDeveloper() or self:UserGroup() == "superadmin"
 end
 
-function meta:IsDeveloper()
+function PLAYER:IsDeveloper()
 	return self:UserGroup() == "developer"
 end
 
-function meta:IsUserGroup(group)
+function PLAYER:IsUserGroup(group)
 	return self:UserGroup() == group
 end
 
-meta.GetUserGroup = meta.UserGroup
+PLAYER.GetUserGroup = PLAYER.UserGroup
 
 if SERVER then
 	hook.Remove("PlayerInitialSpawn", "PlayerAuthSpawn")

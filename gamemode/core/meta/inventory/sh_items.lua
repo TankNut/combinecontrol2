@@ -1,18 +1,18 @@
-local meta = CustomMetaTable("Inventory")
+local INVENTORY = CustomMetaTable("Inventory")
 
-function meta:AddItem(item)
+function INVENTORY:AddItem(item)
 	self.Items[item.ID] = item
 
 	item.InventoryID = self.ID
 end
 
-function meta:RemoveItem(item)
+function INVENTORY:RemoveItem(item)
 	self.Items[item.ID] = nil
 
 	item.InventoryID = nil
 end
 
-function meta:RecalculateWeight()
+function INVENTORY:RecalculateWeight()
 	local weight = 0
 
 	for _, item in pairs(self.Items) do
@@ -26,7 +26,7 @@ function meta:RecalculateWeight()
 end
 
 if CLIENT then
-	function meta:LoadItems(items)
+	function INVENTORY:LoadItems(items)
 		for _, item in ipairs(items) do
 			self:AddItem(Item.Instance(item[1], item[2], item[3]))
 		end
@@ -38,7 +38,7 @@ if CLIENT then
 		end
 	end
 else
-	function meta:LoadItems()
+	function INVENTORY:LoadItems()
 		local query = GAMEMODE.Database:Select("rp_items")
 		query:WhereEqual("StoreType", self.StoreType)
 		query:WhereEqual("StoreID", self.StoreID)

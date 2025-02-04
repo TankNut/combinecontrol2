@@ -1,10 +1,10 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
-if not meta._SetMaxArmor then
-	meta._SetMaxArmor = meta.SetMaxArmor
+if not PLAYER._SetMaxArmor then
+	PLAYER._SetMaxArmor = PLAYER.SetMaxArmor
 end
 
-function meta:SetMaxArmor(val)
+function PLAYER:SetMaxArmor(val)
 	self:_SetMaxArmor(val)
 	self:SetArmor(math.min(self.ArmorFraction * val, val))
 end

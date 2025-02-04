@@ -4,7 +4,7 @@ Vars = Vars or {}
 Fields = Fields or {}
 Store = Store or {}
 
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 function Add(name, data)
 	local databaseType = data.DataType or BLOB()
@@ -66,8 +66,8 @@ function Add(name, data)
 		hook.Run(hookName, ply, old, new, loading)
 	end
 
-	meta[name] = get
-	meta["Set" .. name] = function(ply, value, loading)
+	PLAYER[name] = get
+	PLAYER["Set" .. name] = function(ply, value, loading)
 		if value == default then value = nil end
 
 		if validate and value != nil and not validate(value) then
@@ -89,7 +89,7 @@ function Add(name, data)
 		end
 	end
 
-	meta["SetTemp" .. name] = function(ply, value)
+	PLAYER["SetTemp" .. name] = function(ply, value)
 		if value == default then value = nil end
 
 		if validate and value != nil and not validate(value) then

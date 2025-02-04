@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 GM.AnimTable = {}
 
@@ -285,7 +285,7 @@ net.Receive("nPlayVCD", function(len)
 	end
 end)
 
-function meta:PlayVCD(seq, sendtoself)
+function PLAYER:PlayVCD(seq, sendtoself)
 	if CLIENT then
 
 		self:AddVCDSequenceToGestureSlot(GESTURE_SLOT_CUSTOM, self:LookupSequence(seq), 0, true)
@@ -353,7 +353,7 @@ net.Receive("nPlaySignal", function(len)
 	end
 end)
 
-function meta:PlaySignal(activity)
+function PLAYER:PlaySignal(activity)
 	if not table.HasValue(GAMEMODE:GetValidGestures(self), activity) then
 		return
 	end

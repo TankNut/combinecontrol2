@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 if CLIENT then
 
@@ -16,7 +16,7 @@ if CLIENT then
 	net.Receive("nWakeUp", nWakeUp)
 end
 
-function meta:MakeRagdollClone()
+function PLAYER:MakeRagdollClone()
 	if IsValid(self:Ragdoll()) then
 		self:Ragdoll():Remove()
 	end
@@ -48,7 +48,7 @@ function meta:MakeRagdollClone()
 	return rag
 end
 
-function meta:SnapFromRagdollClone()
+function PLAYER:SnapFromRagdollClone()
 	if self:Ragdoll() and self:Ragdoll():IsValid() then
 
 		self:SetPos(self:Ragdoll():GetPos())
@@ -58,7 +58,7 @@ function meta:SnapFromRagdollClone()
 	end
 end
 
-function meta:PassOut()
+function PLAYER:PassOut()
 	if self:FlashlightIsOn() then
 		self:Flashlight(false)
 	end
@@ -88,7 +88,7 @@ function meta:PassOut()
 	return self:MakeRagdollClone()
 end
 
-function meta:WakeUp(spawn)
+function PLAYER:WakeUp(spawn)
 	self:SetPassedOut(false)
 
 	self:AllowFlashlight(true)
@@ -114,7 +114,7 @@ function meta:WakeUp(spawn)
 	end
 end
 
-function meta:TakeCDamage(amt)
+function PLAYER:TakeCDamage(amt)
 	local wep = self:GetActiveWeapon()
 
 	if IsValid(wep) and wep:GetClass() == "weapon_cc_riotshield" then

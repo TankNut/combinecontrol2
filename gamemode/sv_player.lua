@@ -1,4 +1,4 @@
-local meta = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
 GM.CombineRadioFreq = 1000 -- dick weed
 
@@ -40,7 +40,7 @@ hook.Add("CC.SV.PlayerThink", "physgun", function(plys)
 	end
 end)
 
-function meta:SetPhysgunColor()
+function PLAYER:SetPhysgunColor()
 	local vec = Vector(0.30, 1.80, 2.10)
 
 	if self:IsDeveloper() then
@@ -518,7 +518,7 @@ hook.Add("CC.SV.PlayerThink", "SV.Player.DrownThink", function(plys)
 	end
 end)
 
-function meta:HealOverTime(amount, rate, interval)
+function PLAYER:HealOverTime(amount, rate, interval)
 	self.HealRemaining = amount
 	self.HealRate = rate
 	self.HealInterval = interval

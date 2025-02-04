@@ -1,5 +1,5 @@
-local meta = FindMetaTable("Entity")
-local pmeta = FindMetaTable("Player")
+local ENTITY = FindMetaTable("Entity")
+local PLAYER = FindMetaTable("Player")
 
 GM.DoorAccessors = {
 	{"Type", 			"Float",	DOOR_UNBUYABLE},
@@ -14,7 +14,7 @@ GM.DoorAccessors = {
 for _, v in pairs(GM.DoorAccessors) do
 	local name, vartype, default = v[1], v[2], v[3]
 
-	meta["SetDoor" .. name] = function(self, val)
+	ENTITY["SetDoor" .. name] = function(self, val)
 		if CLIENT then
 			return
 		end
@@ -31,7 +31,7 @@ for _, v in pairs(GM.DoorAccessors) do
 		net.Broadcast()
 	end
 
-	meta["Door" .. name] = function(self)
+	ENTITY["Door" .. name] = function(self)
 		if self["Door" .. name .. "Val"] == false then
 			return false
 		end
@@ -55,7 +55,7 @@ for _, v in pairs(GM.DoorAccessors) do
 	end
 end
 
-function meta:InitializeDoorAccessors()
+function ENTITY:InitializeDoorAccessors()
 	for _, v in pairs(GAMEMODE.DoorAccessors) do
 		local name, default = v[1], v[3]
 
@@ -63,7 +63,7 @@ function meta:InitializeDoorAccessors()
 	end
 end
 
-function meta:SyncDoorData(ply)
+function ENTITY:SyncDoorData(ply)
 	for _, v in pairs(GAMEMODE.DoorAccessors) do
 		local name, vartype = v[1], v[2]
 
@@ -74,7 +74,7 @@ function meta:SyncDoorData(ply)
 	end
 end
 
-function pmeta:OwnedBuildings()
+function PLAYER:OwnedBuildings()
 	local tab = {}
 
 	for _, v in pairs(game.GetDoors()) do
@@ -86,7 +86,7 @@ function pmeta:OwnedBuildings()
 	return tab
 end
 
-function pmeta:AddDoorOwner(ent)
+function PLAYER:AddDoorOwner(ent)
 	local tab = ent:DoorOwners()
 	local ntab = {}
 
@@ -107,7 +107,7 @@ function pmeta:AddDoorOwner(ent)
 	end
 end
 
-function pmeta:RemoveDoorOwner(ent)
+function PLAYER:RemoveDoorOwner(ent)
 	local ntab = ent:DoorOwners()
 	local tab = {}
 
@@ -128,7 +128,7 @@ function pmeta:RemoveDoorOwner(ent)
 	end
 end
 
-function pmeta:CanLock(ent)
+function PLAYER:CanLock(ent)
 	if self:IsAdmin() then
 		return true
 	end
