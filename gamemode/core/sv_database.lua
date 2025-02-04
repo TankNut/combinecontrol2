@@ -29,6 +29,12 @@ function CreateTables(db)
 		query:Index("StoreType", "StoreID")
 	query:Execute()
 
+	query = db:Create("rp_globals")
+		query:Create("Map", "VARCHAR(32) NOT NULL", true)
+		query:Create("Key", "VARCHAR(64) NOT NULL", true)
+		query:Create("Value", "BLOB NOT NULL")
+	query:Execute()
+
 	PopulateFromVars(db, "rp_players", PlayerVar.Vars)
 	PopulateFromVars(db, "rp_characters", CharacterVar.Vars)
 end
@@ -74,5 +80,6 @@ function GM:LoadDatabase()
 		Load(self.Database)
 
 		Item.LoadWorld()
+		GlobalVar.Load()
 	end)
 end
