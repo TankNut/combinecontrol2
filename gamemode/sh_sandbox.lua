@@ -1,6 +1,3 @@
-local meta = FindMetaTable("Entity")
-local pmeta = FindMetaTable("Player")
-
 if SERVER then
 	net.Receive("nSetPropDesc", function(len, ply)
 		local MAX_CHARS = 140

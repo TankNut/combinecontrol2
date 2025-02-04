@@ -1,5 +1,3 @@
-local meta = FindMetaTable("Player")
-
 function GM:PlayerBindPress(ply, bind, down)
 	if not ply:HasCharacter() then
 		return true

@@ -1,7 +1,5 @@
 require("mysqloo")
 
-local meta = FindMetaTable("Player")
-
 function GM:InitSQL()
 	if not self.SQL then
 		self.SQLQueue = {}
