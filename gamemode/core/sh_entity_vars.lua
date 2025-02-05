@@ -33,7 +33,7 @@ function Add(name, data, metatable)
 	end
 
 	local cache = Store[name]
-	local hookName = "On" .. metatable .. name .. "Changed"
+	local hookName = "On" .. name .. "Changed"
 
 	local get = function(ent)
 		local value = cache[ent]
