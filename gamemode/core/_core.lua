@@ -38,6 +38,7 @@ function GM:LoadFolder(dir, subFile)
 end
 
 function GM:LoadContent()
+	Badge.Load()
 	Settings.Load()
 	Language.Load()
 
@@ -61,6 +62,7 @@ GM:Include("cl_think.lua")
 GM:Include("cl_vgui.lua")
 GM:Include("sh_admin.lua")
 GM:Include("sh_appearance.lua")
+GM:Include("sh_badge.lua")
 GM:Include("sh_binds.lua")
 GM:Include("sh_character_flags.lua")
 GM:Include("sh_character.lua")

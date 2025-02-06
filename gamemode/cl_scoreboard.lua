@@ -84,23 +84,6 @@ function GM:ScoreboardShow()
 	CCP.Scoreboard.Players:PerformLayout()
 end
 
-GM.GoldMat = Material("icon16/medal_gold_1.png")
-GM.AdminMat = Material("icon16/shield.png")
-GM.SuperAdminMat = Material("icon16/shield_add.png")
-GM.DeveloperMat = Material("icon16/tag.png")
-GM.UnreadNotesMat = Material("icon16/comment_add.png")
-GM.OOCMutedMat = Material("icon16/keyboard_mute.png")
-GM.TravelBannedMat = Material("icon16/delete.png")
-GM.EventMat = Material("icon16/calendar.png")
-GM.CarMat = Material("icon16/car.png")
-GM.AirMat = Material("icon16/weather_clouds.png")
-
-GM.ScoreboardBadges = {}
-GM.ScoreboardBadges[BADGE_BETATEST] = {Material("icon16/controller.png"), "Beta Tester"}
-GM.ScoreboardBadges[BADGE_BETASCR] = {Material("icon16/picture_edit.png"), "Screenshot Contest Winner"}
-GM.ScoreboardBadges[BADGE_BIRTHDAY] = {Material("icon16/cake.png"), "Gang's Birthday"}
-GM.ScoreboardBadges[BADGE_BUGGER] = {Material("icon16/bug.png"), "Bug Hunter"}
-
 function GM:ScoreboardAdd(ply, y, n)
 	local entry = vgui.Create("Panel", CCP.Scoreboard.Players)
 	entry:SetSize(620, 58)
@@ -131,37 +114,7 @@ function GM:ScoreboardAdd(ply, y, n)
 			titleY = 40
 		end
 
-		local badges = {}
-
-		if LocalPlayer():IsAdmin() and ply:LastNotesUpdate() > 0 and cookie.GetNumber("cc_lastnoteread_" .. ply:SteamID64(), 0) < ply:LastNotesUpdate() then
-			table.insert(badges, GAMEMODE.UnreadNotesMat)
-		end
-
-		if LocalPlayer():IsAdmin() and ply:IsTravelBanned() then
-			table.insert(badges, GAMEMODE.TravelBannedMat)
-		end
-
-		if ply:IsAdmin() and not ply:HideAdmin() then
-			local mat = GAMEMODE.AdminMat
-
-			if ply:IsDeveloper() then
-				mat = GAMEMODE.DeveloperMat
-			elseif ply:IsSuperAdmin() then
-				mat = GAMEMODE.SuperAdminMat
-			end
-
-			table.insert(badges, mat)
-		end
-
-		if ply:DonatorActive() and not ply:HideAdmin() then
-			table.insert(badges, GAMEMODE.GoldMat)
-		end
-
-		for k, v in pairs(GAMEMODE.ScoreboardBadges) do
-			if ply:HasBadge(k) and not ply:HideAdmin() then
-				table.insert(badges, v[1])
-			end
-		end
+		local badges = ply:GetBadges()
 
 		local pingY, badgeY, infoY = nameY, descY, titleY
 		if badgeY == infoY and #badges > 0 then
@@ -201,7 +154,7 @@ function GM:ScoreboardAdd(ply, y, n)
 		local badgepos = w - 39
 
 		for _, v in pairs(badges) do
-			surface.SetMaterial(v)
+			surface.SetMaterial(v.Material)
 			surface.SetDrawColor(255, 255, 255, 255)
 			surface.DrawTexturedRect(badgepos, badgeY, 14, 14)
 
@@ -328,39 +281,10 @@ function GM:CCCreatePlayerData(ply)
 
 	CCP.PlayerData:SetCloseOnPause(true)
 
+	local badges = ply:GetBadges()
 	local y = 34
 
-	if LocalPlayer():IsAdmin() and ply:LastNotesUpdate() > 0 and cookie.GetNumber("cc_lastnoteread_" .. ply:SteamID64(), 0) < ply:LastNotesUpdate() then
-		y = CreateBadge(CCP.PlayerData, self.UnreadNotesMat, "Unread Player Notes", y)
-	end
-
-	if LocalPlayer():IsAdmin() and ply:OOCMuted() == 1 then
-		y = CreateBadge(CCP.PlayerData, self.OOCMutedMat, "OOC Muted", y)
-	end
-
-	if LocalPlayer():IsAdmin() and ply:IsTravelBanned() then
-		y = CreateBadge(CCP.PlayerData, self.TravelBannedMat, "Travel Banned", y)
-	end
-
-	if ply:IsDeveloper() and not ply:HideAdmin() then
-		y = CreateBadge(CCP.PlayerData, self.DeveloperMat, "Developer", y)
-	elseif ply:IsSuperAdmin() and not ply:HideAdmin() then
-		y = CreateBadge(CCP.PlayerData, self.SuperAdminMat, "Superadmin", y)
-	elseif ply:IsAdmin() and not ply:HideAdmin() then
-		y = CreateBadge(CCP.PlayerData, self.AdminMat, "Admin", y)
-	end
-
-	if ply:DonatorActive() and not ply:HideAdmin() then
-		y = CreateBadge(CCP.PlayerData, self.GoldMat, "Donator", y)
-	end
-
-	for k, v in pairs(self.ScoreboardBadges) do
-
-		if ply:HasBadge(k) and not ply:HideAdmin() then
-
-			y = CreateBadge(CCP.PlayerData, v[1], v[2], y)
-
-		end
-
+	for _, v in pairs(badges) do
+		y = CreateBadge(CCP.PlayerData, v.Material, v.Name, y)
 	end
 end

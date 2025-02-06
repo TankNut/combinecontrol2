@@ -116,7 +116,6 @@ GM.SQLTables.players = {
 	["PropTrust"] 			= {Type = "INT", 			Default = "1"},
 	["NewbieStatus"] 		= {Type = "INT", 			Default = NEWBIE_STATUS_NEW},
 	["PlayerFlags"] 		= {Type = "VARCHAR(128)", 	Default = ""},
-	["ScoreboardBadges"] 	= {Type = "INT", 			Default = "0"},
 	["LastNotesUpdate"] 	= {Type = "INT", 			Default = "0"},
 	["IsTravelBanned"] 		= {Type = "INT", 			Default = "0"},
 	["DonatorActive"] 		= {Type = "INT", 			Default = "0"},

@@ -44,7 +44,8 @@ setPropTrust:AddParameter(console.Bool())
 
 local toolTrustMapping = {
 	banned = TOOLTRUST_BANNED,
-	basic = TOOLTRUST_BASIC,
+	untrusted = TOOLTRUST_UNTRUSTED,
+	trusted = TOOLTRUST_TRUSTED,
 	advanced = TOOLTRUST_ADVANCED
 }
 

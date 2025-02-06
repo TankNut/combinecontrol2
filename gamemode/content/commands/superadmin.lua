@@ -28,15 +28,13 @@ setUserGroup:AddParameter(console.String({
 }))
 
 local giveBadge = console.AddCommand("rpa_givebadge", function(ply, target, badge)
-	local badgeId = _G["BADGE_" .. string.upper(badge)]
-
-	if target:HasBadge(badgeId) then
+	if target:HasBadge(badge) then
 		console.Feedback(ply, "ERROR", "%s already has this badge", target)
 
 		return
 	end
 
-	target:SetScoreboardBadges(target:ScoreboardBadges() + badgeId)
+	target:GiveBadge(badge)
 
 	console.Feedback(ply, "NOTICE", "You've given %s the %s badge", target, badge)
 	console.Feedback(target, "NOTICE", "%s has given you the %s badge", ply, badge)
@@ -52,20 +50,16 @@ giveBadge:AddParameter(console.Player({
 	NoSelfTarget = false
 }))
 
-giveBadge:AddParameter(console.String({
-	validate.InList({"betatest", "betascr", "bugger"})
-}))
+giveBadge:AddParameter(console.Badge())
 
 local takeBadge = console.AddCommand("rpa_takebadge", function(ply, target, badge)
-	local badgeId = _G["BADGE_" .. string.upper(badge)]
-
-	if not target:HasBadge(badgeId) then
+	if not target:HasBadge(badge) then
 		console.Feedback(ply, "ERROR", "%s does not have this badge", target)
 
 		return
 	end
 
-	target:SetScoreboardBadges(target:ScoreboardBadges() - badgeId)
+	target:TakeBadge(badge)
 
 	console.Feedback(ply, "NOTICE", "You've taken %s's %s badge", target, badge)
 	console.Feedback(target, "NOTICE", "%s has taken your %s badge", ply, badge)
@@ -81,9 +75,7 @@ takeBadge:AddParameter(console.Player({
 	NoSelfTarget = false
 }))
 
-takeBadge:AddParameter(console.String({
-	validate.InList({"betatest", "betascr", "bugger"})
-}))
+takeBadge:AddParameter(console.Badge())
 
 local explode = console.AddCommand("rpa_explode", function(ply, target)
 	target:Kill()

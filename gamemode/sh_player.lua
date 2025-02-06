@@ -434,11 +434,6 @@ function GM:StartCommand(bot, cmd)
 	bot:SetEyeAngles(eyeang)
 end
 
-function PLAYER:HasBadge(b)
-	if bit.band(self:ScoreboardBadges(), b) == b then return true end
-	return false
-end
-
 GM.WalkSounds = {}
 
 GM.RunSounds = {}

@@ -224,6 +224,22 @@ console.Parser("Language", function(ply, args, last, options)
 	return true, val
 end)
 
+console.Parser("Badge", function(ply, args, last, options)
+	local val = console.ReadArg(args, last)
+
+	if not val or #val < 1 then
+		return false, "Must be a valid badge"
+	end
+
+	local badge = Badge.Get(val)
+
+	if not badge or badge.Automatic then
+		return false, "Must be a valid badge"
+	end
+
+	return true, val
+end)
+
 local function folder(dir)
 	file.Iterate(dir, nil, "LUA", function(path)
 		GM:Include(path)
