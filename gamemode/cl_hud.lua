@@ -165,7 +165,7 @@ function GM:CalcView(ply, pos, ang, fov, znear, zfar)
 end
 
 function GM:ShouldDrawLocalPlayer(ply)
-	if Settings.Get("EnableThirdperson") then return self:ShouldDoThirdPerson(ply) end
+	if Settings.Get("Thirdperson") then return self:ShouldDoThirdPerson(ply) end
 
 	return false
 end
@@ -902,7 +902,7 @@ function GM:HUDPaint()
 		self:DrawTargetHUD()
 	end
 
-	if Settings.Get("EnableHUD") then
+	if Settings.Get("HUD") then
 		self:DrawDamage()
 		self:DrawConsciousness()
 		self:DrawPassedOut()
@@ -919,7 +919,7 @@ function GM:HUDPaint()
 		self:DrawNotifications()
 	end
 
-	if not Settings.Get("EnableHUD") then
+	if not Settings.Get("HUD") then
 		self:DrawConsciousness()
 		self:DrawPassedOut()
 		self:DrawWeaponSelect()

@@ -85,7 +85,7 @@ hook.Add("OnEntityCreated", "CL.Init.OnEntityCreated", function(ent)
 		GAMEMODE.EntityTable.npc[table.Count(GAMEMODE.EntityTable.npc)] = ent
 	end
 
-	if Settings.Get("EnableThirdperson") then
+	if Settings.Get("Thirdperson") then
 		ctp:Enable()
 	end
 end)

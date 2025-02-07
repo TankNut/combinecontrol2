@@ -39,7 +39,6 @@ end
 
 function GM:LoadContent()
 	Badge.Load()
-	Settings.Load()
 	Language.Load()
 
 	CharacterFlag.Load()

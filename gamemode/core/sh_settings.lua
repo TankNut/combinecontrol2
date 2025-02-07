@@ -85,14 +85,6 @@ function Add(name, data, category)
 	end
 end
 
-function Load()
-	GM:LoadFolder(ContentFolder .. "settings/")
-
-	for _, plugin in ipairs(PluginFolders) do
-		GM:LoadFolder(plugin .. "settings/")
-	end
-end
-
 if CLIENT then
 	local function get(data)
 		local val = Cache[data.Key]

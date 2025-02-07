@@ -413,7 +413,7 @@ do -- Enable
 
 		self:SetPlayer(ply)
 
-		Settings.Set("EnableThirdperson", true)
+		Settings.Set("Thirdperson", true)
 	end
 
 	function ctp:Disable()
@@ -455,7 +455,7 @@ do -- Enable
 
 		RunConsoleCommand("ctp_enabled", "0")
 
-		Settings.Set("EnableThirdperson", false)
+		Settings.Set("Thirdperson", false)
 	end
 
 	function ctp:IsEnabled()
