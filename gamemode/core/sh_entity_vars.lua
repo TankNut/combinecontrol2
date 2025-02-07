@@ -61,7 +61,7 @@ function Add(name, data, metatable)
 	meta["Set" .. name] = function(ent, value, loading)
 		if value == default then value = nil end
 
-		if set(ent, value) then
+		if set(ent, value, loading) then
 			return
 		end
 
