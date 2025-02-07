@@ -92,7 +92,7 @@ if CLIENT then
 	function ENT:Draw()
 		local ply = LocalPlayer()
 
-		if ply:IsAdmin() and GAMEMODE.SeeAll then
+		if Settings.Get("SeeAll") then
 			self:DrawShadow(true)
 			self:DrawModel()
 
@@ -123,7 +123,7 @@ if CLIENT then
 	local persistColor = Color(255, 93, 0, 100)
 
 	function ENT:DrawTranslucent()
-		if LocalPlayer():IsAdmin() and GAMEMODE.SeeAll then
+		if Settings.Get("SeeAll") then
 			local min = -Vector(self.Radius, self.Radius, 0)
 			local max = Vector(self.Radius, self.Radius, self.Radius / 2)
 

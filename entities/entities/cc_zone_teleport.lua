@@ -104,7 +104,7 @@ if CLIENT then
 	function ENT:Draw()
 		BaseClass.Draw(self)
 
-		if GAMEMODE.SeeAll and LocalPlayer():IsAdmin() then
+		if Settings.Get("SeeAll") then
 			GAMEMODE:DrawWorldText(self:WorldSpaceCenter(), string.format("Teleport: %i", self:GetGroup()), true)
 		end
 	end

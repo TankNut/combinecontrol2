@@ -79,7 +79,7 @@ end
 
 if CLIENT then
 	function ENT:Draw()
-		if LocalPlayer():IsAdmin() and GAMEMODE.SeeAll then
+		if Settings.Get("SeeAll") then
 			self:DrawModel()
 
 			GAMEMODE:DrawWorldText(self:WorldSpaceCenter() + Vector(0, 0, self:BoundingRadius()), self:GetGroup())

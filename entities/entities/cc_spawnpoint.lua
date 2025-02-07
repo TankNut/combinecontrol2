@@ -40,7 +40,7 @@ end
 
 if CLIENT then
 	function ENT:Draw()
-		if LocalPlayer():IsAdmin() and GAMEMODE.SeeAll then
+		if Settings.Get("SeeAll") then
 			self:DrawModel()
 		end
 

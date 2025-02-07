@@ -146,3 +146,11 @@ propInfo:SetDescription("Get information about whatever prop you're looking at")
 propInfo:SetExecutionContext(console.Server)
 propInfo:SetAccess(console.IsAdmin)
 propInfo:SetNoConsole()
+
+local seeall = console.AddCommand("rpa_seeall", function(ply)
+	Settings.Set("SeeAll", not Settings.Get("SeeAll"))
+end)
+
+seeall:SetDescription("Toggles SeeAll on or off")
+seeall:SetExecutionContext(console.ClientOnly)
+seeall:SetAccess(console.IsAdmin)

@@ -84,7 +84,7 @@ end
 
 if CLIENT then
 	hook.Add("PostDrawTranslucentRenderables", "zones", function(depth, skybox)
-		if skybox or not GAMEMODE.SeeAll or not LocalPlayer():IsAdmin() then
+		if skybox or not Settings.Get("SeeAll") then
 			return
 		end
 
@@ -122,7 +122,7 @@ if CLIENT then
 	end)
 
 	function ENT:Draw()
-		if GAMEMODE.SeeAll and LocalPlayer():IsAdmin() then
+		if Settings.Get("SeeAll") then
 			self:DrawModel()
 		end
 	end

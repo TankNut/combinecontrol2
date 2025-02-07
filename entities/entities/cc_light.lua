@@ -122,7 +122,7 @@ if CLIENT then
 	function ENT:Draw()
 		self:DrawModel()
 
-		if GAMEMODE.SeeAll and LocalPlayer():IsAdmin() then
+		if Settings.Get("SeeAll") then
 			GAMEMODE:DrawWorldText(self:LocalToWorld(Vector(0, 0, -15)), self:GetLightGroup())
 		end
 	end

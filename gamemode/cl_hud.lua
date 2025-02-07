@@ -292,10 +292,6 @@ GM.TypeText = {
 local PlayerCache = {}
 
 function GM:DrawEntities()
-	if self.SeeAll and not LocalPlayer():IsAdmin() then
-		self.SeeAll = false
-	end
-
 	local sight = self:GetPlayerSight()
 	local sightsqr = sight * sight
 
@@ -322,7 +318,7 @@ function GM:DrawEntities()
 
 	local tr = LocalPlayer():GetEyeTrace()
 
-	if (cookie.GetNumber("cc_legacyhud", 1) == 0) and not self.SeeAll then
+	if (cookie.GetNumber("cc_legacyhud", 1) == 0) and not Settings.Get("SeeAll") then
 		-- New HUD
 		if IsValid(tr.Entity) and tr.Entity:IsPlayer() then
 			-- cache the entity so we remember it for drawing
@@ -364,7 +360,7 @@ function GM:DrawEntities()
 				draw.DrawTextShadow(v:VisibleRPName(), "CombineControl.PlayerFont", pos.x, pos.y, Color(c.r, c.g, c.b, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
 				pos.y = pos.y + 20
 
-				if self.SeeAll and tobool(cookie.GetNumber("cc_seeallplayers", 1)) then
+				if Settings.Get("SeeAll") and tobool(cookie.GetNumber("cc_seeallplayers", 1)) then
 					draw.DrawTextShadow(v:Nick(), "CombineControl.PlayerFont", pos.x, pos.y, Color(87, 165, 255, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
 					pos.y = pos.y + 20
 				elseif v.HUDAlpha > 0 then
@@ -395,7 +391,7 @@ function GM:DrawEntities()
 					pos.y = pos.y + 20
 				end
 
-				if self.SeeAll and tobool(cookie.GetNumber("cc_seeallhp", 1)) then
+				if Settings.Get("SeeAll") and tobool(cookie.GetNumber("cc_seeallhp", 1)) then
 					draw.DrawTextShadow(tostring(v:Health()) .. "%", "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 0, 0, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
 					pos.y = pos.y + 20
 				end
@@ -421,7 +417,7 @@ function GM:DrawEntities()
 				if IsValid(v:Ragdoll()) then
 					pos = (v:Ragdoll():EyePos() + Vector(0, 0, 10)):ToScreen()
 
-					if ((self.SeeAll and tobool(cookie.GetNumber("cc_seeallplayers", 1))) or (pos.visible and LocalPlayer():CanSee(v:Ragdoll()) and LocalPlayer():GetPos():Distance(v:GetPos()) < self:GetPlayerSight())) and v:Alive() then
+					if ((Settings.Get("SeeAll") and tobool(cookie.GetNumber("cc_seeallplayers", 1))) or (pos.visible and LocalPlayer():CanSee(v:Ragdoll()) and LocalPlayer():GetPos():Distance(v:GetPos()) < self:GetPlayerSight())) and v:Alive() then
 						v.HUDAlpha = math.Clamp(v.HUDAlpha + FrameTime(), 0, 1)
 					elseif v.HUDAlpha > 0 then
 						v.HUDAlpha = math.Clamp(v.HUDAlpha - FrameTime(), 0, 1)
@@ -433,7 +429,7 @@ function GM:DrawEntities()
 						v.TitleAlpha = math.Clamp(v.TitleAlpha - FrameTime(), 0, v.HUDAlpha)
 					end
 				else
-					if ((self.SeeAll and tobool(cookie.GetNumber("cc_seeallplayers", 1))) or (pos.visible and LocalPlayer():CanSee(v) and LocalPlayer():GetPos():Distance(v:GetPos()) < self:GetPlayerSight() and not v:GetNoDraw() and v:Alive())) then
+					if ((Settings.Get("SeeAll") and tobool(cookie.GetNumber("cc_seeallplayers", 1))) or (pos.visible and LocalPlayer():CanSee(v) and LocalPlayer():GetPos():Distance(v:GetPos()) < self:GetPlayerSight() and not v:GetNoDraw() and v:Alive())) then
 						v.HUDAlpha = math.Clamp(v.HUDAlpha + FrameTime(), 0, 1)
 					elseif v.HUDAlpha > 0 then
 						v.HUDAlpha = math.Clamp(v.HUDAlpha - FrameTime(), 0, 1)
@@ -452,7 +448,7 @@ function GM:DrawEntities()
 					draw.DrawTextShadow(v:VisibleRPName(), "CombineControl.PlayerFont", pos.x, pos.y, Color(c.r, c.g, c.b, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
 					pos.y = pos.y + 20
 
-					if self.SeeAll and tobool(cookie.GetNumber("cc_seeallplayers", 1)) then
+					if Settings.Get("SeeAll") and tobool(cookie.GetNumber("cc_seeallplayers", 1)) then
 						draw.DrawTextShadow(v:Nick(), "CombineControl.PlayerFont", pos.x, pos.y, Color(87, 165, 255, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
 						pos.y = pos.y + 20
 					elseif v.TitleAlpha > 0 then
@@ -483,7 +479,7 @@ function GM:DrawEntities()
 						pos.y = pos.y + 20
 					end
 
-					if self.SeeAll and tobool(cookie.GetNumber("cc_seeallhp", 1)) then
+					if Settings.Get("SeeAll") and tobool(cookie.GetNumber("cc_seeallhp", 1)) then
 						draw.DrawTextShadow(tostring(v:Health()) .. "%", "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 0, 0, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
 						pos.y = pos.y + 20
 					end
@@ -516,11 +512,8 @@ function GM:DrawEntities()
 
 		if v.HUDAlpha > 0 then
 			if seeCreator then
-				draw.DrawTextShadow(v:PropCreator(), "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-
-				if v:OwnerID() then
-					draw.DrawTextShadow(v:OwnerID(), "CombineControl.LabelSmall", pos.x, pos.y + 24, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-				end
+				draw.DrawTextShadow(v:OwnerName() or "", "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
+				draw.DrawTextShadow(v:OwnerID() or "", "CombineControl.LabelSmall", pos.x, pos.y + 24, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
 			end
 
 			if seeDesc then
@@ -539,13 +532,13 @@ function GM:DrawEntities()
 
 		local distance = EyePos():DistToSqr(v:WorldSpaceCenter())
 
-		if distance > sightsqr * 0.5 and not (self.SeeAll and tobool(cookie.GetNumber("cc_seeallitems", 1))) then
+		if distance > sightsqr * 0.5 and not (Settings.Get("SeeAll") and tobool(cookie.GetNumber("cc_seeallitems", 1))) then
 			continue
 		end
 
 		local pos = v:WorldSpaceCenter():ToScreen()
 
-		if (self.SeeAll and tobool(cookie.GetNumber("cc_seeallitems", 1))) or (pos.visible and LocalPlayer():CanSee(v)) then
+		if (Settings.Get("SeeAll") and tobool(cookie.GetNumber("cc_seeallitems", 1))) or (pos.visible and LocalPlayer():CanSee(v)) then
 			v.HUDAlpha = math.Clamp(v.HUDAlpha + FrameTime(), 0, 1)
 		elseif v.HUDAlpha > 0 then
 			v.HUDAlpha = math.Clamp(v.HUDAlpha - FrameTime(), 0, 1)
@@ -569,7 +562,7 @@ function GM:DrawEntities()
 
 		local distance = LocalPlayer():GetPos():Distance(v:GetPos())
 
-		if distance > self:GetPlayerSight() / 2 and not self.SeeAll then
+		if distance > self:GetPlayerSight() / 2 and not Settings.Get("SeeAll") then
 			continue
 		end
 
@@ -577,7 +570,7 @@ function GM:DrawEntities()
 		local wpos = (v:GetPos() + (a + b) / 2)
 		local pos = wpos:ToScreen()
 
-		if self.SeeAll or (pos.visible and LocalPlayer():CanSee(v)) then
+		if Settings.Get("SeeAll") or (pos.visible and LocalPlayer():CanSee(v)) then
 			v.HUDAlpha = math.Clamp(v.HUDAlpha + FrameTime(), 0, 1)
 		elseif v.HUDAlpha > 0 then
 			v.HUDAlpha = math.Clamp(v.HUDAlpha - FrameTime(), 0, 1)
@@ -595,13 +588,13 @@ function GM:DrawEntities()
 	for k, v in pairs(self.EntityTable.npc) do
 		if not IsValid(v) then table.remove(self.EntityTable.npc, k) continue end
 		if table.HasValue(self.NPCDrawBlacklist, v:GetClass()) then table.remove(self.EntityTable.npc, k) continue end
-		if not self.SeeAll then continue end
+		if not Settings.Get("SeeAll") then continue end
 
 		if not v.HUDAlpha then v.HUDAlpha = 0 end
 
 		local pos = (v:EyePos() + Vector(0, 0, 10)):ToScreen()
 
-		if (self.SeeAll and tobool(cookie.GetNumber("cc_seeallnpcs", 1))) and v:Health() > 0 then
+		if (Settings.Get("SeeAll") and tobool(cookie.GetNumber("cc_seeallnpcs", 1))) and v:Health() > 0 then
 			v.HUDAlpha = math.Clamp(v.HUDAlpha + FrameTime(), 0, 1)
 		elseif v.HUDAlpha > 0 then
 			v.HUDAlpha = math.Clamp(v.HUDAlpha - FrameTime(), 0, 1)
@@ -656,7 +649,7 @@ function GM:DrawDoors()
 				pos.y = pos.y + 20
 			end
 
-			if self.SeeAll then
+			if Settings.Get("SeeAll") then
 				local tab = v:DoorOwners()
 				table.Merge(tab, v:DoorAssignedOwners())
 
@@ -996,11 +989,17 @@ function GM:GetCursorEnt()
 	end
 end
 
+local col = Color(255, 0, 255, 255)
+
 function GM:PreDrawHalos()
-	if GAMEMODE.SeeAll and IsValid(LocalPlayer():GetActiveWeapon()) and GAMEMODE.WeaponOutText[LocalPlayer():GetActiveWeapon():GetClass()] then
+	if Settings.Get("SeeAll") and IsValid(LocalPlayer():GetActiveWeapon()) and GAMEMODE.WeaponOutText[LocalPlayer():GetActiveWeapon():GetClass()] then
 		local tab = {}
 
 		for _, v in pairs(GAMEMODE.EntityTable.prop) do -- Only props can be permapropped so...
+			if not IsValid(v) then
+				continue
+			end
+
 			if v:IsProtectedEntity() then
 				if v:GetClass() == "prop_effect" then
 					table.insert(tab, v.AttachedEntity)
@@ -1010,7 +1009,7 @@ function GM:PreDrawHalos()
 			end
 		end
 
-		halo.Add(tab, Color(255, 0, 255, 255), 1, 1, 1, true, false)
+		halo.Add(tab, col, 1, 1, 1, true, false)
 	end
 end
 

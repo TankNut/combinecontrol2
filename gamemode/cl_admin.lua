@@ -12,10 +12,6 @@ net.Receive("nARemove", function(len)
 	lp:SendChat("NOTICE", ply:Nick() .. " removed " .. nick .. ".")
 end)
 
-net.Receive("nASeeAll", function(len)
-	GAMEMODE.SeeAll = not GAMEMODE.SeeAll
-end)
-
 net.Receive("nAFlagsRoster", function(len)
 	local tab = net.ReadTable()
 
