@@ -1,3 +1,6 @@
+-- General config
+GM.Config.GamemodeName = "development" -- Used for figuring out what folder within data/combinecontrol we want to put our stuff
+
 -- Web integration
 GM.Config.SteamGroupURL	= ""
 GM.Config.WebsiteURL    = "http://taconbanana.com"

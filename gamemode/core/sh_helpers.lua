@@ -54,3 +54,5 @@ function BuildPluginFolders()
 
 	PluginFolders = tab
 end
+
+DataFolder = "combinecontrol/" .. Config.Get("GamemodeName") .. "/"
