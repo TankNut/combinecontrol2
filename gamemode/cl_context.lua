@@ -142,7 +142,7 @@ function GM:GetCCOptions(ent, dist)
 			end, nil, 100}
 
 			table.insert(tab, option)
-		elseif ent:GetClass() == "prop_physics" and ent:PropSaved() == 0 and (lp:IsAdmin() or lp:ToolTrust() == TOOLTRUST_ADVANCED) then
+		elseif ent:GetClass() == "prop_physics" and not ent:PermaProp() and (lp:IsAdmin() or lp:ToolTrust() == TOOLTRUST_ADVANCED) then
 			local hasPermission = lp:SteamID() == ent:PropSteamID() or lp:IsAdmin()
 
 			if not hasPermission then

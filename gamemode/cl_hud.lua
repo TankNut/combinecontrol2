@@ -517,7 +517,10 @@ function GM:DrawEntities()
 		if v.HUDAlpha > 0 then
 			if seeCreator then
 				draw.DrawTextShadow(v:PropCreator(), "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-				draw.DrawTextShadow(v:PropSteamID(), "CombineControl.LabelSmall", pos.x, pos.y + 24, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
+
+				if v:OwnerID() then
+					draw.DrawTextShadow(v:OwnerID(), "CombineControl.LabelSmall", pos.x, pos.y + 24, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
+				end
 			end
 
 			if seeDesc then
@@ -998,7 +1001,7 @@ function GM:PreDrawHalos()
 		local tab = {}
 
 		for _, v in pairs(GAMEMODE.EntityTable.prop) do -- Only props can be permapropped so...
-			if v:PropSaved() == 1 then
+			if v:PermaProp() then
 				if v:GetClass() == "prop_effect" then
 					table.insert(tab, v.AttachedEntity)
 				else

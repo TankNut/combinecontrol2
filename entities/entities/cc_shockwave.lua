@@ -34,7 +34,7 @@ function ENT:Think()
 			continue
 		end
 
-		if v:PropSaved() == 1 then
+		if v:PermaProp() then
 			continue
 		end
 

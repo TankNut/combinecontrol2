@@ -3,6 +3,10 @@ local ENTITY = FindMetaTable("Entity")
 
 PlayerVar.Add("ToolTrust", {Default = TOOLTRUST_UNTRUSTED, Persist = true, DataType = TINYINT()})
 
+EntityVar.Add("PropCreator",     {Default = ""})
+EntityVar.Add("PropDescription", {Default = ""})
+EntityVar.Add("FakePlayer",      {Default = NULL})
+
 function GM:GetToolTrust(ply)
 	if ply:IsDeveloper() then
 		return TOOLTRUST_DEVELOPER
@@ -20,7 +24,9 @@ function PLAYER:GetToolTrust()
 end
 
 function ENTITY:IsProtectedEntity()
-	-- Permaprops return true
+	if self:PermaProp() then
+		return true
+	end
 
 	local class = self:GetClass()
 
@@ -51,10 +57,13 @@ function GM:CanTool(ply, tr, tool)
 		return false
 	end
 
+	local config = Config.Get("ToolTrust")
+	local trust = ply:GetToolTrust()
+
 	local ent = tr.Entity
 
 	if IsValid(ent) then
-		if ent:IsPlayer() and ply:GetToolTrust() < Config.Get("ToolTrust").ToolgunPlayers then
+		if ent:IsPlayer() and trust < config.ToolgunPlayers then
 			return false
 		end
 
@@ -63,6 +72,10 @@ function GM:CanTool(ply, tr, tool)
 		end
 
 		if ent.CanTool and not ent.CanTool(ply, tool) then
+			return false
+		end
+
+		if trust < config.IgnoreOwnership and not ply:IsCreator(ent) then
 			return false
 		end
 	end
@@ -84,6 +97,10 @@ function GM:PhysgunPickup(ply, ent)
 		return true
 	end
 
+	if trust < config.IgnoreOwnership and not ply:IsCreator(ent) then
+		return false
+	end
+
 	return true
 end
 
@@ -98,6 +115,8 @@ function GM:PhysgunDrop(ply, ent)
 end
 
 function GM:PlayerSpawnObject(ply, mdl, skin)
+	mdl = string.lower(mdl)
+
 	if IsUselessModel(mdl) then
 		return false
 	end
@@ -107,7 +126,7 @@ function GM:PlayerSpawnObject(ply, mdl, skin)
 	end
 
 	for _, v in ipairs(Config.Get("ToolTrust")) do
-		if string.find(string.lower(mdl), v) then
+		if string.find(mdl, v) then
 			return false
 		end
 	end

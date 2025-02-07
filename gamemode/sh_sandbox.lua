@@ -193,9 +193,6 @@ function GM:PlayerSpawnedProp(ply, model, ent)
 	-- 	ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	-- end
 
-	ent:SetPropCreator(ply:VisibleRPName())
-	ent:SetPropSteamID(ply:SteamID())
-
 	return self.BaseClass:PlayerSpawnedProp(ply, model, ent)
 end
 
@@ -394,7 +391,7 @@ function GM:OnPhysgunFreeze(wep, phys, ent, ply)
 	if ent:IsVehicle() and ent.Static then return false end
 	if ent.CanPhysgun and not ent:CanPhysgun(ply) then return false end
 
-	if ent:PropSaved() == 1 then return false end
+	if ent:PermaProp() then return false end
 
 	if ent.Chairs then
 		for _, v in pairs(ent.Chairs) do
@@ -441,7 +438,7 @@ function GM:OnPhysgunReload(physgun, ply)
 		if ent:IsVehicle() and ent.Static then return false end
 		if ent.CanPhysgun and not ent:CanPhysgun(ply) then return false end
 
-		if ent:PropSaved() == 1 then return false end
+		if ent:PermaProp() then return false end
 
 		if ent.Chairs then
 			for _, v in pairs(ent.Chairs) do
@@ -483,7 +480,7 @@ function GM:CanPlayerUnfreeze(ply, ent, phys)
 	if table.HasValue(self.SandboxBlacklist, ent:GetClass()) and not ent.BlacklistException then return false end
 	if ent.CanPhysgun and not ent:CanPhysgun(ply) then return false end
 
-	if ent:PropSaved() == 1 then return false end
+	if ent:PermaProp() then return false end
 
 	if ent.Chairs then
 		for _, v in pairs(ent.Chairs) do
@@ -530,7 +527,7 @@ function GM:CanProperty(ply, prop, ent)
 		return false
 	end
 
-	if ent:PropSaved() == 1 then
+	if ent:PermaProp() then
 		return false
 	end
 
@@ -539,150 +536,6 @@ function GM:CanProperty(ply, prop, ent)
 	end
 
 	return true
-end
-
-local classes = {
-	["prop_physics"] = true,
-	["prop_effect"] = true
-}
-
-local function save(tab, ent)
-	local data = {}
-	local mdl = ent
-
-	data.Class = ent:GetClass()
-
-	if data.Class == "prop_effect" then
-		mdl = ent.AttachedEntity
-	end
-
-	data.Model = mdl:GetModel()
-	data.Skin = mdl:GetSkin()
-
-	data.Pos = ent:GetPos()
-	data.Ang = ent:GetAngles()
-
-	data.CollisionGroup = ent:GetCollisionGroup()
-
-	data.RenderMode = mdl:GetRenderMode()
-	data.RenderFX = mdl:GetRenderFX()
-
-	data.Color = mdl:GetColor()
-
-	local mat = mdl:GetMaterial()
-
-	if mdl.MaterialData then
-		data.AdvancedMaterialData = mdl.MaterialData
-	else
-		if #mat > 0 then
-			data.Material = mat
-		else
-			local tab = {}
-			local found = false
-
-			for i = 0, 31 do
-				local submat = mdl:GetSubMaterial(i)
-
-				if #submat > 0 then
-					tab[i] = submat
-					found = true
-				end
-			end
-
-			if found then
-				data.SubMaterials = tab
-			end
-		end
-	end
-
-	data.SteamID = ent:PropSteamID()
-	data.PlayerName = ent:PropCreator()
-	data.Description = ent:PropDescription()
-
-	table.insert(tab, data)
-end
-
-function GM:GetPermaPropFile()
-	return string.format("combinecontrol/savedprops/v3/%s.txt", game.GetMapOverride())
-end
-
-function GM:SaveSavedProps()
-	local data = {}
-
-	for _, ent in ients.Iterator() do
-		if ent:PropSaved() == 0 or not classes[ent:GetClass()] then continue end
-
-		save(data, ent)
-	end
-
-	file.Write(self:GetPermaPropFile(), pon.encode(data))
-end
-
-function GM:SpawnSavedProps()
-	local contents = file.Read(self:GetPermaPropFile(), "DATA")
-
-	if not contents or #contents == 0 then
-		return
-	end
-
-	local entities = pon.decode(contents)
-
-	if not entities then
-		return
-	end
-
-	for _, data in next, entities do
-		if not classes[data.Class] then continue end
-
-		local ent = ents.Create(data.Class)
-
-		if string.StartWith(data.Class, "prop") then
-			ent:SetModel(data.Model)
-			ent:SetSkin(data.Skin)
-		end
-
-		ent:SetPos(data.Pos)
-		ent:SetAngles(data.Ang)
-
-		ent:Spawn()
-		ent:Activate()
-
-		local phys = ent:GetPhysicsObject()
-
-		if IsValid(phys) then
-			phys:EnableMotion(false)
-			phys:Sleep()
-		end
-
-		local mdl = data.Class == "prop_effect" and ent.AttachedEntity or ent
-
-		ent:SetCollisionGroup(data.CollisionGroup)
-
-		mdl:SetRenderMode(data.RenderMode)
-		mdl:SetRenderFX(data.RenderFX)
-
-		mdl:SetColor(data.Color)
-
-		if data.AdvancedMaterialData and materials then
-			local texture = data.AdvancedMaterialData.texture
-			data.AdvancedMaterialData.texture = nil
-
-			materials:Set(mdl, string.Trim(texture):lower(), data.AdvancedMaterialData)
-		else
-			if data.Material then
-				mdl:SetMaterial(data.Material)
-			elseif data.SubMaterials then
-				for index, mat in pairs(data.SubMaterials) do
-					mdl:SetSubMaterial(index, mat)
-				end
-			end
-		end
-
-		ent:SetPropSteamID(data.SteamID)
-		ent:SetPropCreator(data.PlayerName)
-		ent:SetPropDescription(data.Description)
-		ent:SetPropSaved(1)
-	end
 end
 
 function GM:PostCleanupMap()

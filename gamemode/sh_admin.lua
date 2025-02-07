@@ -481,32 +481,6 @@ concommand.AddAdmin("rpa_createfire", function(ply, duration)
 	SafeRemoveEntityDelayed(fire, time)
 end, false, {TYPE_NUMBER})
 
-concommand.AddAdmin("rpa_togglesaved", function(ply)
-	local ent = ply:GetEyeTrace().Entity
-
-	if IsValid(ent) and (ent:GetClass() == "prop_physics" or ent:GetClass() == "prop_effect") then
-		local val = 1 - ent:PropSaved()
-
-		ent:SetPropSaved(val)
-		ent.NoDamage = tobool(val)
-
-		undo.ReplaceEntity(ent, NULL)
-		cleanup.ReplaceEntity(ent, NULL)
-
-		constraint.RemoveAll(ent)
-
-		local phys = ent:GetPhysicsObject()
-
-		if IsValid(phys) then
-			phys:EnableMotion(false)
-			phys:Sleep()
-		end
-
-		GAMEMODE:SaveSavedProps()
-		GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " togglesaved (" .. ent:PropSaved() .. ") " .. ent:GetModel() .. " belonging to " .. ent:PropCreator(), ply)
-	end
-end, false)
-
 concommand.AddAdmin("rpa_unowndoor", function(ply)
 	local ent = ply:GetEyeTrace().Entity
 

@@ -11,7 +11,7 @@ function ENTITY:GetCreator()
 	elseif val == nil then -- No owner
 		return nil
 	else -- Offline/missing player
-		val = player.GetBySteamID(self:OwnerID())
+		val = player.GetBySteamID(self:OwnerID()) -- Tacolib optimizes this it's fiiiiine
 
 		if val then
 			self.m_PlayerCreator = val
@@ -29,7 +29,13 @@ end
 
 if SERVER then
 	function ENTITY:SetCreator(ply)
-		self:SetOwnerID(IsValid(ply) and ply:SteamID() or nil)
+		if IsValid(ply) then
+			self:SetOwnerID(ply:SteamID())
+			self:SetPropCreator(ply:VisibleRPName()) -- Todo: Do we want to keep this?
+		else
+			self:SetOwnerID(nil)
+			self:SetPropCreator(nil)
+		end
 	end
 
 	if not cleanup.ccAdd then

@@ -351,13 +351,13 @@ function GM:AdminCreateToolsMenu()
 				local class = v:GetClass()
 
 				if class == "prop_physics" then
-					if v:PropSaved() == 1 then
+					if v:PermaProp() then
 						savedProps = savedProps + 1
 					else
 						unsavedProps = unsavedProps + 1
 					end
 				elseif class == "prop_effect" then
-					if v:PropSaved() == 1 then
+					if v:PermaProp() then
 						savedEffects = savedEffects + 1
 					else
 						unsavedEffects = unsavedEffects + 1
