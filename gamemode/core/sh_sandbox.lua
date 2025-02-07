@@ -133,3 +133,20 @@ end
 function GM:CanDrive(ply, ent)
 	return false
 end
+
+if SERVER then
+	function GM:GetPropInfo(ply, ent)
+		local info = {
+			string.format("-- %s --", ent:GetClass()),
+			"Model: " .. ent:GetModel()
+		}
+
+		local owner = ent:OwnerID()
+
+		if owner then
+			table.insert(info, "Owner: " .. string.format("%s (%s)", ent:PropCreator(), owner))
+		end
+
+		return info
+	end
+end

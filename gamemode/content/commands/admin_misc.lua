@@ -125,3 +125,24 @@ end)
 stopSound:SetDescription("Forces all clients to run the stopsound command")
 stopSound:SetExecutionContext(console.Server)
 stopSound:SetAccess(console.IsAdmin)
+
+local propInfo = console.AddCommand("rpa_propinfo", function(ply)
+	local ent = ply:GetEyeTrace().Entity
+
+	if not IsValid(ent) then
+		console.Feedback(ply, "NOTICE", "You're not looking at a prop!")
+
+		return
+	end
+
+	local info = hook.Run("GetPropInfo", ply, ent)
+
+	for _, line in ipairs(info) do
+		console.Feedback(ply, "NOTICE", (string.Left(line, 2) == "--" and "" or "  ") .. line)
+	end
+end)
+
+propInfo:SetDescription("Get information about whatever prop you're looking at")
+propInfo:SetExecutionContext(console.Server)
+propInfo:SetAccess(console.IsAdmin)
+propInfo:SetNoConsole()
