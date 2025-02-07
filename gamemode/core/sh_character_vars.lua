@@ -113,7 +113,7 @@ end
 if CLIENT then
 	netstream.Hook("BulkCharacterVars", function(ply, data)
 		for name, value in pairs(data) do
-			ply["SetCharacter" .. name](ply, value, true)
+			ply["Set" .. name](ply, value, true)
 		end
 	end)
 else
