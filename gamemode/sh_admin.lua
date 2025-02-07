@@ -527,28 +527,6 @@ concommand.AddAdmin("rpa_playernotes", function(ply, targ)
 	GAMEMODE:PlayerNotes(ply, targ)
 end, false, {TYPE_ENTITY})
 
-local nametotrait = {}
-nametotrait["none"] = TRAIT_NONE
-
-concommand.AddAdmin("rpa_settrait", function(ply, targ, trait)
-	local name = string.lower(trait) or "none"
-
-	trait = nametotrait[name]
-
-	if not trait then
-		ply:SendChat("ERROR", "Invalid trait")
-
-		return
-	end
-
-	targ:SetTrait(trait)
-
-	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " changed player " .. targ:CharacterName() .. "'s trait to " .. name .. ".", ply)
-
-	ply:SendChat("NOTICE", "You set " .. targ:CharacterName() .. "'s trait to " .. name)
-	targ:SendChat("NOTICE", ply:Nick() .. " set your trait to " .. name)
-end, false, {TYPE_ENTITY, TYPE_STRING})
-
 -- local nametolicense = {}
 -- nametolicense["generic"] = BUSINESS_GENERIC
 -- nametolicense["clothing"] = BUSINESS_CLOTHING
