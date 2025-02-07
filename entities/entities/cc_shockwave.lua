@@ -34,7 +34,7 @@ function ENT:Think()
 			continue
 		end
 
-		if v:PermaProp() then
+		if v:IsProtectedEntity() then
 			continue
 		end
 

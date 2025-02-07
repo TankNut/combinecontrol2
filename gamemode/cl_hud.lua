@@ -1001,7 +1001,7 @@ function GM:PreDrawHalos()
 		local tab = {}
 
 		for _, v in pairs(GAMEMODE.EntityTable.prop) do -- Only props can be permapropped so...
-			if v:PermaProp() then
+			if v:IsProtectedEntity() then
 				if v:GetClass() == "prop_effect" then
 					table.insert(tab, v.AttachedEntity)
 				else

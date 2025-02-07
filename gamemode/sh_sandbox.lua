@@ -391,7 +391,7 @@ function GM:OnPhysgunFreeze(wep, phys, ent, ply)
 	if ent:IsVehicle() and ent.Static then return false end
 	if ent.CanPhysgun and not ent:CanPhysgun(ply) then return false end
 
-	if ent:PermaProp() then return false end
+	if ent:IsProtectedEntity() then return false end
 
 	if ent.Chairs then
 		for _, v in pairs(ent.Chairs) do
@@ -438,7 +438,7 @@ function GM:OnPhysgunReload(physgun, ply)
 		if ent:IsVehicle() and ent.Static then return false end
 		if ent.CanPhysgun and not ent:CanPhysgun(ply) then return false end
 
-		if ent:PermaProp() then return false end
+		if ent:IsProtectedEntity() then return false end
 
 		if ent.Chairs then
 			for _, v in pairs(ent.Chairs) do
@@ -480,7 +480,7 @@ function GM:CanPlayerUnfreeze(ply, ent, phys)
 	if table.HasValue(self.SandboxBlacklist, ent:GetClass()) and not ent.BlacklistException then return false end
 	if ent.CanPhysgun and not ent:CanPhysgun(ply) then return false end
 
-	if ent:PermaProp() then return false end
+	if ent:IsProtectedEntity() then return false end
 
 	if ent.Chairs then
 		for _, v in pairs(ent.Chairs) do
@@ -527,7 +527,7 @@ function GM:CanProperty(ply, prop, ent)
 		return false
 	end
 
-	if ent:PermaProp() then
+	if ent:IsProtectedEntity() then
 		return false
 	end
 
