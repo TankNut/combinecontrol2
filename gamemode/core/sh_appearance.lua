@@ -28,6 +28,10 @@ function GM:OnAppearanceChanged(ply, old, new, loaded)
 
 		ply:SetupHands()
 		self:PlayerSetHandsModel(ply, ply:GetHands())
+
+		if ply:IsRagdolled() then
+			ply:GetRagdoll():SetFakeAppearance(new)
+		end
 	end
 end
 

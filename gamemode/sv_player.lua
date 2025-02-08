@@ -90,25 +90,6 @@ hook.Add("EntityTakeDamage", "SV.Player.EntityTakeDamage", function(ent, dmginfo
 		return true
 	end
 
-	if ent:GetClass() == "prop_ragdoll" and IsValid(ent:FakePlayer()) then
-		if ent:FakePlayer():IsEFlagSet(EFL_NOCLIP_ACTIVE) then
-			return
-		end
-
-		if dmginfo:GetDamageType() == DMG_CRUSH then
-			return
-		end
-
-		local pdmg = DamageInfo()
-		pdmg:SetAttacker(dmginfo:GetAttacker())
-		pdmg:SetDamage(dmginfo:GetDamage())
-		pdmg:SetDamageForce(dmginfo:GetDamageForce())
-		pdmg:SetDamagePosition(ent:GetPos())
-		pdmg:SetInflictor(dmginfo:GetInflictor())
-
-		ent:FakePlayer():TakeDamageInfo(pdmg)
-	end
-
 	if ent:IsVehicle() and IsValid(ent:GetDriver()) then
 		-- HACK! source appears to do some very strange fuckery with vehicle bullet damage
 		if dmginfo:IsBulletDamage() and dmginfo:GetDamage() < 1 then
@@ -230,10 +211,7 @@ end
 
 function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
 	if ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) or ply:Team() == TEAM_UNASSIGNED then
-
-		dmginfo:ScaleDamage(0)
-		return
-
+		return true
 	end
 end
 

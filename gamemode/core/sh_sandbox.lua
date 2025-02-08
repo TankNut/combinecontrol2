@@ -4,7 +4,6 @@ local ENTITY = FindMetaTable("Entity")
 PlayerVar.Add("ToolTrust", {Default = TOOLTRUST_UNTRUSTED, Persist = true, DataType = TINYINT()})
 
 EntityVar.Add("PropDescription", {Default = ""})
-EntityVar.Add("FakePlayer",      {Default = NULL})
 
 function GM:GetToolTrust(ply)
 	if ply:IsDeveloper() then
@@ -35,7 +34,7 @@ function GM:IsProtectedEntity(ent)
 end
 
 function ENTITY:IsProtectedEntity()
-	return tobool(hook.Run("IsProtectedEntity", self))
+	return hook.Run("IsProtectedEntity", self)
 end
 
 function GM:CanUseTool(ply, tool)
