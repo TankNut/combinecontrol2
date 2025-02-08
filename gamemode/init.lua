@@ -41,7 +41,6 @@ include("sv_player.lua")
 include("sv_playsounds.lua")
 include("sv_security.lua")
 include("sv_sql.lua")
-include("sv_think.lua")
 include("sv_weapon.lua")
 include("sv_worldents.lua")
 
