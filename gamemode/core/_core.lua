@@ -58,6 +58,7 @@ GM:Include("sh_entity_vars.lua")
 GM:Include("sh_settings.lua")
 
 GM:Include("cl_vgui.lua")
+GM:Include("cl_view.lua")
 GM:Include("cl_weaponselect.lua")
 GM:Include("sh_admin.lua")
 GM:Include("sh_appearance.lua")

@@ -412,8 +412,6 @@ do -- Enable
 		end
 
 		self:SetPlayer(ply)
-
-		Settings.Set("Thirdperson", true)
 	end
 
 	function ctp:Disable()
@@ -454,8 +452,6 @@ do -- Enable
 		self.NodeView = false
 
 		RunConsoleCommand("ctp_enabled", "0")
-
-		Settings.Set("Thirdperson", false)
 	end
 
 	function ctp:IsEnabled()
@@ -931,33 +927,16 @@ do -- Meta
 	end
 end
 
---CTP uses it's own derivative of CalcView instead of the standard GM so we had to copy the states from GM:ShouldDoThird to here for this process.
 function ctp:ShouldDoThirdPerson( ply )
-
-	if ply:GetMoveType() == MOVETYPE_NOCLIP then
-
-		return false;
-
-	end
-
-	if ply:GetViewEntity() != ply then
-
-		return false;
-
-	end
-
-	return true;
-
+	return hook.Run("ShouldDoThirdPerson", ply)
 end
-
-
 
 do -- CalcView
 
 	function ctp:CalcView()
 		if GetViewEntity() != LocalPlayer() then return end
 
-		if ctp:ShouldDoThirdPerson(LocalPlayer()) and LocalPlayer():Alive() then
+		if ctp:ShouldDoThirdPerson(LocalPlayer()) then
 
 			self:PreCalcView()
 
@@ -970,12 +949,6 @@ do -- CalcView
 			local pos = self.Origin
 			local ang = self.Direction:Angle() + Angle(-self:GetUserPitch(), self:GetUserYaw(), self:GetUserRoll() + self.Roll) + LocalPlayer():GetViewPunchAngles()
 			local fov = math.Clamp(self:GetFOV() or 0, 1, 150)
-
-			local weapon = LocalPlayer():GetActiveWeapon()
-
-			if IsValid(weapon) and weapon.TRP then
-				fov = weapon:TranslateFOV(fov)
-			end
 
 			local tbl =
 			{
