@@ -215,12 +215,12 @@ function GM:CanProperty(ply, prop, ent)
 	return true
 end
 
--- Remove the halo effect
-function GM:DrawPhysgunBeam(ply, weapon, bOn, target, boneid, pos)
-	return true
-end
-
-if SERVER then
+if CLIENT then
+	-- Remove the halo effect
+	function GM:DrawPhysgunBeam(ply, weapon, bOn, target, boneid, pos)
+		return true
+	end
+else
 	function GM:GetPropInfo(ply, ent)
 		local info = {
 			"<c=white>-- General info --</c>",
