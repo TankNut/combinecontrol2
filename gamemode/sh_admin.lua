@@ -712,9 +712,6 @@ concommand.AddAdmin("rpa_adminradio", function(ply, bool)
 end, false, {TYPE_BOOL})
 
 function GM:PlayerNoClip(ply, state)
-	if ply:PassedOut() then return false end
-	if ply:Bottify() then return false end
-
 	if not ply:IsAdmin() then
 		if CLIENT and IsFirstTimePredicted() then
 			lp:SendChat("ERROR", "You need to be an admin to do this.")
