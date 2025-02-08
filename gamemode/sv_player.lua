@@ -83,29 +83,6 @@ function GM:PlayerDeathSound()
 	return true
 end
 
-GM.BannedWeaponPickups = {
-	"weapon_crowbar",
-	"weapon_stunstick",
-	"weapon_pistol",
-	"weapon_smg1",
-	"weapon_ar2",
-	"weapon_shotgun",
-	"weapon_crossbow",
-	"weapon_357",
-	"weapon_rpg",
-	"weapon_annabelle",
-}
-
-function GM:PlayerCanPickupWeapon(ply, wep)
-	if table.HasValue(self.BannedWeaponPickups, wep:GetClass()) then
-
-		return false
-
-	end
-
-	return true
-end
-
 hook.Add("EntityTakeDamage", "SV.Player.EntityTakeDamage", function(ent, dmginfo)
 	if ent.NoDamage then
 		dmginfo:ScaleDamage(0)
