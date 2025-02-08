@@ -189,6 +189,10 @@ function GM:CanSpawnItem(ply, itemClass)
 end
 
 function GM:CanInteractWithItem(ply, item)
+	if not ply:CanAct() then
+		return false, "You cannot do this right now!"
+	end
+
 	if item:GetStoreType() == INV_PLAYER and item:GetPlayer() == ply then
 		return true
 	end
