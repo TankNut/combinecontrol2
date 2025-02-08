@@ -1,21 +1,20 @@
-EntityVar.Add("FakePlayer", {Default = NULL})
 EntityVar.Add("FakeAppearance", {Default = {}})
-
-PlayerVar.Add("FakeEntity", {Default = NULL})
 
 local ENTITY = FindMetaTable("Entity")
 local PLAYER = FindMetaTable("Player")
 
 function PLAYER:IsRagdolled()
-	return IsValid(self:FakeEntity())
+	return IsValid(self:GetRagdoll())
 end
 
 function PLAYER:GetRagdoll()
-	return self:FakeEntity()
+	return self:GetNWEntity("Ragdoll")
 end
 
 if SERVER then
 	function PLAYER:StartRagdoll()
+		self:Flashlight(false)
+
 		local ragdoll = ents.Create("prop_ragdoll")
 
 		ragdoll:SetPos(self:GetPos())
@@ -28,7 +27,8 @@ if SERVER then
 
 		ragdoll:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
-		self:SetFakeEntity(ragdoll)
+		self:SetNWEntity("Ragdoll", ragdoll)
+		ragdoll:SetNWEntity("FakePlayer", self)
 
 		return rag
 	end
@@ -44,12 +44,16 @@ if SERVER then
 
 		ragdoll:Remove()
 
-		self:SetFakeEntity(nil)
+		self:SetNWEntity("Ragdoll", NULL)
 	end
 end
 
 function ENTITY:IsFakePlayer()
-	return IsValid(self:FakePlayer())
+	return IsValid(self:GetFakePlayer())
+end
+
+function ENTITY:GetFakePlayer()
+	self:GetNWEntity("FakePlayer")
 end
 
 function GM:OnFakeAppearanceChanged(ent, old, new, loaded)
