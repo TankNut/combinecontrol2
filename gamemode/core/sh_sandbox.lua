@@ -114,12 +114,20 @@ function GM:PhysgunDrop(ply, ent)
 end
 
 if SERVER then
-	function GM:PlayerSpawnObject(ply, mdl, skin)
-		mdl = string.lower(mdl)
-
-		if IsUselessModel(mdl) then
+	function GM:CanPlayerUnfreeze(ply, ent, phys)
+		if ent:IsProtectedEntity() or (ent.CanPhys and not ent:CanPhys(ply)) then
 			return false
 		end
+
+		if ply:GetToolTrust() < Config.Get("ToolTrust").IgnoreOwnership and not ply:IsCreator(ent) then
+			return false
+		end
+
+		return true
+	end
+
+	function GM:PlayerSpawnObject(ply, mdl, skin)
+		mdl = string.lower(mdl)
 
 		if ply:GetToolTrust() >= Config.Get("ToolTrust").BypassBlacklist then
 			return true
@@ -134,16 +142,32 @@ if SERVER then
 		return true
 	end
 
-	function GM:CanPlayerUnfreeze(ply, ent, phys)
-		if ent:IsProtectedEntity() or (ent.CanPhys and not ent:CanPhys(ply)) then
-			return false
+	local function checkToolTrust(key)
+		return function(_, ply)
+			return ply:GetToolTrust() >= Config.Get("ToolTrust")[key]
 		end
+	end
 
-		if ply:GetToolTrust() < Config.Get("ToolTrust").IgnoreOwnership and not ply:IsCreator(ent) then
-			return false
+	GM.PlayerGiveSWEP = checkToolTrust("WeaponSpawning")
+	GM.PlayerSpawnSWEP = checkToolTrust("WeaponSpawning")
+	GM.PlayerSpawnNPC = checkToolTrust("NPCSpawning")
+	GM.PlayerSpawnSENT = checkToolTrust("EntitySpawning")
+	GM.PlayerSpawnVehicle = checkToolTrust("VehicleSpawning")
+
+	function GM:PlayerSpawnedProp(ply, model, ent)
+		if ply:GetToolTrust() < Config.Get("ToolTrust").SolidProps then
+			ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 		end
+	end
 
-		return true
+	function GM:PlayerSpawnedEffect(ply, model, ent)
+		if ply:GetToolTrust() < Config.Get("ToolTrust").SolidProps then
+			ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
+		end
+	end
+
+	function GM:PlayerSpawnedRagdoll(ply, model, ent)
+		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	end
 end
 
@@ -164,6 +188,36 @@ end
 
 function GM:CanDrive(ply, ent)
 	return false
+end
+
+local blacklist = {
+	["persist"] = true,
+	["drive"] = true,
+	["bonemanipulate"] = true,
+	["remove"] = true,
+	["npc_bigger"] = true,
+	["npc_smaller"] = true
+}
+
+function GM:CanProperty(ply, prop, ent)
+	if not ply:IsAdmin() then
+		return false
+	end
+
+	if ent:IsProtectedEntity() then
+		return false
+	end
+
+	if blacklist[prop] then
+		return false
+	end
+
+	return true
+end
+
+-- Remove the halo effect
+function GM:DrawPhysgunBeam(ply, weapon, bOn, target, boneid, pos)
+	return true
 end
 
 if SERVER then

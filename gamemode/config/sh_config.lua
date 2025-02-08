@@ -56,6 +56,7 @@ GM.Config.ToolTrust = {
 	EntitySpawning = TOOLTRUST_ADMIN, -- Can spawn entities
 	NPCSpawning = TOOLTRUST_ADMIN, -- Can spawn NPC's
 	VehicleSpawning = TOOLTRUST_ADMIN, -- Can spawn vehicles
+	WeaponSpawning = TOOLTRUST_DEVELOPER, -- Can spawn/give weapons
 
 	IgnoreOwnership = TOOLTRUST_TRUSTED, -- Can phys/toolgun other people's entities
 
