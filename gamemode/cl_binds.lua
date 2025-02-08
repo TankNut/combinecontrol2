@@ -13,13 +13,6 @@ function GM:PlayerBindPress(ply, bind, down)
 
 	end
 
-	if down and string.find(bind, "showhelp") then
-
-		self:CreateHelpMenu()
-		return true
-
-	end
-
 	if down and string.find(bind, "rp_toggleholster") then
 		if LocalPlayer():PassedOut() then return end
 		if LocalPlayer():TiedUp() then return end

@@ -1,4 +1,8 @@
 if SERVER then
+	function GM:ShowHelp(ply)
+		ply:OpenGUI("HelpMenu")
+	end
+
 	function GM:ShowTeam(ply)
 		ply:OpenGUI("CharacterSelect")
 	end
