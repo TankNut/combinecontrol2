@@ -722,12 +722,10 @@ function GM:PlayerNoClip(ply, state)
 
 	if SERVER then
 		if state then
-			ply:GodEnable()
 			ply:SetNoTarget(true)
 			ply:SetNotSolid(true)
 			ply:SetNoDraw(true)
 		else
-			ply:GodDisable()
 			ply:SetNoTarget(false)
 			ply:SetNotSolid(false)
 			ply:SetNoDraw(false)

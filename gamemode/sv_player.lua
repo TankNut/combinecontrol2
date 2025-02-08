@@ -203,15 +203,7 @@ end
 
 function GM:PlayerSilentDeath(ply)
 	if Config.Get("UntieOnDeath") then
-
 		ply:SetTiedUp(false)
-
-	end
-end
-
-function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
-	if ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) or ply:Team() == TEAM_UNASSIGNED then
-		return true
 	end
 end
 

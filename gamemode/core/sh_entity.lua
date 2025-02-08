@@ -50,13 +50,9 @@ if SERVER then
 	function GM:EntityTakeDamage(ent, dmg)
 		if ent:IsFakePlayer() and not dmg:IsDamageType(DMG_CRUSH) then
 			RagdollDamage = true
-			ent:FakePlayer():TakeDamageInfo(dmg)
+				ent:FakePlayer():TakeDamageInfo(dmg)
 			RagdollDamage = nil
 
-			return true
-		end
-
-		if ent:IsPlayer() and ent:IsRagdolled() and not RagdollDamage then
 			return true
 		end
 	end
