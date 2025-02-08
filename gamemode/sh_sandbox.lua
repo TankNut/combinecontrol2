@@ -420,43 +420,6 @@ function GM:PostCleanupMap()
 	end
 end
 
-local V = {
-				-- Required information
-				Name = "Jeep (+Gun)",
-				Class = "prop_vehicle_jeep_old",
-				Category = "Half-Life 2",
-
-				-- Optional information
-				Author = "VALVe",
-				Information = "The regular old jeep",
-				Model = "models/buggy.mdl",
-
-				KeyValues = {
-								vehiclescript	=	"scripts/vehicles/jeep_test.txt",
-								EnableGun 		=	"1"
-							}
-			}
-
-list.Set("Vehicles", "Jeep (+Gun)", V)
-
-local V = {
-				-- Required information
-				Name = "Airboat (+Gun)",
-				Class = "prop_vehicle_airboat",
-				Category = "Half-Life 2",
-
-				-- Optional information
-				Author = "VALVe",
-				Information = "Airboat from Half-Life 2",
-				Model = "models/airboat.mdl",
-
-				KeyValues = {
-								vehiclescript	=	"scripts/vehicles/airboat.txt",
-								EnableGun 		=	"1"
-							}
-			}
-
-list.Set("Vehicles", "Airboat (+Gun)", V)
 
 function GM:DrawPhysgunBeam(ply, weapon, bOn, target, boneid, pos)
 	return true

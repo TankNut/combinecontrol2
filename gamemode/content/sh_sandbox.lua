@@ -1,3 +1,41 @@
+local jeep = {
+	-- Required information
+	Name = "Jeep (+Gun)",
+	Class = "prop_vehicle_jeep_old",
+	Category = "Half-Life 2",
+
+	-- Optional information
+	Author = "VALVe",
+	Information = "The regular old jeep",
+	Model = "models/buggy.mdl",
+
+	KeyValues = {
+		vehiclescript	=	"scripts/vehicles/jeep_test.txt",
+		EnableGun 		=	"1"
+	}
+}
+
+list.Set("Vehicles", "Jeep (+Gun)", jeep)
+
+local airboat = {
+	-- Required information
+	Name = "Airboat (+Gun)",
+	Class = "prop_vehicle_airboat",
+	Category = "Half-Life 2",
+
+	-- Optional information
+	Author = "VALVe",
+	Information = "Airboat from Half-Life 2",
+	Model = "models/airboat.mdl",
+
+	KeyValues = {
+		vehiclescript	=	"scripts/vehicles/airboat.txt",
+		EnableGun 		=	"1"
+	}
+}
+
+list.Set("Vehicles", "Airboat (+Gun)", airboat)
+
 list.Add("OverrideMaterials", "models/props_c17/metalladder001")
 list.Add("OverrideMaterials", "models/props_c17/metalladder002")
 list.Add("OverrideMaterials", "models/props_c17/metalladder003")
