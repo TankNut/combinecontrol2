@@ -25,3 +25,7 @@ TOOLTRUST_TRUSTED   = 2
 TOOLTRUST_ADVANCED  = 3 -- Scoreboard badge
 TOOLTRUST_ADMIN     = 4 -- Auto-assigned to admins
 TOOLTRUST_DEVELOPER = 5 -- Blanket access
+
+SLOT_BASIC   = 1
+SLOT_WEAPONS = 2
+SLOT_MISC    = 3

@@ -915,14 +915,14 @@ function GM:HUDPaint()
 		end
 
 		self:DrawAmmo()
-		self:DrawWeaponSelect()
 		self:DrawNotifications()
-	end
 
-	if not Settings.Get("HUD") then
+		WeaponSelect.Draw()
+	else
 		self:DrawConsciousness()
 		self:DrawPassedOut()
-		self:DrawWeaponSelect()
+
+		WeaponSelect.Draw()
 	end
 
 	self:DrawWarnings()

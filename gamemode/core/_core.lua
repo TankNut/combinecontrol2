@@ -59,6 +59,7 @@ GM:Include("sh_settings.lua")
 
 GM:Include("cl_think.lua")
 GM:Include("cl_vgui.lua")
+GM:Include("cl_weaponselect.lua")
 GM:Include("sh_admin.lua")
 GM:Include("sh_appearance.lua")
 GM:Include("sh_badge.lua")

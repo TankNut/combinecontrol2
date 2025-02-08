@@ -87,7 +87,6 @@ AddCSLuaFile("cl_playsounds.lua")
 AddCSLuaFile("cl_playurl.lua")
 AddCSLuaFile("cl_resource.lua")
 AddCSLuaFile("cl_scoreboard.lua")
-AddCSLuaFile("cl_weaponselect.lua")
 AddCSLuaFile("cl_fonts.lua")
 AddCSLuaFile("cl_weapon.lua")
 

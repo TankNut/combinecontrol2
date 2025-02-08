@@ -4,6 +4,7 @@ function GM:PlayerBindPress(ply, bind, down)
 	end
 
 	if Chat.Bind(bind, down) then return true end
+	if WeaponSelect.Bind(bind, down) then return true end
 
 	if down and string.find(bind, "showspare2") and LocalPlayer():IsAdmin() then
 
