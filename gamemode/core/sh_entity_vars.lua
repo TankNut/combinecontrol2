@@ -59,6 +59,8 @@ function Add(name, data, metatable)
 
 	meta[name] = get
 	meta["Set" .. name] = function(ent, value, loading)
+		assert(not isentity(value), "The var system does not support entities, use Get/SetNWEntity instead")
+
 		if value == default then value = nil end
 
 		if set(ent, value, loading) then

@@ -52,6 +52,8 @@ function Add(name, data)
 
 	GM[name] = get
 	GM["Set" .. name] = function(_, value, loading)
+		assert(not isentity(value), "The var system does not support entities, use Get/SetNWEntity instead")
+
 		if value == default then value = nil end
 
 		if set(value, loading) then

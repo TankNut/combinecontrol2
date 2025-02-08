@@ -68,6 +68,8 @@ function Add(name, data)
 
 	PLAYER[name] = get
 	PLAYER["Set" .. name] = function(ply, value, loading)
+		assert(not isentity(value), "The var system does not support entities, use Get/SetNWEntity instead")
+
 		if value == default then value = nil end
 
 		if validate and value != nil and not validate(value) then
