@@ -1,3 +1,13 @@
+local ENTITY = FindMetaTable("Entity")
+
+function ENTITY:GetPlayerColor()
+	if self:IsFakePlayer() then
+		return self:GetFakePlayer():GetPlayerColor()
+	end
+
+	return Vector(0.2, 0.2, 0.2)
+end
+
 function GM:InitPostEntity()
 	-- Legacy code
 	hook.Run("CC.SH.InitEnts")
@@ -31,17 +41,21 @@ function GM:OnEntityCreated(ent)
 end
 
 function GM:EntityRemoved(ent, fullUpdate)
-	if SERVER then
-		self:LegacyEntityRemoved(ent)
+	if fullUpdate then
+		return
 	end
 
-	if not fullUpdate then
-		if ent:IsPlayer() then
-			Inventory.Clear(ent, true)
-			CharacterVar.Clear(ent)
-			PlayerVar.Clear(ent)
-		else
-			EntityVar.Clear(ent)
+	if ent:IsPlayer() then
+		Inventory.Clear(ent, true)
+		CharacterVar.Clear(ent)
+		PlayerVar.Clear(ent)
+	else
+		EntityVar.Clear(ent)
+
+		if SERVER and ent:IsFakePlayer() then
+			local ply = ent:GetFakePlayer()
+
+			ply:Kill()
 		end
 	end
 end

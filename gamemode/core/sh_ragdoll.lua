@@ -13,7 +13,16 @@ end
 
 if SERVER then
 	function PLAYER:StartRagdoll()
-		self:Flashlight(false)
+		self:SetNoTarget(true)
+		self:SetNotSolid(true)
+
+		self:SetMoveType(MOVETYPE_NOCLIP)
+
+		if self:FlashlightIsOn() then
+			self:Flashlight(false)
+		end
+
+		self:SetActiveWeapon(nil)
 
 		local ragdoll = ents.Create("prop_ragdoll")
 
@@ -41,10 +50,17 @@ if SERVER then
 		local ragdoll = self:GetRagdoll()
 
 		self:SetPos(ragdoll:GetPos())
+		self:SetNWEntity("Ragdoll", NULL)
 
+		ragdoll:SetNWEntity("FakePlayer", nil)
 		ragdoll:Remove()
 
-		self:SetNWEntity("Ragdoll", NULL)
+		self:SetActiveWeapon(self:GetWeapons()[1])
+
+		self:SetMoveType(MOVETYPE_WALK)
+
+		self:SetNotSolid(false)
+		self:SetNoTarget(false)
 	end
 end
 
@@ -53,15 +69,7 @@ function ENTITY:IsFakePlayer()
 end
 
 function ENTITY:GetFakePlayer()
-	self:GetNWEntity("FakePlayer")
-end
-
-function ENTITY:GetPlayerColor()
-	if self:IsFakePlayer() then
-		return self:GetFakePlayer():GetPlayerColor()
-	end
-
-	return Vector(1, 1, 1)
+	return self:GetNWEntity("FakePlayer")
 end
 
 function GM:OnFakeAppearanceChanged(ent, old, new, loaded)
@@ -83,17 +91,5 @@ function GM:OnFakeAppearanceChanged(ent, old, new, loaded)
 		end
 	else
 		ent:ApplyModel(new._base)
-	end
-end
-
-function GM:OnFakeEntityChanged(ply, old, new, loaded)
-	if IsValid(old) then
-		old.GetPlayerColor = nil
-	end
-
-	if IsValid(new) then
-		new.GetPlayerColor = function()
-			return ply:GetPlayerColor()
-		end
 	end
 end
