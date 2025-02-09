@@ -115,7 +115,7 @@ function GM:PopulateHelpMenu(panel)
 
 	panel:AddMenu(1, "Gamemode Credits", [[
 <massive><b><c=cc_primary>CombineControl</c></b></massive>
-<iset=3><dark>Built for Taco N Banana</dark>
+<iset=3><dark>Built for Taco N Banana</dark></iset>
 
 <giant><b>Credits</b></giant>
 	TankNut:	<dark>Lead Developer</dark>
@@ -135,10 +135,10 @@ function GM:PopulateHelpMenu(panel)
 		-- Menu Commands
 		local function addMenuCommand(name, binding)
 			local lookup = input.LookupBinding(binding, true)
-			str = str .. string.format("\n\t%s - %s (or use %s)", lookup and lookup or "Unbound", name, binding)
+			str = str .. string.format("\n\t%s - %s <dark>(or use %s)</dark>", lookup and lookup or "Unbound", name, binding)
 		end
 
-		str = str .. "<b>In-Game Menus:</b>"
+		str = str .. "<giant><b>In-Game Menus:</b></giant>"
 		addMenuCommand("Help Menu", "gm_showhelp")
 		addMenuCommand("Character Selection", "gm_showteam")
 		addMenuCommand("Player Menu", "gm_showspare1")
@@ -146,14 +146,14 @@ function GM:PopulateHelpMenu(panel)
 		addMenuCommand("Context Menu", "+menu_context")
 
 		-- Weapon Holstering
-		str = str .. "\n\n<b>Weapon Holstering:</b>\n\trp_toggleholster - B"
+		str = str .. "\n\n<giant><b>Weapon Holstering:</b></giant>\n\tB - Toggle Holster <dark>(or use rp_toggleholster)</dark>"
 
 		-- Non-Admin Commands
 		if table.Count(playerCommands) > 0 then
-			str = str .. "\n\n<b>Useful Commands:</b>"
+			str = str .. "\n\n<giant><b>Additional Commands:</b></giant>"
 
 			for name, command in SortedPairs(playerCommands) do
-				str = str .. string.format("\n\t%s - %s", name, command.Description)
+				str = str .. string.format("\n\t%s - <dark>%s</dark>", name, command.Description)
 			end
 		end
 
@@ -163,11 +163,11 @@ function GM:PopulateHelpMenu(panel)
 		local str = ""
 
 		-- The Basics
-		str = str .. "<b>The Basics:</b>"
+		str = str .. "<giant><b>The Basics:</b></giant>"
 		str = str .. "\nEntering anything into your chatbox will make you speak using in-character text, which is limited by range and can be blocked by world geometry. Additional commands exist to help facilitate additional interaction, functionality, and the use of unique character languages."
 
 		-- Chat Commands (Minus Set Language)
-		str = str .. "\n\n<b>Chat Commands:</b>"
+		str = str .. "\n\n<giant><b>Chat Commands:</b></giant>"
 
 		for name, message in SortedPairs(Chat.List) do
 			if table.Count(message.Commands) == 0 and table.Count(message.Aliases) == 0 or name == "Set language" then
@@ -190,23 +190,22 @@ function GM:PopulateHelpMenu(panel)
 				table.insert(alts, alias)
 			end
 
-			str = str .. string.format("\n\t%s%s - %s",
+			str = str .. string.format("\n\t%s%s - <dark>%s</dark>",
 				main,
 				#alts == 0 and "" or " (" .. table.concat(alts, ", ") .. ")",
 				message.Description)
 		end
 
 		-- Language Command Syntax
-		str = str .. "\n\n<b>Language Command Syntax (and Examples):</b>"
-		str = str .. "\n\t/[lang].[cmd] [text] - Uses a command with the given language."
-		str = str .. "\n\t/[lang] - Sets a default speaking language (/eng will set you back to default)."
-		str = str .. "\n\t/rus.y Hello! - Yells in Russian."
-		str = str .. "\n\t/fre.rw Hello! - Whispers over the radio in French."
+		str = str .. "\n\n<giant><b>Using Language Commands:</b></giant>"
+		str = str .. "\nOn top of using language commands to speak directly or set your default language, you can preface chat commands with the language you want to use. Using <dark>/rus.y</dark>, for example, will cause you to yell in Russian, but won't change your current language."
+		str = str .. "\n\n\t/[lang] - <dark>Sets a default speaking language (/eng will set you back to default).</dark>"
+		str = str .. "\n\t/[lang].[cmd] [text] - <dark>Uses a command with the given language.</dark>"
 
 		-- Available Languages
-		str = str .. "\n\n<b>Available Languages:</b>"
+		str = str .. "\n\n<giant><b>Available Languages:</b></giant>"
 		for _, lang in SortedPairs(Language.List) do
-			str = str .. string.format("\n\t/%s - %s", lang.Command, lang.Name)
+			str = str .. string.format("\n\t/%s - <dark>%s</dark>", lang.Command, lang.Name)
 		end
 
 		return str
@@ -214,19 +213,19 @@ function GM:PopulateHelpMenu(panel)
 	panel:AddMenu(4, "Sandbox Permissions", function(ply)
 		local str = ""
 
-		str = str .. "<b>Sandbox Permissions:</b>"
+		str = str .. "<giant><b>Sandbox Permissions:</b></giant>"
 		str = str .. "\nTool, Physics, and Prop Spawning permissions are all contained to a single tooltrust permission in CombineControl. By default, you will be given untrusted access to these tools which will allow some basic access to the Garry's Mod sandbox. Server administrators have the ability to individually modify a player's tooltrust at any given time, including issuing a tooltrust ban to prevent abuse."
 
 		-- Scoreboard Recognition
-		str = str .. "\n\n<b>Scoreboard Recognition:</b>"
+		str = str .. "\n\n<giant><b>Scoreboard Recognition:</b></giant>"
 		str = str .. "\nPlayers who have either been banned from accessing the sandbox or granted advanced access to be represented with an icon on the scoreboard that all server administrators can see. Additionally, if you have been set to either of these tooltrust groups, you will see the scoreboard badge next to yourself."
 
 		-- Tooltrust Levels
 		local function addTooltrustLevel(tier, description)
-			str = str .. string.format("\n\t%s - %s", tier, description)
+			str = str .. string.format("\n\t%s - <dark>%s</dark>", tier, description)
 		end
 
-		str = str .. "\n\n<b>ToolTrust Access Levels:</b>"
+		str = str .. "\n\n<giant><b>ToolTrust Permission Levels:</b></giant>"
 		addTooltrustLevel("banned", "Restricted access to prevent sandbox interactions.")
 		addTooltrustLevel("untrusted", "Default access with minimal tools, decreased entity counts, and non-solid props.")
 		addTooltrustLevel("trusted", "Standard access with standard tools, standard entity counts, and solid props.")
