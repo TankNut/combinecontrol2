@@ -57,3 +57,9 @@ scribe.Register({
 	Push = function(self) self.Context:PushFont(self.Context.Font .. "Italic") end,
 	Pop = function(self) self.Context:PopFont() end
 })
+
+scribe.Register({
+	Name = {"dark"},
+	Push = function(self) self.Context:PushColor(Color("cc_dark")) end,
+	Pop = function(self) self.Context:PopColor() end,
+})
