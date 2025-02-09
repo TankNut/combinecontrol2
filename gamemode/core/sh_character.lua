@@ -31,10 +31,18 @@ end
 
 function GM:OnCharIDChanged(ply, old, new, loaded)
 	if CLIENT and ply == lp then
-		if old == 0 then
-			self:CreateMOTD()
-		elseif new == 0 then
+		if new == 0 then
 			GUI.Open("CharacterSelect")
+
+			return
+		end
+
+		local crc = util.CRC(GAMEMODE.MOTD)
+
+		if crc != cookie.GetString("cc_motd", "") then
+			GUI.Open("MOTD")
+
+			cookie.Set("cc_motd", crc)
 		end
 	end
 end

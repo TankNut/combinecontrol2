@@ -63,3 +63,27 @@ scribe.Register({
 	Push = function(self) self.Context:PushColor(Color("cc_dark")) end,
 	Pop = function(self) self.Context:PopColor() end,
 })
+
+scribe.Register({
+	Name = {"new"},
+	Push = function(self) self.Context:PushColor(Color("cc_new")) end,
+	Pop = function(self) self.Context:PopColor() end,
+})
+
+scribe.Register({
+	Name = {"upd"},
+	Push = function(self) self.Context:PushColor(Color("cc_update")) end,
+	Pop = function(self) self.Context:PopColor() end,
+})
+
+scribe.Register({
+	Name = {"rem"},
+	Push = function(self) self.Context:PushColor(Color("cc_remove")) end,
+	Pop = function(self) self.Context:PopColor() end,
+})
+
+scribe.Register({
+	Name = {"fix"},
+	Push = function(self) self.Context:PushColor(Color("cc_fix")) end,
+	Pop = function(self) self.Context:PopColor() end,
+})

@@ -26,6 +26,10 @@ SKIN.Text.Disabled = Color(150, 150, 150):Register("cc_disabled")
 SKIN.Text.Highlight = Color(40, 40, 40):Register("cc_highlight")
 SKIN.Text.Bad = Color(200, 0, 0):Register("cc_bad")
 SKIN.Text.Dark = Color(150, 150, 150):Register("cc_dark")
+SKIN.Text.Dark = Color(0, 120, 0):Register("cc_new")
+SKIN.Text.Dark = Color(255, 255, 100):Register("cc_update")
+SKIN.Text.Remove = Color(223, 22, 22):Register("cc_remove")
+SKIN.Text.Fix = Color(0, 191, 255):Register("cc_fix")
 
 -- Overrides for hardcoded values
 

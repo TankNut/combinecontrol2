@@ -33,3 +33,10 @@ end)
 
 toggleThirdperson:SetDescription("Toggles your thirdperson between active and disabled")
 toggleThirdperson:SetExecutionContext(console.ClientOnly)
+
+local openMotd = console.AddCommand("rp_motd", function()
+	GUI.Open("MOTD")
+end)
+
+openMotd:SetDescription("Opens the server's MOTD / update log")
+openMotd:SetExecutionContext(console.ClientOnly)

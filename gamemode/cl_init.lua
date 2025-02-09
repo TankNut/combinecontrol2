@@ -12,11 +12,11 @@ include("sh_fixes.lua")
 
 include("core/enums.lua")
 include("core/sh_config.lua")
+include("config/cl_motd.lua")
 include("config/sh_config.lua")
 
 include("sh_utils.lua")
 
-include("config/motd.lua")
 include("shared.lua")
 
 include("sh_includes.lua")
@@ -37,7 +37,6 @@ include("cl_logging.lua")
 include("cl_admin.lua")
 include("cl_adminmenu.lua")
 include("cl_binds.lua")
-include("cl_charcreate.lua")
 include("cl_context.lua")
 include("cl_hud.lua")
 include("cl_map.lua")

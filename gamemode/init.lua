@@ -13,7 +13,6 @@ include("config/sh_config.lua")
 
 include("sh_utils.lua")
 
-include("config/motd.lua")
 include("shared.lua")
 
 include("sh_includes.lua")
@@ -51,8 +50,8 @@ AddCSLuaFile("sh_utils.lua")
 
 AddCSLuaFile("core/enums.lua")
 AddCSLuaFile("core/sh_config.lua")
+AddCSLuaFile("config/cl_motd.lua")
 AddCSLuaFile("config/sh_config.lua")
-AddCSLuaFile("config/motd.lua")
 AddCSLuaFile("shared.lua")
 
 AddCSLuaFile("sh_includes.lua")
@@ -72,7 +71,6 @@ AddCSLuaFile("cl_logging.lua")
 AddCSLuaFile("cl_admin.lua")
 AddCSLuaFile("cl_adminmenu.lua")
 AddCSLuaFile("cl_binds.lua")
-AddCSLuaFile("cl_charcreate.lua")
 AddCSLuaFile("cl_context.lua")
 AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_map.lua")

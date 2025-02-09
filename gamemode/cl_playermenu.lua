@@ -915,7 +915,7 @@ function GM:PMCreateSettings()
 			motdBtn:SetPos(140, 386)
 			motdBtn:SetSize(120, 30)
 			function motdBtn:DoClick()
-				GAMEMODE:CreateMOTD()
+				GUI.Open("MOTD")
 			end
 	end
 
