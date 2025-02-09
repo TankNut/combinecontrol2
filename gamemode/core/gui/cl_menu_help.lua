@@ -135,7 +135,7 @@ function GM:PopulateHelpMenu(panel)
 		-- Menu Commands
 		local function addMenuCommand(name, binding)
 			local lookup = input.LookupBinding(binding, true)
-			str = str .. string.format("\n\t%s - %s <dark>(or use %s)</dark>", lookup and lookup or "Unbound", name, binding)
+			str = str .. string.format("\n\t%s - %s <dark>(or use %s)</dark>", lookup and string.upper(lookup) or "Unbound", name, binding)
 		end
 
 		str = str .. "<giant><b>In-Game Menus:</b></giant>"
