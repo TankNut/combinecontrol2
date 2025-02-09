@@ -25,7 +25,7 @@ function PANEL:Init()
 	self.SelectedMenu = 0
 
 	self.Content = self:Add("Panel")
-	self.Content:DockMargin(10, 10, 10, 10)
+	self.Content:DockPadding(10, 10, 10, 10)
 	self.Content:Dock(FILL)
 
 	self:MakePopup()
@@ -114,20 +114,21 @@ function GM:PopulateHelpMenu(panel)
 	end
 
 	panel:AddMenu(1, "Gamemode Credits", [[
-<b>CombineControl</b>
-	Created by Disseminate.
+<massive><b><c=cc_primary>CombineControl 2.0</c></b></massive>
+<iset=3><dark>Built for Taco N Banana</dark>
 
-	Casadis - ideas and support.
-	Kamern - ideas and support.
+<giant><b>Credits</b></giant>
+	TankNut:	<dark>Lead Developer</dark>
+	Drewerth:	<dark>Code</dark>
+	Hoplite:	<dark>Technical Design</dark>
 
-<b>Expanded Upon for TnB By:</b>
-	Steve
-	Hoplite
-	Gangleider
-	Thor
-	Jeuz
-	Jake
-	TankNut]])
+<giant><b>Special Thanks</b></giant>
+	Dave Brown:	<dark>For keeping TnB alive over the years by shooting cops and bots alike</dark>
+	Gangleider:	<dark>For taking over the mantle from Dave and getting this project off the ground</dark>
+
+<dark>Based on a gamemode by Disseminate</dark>
+]])
+
 	panel:AddMenu(2, "Menus and Commands", function(ply)
 		local str = ""
 
