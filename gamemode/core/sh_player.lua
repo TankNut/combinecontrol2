@@ -56,7 +56,7 @@ end
 
 if CLIENT then
 	function GM:PrePlayerDraw(ply, flags)
-		if ply:IsRagdolled() then
+		if ply:IsRagdolled() or ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) then
 			return true
 		end
 	end
