@@ -56,6 +56,14 @@ function ENTITY:GetFakePlayer()
 	self:GetNWEntity("FakePlayer")
 end
 
+function ENTITY:GetPlayerColor()
+	if self:IsFakePlayer() then
+		return self:GetFakePlayer():GetPlayerColor()
+	end
+
+	return Vector(1, 1, 1)
+end
+
 function GM:OnFakeAppearanceChanged(ent, old, new, loaded)
 	if CLIENT then
 		part.Clear(ent)
