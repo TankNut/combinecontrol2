@@ -14,9 +14,6 @@ function GM:PlayerBindPress(ply, bind, down)
 	end
 
 	if down and string.find(bind, "rp_toggleholster") then
-		if LocalPlayer():PassedOut() then return end
-		if LocalPlayer():TiedUp() then return end
-
 		net.Start("nToggleHolster")
 		net.SendToServer()
 
@@ -59,18 +56,6 @@ function GM:PlayerBindPress(ply, bind, down)
 
 	end
 
-	if down and string.find(bind, "+attack") and LocalPlayer():TiedUp() then
-
-		return true
-
-	end
-
-	if down and string.find(bind, "+reload") and LocalPlayer():TiedUp() then
-
-		return true
-
-	end
-
 	return hook.Run("CC.CL.PlayerBindPress", ply, bind, down)
 end
 
@@ -81,9 +66,6 @@ function GM:ToggleHolsterThink()
 
 	if input.IsKeyDown(KEY_B) and not self.ToggleHolsterPressed then
 		self.ToggleHolsterPressed = true
-
-		if LocalPlayer():PassedOut() then return end
-		if LocalPlayer():TiedUp() then return end
 
 		net.Start("nToggleHolster")
 		net.SendToServer()

@@ -15,9 +15,6 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 
 	end
 
-	if ply:PassedOut() and not table.HasValue(self.HandsWeapons, new:GetClass()) then return true end
-	if ply:TiedUp() and not table.HasValue(self.HandsWeapons, new:GetClass()) then return true end
-
 	self.BaseClass:PlayerSwitchWeapon(ply, old, new)
 end
 
@@ -43,9 +40,6 @@ end
 
 if SERVER then
 	function nToggleHolster(len, ply)
-		if ply:PassedOut() then return end
-		if ply:TiedUp() then return end
-
 		local weapon = ply:GetActiveWeapon()
 
 		if IsValid(weapon) then

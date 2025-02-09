@@ -85,54 +85,6 @@ GM.ThirdCurAng = Angle()
 GM.ThirdDestPos = Vector()
 GM.ThirdDestAng = Angle()
 
-function GM:DrawConsciousness()
-	if not LocalPlayer():PassedOut() and LocalPlayer():Consciousness() < 60 then
-		draw.DrawBackgroundBlur(1 - LocalPlayer():Consciousness() / 60)
-	end
-
-	if LocalPlayer().DrawWakeUp and CurTime() - LocalPlayer().DrawWakeUp <= 3 then
-		local frac = (CurTime() - LocalPlayer().DrawWakeUp) / 3
-
-		draw.DrawBackgroundBlur(1 - frac)
-	end
-end
-
-function GM:DrawPassedOut()
-	if LocalPlayer():PassedOut() then
-		if not LocalPlayer():Alive() then
-			surface.SetDrawColor(0, 0, 0, 255)
-			surface.DrawRect(0, 0, ScrW(), ScrH())
-
-			draw.DrawText("You have died.", "CombineControl.LabelGiant", ScrW() / 2, ScrH() / 2, Color(200, 200, 200, 255), 1)
-
-			return
-		end
-
-		draw.DrawBackgroundBlur(1)
-
-		draw.DrawText("You are unconscious.", "CombineControl.LabelGiant", ScrW() / 2, ScrH() / 2, Color(200, 200, 200, 255), 1)
-
-		surface.SetDrawColor(30, 30, 30, 150)
-		surface.DrawRect(ScrW() / 2 - 400 / 2, ScrH() / 2 + 40, 400, 40)
-
-		surface.SetDrawColor(20, 20, 20, 100)
-		surface.DrawOutlinedRect(ScrW() / 2 - 400 / 2, ScrH() / 2 + 40, 400, 40)
-
-		surface.SetDrawColor(150, 20, 20, 255)
-		surface.DrawRect(ScrW() / 2 - 400 / 2 + 1, ScrH() / 2 + 40 + 1, (400 - 2) * math.min(LocalPlayer():Consciousness() / 100, 1), 40 - 2)
-
-		local y = surface.GetFontHeight("CombineControl.LabelBig")
-		local ragdoll = LocalPlayer():Ragdoll()
-
-		if IsValid(ragdoll) and ragdoll:GetVelocity():Length() > 15 then
-			draw.DrawText("You're being moved.", "CombineControl.LabelBig", ScrW() / 2, ScrH() / 2 + 40 + y / 2, Color(200, 200, 200, 255), 1)
-			return
-		end
-
-		draw.DrawText(tostring(LocalPlayer():Consciousness()) .. "%", "CombineControl.LabelBig", ScrW() / 2, ScrH() / 2 + 40 + y / 2, Color(200, 200, 200, 255), 1)
-	end
-end
-
 function GM:DrawPlayerInfo()
 	local w = 220
 
@@ -291,11 +243,6 @@ function GM:DrawEntities()
 					end
 				end
 
-				if v:TiedUp() then
-					draw.DrawTextShadow("They're tied up.", "CombineControl.LabelSmall", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-					pos.y = pos.y + 20
-				end
-
 				if v:Typing() > 0 then
 					draw.DrawTextShadow(self.TypeText[v:Typing()], "CombineControl.LabelSmallItalic", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
 					pos.y = pos.y + 20
@@ -377,11 +324,6 @@ function GM:DrawEntities()
 							draw.DrawTextShadow(desc, "CombineControl.PlayerFont", pos.x, pos.y, Color(220, 220, 220, v.TitleAlpha * 255), Color(0, 0, 0, v.TitleAlpha * 255), 1)
 							pos.y = pos.y + 20
 						end
-					end
-
-					if v:TiedUp() then
-						draw.DrawTextShadow("They're tied up.", "CombineControl.LabelSmall", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-						pos.y = pos.y + 20
 					end
 
 					if v:Typing() > 0 then
@@ -604,15 +546,7 @@ function GM:DrawAmmo()
 	local w = LocalPlayer():GetActiveWeapon()
 
 	if w != NULL then
-		if LocalPlayer():TiedUp() then
-			surface.SetFont("CombineControl.LabelGiant")
-			local x1, y1 = surface.GetTextSize("You're tied up.")
-
-			draw.RoundedBox(0, ScrW() - 24 - x1, ScrH() - 24 - y1, x1 + 4, y1 + 4, Color(30, 30, 30, 200))
-			draw.DrawTextShadow("You're tied up.", "CombineControl.LabelGiant", ScrW() - 22 - x1, ScrH() - 22 - y1, Color(200, 200, 200, 255), Color(0, 0, 0, 255), 0)
-
-			return
-		elseif (LocalPlayer():Holstered()) and w.Holsterable or (w.GetHolstered and w:GetHolstered()) then
+		if (LocalPlayer():Holstered()) and w.Holsterable or (w.GetHolstered and w:GetHolstered()) then
 			surface.SetFont("CombineControl.LabelGiant")
 			local x1, y1 = surface.GetTextSize("Press B to unholster.")
 
@@ -817,10 +751,10 @@ function GM:HUDPaint()
 		self:DrawTargetHUD()
 	end
 
+	WeaponSelect.Draw()
+
 	if Settings.Get("HUD") then
 		self:DrawDamage()
-		self:DrawConsciousness()
-		self:DrawPassedOut()
 		self:DrawDoors()
 
 		if mode != OVERLAY_TARGET then
@@ -831,13 +765,6 @@ function GM:HUDPaint()
 
 		self:DrawAmmo()
 		self:DrawNotifications()
-
-		WeaponSelect.Draw()
-	else
-		self:DrawConsciousness()
-		self:DrawPassedOut()
-
-		WeaponSelect.Draw()
 	end
 
 	self:DrawWarnings()
@@ -938,22 +865,6 @@ function GM:RenderScreenspaceEffects()
 	end
 
 	frame = FrameNumber()
-
-	if LocalPlayer():PassedOut() then
-		local tab = {}
-
-		tab[ "$pp_colour_addr" ] 		= 0
-		tab[ "$pp_colour_addg" ] 		= 0
-		tab[ "$pp_colour_addb" ] 		= 0
-		tab[ "$pp_colour_brightness" ] 	= -1
-		tab[ "$pp_colour_contrast" ] 	= 1
-		tab[ "$pp_colour_colour" ] 		= 1
-		tab[ "$pp_colour_mulr" ] 		= 0
-		tab[ "$pp_colour_mulg" ] 		= 0
-		tab[ "$pp_colour_mulb" ] 		= 0
-
-		--DrawColorModify(tab)
-	end
 
 	if self.FlashbangStart and LocalPlayer():Alive() then
 		local t = CurTime() - self.FlashbangStart

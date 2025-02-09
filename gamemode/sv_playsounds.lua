@@ -45,7 +45,7 @@ local function emitSoundData(ply, soundData, db)
 
 			timer.Simple(duration, function()
 				if not IsValid(ply) then return end
-				if not ply:Alive() or ply:PassedOut() then return end
+				if not ply:Alive() then return end
 
 				ply:EmitSound(snd, db, pitch)
 			end)
@@ -156,7 +156,6 @@ concommand.Add("rp_playsound", function(ply, cmd, args)
 
 	if not IsValid(ply) then return end
 	if not ply:Alive() then return end
-	if ply:PassedOut() then return end
 	if not GAMEMODE:CanPlaySound(ply, category) then return end
 
 	if not soundSpamCheck(ply) then return end --This needs to always go last as it has some side-effects

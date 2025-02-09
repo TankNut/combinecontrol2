@@ -9,9 +9,6 @@ GM.PlayerAccessors = {
 	{"CombineSquad",		false,	"String",	""},
 	{"CombineSquadID",		false,	"Float",	4},
 	{"ActiveFlag", 			false, 	"String", 	""},
-	{"Consciousness", 		true, 	"Float", 	100},
-	{"PassedOut", 			false, 	"Bit", 		false},
-	{"TiedUp",				false,	"Bit",		false},
 	{"CharCreationDate",	true,	"String",	""},
 	{"InAttack2",			false,	"Bit",		false},
 	{"BusinessLicenses",	false,	"Float",	0},
@@ -213,12 +210,6 @@ function GM:Move(ply, move)
 		move:SetVelocity(Vector())
 	end
 
-	if ply:PassedOut() then
-		move:SetMaxSpeed(0)
-		move:SetMaxClientSpeed(0)
-		move:SetVelocity(Vector())
-	end
-
 	local func = ply:RunCharFlag("Move")
 
 	if func then
@@ -230,12 +221,6 @@ end
 
 function GM:SetupMove(ply, move)
 	if ply.FreezeTime and CurTime() < ply.FreezeTime then
-		move:SetMaxSpeed(0)
-		move:SetMaxClientSpeed(0)
-		move:SetVelocity(Vector())
-	end
-
-	if ply:PassedOut() then
 		move:SetMaxSpeed(0)
 		move:SetMaxClientSpeed(0)
 		move:SetVelocity(Vector())
@@ -394,8 +379,4 @@ function PLAYER:HasInfiniteAmmo(ammo)
 	end
 
 	return self:RunCharFlag("InfiniteAmmo")
-end
-
-function PLAYER:GetPlayerColor()
-	return Vector(0.2, 0.2, 0.2)
 end

@@ -249,14 +249,6 @@ concommand.AddAdmin("rpa_seeall", function(ply)
 	net.Send(ply)
 end, false)
 
-concommand.AddAdmin("rpa_tie", function(ply, targ)
-	targ:SetTiedUp(true)
-end, false, {TYPE_ENTITY})
-
-concommand.AddAdmin("rpa_untie", function(ply, targ)
-	targ:SetTiedUp(false)
-end, false, {TYPE_ENTITY})
-
 concommand.AddAdmin("rpa_setcharflag", function(ply, targ, flag)
 	targ:SetCharFlags(flag)
 

@@ -19,9 +19,6 @@ function GM:GetCCOptions(ent, dist)
 
 	if IsValid(ent) then
 		if ent:IsDoor() then
-			if LocalPlayer():TiedUp() then return tab end
-			if LocalPlayer():PassedOut() then return tab end
-
 			if (ent:DoorType() == DOOR_BUYABLE or ent:DoorType() == DOOR_BUYABLE_ASSIGNABLE) and #ent:DoorOwners() == 0 and #ent:DoorAssignedOwners() == 0 then
 
 				local option = {"Buy", function()
@@ -77,24 +74,11 @@ function GM:GetCCOptions(ent, dist)
 
 			table.insert(tab, option)
 
-			if lp:TiedUp() then return tab end
-			if lp:PassedOut() then return tab end
-
 			local option = {"Give Money", function()
 				self:CCCreateGiveCredits()
 			end, nil, 100}
 
 			table.insert(tab, option)
-
-			if ent:PassedOut() and lp:HasItem("weapon_cc_knife") and ent:GetVelocity():Length2D() <= 5 then
-				local option = {"Slit Throat", function()
-					net.Start("nCSlitThroat")
-						net.WriteEntity(ent)
-					net.SendToServer()
-				end, nil, 100}
-
-				table.insert(tab, option)
-			end
 		elseif ent:GetClass() == "cc_item" then
 			if ent.Item and #ent.Item.Description > 0 then
 				local option = {"Examine", function()

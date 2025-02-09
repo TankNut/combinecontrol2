@@ -77,13 +77,6 @@ hook.Add("StartCommand", "plugins.bot", function(bot, cmd)
 		return
 	end
 
-	if bot:PassedOut() then
-		bot.AI.Next = CurTime() + 3
-		bot.AI.Target = nil
-
-		return
-	end
-
 	if IsValid(bot.AI.Target) then
 		if not bot.AI.Target:Alive() then
 			bot.AI.Target = nil

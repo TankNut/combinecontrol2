@@ -15,13 +15,7 @@ function PLAYER:FullRestore()
 
 	self.DrownDamage = 0
 
-	self:SetConsciousness(100)
-	self:WakeUp(true)
-
-	-- This needs to be done better
-	if IsValid(self:Ragdoll()) then
-		self:Ragdoll():Remove()
-	end
+	self:EndRagdoll()
 end
 
 function GM:PlayerInitialSpawn(ply)

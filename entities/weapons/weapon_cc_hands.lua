@@ -237,8 +237,6 @@ function SWEP:Reload()
 	local tr = GAMEMODE:GetHandTrace(self.Owner, 128)
 	tr.Normal.z = 0
 
-	if self.Owner:PassedOut() then return end
-	if self.Owner:TiedUp() then return end
 	if self.Owner:Crouching() then return end
 	if not self.Owner:OnGround() then return end
 	if self.Owner:GetVelocity():Length() > 50 then return end

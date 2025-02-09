@@ -58,13 +58,6 @@ function PLAYER:SetPhysgunColor()
 	self:SetWeaponColor(vec)
 end
 
-function GM:FindUseEntity(ply, ent)
-	if ply:PassedOut() then return end
-	if ply:TiedUp() and not (ent and ent:IsValid() and ent:IsVehicle()) then return end
-
-	return self.BaseClass:FindUseEntity(ply, ent)
-end
-
 function GM:KeyPress(ply, key)
 	if key == IN_USE then
 		local tr = self:GetHandTrace(ply, 100)
@@ -156,11 +149,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 		end
 	end
 
-	if Config.Get("UntieOnDeath") then
-		ply:SetTiedUp(false)
-	end
-
-	if not ply:PassedOut() then
+	if not ply:IsRagdolled() then
 		ply:CreateRagdoll()
 	end
 
@@ -201,12 +190,6 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	hook.Run("CC.SV.PlayerDeath", ply)
 end
 
-function GM:PlayerSilentDeath(ply)
-	if Config.Get("UntieOnDeath") then
-		ply:SetTiedUp(false)
-	end
-end
-
 function GM:ScaleNPCDamage(ply, hitgroup, dmginfo)
 end
 
@@ -231,9 +214,9 @@ function GM:GetFallDamage(ply, speed)
 end
 
 function GM:CanPlayerSuicide(ply)
-	if ply:CharID() == 0 then return false end
-	if ply:TiedUp() then return false end
-	if ply:PassedOut() then return false end
+	if not ply:HasCharacter() then
+		return false
+	end
 
 	return true
 end
@@ -242,28 +225,6 @@ function GM:PlayerShouldTakeDamage(ply, attacker)
 	if attacker:GetClass() == "prop_physics" or attacker:GetClass() == "prop_ragdoll" or attacker:GetClass() == "cc_item" then return false end
 
 	return true
-end
-
-function GM:LegacyEntityRemoved(ent)
-	if ent:GetClass() == "prop_ragdoll" then
-
-		for _, v in player.Iterator() do
-
-			if v:RagdollIndex() == ent:EntIndex() then
-
-				v:SetRagdollIndex(-1)
-
-			end
-
-		end
-
-		if ent:FakePlayer() and ent:FakePlayer():IsValid() and ent:FakePlayer():PassedOut() then
-
-			ent:FakePlayer():Kill()
-
-		end
-
-	end
 end
 
 function GM:PlayerDisconnected(ply)
@@ -384,9 +345,9 @@ hook.Add("CC.SV.PlayerThink", "SV.Player.DrownThink", function(plys)
 		local waterlevel = 3
 		local targ = ply
 
-		if ply:PassedOut() then
+		if ply:IsRagdolled() then
 			waterlevel = 1
-			targ = ply:Ragdoll()
+			targ = ply:GetRagdoll()
 		end
 
 		if targ:WaterLevel() < waterlevel then

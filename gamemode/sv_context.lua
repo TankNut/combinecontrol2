@@ -1,7 +1,4 @@
 net.Receive("nCBuyDoor", function(len, ply)
-	if ply:TiedUp() then return end
-	if ply:PassedOut() then return end
-
 	local ent = net.ReadEntity()
 
 	if ply:GetPos():Distance(ent:GetPos()) > 128 then return end
@@ -15,9 +12,6 @@ net.Receive("nCBuyDoor", function(len, ply)
 end)
 
 net.Receive("nCSellDoor", function(len, ply)
-	if ply:TiedUp() then return end
-	if ply:PassedOut() then return end
-
 	local ent = net.ReadEntity()
 
 	if ply:GetPos():Distance(ent:GetPos()) > 128 then return end
@@ -28,9 +22,6 @@ net.Receive("nCSellDoor", function(len, ply)
 end)
 
 net.Receive("nCLockUnlock", function(len, ply)
-	if ply:TiedUp() then return end
-	if ply:PassedOut() then return end
-
 	local ent = net.ReadEntity()
 
 	if ply:GetPos():Distance(ent:GetPos()) > 128 then return end
@@ -47,9 +38,6 @@ net.Receive("nCLockUnlock", function(len, ply)
 end)
 
 net.Receive("nCNameDoor", function(len, ply)
-	if ply:TiedUp() then return end
-	if ply:PassedOut() then return end
-
 	local ent = net.ReadEntity()
 	local val = net.ReadString()
 
@@ -63,9 +51,6 @@ net.Receive("nCNameDoor", function(len, ply)
 end)
 
 net.Receive("nCMakeOwner", function(len, ply)
-	if ply:TiedUp() then return end
-	if ply:PassedOut() then return end
-
 	local ent = net.ReadEntity()
 	local targ = net.ReadEntity()
 
@@ -79,9 +64,6 @@ net.Receive("nCMakeOwner", function(len, ply)
 end)
 
 net.Receive("nCRemoveOwner", function(len, ply)
-	if ply:TiedUp() then return end
-	if ply:PassedOut() then return end
-
 	local ent = net.ReadEntity()
 	local targ = net.ReadEntity()
 
@@ -95,9 +77,6 @@ net.Receive("nCRemoveOwner", function(len, ply)
 end)
 
 net.Receive("nCGiveCredits", function(len, ply)
-	if ply:TiedUp() then return end
-	if ply:PassedOut() then return end
-
 	local amt = math.floor(net.ReadFloat())
 	local targ = net.ReadEntity()
 
@@ -119,64 +98,6 @@ net.Receive("nCGiveCredits", function(len, ply)
 			net.WriteFloat(amt)
 			net.WriteEntity(ply)
 		net.Send(targ)
-	end
-end)
-
-net.Receive("nCUntieStart", function(len, ply)
-	local targ = net.ReadEntity()
-
-	if ply:GetPos():Distance(targ:GetPos()) > 128 then return end
-
-	net.Start("nCreateTimedProgressBar")
-		net.WriteFloat(2)
-		net.WriteString("Being untied...")
-		net.WriteEntity(ply)
-	net.Send(targ)
-end)
-
-net.Receive("nCUntie", function(len, ply)
-	if ply:TiedUp() then return end
-	if ply:PassedOut() then return end
-
-	local targ = net.ReadEntity()
-
-	if ply:GetPos():Distance(targ:GetPos()) > 128 then return end
-
-	if targ:GetVelocity():Length2D() <= 5 then
-		targ:SetTiedUp(false)
-
-		GAMEMODE:WriteLog("character_untie", {
-			Ply = GAMEMODE:LogPlayer(ply),
-			Char = GAMEMODE:LogCharacter(ply),
-			TargetPly = GAMEMODE:LogPlayer(targ),
-			TargetChar = GAMEMODE:LogCharacter(targ)
-		})
-	end
-end)
-
-net.Receive("nCSlitThroat", function(len, ply)
-	if ply:TiedUp() then return end
-	if ply:PassedOut() then return end
-
-	local targ = net.ReadEntity()
-
-	if ply:GetPos():Distance(targ:GetPos()) > 64 then return end
-
-	if targ:PassedOut() and ply:HasItem("weapon_cc_knife") and targ:GetVelocity():Length2D() <= 5 then
-		ply:SelectWeapon("weapon_cc_knife")
-		ply:SetHolstered(false)
-
-		ply:EmitSound("Weapon_Knife.Hit")
-
-		local dmg = DamageInfo()
-		dmg:SetAttacker(ply)
-		dmg:SetDamage(200)
-		dmg:SetDamageForce(Vector(0, 0, 1))
-		dmg:SetDamagePosition(targ:GetPos())
-		dmg:SetDamageType(DMG_SLASH)
-		dmg:SetInflictor(ply:GetWeapon("weapon_cc_knife"))
-
-		targ:TakeDamageInfo(dmg)
 	end
 end)
 
