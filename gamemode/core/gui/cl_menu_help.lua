@@ -114,7 +114,7 @@ function GM:PopulateHelpMenu(panel)
 	end
 
 	panel:AddMenu(1, "Gamemode Credits", [[
-<massive><b><c=cc_primary>CombineControl 2.0</c></b></massive>
+<massive><b><c=cc_primary>CombineControl</c></b></massive>
 <iset=3><dark>Built for Taco N Banana</dark>
 
 <giant><b>Credits</b></giant>
