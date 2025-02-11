@@ -78,10 +78,6 @@ AddCSLuaFile("cl_playurl.lua")
 AddCSLuaFile("cl_scoreboard.lua")
 AddCSLuaFile("cl_fonts.lua")
 
---ctp
-include( "ctp/sv_ctp.lua");
-AddCSLuaFile( "ctp/cl_ctp.lua" );
-
 IncludeFolder(GM.FolderName .. "/gamemode/gui")
 IncludeFolder(GM.FolderName .. "/gamemode/logtypes")
 

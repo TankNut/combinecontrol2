@@ -87,6 +87,7 @@ GM:Include("sv_resource.lua")
 
 local baseFolder = engine.ActiveGamemode() .. "/gamemode/"
 
+GM:LoadFolder(baseFolder .. "core/ctp/")
 GM:LoadFolder(baseFolder .. "core/meta/", "shared.lua")
 GM:LoadFolder(baseFolder .. "core/vgui/")
 GM:LoadFolder(baseFolder .. "core/gui/")

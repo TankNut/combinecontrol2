@@ -46,8 +46,6 @@ include("cl_playurl.lua")
 include("cl_scoreboard.lua")
 include("cl_fonts.lua")
 
-include( "ctp/cl_ctp.lua");
-
 IncludeFolder(GM.FolderName .. "/gamemode/gui")
 IncludeFolder(GM.FolderName .. "/gamemode/logtypes")
 
