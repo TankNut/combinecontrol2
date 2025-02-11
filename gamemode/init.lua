@@ -38,7 +38,6 @@ include("sv_player.lua")
 include("sv_playsounds.lua")
 include("sv_security.lua")
 include("sv_sql.lua")
-include("sv_weapon.lua")
 include("sv_worldents.lua")
 
 AddCSLuaFile("cl_init.lua")
@@ -78,7 +77,6 @@ AddCSLuaFile("cl_playsounds.lua")
 AddCSLuaFile("cl_playurl.lua")
 AddCSLuaFile("cl_scoreboard.lua")
 AddCSLuaFile("cl_fonts.lua")
-AddCSLuaFile("cl_weapon.lua")
 
 --ctp
 include( "ctp/sv_ctp.lua");

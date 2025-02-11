@@ -45,7 +45,6 @@ include("cl_playsounds.lua")
 include("cl_playurl.lua")
 include("cl_scoreboard.lua")
 include("cl_fonts.lua")
-include("cl_weapon.lua")
 
 include( "ctp/cl_ctp.lua");
 

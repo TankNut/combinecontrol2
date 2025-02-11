@@ -1328,3 +1328,23 @@ hook.Add("CreateMove", "cursed", function(cmd)
 		cmd:SetSideMove(-cmd:GetSideMove())
 	end
 end)
+
+function GM:ShouldDrawStencilEnt(ent)
+	if ent:IsNPC() and ent:Health() > 0 then
+		return ent
+	elseif ent:IsPlayer() and ent:Alive() then
+		local ragdoll = ent:Ragdoll()
+
+		if IsValid(ragdoll) then
+			return ragdoll
+		end
+
+		return not ent:GetNoDraw() and ent or false
+	end
+
+	return false
+end
+
+function GM:DrawStencilEnt(ent, thermal)
+	ent:DrawModel()
+end
