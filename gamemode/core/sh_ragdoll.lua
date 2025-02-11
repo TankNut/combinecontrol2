@@ -34,8 +34,6 @@ if SERVER then
 		ragdoll:Spawn()
 		ragdoll:Activate()
 
-		ragdoll:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-
 		self:SetNWEntity("Ragdoll", ragdoll)
 		ragdoll:SetNWEntity("FakePlayer", self)
 
