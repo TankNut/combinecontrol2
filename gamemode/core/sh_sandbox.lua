@@ -164,10 +164,6 @@ if SERVER then
 			ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 		end
 	end
-
-	function GM:PlayerSpawnedRagdoll(ply, model, ent)
-		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
-	end
 end
 
 function GM:CanArmDupe(ply)

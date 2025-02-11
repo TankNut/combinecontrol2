@@ -35,8 +35,12 @@ function GM:OnEntityCreated(ent)
 		Inventory.Init(ent)
 	end
 
-	if SERVER and ent:IsNPC() then
-		ent:SetKeyValue("spawnflags", bit.band(ent:GetSpawnFlags(), SF_NPC_NO_WEAPON_DROP))
+	if SERVER then
+		if ent:IsNPC() then
+			ent:SetKeyValue("spawnflags", bit.band(ent:GetSpawnFlags(), SF_NPC_NO_WEAPON_DROP))
+		elseif ent:IsRagdoll() then
+			ent:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+		end
 	end
 end
 
