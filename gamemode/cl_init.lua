@@ -43,7 +43,6 @@ include("cl_music.lua")
 include("cl_player.lua")
 include("cl_playsounds.lua")
 include("cl_playurl.lua")
-include("cl_scoreboard.lua")
 include("cl_fonts.lua")
 
 IncludeFolder(GM.FolderName .. "/gamemode/gui")

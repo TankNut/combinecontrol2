@@ -164,3 +164,13 @@ end
 function GM:OnCharacterDescriptionChanged(ply, old, new)
 	ply:UpdateVisibleDescription()
 end
+
+request.Hook("Examine", function(ply, target)
+	target.ExamineCache = target.ExamineCache or {}
+
+	if not target.ExamineCache[ply] then
+		target.ExamineCache[ply] = true
+
+		return target:VisibleDescription()
+	end
+end)

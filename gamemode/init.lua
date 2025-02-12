@@ -75,7 +75,6 @@ AddCSLuaFile("cl_music.lua")
 AddCSLuaFile("cl_player.lua")
 AddCSLuaFile("cl_playsounds.lua")
 AddCSLuaFile("cl_playurl.lua")
-AddCSLuaFile("cl_scoreboard.lua")
 AddCSLuaFile("cl_fonts.lua")
 
 IncludeFolder(GM.FolderName .. "/gamemode/gui")

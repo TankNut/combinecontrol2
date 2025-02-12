@@ -36,6 +36,7 @@ function PLAYER:UpdateVisibleDescription()
 	end
 
 	self:SetShortDescription(short)
+	self.ExamineCache = nil
 end
 
 function PLAYER:UpdateMovementSpeed()

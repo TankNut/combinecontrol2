@@ -34,6 +34,14 @@ if CLIENT then
 
 		return hook.Run("CC.CL.PlayerBindPress", ply, bind, down)
 	end
+
+	function GM:ScoreboardShow()
+		GUI.Open("Scoreboard")
+	end
+
+	function GM:ScoreboardHide()
+		GUI.Close("Scoreboard")
+	end
 else
 	function GM:ShowHelp(ply)
 		ply:OpenGUI("HelpMenu")
