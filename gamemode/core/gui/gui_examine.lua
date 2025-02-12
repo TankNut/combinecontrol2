@@ -12,6 +12,7 @@ function PANEL:Init()
 	self.Preview:Dock(LEFT)
 	self.Preview:SetWide(200)
 	self.Preview:SetBaseYaw(20)
+	self.Preview:SetAllowManipulation(true)
 
 	self.CharacterName = self:Add("DLabel")
 	self.CharacterName:DockMargin(0, 0, 0, 5)
