@@ -97,3 +97,49 @@ function GM:GetPlayerLoadout(ply)
 
 	return tab
 end
+
+function GM:BlockFallDamage(ply)
+	return ply:RunCharFlag("NoFallDamage")
+end
+
+function GM:GetFallDamage(ply, speed)
+	if hook.Run("BlockFallDamage", ply) then
+		return 0
+	end
+
+	local damage = (speed - 526.5) * (100 / 200)
+
+	if damage <= 0 then
+		return 0
+	end
+
+	hook.Run("OnTakeFallDamage", ply, damage)
+
+	return damage
+end
+
+function GM:CanPlayerSuicide(ply)
+	if not ply:HasCharacter() then
+		return false
+	end
+
+	return true
+end
+
+function GM:PlayerSpray(ply)
+	return false
+end
+
+function GM:PlayerCanHearPlayersVoice(targ, ply)
+	return false
+end
+
+function GM:PlayerShouldTaunt(ply, act)
+	return false
+end
+
+function GM:PlayerSetHandsModel(ply, ent)
+	ent:SetModel("models/weapons/c_arms_citizen.mdl")
+	ent:SetSkin(0)
+	ent:SetBodyGroups("11")
+end

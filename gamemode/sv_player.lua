@@ -193,34 +193,6 @@ end
 function GM:ScaleNPCDamage(ply, hitgroup, dmginfo)
 end
 
-function GM:BlockFallDamage(ply)
-	return ply:RunCharFlag("NoFallDamage")
-end
-
-function GM:GetFallDamage(ply, speed)
-	if hook.Run("BlockFallDamage", ply) then
-		return 0
-	end
-
-	local damage = (speed - 526.5) * (100 / 200)
-
-	if damage <= 0 then
-		return 0
-	end
-
-	hook.Run("OnTakeFallDamage", ply, damage)
-
-	return damage
-end
-
-function GM:CanPlayerSuicide(ply)
-	if not ply:HasCharacter() then
-		return false
-	end
-
-	return true
-end
-
 function GM:PlayerShouldTakeDamage(ply, attacker)
 	if attacker:GetClass() == "prop_physics" or attacker:GetClass() == "prop_ragdoll" or attacker:GetClass() == "cc_item" then return false end
 
@@ -259,81 +231,6 @@ function GM:ShutDown()
 	end
 
 	hook.Run("CC.SV.ShutDown")
-end
-
-function GM:PlayerSpray(ply)
-	return game.IsDedicated()
-end
-
-function GM:PlayerCanHearPlayersVoice(targ, ply)
-	return not game.IsDedicated()
-end
-
-function GM:PlayerShouldTaunt(ply, act)
-	return false
-end
-
-function GM:CanPlayerEnterVehicle(ply, vehicle, role)
-	if self.BaseClass:CanPlayerEnterVehicle(ply, vehicle, role) then
-
-		if vehicle.Static then
-
-			vehicle.PlayerPos = ply:GetPos()
-			vehicle.PlayerAngles = ply:EyeAngles()
-
-		end
-
-		if IsValid(vehicle:GetParent()) and vehicle:GetParent():GetClass() == "prop_physics" then
-
-			if vehicle:GetParent():GetVelocity():Length2D() > 1 then return false end
-
-			local trace = {}
-			trace.start = vehicle:GetPos()
-			trace.endpos = trace.start + Vector(0, 0, 64)
-			trace.filter = {vehicle, vehicle:GetParent()}
-
-			local tr = util.TraceLine(trace)
-
-			if tr.Hit then return false end
-
-			if vehicle.PhysgunActive or vehicle:GetParent().PhysgunActive then return false end
-
-			vehicle:GetParent():GetPhysicsObject():EnableMotion(false)
-
-		end
-
-		return true
-
-	end
-
-	return false
-end
-
-function GM:CanExitVehicle(vehicle, ply)
-	if vehicle.Static then
-
-		vehicle.PlayerAngles = ply:EyeAngles()
-		vehicle.PlayerAngles.r = 0
-
-	end
-
-	return self.BaseClass:CanExitVehicle(vehicle, ply)
-end
-
-function GM:PlayerLeaveVehicle(ply, vehicle)
-	if vehicle.PlayerPos then
-
-		ply:SetPos(vehicle.PlayerPos)
-
-	end
-
-	if vehicle.PlayerAngles then
-
-		ply:SetEyeAngles(vehicle.PlayerAngles)
-
-	end
-
-	vehicle.PlayerPos = nil
 end
 
 hook.Add("CC.SV.PlayerThink", "SV.Player.DrownThink", function(plys)
@@ -511,9 +408,3 @@ local function RollDice(ply, cmd, args)
 	Chat.Send(rf, "NOTICE", output)
 end
 concommand.Add("rp_roll", RollDice)
-
-function GM:PlayerSetHandsModel(ply, ent)
-	ent:SetModel("models/weapons/c_arms_citizen.mdl")
-	ent:SetSkin(0)
-	ent:SetBodyGroups("11")
-end
