@@ -28,7 +28,7 @@ function RegisterFolder(dir)
 	file.Iterate(dir, "shared.lua", "LUA", function(path, folder)
 		_G.CLASS = {}
 
-		GM:Include(path)
+		GM:IncludeShared(path)
 
 		Register(CLASS)
 

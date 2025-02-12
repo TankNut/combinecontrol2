@@ -25,7 +25,7 @@ function RegisterFolder(dir)
 			ID = name
 		}
 
-		GM:Include(path)
+		GM:IncludeShared(path)
 
 		Register(CLASS)
 
