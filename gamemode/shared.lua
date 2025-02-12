@@ -441,14 +441,6 @@ function game.GetPort()
 	return tonumber(GetConVarString("hostport"))
 end
 
-function GM:IsValidSteamID(steamid) -- Thanks Ulib
-	if not steamid then
-		return false
-	end
-
-	return string.match(steamid, "^STEAM_%d:%d:%d+$") != nil
-end
-
 function ParseChatLog(data)
 	local format = ""
 	local args = {}

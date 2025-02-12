@@ -174,7 +174,7 @@ concommand.AddAdmin("rpa_ban", function(ply, targ, duration, reason)
 end, false, {TYPE_ENTITY, TYPE_NUMBER, TYPE_STRING})
 
 concommand.AddAdmin("rpa_banoffline", function(ply, steamid, duration, reason)
-	if not IsValidSteamID(steamid) then
+	if not util.IsValidSteamID(steamid) then
 		ply:SendChat("ERROR", "SteamID is invalid")
 
 		return
@@ -209,7 +209,7 @@ concommand.AddAdmin("rpa_banoffline", function(ply, steamid, duration, reason)
 end, false, {TYPE_STRING, TYPE_NUMBER, TYPE_STRING})
 
 concommand.AddAdmin("rpa_unban", function(ply, steamid)
-	if not IsValidSteamID(steamid) then
+	if not util.IsValidSteamID(steamid) then
 		ply:SendChat("ERROR", "SteamID is invalid")
 
 		return
@@ -541,7 +541,7 @@ concommand.AddAdmin("rpa_travelban", function(ply, targ)
 end, false, {TYPE_ENTITY})
 
 concommand.AddAdmin("rpa_charlist", function(ply, steamid)
-	if not GAMEMODE:IsValidSteamID(steamid) then
+	if not util.IsValidSteamID(steamid) then
 		ply:SendChat("ERROR", "SteamID is invalid")
 
 		return

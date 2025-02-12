@@ -36,10 +36,6 @@ _.map = function (arr, fn)
 	return result
 end
 
-function IsValidSteamID(id)
-	return string.match(id, "^STEAM_%d:%d:%d+$" ) != nil
-end
-
 function table.AddToCopy(base, additions)
 	local tab = table.Copy(base)
 

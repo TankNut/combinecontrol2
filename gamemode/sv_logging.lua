@@ -178,7 +178,7 @@ net.Receive("nRequestLogs", function(len, ply)
 		if k == "identifier" and v == "Any" then
 			tab[k] = nil
 		elseif k == "steamid" then
-			tab[k] = IsValidSteamID(v) and v or nil
+			tab[k] = util.IsValidSteamID(v) and v or nil
 		elseif isnumber(v) then
 			tab[k] = v > 0 and tab[k] or nil
 		end
