@@ -1,7 +1,7 @@
 CLASS.Name = "ERROR"
 
 CLASS.Color = Color(200, 0, 0)
-CLASS.ConsoleColor = Color(255, 0, 0)
+CLASS.ConsoleColor = Color(255, 90, 90)
 
 if CLIENT then
 	function CLASS:OnReceive(data)
