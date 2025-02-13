@@ -87,7 +87,7 @@ local yell = console.AddCommand("rpa_yell", function(ply, message)
 	Chat.Send("ADMINYELL", {Name = console.RPName(ply), Text = message})
 end)
 
-yell:SetDescription("Announces a large-text message to all players")
+yell:SetDescription("Sends a large text message to all players")
 yell:SetExecutionContext(console.Server)
 yell:SetAccess(console.IsAdmin)
 

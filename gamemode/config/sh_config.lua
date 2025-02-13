@@ -2,9 +2,9 @@
 GM.Config.InternalName = "development" -- Used for figuring out what folder within data/combinecontrol we want to put our stuff
 GM.Config.ServerName = "CombineControl: Development Server"
 
--- Web integration
-GM.Config.SteamGroupURL	= ""
-GM.Config.WebsiteURL    = "http://taconbanana.com"
+GM.Config.CommunityLinks = {
+	{"Community Forums", "http://taconbanana.com"}
+}
 
 GM.Config.MapOverrides  = {} -- Makes the script believe it's running on a different map, useful for maps with different versions but identical layouts
 
