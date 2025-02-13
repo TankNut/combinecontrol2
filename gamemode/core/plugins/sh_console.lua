@@ -240,6 +240,25 @@ console.Parser("Badge", function(ply, args, last, options)
 	return true, val
 end)
 
+console.Parser("Duration", function(ply, args, last, options)
+	local val = console.ReadArg(args, last)
+	local duration = util.Duration(val, options.OutputFormat)
+
+	if not duration then
+		return false, "Invalid duration"
+	end
+
+	if options.Min and duration < util.Duration(options.Min, options.OutputFormat) then
+		return false, "Duration must be at least " .. options.Min
+	end
+
+	if options.Max and duration > util.Duration(options.Max, options.OutputFormat) then
+		return false, "Duration can't be longer than " .. options.Max
+	end
+
+	return true, duration
+end)
+
 local function folder(dir)
 	file.Iterate(dir, nil, "LUA", function(path)
 		GM:Include(path)
