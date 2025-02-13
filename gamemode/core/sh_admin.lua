@@ -13,6 +13,11 @@ PlayerVar.Add("TempAdmin", {
 	Persist = false
 })
 
+GlobalVar.Add("OOCDelay", {Default = 0})
+
+GlobalVar.Add("AIDisabled", {Default = false})
+GlobalVar.Add("AINoTarget", {Default = false})
+
 local immunity = {
 	user = 0,
 	admin = 1,
@@ -47,4 +52,12 @@ PLAYER.GetUserGroup = PLAYER.UserGroup
 
 if SERVER then
 	hook.Remove("PlayerInitialSpawn", "PlayerAuthSpawn")
+
+	function GM:OnAIDisabledChanged(old, new, loaded)
+		RunConsoleCommand("ai_disabled", new and 1 or 0)
+	end
+
+	function GM:OnAINoTargetChanged(old, new, loaded)
+		RunConsoleCommand("ai_ignoreplayers", new and 1 or 0)
+	end
 end
