@@ -26,6 +26,7 @@ SKIN.Text.Disabled = Color(150, 150, 150):Register("cc_disabled")
 SKIN.Text.Highlight = Color(40, 40, 40):Register("cc_highlight")
 SKIN.Text.Bad = Color(200, 0, 0):Register("cc_bad")
 SKIN.Text.Dark = Color(150, 150, 150):Register("cc_dark")
+
 SKIN.Text.New = Color(0, 120, 0):Register("cc_new")
 SKIN.Text.Update = Color(255, 255, 100):Register("cc_update")
 SKIN.Text.Remove = Color(223, 22, 22):Register("cc_remove")
@@ -44,9 +45,9 @@ SKIN.Colours.Button.Normal = SKIN.Text.Normal
 
 SKIN.Colours.Label = {}
 SKIN.Colours.Label.Default = SKIN.Text.Normal
-SKIN.Colours.Label.Bright = SKIN.Text.Normal
-SKIN.Colours.Label.Dark = SKIN.Text.Normal
-SKIN.Colours.Label.Highlight = SKIN.Text.Normal
+SKIN.Colours.Label.Bright = SKIN.Text.Hover
+SKIN.Colours.Label.Dark = SKIN.Text.Dark
+SKIN.Colours.Label.Highlight = SKIN.Colors.Primary
 
 SKIN.Colours.Properties = {}
 SKIN.Colours.Properties.Line_Normal			= GWEN.TextureColor( 4 + 8 * 12, 508 )
