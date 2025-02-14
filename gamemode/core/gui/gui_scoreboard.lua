@@ -23,6 +23,10 @@ function PANEL:Init()
 	self.Examine.DoClick = function()
 		self.Player:Examine()
 	end
+
+	self.Examine.DoRightClick = function()
+		self:OpenScoreboardCommands()
+	end
 end
 
 function PANEL:SetPlayer(ply)
@@ -48,6 +52,33 @@ function PANEL:IsInvalid()
 	end
 
 	return false
+end
+
+function PANEL:OpenScoreboardCommands()
+	local actions = Config.Get("ScoreboardCommands")
+
+	if self:IsInvalid() or table.IsEmpty(actions) then
+		return
+	end
+
+	local dmenu = DermaMenu()
+	dmenu:SetPos(gui.MousePos())
+
+	for _, action in ipairs(actions) do
+		dmenu:AddOption(action[1], function()
+			gui.EnableScreenClicker(false)
+
+			if not IsValid(self.Player) then
+				return
+			end
+
+			local cmd = isstring(action[2]) and action[2] or action[2](self.Player)
+
+			RunConsoleCommand(cmd, self.Player:SteamID())
+		end)
+	end
+
+	dmenu:Open()
 end
 
 function PANEL:Think()

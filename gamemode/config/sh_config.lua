@@ -44,6 +44,10 @@ GM.Config.AFKTime = 600
 -- Admin stuff
 GM.Config.DefaultLogLines = 200
 GM.Config.MaxLogLines = 500
+GM.Config.ScoreboardCommands = {
+	{"Goto", "rpa_goto"},
+	{"Bring", "rpa_bring"}
+}
 
 -- Sandbox
 GM.Config.ToolTrust = {

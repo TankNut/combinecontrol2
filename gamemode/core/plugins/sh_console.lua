@@ -115,6 +115,12 @@ function console.FindPlayer(ply, str, options)
 
 				continue
 			end
+
+			if (isConsole or ply:IsAdmin()) and string.find(string.lower(target:SteamID()), str, 1, not multi) then
+				table.insert(targets, target)
+
+				continue
+			end
 		end
 	end
 
