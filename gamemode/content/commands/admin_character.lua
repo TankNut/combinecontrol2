@@ -74,6 +74,42 @@ setCharacterName:AddParameter(console.String({
 	validate.AllowedCharacters(Config.Get("AllowedNameCharacters"))
 }))
 
+local setCharacterScale = console.AddCommand("rpa_setcharscale", function (ply, target, scale, persist)
+	if persist then
+		local flag = target:RunCharFlag("Scale")
+
+		if flag != 0 then
+			console.Feedback(ply, "ERROR", "%s has a character flag overriding scale, cannot persist", target)
+
+			return
+		end
+
+		target:SetCharacterScale(scale)
+	end
+
+	target:SetScale(scale, false)
+
+	console.Feedback(ply, "NOTICE", "You've set %s's %s scale to %d", target, persist and "character" or "", scale)
+	console.Feedback(target, "NOTICE", "%s has set your %s scale to %d", ply, persist and "character" or "", scale)
+end)
+
+setCharacterScale:SetDescription("Updates a player's current character scaling")
+setCharacterScale:SetExecutionContext(console.Server)
+setCharacterScale:SetAccess(console.IsAdmin)
+
+setCharacterScale:AddParameter(console.Player({
+	SingleTarget = true,
+	CheckImmunity = false,
+	NoSelfTarget = false
+}))
+
+setCharacterScale:AddParameter(console.Number({
+	validate.Min(0.1),
+	validate.Max(10),
+}))
+
+setCharacterScale:AddOptional(console.Bool(), false)
+
 local giveCharacterLanguage = console.AddCommand("rpa_givecharlang", function(ply, target, lang, speak)
 	local languageName = Language.Get(lang).Name
 	local accessType = speak and "speak" or "understand"

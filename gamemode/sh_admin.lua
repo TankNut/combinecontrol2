@@ -696,28 +696,6 @@ function GM:PlayerNoClip(ply, state)
 	return true
 end
 
-concommand.AddAdmin("rpa_setplayerscale", function(ply, targ, val, persist)
-	if val > 10 or val < 0.1 then
-		ply:SendChat("ERROR", "Scale must be between 0.1 and 10")
-
-		return
-	end
-
-	targ:SetScale(val, true)
-
-	if persist then
-		local flag = targ:RunCharFlag("Scale")
-
-		if flag then
-			ply:SendChat("ERROR", "Target has a character flag overriding scale, cannot persist")
-
-			return
-		end
-
-		targ:SetCharacterScale(val)
-	end
-end, false, {TYPE_ENTITY, TYPE_NUMBER, TYPE_BOOL})
-
 concommand.AddAdmin("rpa_infiniteammo", function(ply, targ, bool)
 	targ:SetInfiniteAmmo(bool)
 end, false, {TYPE_ENTITY, TYPE_BOOL})
