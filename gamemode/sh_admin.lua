@@ -460,66 +460,6 @@ concommand.AddAdmin("rpa_playernotes", function(ply, targ)
 	GAMEMODE:PlayerNotes(ply, targ)
 end, false, {TYPE_ENTITY})
 
--- local nametolicense = {}
--- nametolicense["generic"] = BUSINESS_GENERIC
--- nametolicense["clothing"] = BUSINESS_CLOTHING
--- nametolicense["medical"] = BUSINESS_MEDICAL
--- nametolicense["weaponry"] = BUSINESS_WEAPONRY
--- nametolicense["illegal"] = BUSINESS_ILLEGAL
--- nametolicense["quartermaster"] = BUSINESS_QUARTERMASTER
-
--- concommand.AddAdmin("rpa_givelicense", function(ply, targ, license)
--- 	local name = string.lower(license) or "generic"
-
--- 	license = nametolicense[name]
-
--- 	if not license then
--- 		ply:SendChat("ERROR", "Invalid license")
-
--- 		return
--- 	end
-
--- 	if targ:HasLicense(license) then
--- 		ply:SendChat("ERROR", "They already have this license")
-
--- 		return
--- 	end
-
--- 	targ:SetBusinessLicenses(targ:BusinessLicenses() + license)
--- 	targ:UpdateCharacterField("BusinessLicenses", targ:BusinessLicenses())
-
--- 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " gave player " .. targ:CharacterName() .. " a " .. name .. " license.", ply)
-
--- 	ply:SendChat("NOTICE", "You gave " .. targ:CharacterName() .. " the " .. name .. " license.")
--- 	targ:SendChat("NOTICE", ply:Nick() .. " gave you the " .. name .. " license.")
--- end, false, {TYPE_ENTITY, TYPE_STRING})
-
--- concommand.AddAdmin("rpa_takelicense", function(ply, targ, license)
--- 	local name = string.lower(license) or "generic"
-
--- 	license = nametolicense[name]
-
--- 	if not license then
--- 		ply:SendChat("ERROR", "Invalid license")
-
--- 		return
--- 	end
-
--- 	if not targ:HasLicense(license) then
--- 		ply:SendChat("ERROR", "They don't have this license")
-
--- 		return
--- 	end
-
--- 	targ:SetBusinessLicenses(targ:BusinessLicenses() - license)
--- 	targ:UpdateCharacterField("BusinessLicenses", targ:BusinessLicenses())
-
--- 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " took " .. targ:CharacterName() .. "'s " .. name .. " license.", ply)
-
--- 	ply:SendChat("NOTICE", "You took " .. targ:CharacterName() .. "'s " .. name .. " license.")
--- 	targ:SendChat("NOTICE", ply:Nick() .. " took your " .. name .. " license.")
--- end, false, {TYPE_ENTITY, TYPE_STRING})
-
 concommand.AddAdmin("rpa_travelban", function(ply, targ)
 	local val = not tobool(targ:IsTravelBanned())
 	local str = " unbanned "
