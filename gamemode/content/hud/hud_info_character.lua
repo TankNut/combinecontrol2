@@ -14,11 +14,9 @@ function CLASS:Initialize()
 end
 
 function CLASS:OnVisibleRPNameChanged(ply, _, new)
-	if ply != lp then
-		return
+	if ply == lp then
+		self:UpdateInfo(new)
 	end
-
-	self:UpdateInfo(new)
 end
 
 function CLASS:UpdateInfo(name)
