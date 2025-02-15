@@ -13,9 +13,9 @@ SKIN.Colors.Primary = HSVToColor(0, 1, 0.8):Register("cc_primary")
 SKIN.Colors.Border = Color(20, 20, 20):Register("cc_border")
 SKIN.Colors.TextEntry = Color(35, 35, 35)
 
-SKIN.Colors.FillLight = Color(60, 60, 60)
-SKIN.Colors.FillMedium = Color(40, 40, 40)
-SKIN.Colors.FillDark = Color(30, 30, 30)
+SKIN.Colors.FillLight = Color(60, 60, 60):Register("cc_fill_light")
+SKIN.Colors.FillMedium = Color(40, 40, 40):Register("cc_fill")
+SKIN.Colors.FillDark = Color(30, 30, 30):Register("cc_fill_dark")
 
 SKIN.Text = {}
 
