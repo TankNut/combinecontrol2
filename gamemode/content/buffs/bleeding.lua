@@ -22,7 +22,7 @@ function BUFF:AddBleedStack(data)
 	self:AddStacks(1)
 	self:AddTimer(nil, data.CurTime,
 		data.Duration or self.Duration,
-		data.Interval or self.Interval,{
+		data.Interval or self.Interval, {
 			Damage = data.Damage or self.Damage
 		})
 end
