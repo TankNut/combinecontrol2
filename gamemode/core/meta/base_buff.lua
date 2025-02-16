@@ -1,3 +1,5 @@
+local BUFF = {}
+
 BUFF.RemoveOnDeath = false
 BUFF.RemoveOnHeal = false -- Not yet implemented
 
@@ -141,3 +143,5 @@ function BUFF:Remove(force)
 	self:OnRemove()
 	self.Player:GetBuffs()[self.ClassName] = nil
 end
+
+inherit.Register("buff", "base", BUFF)

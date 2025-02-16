@@ -1,5 +1,3 @@
-DEFINE_BASECLASS("item_base_container")
-
 ITEM.Base = "base_container"
 
 ITEM.Name = "Bag of Holding"

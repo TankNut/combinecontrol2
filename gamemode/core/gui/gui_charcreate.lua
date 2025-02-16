@@ -78,7 +78,7 @@ end
 function PANEL:Submit()
 	self.Next:SetDisabled(true)
 
-	netstream.Send("CreateCharacter", self.CharType.ID, self.Options)
+	netstream.Send("CreateCharacter", self.CharType.ClassName, self.Options)
 end
 
 function PANEL:CheckPage()

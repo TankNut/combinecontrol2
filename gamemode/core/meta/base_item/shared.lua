@@ -1,3 +1,5 @@
+ITEM = {}
+
 local logger = log.Create("items")
 
 -- Internal data
@@ -67,3 +69,7 @@ function ITEM:Remove()
 
 	Item.All[self.ID] = nil
 end
+
+inherit.Register("item", "base", ITEM)
+
+ITEM = nil

@@ -2,20 +2,8 @@ module("Hud", package.seeall)
 
 List = List or {}
 
-Class = Class or {}
-Class.__index = Class
-
 function Register(name, hud)
-	hud.ClassName = name
-	hud.ThisClass = "hud_" .. name
-
-	setmetatable(hud, {
-		__index = hud.Base and baseclass.Get(hud.Base) or Class
-	})
-
-	baseclass.Set(hud.ThisClass, hud)
-
-	List[name] = baseclass.Get(hud.ThisClass)
+	List[name] = inherit.Register("hud", name, hud, hud.Base or "base")
 
 	if hud.Setting then
 		Settings.Add("Hud" .. hud.Setting, {
@@ -31,8 +19,10 @@ function Register(name, hud)
 		end
 	end
 
-	for _, setting in ipairs(hud.ExtraSettings) do
-		Settings.Add("Hud" .. setting[1], setting[2], "Hud")
+	if hud.ExtraSettings then
+		for _, setting in ipairs(hud.ExtraSettings) do
+			Settings.Add("Hud" .. setting[1], setting[2], "Hud")
+		end
 	end
 end
 
@@ -58,14 +48,6 @@ function RegisterFolder(dir)
 
 		CLASS = nil
 	end)
-end
-
-function Load()
-	RegisterFolder(ContentFolder .. "hud/")
-
-	for _, plugin in ipairs(PluginFolders) do
-		RegisterFolder(plugin .. "hud/")
-	end
 end
 
 if SERVER then
@@ -112,9 +94,7 @@ function Rebuild()
 
 	for id in pairs(elements) do
 		if not Lookup[id] then
-			local element = setmetatable({}, {
-				__index = List[id]
-			})
+			local element = inherit.Instance("hud", id)
 
 			table.insert(Active, element)
 

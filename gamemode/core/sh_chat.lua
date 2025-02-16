@@ -13,14 +13,18 @@ local ENTITY = FindMetaTable("Entity")
 local PLAYER = FindMetaTable("Player")
 
 function Register(data)
-	List[data.Name] = setmetatable(data, Class)
+	List[data.Name] = inherit.Register("chat", data.Name, data, data.Base or "base")
 
-	for _, name in ipairs(data.Commands) do
-		Commands[name] = data
+	if data.Commands then
+		for _, name in ipairs(data.Commands) do
+			Commands[name] = data
+		end
 	end
 
-	for _, alias in ipairs(data.Aliases) do
-		Aliases[alias] = data.Commands[1]
+	if data.Aliases then
+		for _, alias in ipairs(data.Aliases) do
+			Aliases[alias] = data.Commands[1]
+		end
 	end
 end
 
@@ -34,14 +38,6 @@ function RegisterFolder(dir)
 
 		CLASS = nil
 	end)
-end
-
-function Load()
-	RegisterFolder(ContentFolder .. "chat/")
-
-	for _, plugin in ipairs(PluginFolders) do
-		RegisterFolder(plugin .. "chat/")
-	end
 end
 
 function AddConsoleCommand(names, command)

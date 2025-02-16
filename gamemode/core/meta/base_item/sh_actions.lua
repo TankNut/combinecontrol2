@@ -8,7 +8,7 @@ function ITEM:GetActions()
 	end
 
 	local actions = {}
-	local class = baseclass.Get(self.ThisClass)
+	local class = inherit.Get("item", self.ClassName)
 
 	while true do
 		local actionTable = rawget(class, "Actions")
@@ -29,7 +29,7 @@ function ITEM:GetActions()
 			break
 		end
 
-		class = class.Base and baseclass.Get("item_" .. class.Base) or Item.List.base
+		class = class.Base and inherit.Get("item", class.Base) or inherit.Get("item", "base")
 	end
 
 	Item.ActionCache[self.ClassName] = actions

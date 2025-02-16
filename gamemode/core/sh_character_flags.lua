@@ -11,18 +11,7 @@ CharacterVar.Add("CharacterFlag", {
 })
 
 function Register(name, flag)
-	flag.ClassName = name
-	flag.ThisClass = "flag_" .. name
-
-	if name != "base" then
-		setmetatable(flag, {
-			__index = baseclass.Get(flag.Base or "flag_base")
-		})
-	end
-
-	baseclass.Set(flag.ThisClass, flag)
-
-	List[name] = baseclass.Get(flag.ThisClass)
+	List[name] = inherit.Register("charflag", name, flag, flag.Base or "base")
 end
 
 function RegisterFolder(dir)
@@ -41,14 +30,6 @@ function RegisterFolder(dir)
 
 		FLAG = nil
 	end)
-end
-
-function Load()
-	RegisterFolder(ContentFolder .. "flags/")
-
-	for _, plugin in ipairs(PluginFolders) do
-		RegisterFolder(plugin .. "flags/")
-	end
 end
 
 function PLAYER:GetCharFlag()

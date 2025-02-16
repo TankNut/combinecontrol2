@@ -55,6 +55,7 @@ end
 
 function GM:PlayerSpawn(ply)
 	ply.SpawnPos = ply:GetPos()
+	ply.ArmorFraction = 1
 
 	-- Might want to update the bird workflow at some point
 	if not ply:HasCharacter() then
@@ -76,9 +77,26 @@ function GM:PlayerSpawn(ply)
 	ply:UpdateLoadout()
 end
 
+if not PLAYER._SetMaxArmor then
+	PLAYER._SetMaxArmor = PLAYER.SetMaxArmor
+end
+
+function PLAYER:SetMaxArmor(val)
+	self:_SetMaxArmor(val)
+	self:SetArmor(math.min(self.ArmorFraction * val, val))
+end
+
+function GM:PlayerPostThink(ply)
+	local max = ply:GetMaxArmor()
+
+	if max > 0 then
+		ply.ArmorFraction = math.Clamp(ply:Armor() / max, 0, 1)
+	end
+end
+
 -- Todo: Expand on this
 function GM:PlayerSelectSpawn(ply)
-	return table.Random(ents.FindByClass("cc_spawnpoint")) or self.BaseClass.PlayerSelectSpawn(self, ply)
+	return self.BaseClass.PlayerSelectSpawn(self, ply)
 end
 
 function GM:GetPlayerLoadout(ply)

@@ -264,17 +264,3 @@ console.Parser("Duration", function(ply, args, last, options)
 
 	return true, duration
 end)
-
-local function folder(dir)
-	file.Iterate(dir, nil, "LUA", function(path)
-		GM:Include(path)
-	end)
-end
-
-hook.Add("LoadContent", "plugins.console", function()
-	folder(ContentFolder .. "commands/")
-
-	for _, plugin in ipairs(PluginFolders) do
-		folder(plugin .. "commands/")
-	end
-end)

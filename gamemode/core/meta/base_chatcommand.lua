@@ -1,4 +1,4 @@
-local CLASS = Chat.Class
+local CLASS = {}
 
 CLASS.Name = "Unnamed Command"
 CLASS.Description = "No description set."
@@ -72,3 +72,5 @@ if SERVER then
 		netstream.Send(self:GetTargets(ply, data), "SendChat", data)
 	end
 end
+
+inherit.Register("chat", "base", CLASS)

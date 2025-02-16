@@ -1,21 +1,21 @@
-local CLASS = Hud.Class
+local HUD = {}
 
-CLASS.Name = "Unnamed Hud Element"
+HUD.Name = "Unnamed Hud Element"
 
-CLASS.Default = false -- Whether the element is added to the hud by default
-CLASS.Setting = false -- If set, will add a setting to enable-disable the hud element based on the value of CLASS.Default
+HUD.Default = false -- Whether the element is added to the hud by default
+HUD.Setting = false -- If set, will add a setting to enable-disable the hud element based on the value of CLASS.Default
 
-CLASS.ExtraSettings = {}
+HUD.ExtraSettings = {}
 
-CLASS.AlwaysDraw = false -- Whether the element draws when the hud is disabled
+HUD.AlwaysDraw = false -- Whether the element draws when the hud is disabled
 
-CLASS.DrawOrder = 0
+HUD.DrawOrder = 0
 
-function CLASS:IsValid()
+function HUD:IsValid()
 	return Hud.Lookup[self.ClassName] == self
 end
 
-function CLASS:ShouldAddElement()
+function HUD:ShouldAddElement()
 	if self.Setting then
 		return Settings.Get("Hud" .. self.Setting)
 	end
@@ -23,26 +23,26 @@ function CLASS:ShouldAddElement()
 	return self.Default
 end
 
-function CLASS:Initialize()
+function HUD:Initialize()
 end
 
-function CLASS:Think()
+function HUD:Think()
 end
 
-function CLASS:OnRemove()
+function HUD:OnRemove()
 end
 
-function CLASS:GetCache(key, fallback)
+function HUD:GetCache(key, fallback)
 	local val = Hud.Cache[key]
 
 	return val != nil and val or fallback
 end
 
-function CLASS:SetCache(key, val)
+function HUD:SetCache(key, val)
 	Hud.Cache[key] = val
 end
 
-function CLASS:ShouldDraw()
+function HUD:ShouldDraw()
 	if self.AlwaysDraw then
 		return true
 	end
@@ -50,7 +50,7 @@ function CLASS:ShouldDraw()
 	return Settings.Get("Hud")
 end
 
-function CLASS:DrawAlignedRect(x, y, w, h, color, xAlign, yAlign)
+function HUD:DrawAlignedRect(x, y, w, h, color, xAlign, yAlign)
 	if xAlign == TEXT_ALIGN_CENTER then
 		x = x - w * 0.5
 	elseif xAlign == TEXT_ALIGN_RIGHT then
@@ -70,8 +70,10 @@ function CLASS:DrawAlignedRect(x, y, w, h, color, xAlign, yAlign)
 	surface.DrawRect(x, y, w, h)
 end
 
-function CLASS:Paint(w, h)
+function HUD:Paint(w, h)
 end
 
-function CLASS:PaintBackground(w, h)
+function HUD:PaintBackground(w, h)
 end
+
+inherit.Register("hud", "base", HUD)

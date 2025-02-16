@@ -28,14 +28,6 @@ function RegisterFolder(dir)
 	end)
 end
 
-hook.Add("LoadContent", "plugins.buff", function()
-	RegisterFolder(ContentFolder .. "buffs/")
-
-	for _, plugin in ipairs(PluginFolders) do
-		RegisterFolder(plugin .. "buffs/")
-	end
-end)
-
 hook.Add("Move", "plugins.buff", function(ply, mv) PlayerHook(ply, "Move", mv) end)
 
 if SERVER then

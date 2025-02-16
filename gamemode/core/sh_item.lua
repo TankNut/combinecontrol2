@@ -22,8 +22,6 @@ local PLAYER = FindMetaTable("Player")
 local logger = log.Create("items")
 
 function Register(name, item)
-	item.ClassName = name
-	item.ThisClass = "item_" .. name
 	item.Name = item.Name or name
 
 	logger:Info("Registered: %s%s", name, item.Base and " : " .. item.Base or "")
@@ -31,27 +29,10 @@ function Register(name, item)
 	-- Done to prevent the var from getting inherited
 	local internal = item.Internal; item.Internal = nil
 
-	if name != "base" then
-		setmetatable(item, {
-			__index = baseclass.Get(item.Base and "item_" .. item.Base or "item_base")
-		})
-	end
-
-	baseclass.Set(item.ThisClass, item)
-
-	local registered = baseclass.Get(item.ThisClass)
-
-	-- baseclass.Set being stupid
-	for k, v in pairs(registered) do
-		if istable(v) then
-			registered[k] = item[k]
-		end
-	end
-
-	List[name] = registered
+	List[name] = inherit.Register("item", name, item, item.Base or "base")
 
 	if not internal then
-		Spawnable[name] = registered
+		Spawnable[name] = List[name]
 	end
 end
 
@@ -71,14 +52,6 @@ function RegisterFolder(dir)
 
 		ITEM = nil
 	end)
-end
-
-function Load()
-	RegisterFolder(ContentFolder .. "items/")
-
-	for _, plugin in ipairs(PluginFolders) do
-		RegisterFolder(plugin .. "items/")
-	end
 end
 
 function OnReloaded()

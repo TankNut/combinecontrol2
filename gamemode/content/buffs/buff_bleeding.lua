@@ -1,4 +1,4 @@
-DEFINE_BASECLASS("buff_base")
+local BaseClass = inherit.Get("buff", "base")
 
 BUFF.RemoveOnDeath = true
 

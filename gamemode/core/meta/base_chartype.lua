@@ -1,4 +1,4 @@
-local CLASS = CharCreate.Class
+local CLASS = {}
 
 CLASS.SortOrder = 0
 
@@ -35,3 +35,5 @@ else
 	function CLASS:PostCreateCharacter(ply, options)
 	end
 end
+
+inherit.Register("chartype", "base", CLASS)

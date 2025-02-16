@@ -51,7 +51,7 @@ local idleSounds = {
 	"question30",
 }
 
-hook.Add("StartCommand", "plugins.bot", function(bot, cmd)
+hook.Add("StartCommand", "bot", function(bot, cmd)
 	if not bot:IsBot() then
 		return
 	end

@@ -1,4 +1,4 @@
-DEFINE_BASECLASS("item_base")
+local BaseClass = inherit.Get("item", "base")
 
 ITEM.Internal = true
 

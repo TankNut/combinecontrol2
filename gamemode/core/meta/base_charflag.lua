@@ -1,3 +1,5 @@
+local FLAG = {}
+
 FLAG.Name = "Unnamed Character Flag"
 FLAG.Team = TEAM_UNASSIGNED
 
@@ -52,3 +54,5 @@ function FLAG:GetModelData(ply)
 		}
 	}
 end
+
+inherit.Register("charflag", "base", FLAG)

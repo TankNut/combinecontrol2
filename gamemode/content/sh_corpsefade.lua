@@ -15,11 +15,11 @@ local function fade(ent)
 end
 
 if CLIENT then
-	hook.Add("CreateClientsideRagdoll", "plugins.corpsefade", function(ent, ragdoll)
+	hook.Add("CreateClientsideRagdoll", "corpsefade", function(ent, ragdoll)
 		fade(ragdoll)
 	end)
 else
-	hook.Add("CreateEntityRagdoll", "plugins.corpsefade", function(ent, ragdoll)
+	hook.Add("CreateEntityRagdoll", "corpsefade", function(ent, ragdoll)
 		fade(ragdoll)
 	end)
 end

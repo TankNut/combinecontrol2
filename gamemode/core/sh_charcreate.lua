@@ -1,16 +1,12 @@
 module("CharCreate", package.seeall)
 
 List = List or {}
-
-Class = Class or {}
-Class.__index = Class
-
 Names = Names or {}
 
 local PLAYER = FindMetaTable("Player")
 
-function Register(data)
-	List[data.ID] = setmetatable(data, Class)
+function Register(name, data)
+	List[name] = inherit.Register("chartype", name, data, data.Base or "base")
 end
 
 function RegisterFolder(dir)
@@ -21,24 +17,14 @@ function RegisterFolder(dir)
 			name = string.FileName(folder)
 		end
 
-		_G.CLASS = {
-			ID = name
-		}
+		_G.CLASS = {}
 
 		GM:IncludeShared(path)
 
-		Register(CLASS)
+		Register(string.gsub(name, "^chartype_", ""), CLASS)
 
 		CLASS = nil
 	end)
-end
-
-function Load()
-	RegisterFolder(ContentFolder .. "charcreate/")
-
-	for _, plugin in ipairs(PluginFolders) do
-		RegisterFolder(plugin .. "charcreate/")
-	end
 end
 
 function Get(id)
