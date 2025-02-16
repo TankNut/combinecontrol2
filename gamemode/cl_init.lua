@@ -14,6 +14,7 @@ include("core/enums.lua")
 include("core/sh_config.lua")
 include("config/cl_motd.lua")
 include("config/sh_config.lua")
+include("cl_skin.lua")
 
 include("sh_utils.lua")
 

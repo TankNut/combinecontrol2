@@ -49,6 +49,8 @@ AddCSLuaFile("core/enums.lua")
 AddCSLuaFile("core/sh_config.lua")
 AddCSLuaFile("config/cl_motd.lua")
 AddCSLuaFile("config/sh_config.lua")
+AddCSLuaFile("cl_skin.lua")
+
 AddCSLuaFile("shared.lua")
 
 AddCSLuaFile("sh_includes.lua")
