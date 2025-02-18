@@ -168,3 +168,4 @@ hook.Add("StartCommand", "bot", function(bot, cmd)
 	cmd:SetViewAngles(eyeang)
 	bot:SetEyeAngles(eyeang)
 end)
+
