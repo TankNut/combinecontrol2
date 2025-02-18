@@ -49,6 +49,10 @@ function Add(name, data)
 	end
 
 	local set = function(ply, value, loading)
+		if not IsValid(ply) then
+			return
+		end
+
 		local old = get(ply)
 		cache[ply] = value
 		local new = get(ply)

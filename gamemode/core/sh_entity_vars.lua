@@ -46,6 +46,10 @@ function Add(name, data, metatable)
 	end
 
 	local set = function(ent, value, loading)
+		if not IsValid(ent) then
+			return
+		end
+
 		local old = get(ent)
 		cache[ent] = value
 		local new = get(ent)
