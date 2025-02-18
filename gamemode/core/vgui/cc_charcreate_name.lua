@@ -40,7 +40,7 @@ function PANEL:Setup(names, val)
 				for k, name in ipairs(exploded) do
 					if k == #exploded then
 						node._panel:AddOption(name, function()
-							self.Entry:SetValue(CharCreate.GetRandomName(index))
+							self.Entry:SetValue(CharacterCreate.GetRandomName(index))
 						end).OnMouseReleased = func
 
 						continue

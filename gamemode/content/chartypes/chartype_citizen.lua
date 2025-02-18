@@ -1,24 +1,7 @@
 CLASS.Name = "Citizen"
 CLASS.SortOrder = 1
 
-CLASS.Models = {
-	Model("models/tnb/heads/trp/male_01.mdl"),
-	Model("models/tnb/heads/trp/male_02.mdl"),
-	Model("models/tnb/heads/trp/male_03.mdl"),
-	Model("models/tnb/heads/trp/male_04.mdl"),
-	Model("models/tnb/heads/trp/male_05.mdl"),
-	Model("models/tnb/heads/trp/male_06.mdl"),
-	Model("models/tnb/heads/trp/male_07.mdl"),
-	Model("models/tnb/heads/trp/male_08.mdl"),
-	Model("models/tnb/heads/trp/male_09.mdl"),
-	Model("models/tnb/heads/trp/female_01.mdl"),
-	Model("models/tnb/heads/trp/female_02.mdl"),
-	Model("models/tnb/heads/trp/female_03.mdl"),
-	Model("models/tnb/heads/trp/female_04.mdl"),
-	Model("models/tnb/heads/trp/female_05.mdl"),
-	Model("models/tnb/heads/trp/female_38.mdl"),
-	Model("models/tnb/heads/trp/female_53.mdl")
-}
+CLASS.Models = Config.Get("BaseModels")
 
 CLASS.OptionalLanguages = {
 	"rus"

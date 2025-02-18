@@ -17,7 +17,7 @@ end
 
 function PANEL:Populate()
 	for _, id in ipairs(lp:GetCharacterTypes()) do
-		local charType = CharCreate.Get(id)
+		local charType = CharacterCreate.Get(id)
 		local button = self:Add("DButton")
 
 		button:DockMargin(0, 0, 0, 5)
@@ -52,7 +52,7 @@ derma.DefineControl("GUI_CharacterType", "", PANEL, "CC_Frame")
 
 GUI.Register("CharacterType", function()
 	if #lp:GetCharacterTypes() == 1 then
-		local charType = CharCreate.Get(lp:GetCharacterTypes()[1])
+		local charType = CharacterCreate.Get(lp:GetCharacterTypes()[1])
 
 		GUI.Open("CharacterCreate", charType)
 

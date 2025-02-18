@@ -1,4 +1,4 @@
-module("CharCreate", package.seeall)
+module("CharacterCreate", package.seeall)
 
 List = List or {}
 Names = Names or {}
@@ -59,6 +59,10 @@ function GetRandomName(index)
 	end
 
 	return table.concat(name, " ")
+end
+
+function AddGenerator(id, data)
+	Generators[id] = data
 end
 
 if SERVER then
