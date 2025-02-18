@@ -16,6 +16,7 @@ Language.Load()
 
 CharacterCreate.RegisterFolder(ContentFolder .. "chartypes/")
 CharacterFlag.RegisterFolder(ContentFolder .. "flags/")
+CharacterGen.RegisterFolder(ContentFolder .. "chargens/")
 Chat.RegisterFolder(ContentFolder .. "chat/")
 Item.RegisterFolder(ContentFolder .. "items/")
 Hud.RegisterFolder(ContentFolder .. "hud/")

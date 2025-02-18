@@ -1,5 +1,7 @@
 module("Character", package.seeall)
 
+TempData = TempData or {}
+
 local PLAYER = FindMetaTable("Player")
 
 function PLAYER:LoadCharacterList()
@@ -15,6 +17,12 @@ function PLAYER:LoadCharacterList()
 
 	for _, row in pairs(data) do
 		characters[row.id] = row.NameOverride or row.Name or "Unknown"
+	end
+
+	for id, temp in ipairs(TempData) do
+		if temp.SteamID == self:SteamID() then
+			characters[-id] = temp.Fields.CharacterNameOverride or temp.Fields.CharacterName or "Unknown"
+		end
 	end
 
 	self:SetCharacterList(characters, true)
@@ -46,6 +54,45 @@ function PLAYER:CreateCharacter(fields)
 	self:LoadCharacter(id)
 
 	return id
+end
+
+function PLAYER:CreateTempCharacter(fields)
+	local id = -table.insert(TempData, {
+		SteamID = self:SteamID(),
+		Fields = fields
+	})
+
+	local characters = self:CharacterList()
+	characters[id] = fields.CharacterNameOverride or fields.CharacterName or "Unknown"
+
+	self:SetCharacterList(characters)
+	self:LoadTempCharacter(id)
+
+	return id
+end
+
+function PLAYER:LoadTempCharacter(id)
+	local data = TempData[-id].Fields
+
+	self:SetCharID(id)
+
+	for _, var in pairs(CharacterVar.Vars) do
+		local val = data[var.Name]
+
+		if not val then
+			self["Set" .. var.Name](self, nil, true)
+
+			continue
+		end
+
+		self["Set" .. var.Name](self, val, true)
+	end
+
+	Inventory.LoadTemp(self)
+
+	netstream.Send(self, "PostLoadCharacter")
+
+	hook.Run("PostLoadCharacter", self)
 end
 
 function PLAYER:LoadCharacter(id)
@@ -100,7 +147,11 @@ netstream.Hook("DeleteCharacter", function(ply, id)
 end)
 
 function PLAYER:DeleteCharacter(id)
-	Delete(id)
+	if id < 0 then
+		DeleteTemp(id)
+	else
+		Delete(id)
+	end
 
 	local characters = self:CharacterList()
 	characters[id] = nil
@@ -110,6 +161,17 @@ function PLAYER:DeleteCharacter(id)
 	if self:CharID() == id then
 		self:UnloadCharacter()
 	end
+end
+
+function DeleteTemp(id)
+	local data = TempData[-id]
+
+	if data.Inventory then
+		Inventory.Get(data.Inventory):Remove()
+		Inventory.Get(data.Stash):Remove()
+	end
+
+	TempData[-id] = nil
 end
 
 function Delete(id)
@@ -124,7 +186,11 @@ netstream.Hook("SelectCharacter", function(ply, id)
 		return
 	end
 
-	ply:LoadCharacter(id)
+	if id < 0 then
+		ply:LoadTempCharacter(id)
+	else
+		ply:LoadCharacter(id)
+	end
 end)
 
 netstream.Hook("ChangeCharacterName", function(ply, new)

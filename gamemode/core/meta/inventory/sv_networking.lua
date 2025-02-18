@@ -10,7 +10,11 @@ function INVENTORY:GetReceivers()
 	table.Merge(receivers, self.Listeners)
 
 	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH then
-		receivers[self:GetPlayer()] = true
+		local ply = self:GetPlayer()
+
+		if IsValid(ply) and ply:CharID() == self.StoreID then
+			receivers[self:GetPlayer()] = true
+		end
 	elseif self.StoreType == INV_ITEM then
 		local inventory = self:GetItem():GetInventory()
 

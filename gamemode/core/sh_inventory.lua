@@ -46,7 +46,14 @@ function Clear(ply, removed)
 		for _, id in ipairs({ply:InventoryID(), ply:StashID()}) do
 			local inventory = Get(id)
 
-			if inventory then
+			if not inventory then
+				continue
+			end
+
+			if inventory:IsTempInventory() then
+				-- Stop sending to the player
+				inventory:UpdateReceivers()
+			else
 				inventory:Remove()
 			end
 		end
@@ -63,6 +70,27 @@ if SERVER then
 
 		ply:SetInventoryID(Create(nil, INV_PLAYER, ply:CharID(), ply:EntIndex()).ID)
 		ply:SetStashID(Create(nil, INV_STASH, ply:CharID(), ply:EntIndex()).ID)
+	end
+
+	function LoadTemp(ply)
+		Clear(ply)
+
+		local data = Character.TempData[-ply:CharID()]
+		local inv, stash
+
+		if data.Inventory then
+			inv = data.Inventory; Get(inv):UpdateReceivers()
+			stash = data.Stash; Get(stash):UpdateReceivers()
+		else
+			inv = Create(nil, INV_PLAYER, ply:CharID(), ply:EntIndex()).ID
+			stash = Create(nil, INV_STASH, ply:CharID(), ply:EntIndex()).ID
+		end
+
+		data.Inventory = inv
+		data.Stash = stash
+
+		ply:SetInventoryID(inv)
+		ply:SetStashID(stash)
 	end
 end
 

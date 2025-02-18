@@ -19,7 +19,18 @@ end
 function PANEL:Populate()
 	self.Buttons = {}
 
-	for id, name in SortedPairs(lp:CharacterList()) do
+	local characters = {}
+	local temp = {}
+
+	for id, name in pairs(lp:CharacterList()) do
+		if id < 0 then
+			temp[id] = name
+		else
+			characters[id] = name
+		end
+	end
+
+	for id, name in SortedPairs(characters) do
 		local button = self:Add("DButton")
 
 		button:DockMargin(0, 0, 0, 5)
@@ -55,6 +66,32 @@ function PANEL:Populate()
 		button:Dock(TOP)
 		button:SetText("Empty slot")
 		button:SetDisabled(true)
+	end
+
+	for id, name in SortedPairs(temp) do
+		local button = self:Add("DButton")
+
+		button:DockMargin(0, 0, 0, 5)
+		button:Dock(TOP)
+		button:SetText(name)
+
+		button.DoClick = function(pnl)
+			if self.DeleteMode then
+				netstream.Send("DeleteCharacter", id)
+			else
+				netstream.Send("SelectCharacter", id)
+
+				button:SetDisabled(true)
+			end
+		end
+
+		if id == lp:CharID() then
+			button:SetDisabled(true)
+		end
+
+		button.ID = id
+
+		table.insert(self.Buttons, button)
 	end
 
 	self.CreateNew = self:Add("DButton")

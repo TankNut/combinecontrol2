@@ -140,23 +140,27 @@ else
 	end
 
 	function Save(id, var, value)
-		if id <= 0 then
+		if id == 0 then
 			return
 		end
 
-		async.Start(function()
-			local query = GAMEMODE.Database:Update("rp_characters")
+		if id < 0 then
+			Character.TempData[-id].Fields[var.Name] = value
+		else
+			async.Start(function()
+				local query = GAMEMODE.Database:Update("rp_characters")
 
-			if value == nil then
-				query:UpdateRaw(var.Field, "NULL")
-			else
-				value = var.DataType == "BLOB" and sfs.encode(value) or value
+				if value == nil then
+					query:UpdateRaw(var.Field, "NULL")
+				else
+					value = var.DataType == "BLOB" and sfs.encode(value) or value
 
-				query:Update(var.Field, value)
-			end
+					query:Update(var.Field, value)
+				end
 
-			query:WhereEqual("id", id)
-			query:Execute()
-		end)
+				query:WhereEqual("id", id)
+				query:Execute()
+			end)
+		end
 	end
 end

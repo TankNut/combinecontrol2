@@ -39,6 +39,10 @@ if CLIENT then
 	end
 else
 	function INVENTORY:LoadItems()
+		if self:IsTempInventory() then
+			return
+		end
+
 		local query = GAMEMODE.Database:Select("rp_items")
 		query:WhereEqual("StoreType", self.StoreType)
 		query:WhereEqual("StoreID", self.StoreID)

@@ -169,3 +169,14 @@ hook.Add("StartCommand", "bot", function(bot, cmd)
 	bot:SetEyeAngles(eyeang)
 end)
 
+hook.Add("PlayerSpawn", "bot", function(_, ply)
+	if ply:IsBot() and not ply:HasCharacter() then
+		CharacterGen.Run(ply, Config.Get("BotGenerator"), true)
+	end
+end, POST_HOOK)
+
+hook.Add("PlayerDisconnected", "bot", function(ply)
+	if ply:IsBot() and ply:IsTemporaryCharacter() then
+		Character.DeleteTemp(ply:CharID())
+	end
+end)

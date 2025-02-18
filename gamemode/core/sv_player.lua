@@ -42,15 +42,9 @@ function GM:PlayerInitialSpawn(ply)
 	ply:SetCanZoom(false)
 	ply:Freeze(true)
 
-	ply.AFKTime = CurTime()
-
-	if ply:IsBot() then
-		async.Start(PLAYER.LoadCharacter, ply, 2)
-
-		return
-	end
-
 	ply:SetHolstered(true)
+
+	ply.AFKTime = CurTime()
 end
 
 function GM:PlayerSpawn(ply)

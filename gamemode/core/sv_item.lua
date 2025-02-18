@@ -52,6 +52,8 @@ function LoadWorld()
 end
 
 function PLAYER:GiveItem(class, data)
+	assert(not self:IsTempCharacter(), "Attempt to give a normal item to a temp character")
+
 	local item = Create(class, data)
 
 	item:SetInventory(self:GetInventory())
