@@ -342,23 +342,6 @@ net.Receive("nSetTyping", function(len, ply)
 	ply:SetTyping(val)
 end)
 
-function GM:PlayerButtonDown(ply, button)
-	ply.AFKTime = CurTime()
-
-	self.BaseClass:PlayerButtonDown(ply, button)
-end
-
-hook.Add("CC.SV.PlayerThink", "SV.Player.AFKThink", function(plys)
-	for i = 1, #plys do
-		local ply = plys[i]
-
-		if Config.Get("AFKKickerEnabled") and CurTime() - (ply.AFKTime or 0) > Config.Get("AFKTime") and (#player.GetAll() / game.MaxPlayers()) > Config.Get("AFKPercentage") and not ply:IsAdmin() then
-
-			ply:Kick("Auto-kicked for being AFK")
-		end
-	end
-end)
-
 local function RollDice(ply, cmd, args)
 	local errmessage = "rp_roll NdX+m -- N = # of dice, X = # of sides on dice, m = optional modifier\ne.g. rp_roll 2d20-4 will roll two d20's with a -4 modifier.\n"
 	local num, sides, sign, mod

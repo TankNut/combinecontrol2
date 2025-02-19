@@ -57,11 +57,6 @@ GM.Config.ShortDescLength = 64
 
 GM.Config.BotGenerator = "citizen"
 
--- AFK autokicker
-GM.Config.AFKKickerEnabled = true
-GM.Config.AFKPercentage = 0.90
-GM.Config.AFKTime = 600
-
 -- Admin stuff
 GM.Config.DefaultLogLines = 200
 GM.Config.MaxLogLines = 500
