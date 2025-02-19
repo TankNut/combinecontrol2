@@ -62,6 +62,7 @@ GM:Include("sh_character_vars.lua")
 GM:Include("sh_global_vars.lua")
 GM:Include("sh_entity_vars.lua")
 GM:Include("sh_settings.lua")
+GM:Include("sh_entity_cache.lua")
 
 GM:Include("cl_scribe.lua")
 GM:Include("cl_vgui.lua")
