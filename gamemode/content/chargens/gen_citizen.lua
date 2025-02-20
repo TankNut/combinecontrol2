@@ -19,7 +19,8 @@ function GENERATOR:GetFields(ply)
 	return {
 		CharacterName = name,
 		CharacterDescription = desc,
-		CharacterModel = mdl
+		CharacterModel = mdl,
+		Languages = Language.GetDefaultLanguages()
 	}
 end
 
