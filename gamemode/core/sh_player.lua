@@ -7,6 +7,33 @@ PlayerVar.Add("DonatorActive", {Default = false})
 
 PlayerVar.Add("OOCMuted", {Default = 0, Persist = true, DataType = TINYINT()})
 
+-- Todo: Implement weapon zoom as a multiplier
+function PLAYER:GetSightRange()
+	return Config.Get("PlayerSight")
+end
+
+function PLAYER:CanSee(target, checkSight)
+	local startPos = self:EyePos()
+	local pos = target
+
+	if isentity(target) then
+		pos = target:IsPlayer() and target:EyePos() or target:WorldSpaceCenter()
+	end
+
+	if checkSight and startPos:Distance(pos) > self:GetSightRange() then
+		return false
+	end
+
+	local tr = util.TraceLine({
+		start = self:EyePos(),
+		endpos = pos,
+		filter = self,
+		mask = MASK_SOLID
+	})
+
+	return tr.Fraction == 1 or tr.Entity == target
+end
+
 function PLAYER:CanAct()
 	return hook.Run("CanAct", self)
 end
@@ -25,11 +52,6 @@ end
 
 function PLAYER:CanMove()
 	return hook.Run("CanMove", self)
-end
-
--- Todo: Implement weapon zoom as a multiplier
-function PLAYER:GetSightRange()
-	return Config.Get("PlayerSight")
 end
 
 function GM:CanMove(ply)

@@ -136,21 +136,6 @@ function GM:FormatLine(str, font, maxWidth)
 	return table.concat(t, "\n"), #t
 end
 
-function GM:CanSeePos(pos1, pos2, filter)
-	local trace = {
-		start = pos1,
-		endpos = pos2,
-		filter = filter,
-		mask = MASK_SOLID + CONTENTS_WINDOW + CONTENTS_GRATE
-	}
-	local tr = util.TraceLine(trace)
-	return tr.Fraction == 1, tr.Fraction
-end
-
-function PLAYER:CanSee(ent)
-	return GAMEMODE:CanSeePos(self:EyePos(), ent:EyePos(), {self, ent})
-end
-
 function ENTITY:IsDoor()
 	if self:GetClass() == "prop_door_rotating" then return true end
 	if self:GetClass() == "func_door_rotating" then return true end
