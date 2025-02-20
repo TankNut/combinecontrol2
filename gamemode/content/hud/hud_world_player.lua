@@ -13,18 +13,16 @@ HUD.ExtraSettings = {
 	}}
 }
 
-HUD.DrawOrder = 0
-
 function HUD:Initialize()
 	self.Cache = {}
 end
 
-function HUD:IsVisible(ply)
-	local ent = ply
+function HUD:GetEntity(ply)
+	return ply:IsRagdolled() and ply:GetRagdoll() or ply
+end
 
-	if ply:IsRagdolled() then
-		ent = ply:GetRagdoll()
-	end
+function HUD:IsVisible(ply)
+	local ent = self:GetEntity(ply)
 
 	if self:GetExtraSetting("Legacy") then
 		return lp:CanSee(ent, true)
@@ -98,12 +96,7 @@ function HUD:PaintBackground(w, h)
 			continue
 		end
 
-		local ent = ply
-
-		if ply:IsRagdolled() then
-			ent = ply:GetRagdoll()
-		end
-
+		local ent = self:GetEntity(ply)
 		local pos = (ent:EyePos() + Vector(0, 0, 10)):ToScreen()
 
 		if not pos.visible then
