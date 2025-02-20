@@ -70,7 +70,6 @@ end
 function GM:FinishMove(ply, mv)
 	if ply:IsRagdolled() then
 		ply:SetNetworkOrigin(ply:GetRagdoll():GetNetworkOrigin())
-		ply:SetEyeAngles(mv:GetAngles())
 
 		return true
 	end

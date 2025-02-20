@@ -14,8 +14,6 @@ end)
 hook.Add("PlayerSpawn", "bot", function(_, ply)
 	if ply:IsBot() and not ply:HasCharacter() then
 		CharacterGen.Run(ply, Config.Get("BotGenerator"), true)
-
-		ply:SetEyeAngles(Angle(0, math.random(360), 0))
 	end
 end, POST_HOOK)
 
