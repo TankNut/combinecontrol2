@@ -4,6 +4,14 @@ ITEM.Actions.Equip = {
 	CanRun = function(self, ply)
 		return hook.Run("CanEquipItem", ply, self) and #self:GetEquipmentSlots() == 1
 	end,
+	Progress = function(self, ply)
+		return {
+			Name = string.format("Equipping %s...", self:GetName()),
+			EndTime = CurTime() + self:GetEquipTime(),
+			Validate = {progress.Player(ply, {Alive = true})},
+			Callback = CLIENT and stub or nil
+		}
+	end,
 	Callback = function(self, ply)
 		self:SetEquipmentSlot(self:GetEquipmentSlots()[1])
 	end
@@ -27,6 +35,14 @@ ITEM.Actions.EquipSlot = {
 
 		return options
 	end,
+	Progress = function(self, ply)
+		return {
+			Name = string.format("Equipping %s...", self:GetName()),
+			EndTime = CurTime() + self:GetEquipTime(),
+			Validate = {progress.Player(ply, {Alive = true})},
+			Callback = CLIENT and stub or nil
+		}
+	end,
 	Validate = function(self, ply, slot)
 		if not slot then
 			return false, "You need to specify an equipment slot!"
@@ -44,6 +60,14 @@ ITEM.Actions.Unequip = {
 
 	CanRun = function(self, ply)
 		return hook.Run("CanUnequipItem", ply, self)
+	end,
+	Progress = function(self, ply)
+		return {
+			Name = string.format("Unequipping %s...", self:GetName()),
+			EndTime = CurTime() + self:GetUnequipTime(),
+			Validate = {progress.Player(ply, {Alive = true})},
+			Callback = CLIENT and stub or nil
+		}
 	end,
 	Callback = function(self, ply)
 		self:SetEquipmentSlot(nil)

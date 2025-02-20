@@ -82,3 +82,11 @@ else
 		return self:GetData("Buffs", self.Buffs)
 	end
 end
+
+function ITEM:GetEquipTime()
+	return self:GetData("EquipTime", self.EquipTime)
+end
+
+function ITEM:GetUnequipTime()
+	return self:GetData("UnequipTime", self.UnequipTime)
+end

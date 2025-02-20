@@ -111,29 +111,67 @@ function ITEM:RunAction(ply, name, ...)
 	local action = self:GetActions()[name]
 
 	if not action then
-		feedback("No action with id '%s' exists!", name) return
+		feedback("No action with id '%s' exists!", name)
+
+		return
 	end
 
-	if action.CanRun then
-		local ok, err = action.CanRun(self, ply)
+	local args = {...}
 
-		if not ok then
-			feedback(err) return
+	local function check()
+		if action.CanRun then
+			local ok, err = action.CanRun(self, ply)
+
+			if not ok then
+				feedback(err)
+
+				return true
+			end
+		end
+
+		-- We only validate on the client if we're never running server code (ClientOnly), or we're not bothering with action.Client (which might pass different values along)
+		local shouldValidate = CLIENT and (action.ClientOnly or not action.Client) or SERVER
+
+		if action.Validate and shouldValidate then
+			local ok, err = action.Validate(self, ply, unpack(args))
+
+			if not ok then
+				feedback(err)
+
+				return true
+			end
 		end
 	end
 
-	-- We only validate on the client if we're never running server code, or there aren't any chances to modify the networked args
-	local shouldValidate = CLIENT and (action.ClientOnly or not action.Client) or SERVER
-
-	if action.Validate and shouldValidate then
-		local ok, err = action.Validate(self, ply, ...)
-
-		if not ok then
-			feedback(err) return
-		end
+	if check() then
+		return
 	end
 
-	async.Start(CLIENT and self.HandleClientAction or self.HandleServerAction, self, ply, name, action, ...)
+	async.Start(function()
+		if action.Progress then
+			local data = action.Progress(self, ply, unpack(args))
+
+			if data then
+				data.Validate = data.Validate or {}
+
+				table.insert(data.Validate, check)
+
+				local val = progress.Start(ply, data)
+
+				print(val, check())
+
+				if val and val != 1 then
+					return
+				end
+			end
+		end
+
+		if CLIENT then
+			self:HandleClientAction(ply, name, action, unpack(args))
+		else
+			self:HandleServerAction(ply, name, action, unpack(args))
+		end
+	end)
 end
 
 if CLIENT then
@@ -186,7 +224,11 @@ else
 
 		local action = item:GetActions()[name]
 
-		if action and action.ServerOnly then
+		if not action then
+			return
+		end
+
+		if action.ServerOnly then
 			ply:SendChat("ERROR", "You cannot run this command from your client!")
 
 			return

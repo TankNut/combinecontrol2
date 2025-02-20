@@ -28,6 +28,9 @@ ITEM.WeightMultiplier = 0.2
 -- Equipment data
 ITEM.EquipmentSlots = {}
 
+ITEM.EquipTime = 2
+ITEM.UnequipTime = 2
+
 ITEM.Armor = 0
 ITEM.Buffs = {}
 
