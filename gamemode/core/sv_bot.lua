@@ -1,12 +1,5 @@
 hook.Add("StartCommand", "bot", function(bot, cmd)
-	if not bot:IsBot() then
-		return
-	end
-
-	cmd:ClearButtons()
-	cmd:ClearMovement()
-
-	if not bot:Alive() then
+	if bot:IsBot() and bot:Alive() then
 		cmd:SetButtons(IN_JUMP)
 	end
 end)
