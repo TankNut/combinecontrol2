@@ -57,7 +57,7 @@ function IsOpen()
 end
 
 function Bind(bind, down)
-	if not down then
+	if not down or lp:KeyDown(IN_ATTACK) or lp:KeyDown(IN_ATTACK2) then
 		return
 	end
 
