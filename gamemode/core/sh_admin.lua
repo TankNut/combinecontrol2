@@ -53,7 +53,15 @@ PLAYER.GetUserGroup = PLAYER.UserGroup
 function GM:PlayerNoClip(ply, state)
 	if not ply:IsAdmin() then
 		if CLIENT and IsFirstTimePredicted() then
-			lp:SendChat("ERROR", "You need to be an admin to do this.")
+			lp:SendChat("ERROR", "You need to be an admin to do this!")
+		end
+
+		return false
+	end
+
+	if ply:IsRagdolled() then
+		if CLIENT and IsFirstTimePredicted() then
+			lp:SendChat("ERROR", "You cannot noclip while ragdolled!")
 		end
 
 		return false
