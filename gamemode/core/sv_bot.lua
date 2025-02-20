@@ -3,14 +3,6 @@ hook.Add("StartCommand", "bot", function(bot, cmd)
 		return
 	end
 
-	if not bot.AI then
-		bot.AI = {}
-	end
-
-	if not bot.AI.Next then
-		bot.AI.Next = CurTime()
-	end
-
 	cmd:ClearButtons()
 	cmd:ClearMovement()
 
