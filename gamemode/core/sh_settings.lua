@@ -1,7 +1,9 @@
 module("Settings", package.seeall)
 
 List = List or {}
-Categories = {}
+Categories = table.Map(Config.Get("SettingCategories"), function(name)
+	return {Name = name}
+end)
 
 if CLIENT then
 	Cache = Cache or {}

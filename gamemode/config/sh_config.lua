@@ -6,7 +6,13 @@ GM.Config.CommunityLinks = {
 	{"Community Forums", "https://taconbanana.com"}
 }
 
-GM.Config.MapOverrides  = {} -- Makes the script believe it's running on a different map, useful for maps with different versions but identical layouts
+GM.Config.MapOverrides = {} -- Makes the script believe it's running on a different map, useful for maps with different versions but identical layouts
+
+GM.Config.SettingCategories = {
+	"General",
+	"Hud",
+	"Admin"
+}
 
 -- Gameplay
 GM.Config.FistsHaveEffectOnPlayers = true
