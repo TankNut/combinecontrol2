@@ -174,7 +174,7 @@ function GM:HUDPaintBackground()
 end
 
 local disabled = table.Lookup({
-	"CHudWeaponSelection", "CHudAmmo", "CHudAmmoSecondary",
+	"CHudWeaponSelection", "CHudAmmo", "CHudSecondaryAmmo",
 	"CHudHealth", "CHudBattery", "CHudHistoryResource",
 	"CHUDAutoAim", "CHudChat"
 })
