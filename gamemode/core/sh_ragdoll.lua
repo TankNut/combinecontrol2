@@ -15,6 +15,7 @@ if SERVER then
 	function PLAYER:StartRagdoll()
 		self:SetNoTarget(true)
 		self:SetNotSolid(true)
+		self:SetNoDraw(true)
 
 		self:SetMoveType(MOVETYPE_NOCLIP)
 
@@ -59,6 +60,7 @@ if SERVER then
 
 		self:SetNotSolid(false)
 		self:SetNoTarget(false)
+		self:SetNoDraw(false)
 	end
 end
 

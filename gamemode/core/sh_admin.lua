@@ -71,9 +71,11 @@ function GM:PlayerNoClip(ply, state)
 		if state then
 			ply:SetNoTarget(true)
 			ply:SetNotSolid(true)
+			ply:SetNoDraw(true)
 		else
 			ply:SetNoTarget(false)
 			ply:SetNotSolid(false)
+			ply:SetNoDraw(false)
 		end
 	end
 
