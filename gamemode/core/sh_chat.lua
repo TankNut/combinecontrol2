@@ -13,7 +13,9 @@ local ENTITY = FindMetaTable("Entity")
 local PLAYER = FindMetaTable("Player")
 
 function Register(data)
-	List[data.Name] = inherit.Register("chat", data.Name, data, data.Base or "base")
+	data = inherit.Register("chat", data.Name, data, data.Base or "base")
+
+	List[data.Name] = data
 
 	if data.Commands then
 		for _, name in ipairs(data.Commands) do
