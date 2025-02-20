@@ -6,7 +6,7 @@ local func = function()
 
 	-- Scoreboard Recognition
 	str = str .. "\n\n<giant><b>Scoreboard Badges:</b></giant>"
-	str = str .. "\nPlayers who have either been banned from accessing the Garry's Mod sandbox or granted advanced access to additional tools are represented with a scoreboard badge that both yourself and all server administrators can see. Other players will not br provided access to see this information."
+	str = str .. "\nPlayers who have either been banned from accessing the Garry's Mod sandbox or granted advanced access to additional tools are represented with a scoreboard badge that both yourself and all server administrators can see. Other players will not be able to see your badge for either permission level."
 
 	-- Tooltrust Levels
 	local function addTooltrustLevel(tier, description)
