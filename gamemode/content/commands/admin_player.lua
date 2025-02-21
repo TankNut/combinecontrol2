@@ -8,6 +8,7 @@ local setPhysTrust = console.AddCommand("rpa_setphystrust", function (ply, targe
 	console.Feedback(target, "NOTICE", "%s has %s physics gun trust", ply, bool and "given you" or "taken your")
 end)
 
+setPhysTrust:SetCategory("Player Commands")
 setPhysTrust:SetDescription("Sets a player's physics gun access")
 setPhysTrust:SetExecutionContext(console.Server)
 setPhysTrust:SetAccess(console.IsAdmin)
@@ -30,6 +31,7 @@ local setPropTrust = console.AddCommand("rpa_setproptrust", function (ply, targe
 	console.Feedback(target, "NOTICE", "%s has %s prop spawning trust", ply, bool and "given you" or "taken your")
 end)
 
+setPropTrust:SetCategory("Player Commands")
 setPropTrust:SetDescription("Sets a player's prop spawning access")
 setPropTrust:SetExecutionContext(console.Server)
 setPropTrust:SetAccess(console.IsAdmin)
@@ -61,6 +63,7 @@ local setToolTrust = console.AddCommand("rpa_settooltrust", function (ply, targe
 	console.Feedback(target, "NOTICE", "%s has set your tool trust to %s", ply, trust)
 end)
 
+setToolTrust:SetCategory("Player Commands")
 setToolTrust:SetDescription("Sets a player's toolgun access")
 setToolTrust:SetExecutionContext(console.Server)
 setToolTrust:SetAccess(console.IsAdmin)
@@ -90,6 +93,7 @@ local oocMute = console.AddCommand("rpa_oocmute", function (ply, target, bool)
 	console.Feedback(target, "NOTICE", "%s has %s you from OOC chat", ply, new == 1 and "muted" or "unmuted")
 end)
 
+oocMute:SetCategory("Player Commands")
 oocMute:SetDescription("Mute or unmutes a player from OOC chat")
 oocMute:SetExecutionContext(console.Server)
 oocMute:SetAccess(console.IsAdmin)
@@ -127,6 +131,7 @@ local heal = console.AddCommand("rpa_heal", function(ply, targets)
 	end
 end)
 
+heal:SetCategory("Player Commands")
 heal:SetDescription("Heals one or more players to full health and armor")
 heal:SetExecutionContext(console.Server)
 heal:SetAccess(console.IsAdmin)
@@ -144,6 +149,7 @@ local setHealth = console.AddCommand("rpa_sethealth", function(ply, target, max)
 	console.Feedback(target, "NOTICE", "%s set your health to %d", ply, max)
 end)
 
+setHealth:SetCategory("Player Commands")
 setHealth:SetDescription("Manually sets a player's health bar")
 setHealth:SetExecutionContext(console.Server)
 setHealth:SetAccess(console.IsAdmin)
@@ -167,6 +173,7 @@ local kill = console.AddCommand("rpa_kill", function(ply, target)
 	GAMEMODE:WriteLog("admin_kill", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target)})
 end)
 
+kill:SetCategory("Player Commands")
 kill:SetDescription("Kills a player")
 kill:SetExecutionContext(console.Server)
 kill:SetAccess(console.IsAdmin)
@@ -185,6 +192,7 @@ local slap = console.AddCommand("rpa_slap", function(ply, target)
 	GAMEMODE:WriteLog("admin_slap", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target)})
 end)
 
+slap:SetCategory("Player Commands")
 slap:SetDescription("Slaps a player")
 slap:SetExecutionContext(console.Server)
 slap:SetAccess(console.IsAdmin)

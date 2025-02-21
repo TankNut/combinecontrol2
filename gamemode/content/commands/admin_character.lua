@@ -14,6 +14,7 @@ local setCharacterModel = console.AddCommand("rpa_setcharmodel", function (ply, 
 	console.Feedback(target, "NOTICE", "%s has set your character model to %s", ply, mdl)
 end)
 
+setCharacterModel:SetCategory("Character Commands")
 setCharacterModel:SetDescription("Updates a player's current character model")
 setCharacterModel:SetExecutionContext(console.Server)
 setCharacterModel:SetAccess(console.IsAdmin)
@@ -36,6 +37,7 @@ local setCharacterSkin = console.AddCommand("rpa_setcharskin", function (ply, ta
 	console.Feedback(target, "NOTICE", "%s has set your character skin to %d", ply, skin)
 end)
 
+setCharacterSkin:SetCategory("Character Commands")
 setCharacterSkin:SetDescription("Updates a player's current character skin")
 setCharacterSkin:SetExecutionContext(console.Server)
 setCharacterSkin:SetAccess(console.IsAdmin)
@@ -58,6 +60,7 @@ local setCharacterName = console.AddCommand("rpa_setcharname", function (ply, ta
 	console.Feedback(target, "NOTICE", "%s has set your character name to %s", ply, name)
 end)
 
+setCharacterName:SetCategory("Character Commands")
 setCharacterName:SetDescription("Updates a player's current character name")
 setCharacterName:SetExecutionContext(console.Server)
 setCharacterName:SetAccess(console.IsAdmin)
@@ -93,6 +96,7 @@ local setCharacterScale = console.AddCommand("rpa_setcharscale", function (ply, 
 	console.Feedback(target, "NOTICE", "%s has set your %s scale to %d", ply, persist and "character" or "", scale)
 end)
 
+setCharacterScale:SetCategory("Character Commands")
 setCharacterScale:SetDescription("Updates a player's current character scaling")
 setCharacterScale:SetExecutionContext(console.Server)
 setCharacterScale:SetAccess(console.IsAdmin)
@@ -127,6 +131,7 @@ local giveCharacterLanguage = console.AddCommand("rpa_givecharlang", function(pl
 	console.Feedback(target, "NOTICE", "%s has given you the ability to %s %s", ply, accessType, languageName)
 end)
 
+giveCharacterLanguage:SetCategory("Character Commands")
 giveCharacterLanguage:SetDescription("Gives a spoken or understood language to a player's character")
 giveCharacterLanguage:SetExecutionContext(console.Server)
 giveCharacterLanguage:SetAccess(console.IsAdmin)
@@ -159,6 +164,7 @@ local takeCharacterLanguage = console.AddCommand("rpa_takecharlang", function(pl
 	console.Feedback(target, "NOTICE", "%s has taken your the ability to %s %s", ply, accessType, languageName)
 end)
 
+takeCharacterLanguage:SetCategory("Character Commands")
 takeCharacterLanguage:SetDescription("Takes a spoken or understood language from a player's character")
 takeCharacterLanguage:SetExecutionContext(console.Server)
 takeCharacterLanguage:SetAccess(console.IsAdmin)
@@ -195,6 +201,7 @@ local hideCharacter = console.AddCommand("rpa_charhidden", function(ply, targets
 	console.Feedback(ply, "NOTICE", "You've updated scoreboard visibility for %s", targetCount == 1 and targets[1] or (targetCount .. " players"))
 end)
 
+hideCharacter:SetCategory("Character Commands")
 hideCharacter:SetDescription("Toggles a character's hidden status on the scoreboard")
 hideCharacter:SetExecutionContext(console.Server)
 hideCharacter:SetAccess(console.IsAdmin)
@@ -218,6 +225,7 @@ local setCharacterFlag = console.AddCommand("rpa_setcharflag", function(ply, tar
 	console.Feedback(target, "NOTICE", "%s has set your character flag to %s", ply, name)
 end)
 
+setCharacterFlag:SetCategory("Character Commands")
 setCharacterFlag:SetDescription("Updates a player's character flag")
 setCharacterFlag:SetExecutionContext(console.Server)
 setCharacterFlag:SetAccess(console.IsAdmin)

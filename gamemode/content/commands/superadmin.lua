@@ -14,6 +14,7 @@ local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, target
 	-- TODO: Log this, one of the logging system is setup.
 end)
 
+setUserGroup:SetCategory("Superadmin Commands")
 setUserGroup:SetDescription("Updates a player's assigned permission group")
 setUserGroup:SetExecutionContext(console.Server)
 setUserGroup:SetAccess(console.IsSuperAdmin)
@@ -41,6 +42,7 @@ local giveBadge = console.AddCommand("rpa_givebadge", function(ply, target, badg
 	console.Feedback(target, "NOTICE", "%s has given you the %s badge", ply, badge)
 end)
 
+giveBadge:SetCategory("Superadmin Commands")
 giveBadge:SetDescription("Assigns a scoreboard badge to a player")
 giveBadge:SetExecutionContext(console.Server)
 giveBadge:SetAccess(console.IsSuperAdmin)
@@ -66,6 +68,7 @@ local takeBadge = console.AddCommand("rpa_takebadge", function(ply, target, badg
 	console.Feedback(target, "NOTICE", "%s has taken your %s badge", ply, badge)
 end)
 
+takeBadge:SetCategory("Superadmin Commands")
 takeBadge:SetDescription("Removes a scoreboard badge from a player")
 takeBadge:SetExecutionContext(console.Server)
 takeBadge:SetAccess(console.IsSuperAdmin)
@@ -92,6 +95,7 @@ local explode = console.AddCommand("rpa_explode", function(ply, target)
 	Chat.Send("NOTICE", ply:Nick() .. " exploded " .. target:Nick())
 end)
 
+explode:SetCategory("Superadmin Commands")
 explode:SetDescription("Explodes a player for some reason")
 explode:SetExecutionContext(console.Server)
 explode:SetAccess(console.IsSuperAdmin)
@@ -115,6 +119,7 @@ local giveTempAdmin = console.AddCommand("rpa_givetempadmin", function(ply, targ
 	Chat.Send("NOTICE", string.format("%s has given temporary admin to %s.", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), player.GetAdmins())
 end)
 
+giveTempAdmin:SetCategory("Superadmin Commands")
 giveTempAdmin:SetDescription("Gives a player temporary admin access")
 giveTempAdmin:SetExecutionContext(console.Server)
 giveTempAdmin:SetAccess(console.IsSuperAdmin)
@@ -142,6 +147,7 @@ local takeTempAdmin = console.AddCommand("rpa_taketempadmin", function(ply, targ
 	Chat.Send("NOTICE", string.format("%s has taken temporary admin from %s.", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), player.GetAdmins())
 end)
 
+takeTempAdmin:SetCategory("Superadmin Commands")
 takeTempAdmin:SetDescription("Revokes a player's temporary admin access")
 takeTempAdmin:SetExecutionContext(console.Server)
 takeTempAdmin:SetAccess(console.IsSuperAdmin)

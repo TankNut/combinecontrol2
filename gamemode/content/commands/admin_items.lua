@@ -6,6 +6,7 @@ local create = console.AddCommand("rpa_createitem", function(ply, item)
 	Item.Create(item):SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0))
 end)
 
+create:SetCategory("Item Commands")
 create:SetDescription("Creates an item in front of you")
 create:SetExecutionContext(console.Server)
 create:SetAccess(console.IsAdmin)
@@ -23,6 +24,7 @@ local createTemp = console.AddCommand("rpa_createtempitem", function(ply, item)
 	Item.CreateTemp(item):SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0))
 end)
 
+createTemp:SetCategory("Item Commands")
 createTemp:SetDescription("Creates a temporary item in front of you")
 createTemp:SetExecutionContext(console.Server)
 createTemp:SetAccess(console.IsAdmin)
@@ -42,6 +44,7 @@ local give = console.AddCommand("rpa_giveitem", function(ply, targets, item)
 	end
 end)
 
+give:SetCategory("Item Commands")
 give:SetDescription("Gives an item to a player")
 give:SetExecutionContext(console.Server)
 give:SetAccess(console.IsAdmin)
@@ -61,6 +64,7 @@ local giveTemp = console.AddCommand("rpa_givetempitem", function(ply, targets, i
 	end
 end)
 
+giveTemp:SetCategory("Item Commands")
 giveTemp:SetDescription("Gives a temporary item to a player")
 giveTemp:SetExecutionContext(console.Server)
 giveTemp:SetAccess(console.IsAdmin)
