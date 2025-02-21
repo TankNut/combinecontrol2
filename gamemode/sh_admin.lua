@@ -244,33 +244,6 @@ concommand.AddAdmin("rpa_givemoney", function(ply, targ, amt)
 	GAMEMODE:WriteLog("admin_givemoney", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Amount = amt})
 end, false, {TYPE_ENTITY, TYPE_NUMBER})
 
-concommand.AddAdmin("rpa_tie", function(ply, targ)
-	targ:SetTiedUp(true)
-end, false, {TYPE_ENTITY})
-
-concommand.AddAdmin("rpa_untie", function(ply, targ)
-	targ:SetTiedUp(false)
-end, false, {TYPE_ENTITY})
-
-concommand.AddAdmin("rpa_setcharflag", function(ply, targ, flag)
-	targ:SetCharFlags(flag)
-
-	targ:StripWeapons()
-
-	GAMEMODE:PlayerCheckFlag(targ)
-	GAMEMODE:PlayerLoadout(targ)
-
-	GAMEMODE:LogAdmin("[F] " .. ply:Nick() .. " changed player " .. targ:CharacterName() .. "'s character flag to \"" .. flag .. "\"", ply)
-
-	if flag == "" then
-		ply:SendChat("NOTICE", "You removed " .. targ:CharacterName() .. "'s character flag")
-		targ:SendChat("NOTICE", ply:Nick() .. " removed your character flag")
-	else
-		ply:SendChat("NOTICE", "You set " .. targ:CharacterName() .. "'s character flag to \"" .. flag .. "\" (" .. GAMEMODE:CharFlagPrintName(flag) .. ")")
-		targ:SendChat("NOTICE", ply:Nick() .. " set your character flag to \"" .. flag .. "\" (" .. GAMEMODE:CharFlagPrintName(flag) .. ")")
-	end
-end, false, {TYPE_ENTITY, TYPE_STRING})
-
 concommand.AddAdmin("rpa_flagsroster", function(ply)
 	local function cb(res)
 		if #res > 0 then

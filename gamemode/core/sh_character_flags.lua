@@ -14,6 +14,10 @@ function Register(name, flag)
 	List[name] = inherit.Register("charflag", name, flag, flag.Base or "base")
 end
 
+function Get(name)
+	return List[name]
+end
+
 function RegisterFolder(dir)
 	file.Iterate(dir, "shared.lua", "LUA", function(path, folder)
 		local name = string.FileName(path)

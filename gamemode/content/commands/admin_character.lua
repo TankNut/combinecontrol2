@@ -206,3 +206,26 @@ hideCharacter:AddParameter(console.Player({
 }))
 
 hideCharacter:AddOptional(console.Bool())
+
+local setCharacterFlag = console.AddCommand("rpa_setcharflag", function(ply, target, flag)
+	target:SetCharacterFlag(flag)
+
+	GAMEMODE:LogAdmin("[F] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s character flag to \"" .. flag .. "\"", ply)
+
+	local name = CharacterFlag.Get(flag).Name or flag
+
+	console.Feedback(ply, "NOTICE", "You've set %s's character flag to %s", target:VisibleRPName(), name)
+	console.Feedback(target, "NOTICE", "%s has set your character flag to %s", ply, name)
+end)
+
+setCharacterFlag:SetDescription("Updates a player's character flag")
+setCharacterFlag:SetExecutionContext(console.Server)
+setCharacterFlag:SetAccess(console.IsAdmin)
+
+setCharacterFlag:AddParameter(console.Player({
+	SingleTarget = true,
+	CheckImmunity = false,
+	NoSelfTarget = false
+}))
+
+setCharacterFlag:AddParameter(console.CharacterFlag())

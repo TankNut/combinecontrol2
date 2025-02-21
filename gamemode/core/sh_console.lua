@@ -264,3 +264,13 @@ console.Parser("Duration", function(ply, args, last, options)
 
 	return true, duration
 end)
+
+console.Parser("CharacterFlag", function(ply, args, last, options)
+	local val = console.ReadArg(args, last)
+
+	if not val or #val < 1 or not CharacterFlag.Get(val) then
+		return false, "Must be a valid character flag"
+	end
+
+	return true, val
+end)
