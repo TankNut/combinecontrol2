@@ -85,64 +85,6 @@ GM.ThirdCurAng = Angle()
 GM.ThirdDestPos = Vector()
 GM.ThirdDestAng = Angle()
 
-function GM:DrawPlayerInfo()
-	local w = 220
-
-	surface.SetFont("CombineControl.LabelGiant")
-	local x = surface.GetTextSize(LocalPlayer():VisibleRPName())
-
-	if x + 8 > w then
-		w = x + 8
-	end
-
-	draw.RoundedBox(0, 20, ScrH() - 75, w, 55, Color(30, 30, 30, 200))
-
-	draw.DrawTextShadow(LocalPlayer():VisibleRPName(), "CombineControl.LabelGiant", w + 20 - 4, ScrH() - 75 + 4, Color(200, 200, 200, 255), Color(0, 0, 0, 255), 2)
-	draw.DrawTextShadow(util.FormatCurrency(LocalPlayer():CharacterMoney(), true), "CombineControl.LabelGiant", w + 20 - 4, ScrH() - 75 + 4 + 22 + 4, Color(200, 200, 200, 255), Color(0, 0, 0, 255), 2)
-end
-
-function GM:DrawHealthBars()
-	if not self.HPDraw then self.HPDraw = 100 end
-	if not self.ARDraw then self.ARDraw = 0 end
-
-	self.HPDraw = math.Approach(self.HPDraw, lp:Health(), math.max(math.abs(lp:Health() - self.HPDraw) * 0.1, 1))
-	self.ARDraw = math.Approach(self.ARDraw, lp:Armor(), math.max(math.abs(lp:Armor() - self.ARDraw) * 0.1, 1))
-
-	local w = 220
-	local y = ScrH() - 75 - 24
-
-	draw.RoundedBox(0, 20, y, w, 14, Color(30, 30, 30, 200))
-
-	if self.HPDraw > 0 then
-		draw.RoundedBox(0, 22, y + 2, (w - 4) * (math.Clamp(self.HPDraw, 1, lp:GetMaxHealth()) / lp:GetMaxHealth()), 10, Color(150, 20, 20, 255))
-	end
-
-	y = y - 16
-
-	if self.ARDraw > 0 then
-		draw.RoundedBox(0, 20, y, w, 14, Color(30, 30, 30, 200))
-		draw.RoundedBox(0, 22, y + 2, (w - 4) * (math.Clamp(self.ARDraw, 1, lp:GetMaxArmor()) / lp:GetMaxArmor()), 10, Color(37, 84, 158, 255))
-
-		y = y - 16
-	end
-
-	hook.Run("CC.CL.DrawHUDBars", y, w)
-end
-
-function GM:GetPlayerSight()
-	local ply = LocalPlayer()
-	local wep = ply:GetActiveWeapon()
-	local config = Config.Get("PlayerSight")
-
-	if self.FlashbangStart and CurTime() - self.FlashbangStart < 5 then
-		return 0
-	elseif IsValid(wep) and wep.InScope and wep:InScope() then
-		return config * wep:GetZoom()
-	else
-		return config
-	end
-end
-
 GM.NPCDrawBlacklist = {
 	"npc_antlion_grub",
 	"npc_barnacle_tongue_tip",

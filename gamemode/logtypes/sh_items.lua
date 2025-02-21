@@ -21,11 +21,3 @@ end)
 GM:RegisterLogType("item_take_admin", LOG_ITEMS, function(data)
 	return string.format("%s took %s from %s", GAMEMODE:FormatPlayer(data.Admin), GAMEMODE:FormatItem(data.Item), GAMEMODE:FormatCharacter(data.Char))
 end)
-
-GM:RegisterLogType("item_business_buy", LOG_ITEMS, function(data)
-	return string.format("%s bought %s for %s", GAMEMODE:FormatCharacter(data.Char), GAMEMODE:FormatItem(data.Item), util.FormatCurrency(data.Price))
-end)
-
-GM:RegisterLogType("item_business_sell", LOG_ITEMS, function(data)
-	return string.format("%s sold %s (x%s) for %s", GAMEMODE:FormatCharacter(data.Char), GAMEMODE:FormatItem(data.Item), data.Amount, util.FormatCurrency(data.Price))
-end)

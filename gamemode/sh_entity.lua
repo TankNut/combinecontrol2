@@ -1,5 +1,3 @@
-local ENTITY = FindMetaTable("Entity")
-
 function game.GetDoors()
 	local tab = {}
 
@@ -14,12 +12,6 @@ function game.GetDoors()
 	end
 
 	return tab
-end
-
-function ENTITY:CopyBodygroups(ent)
-	for i = 1, 8 do
-		self:SetBodygroup(i, ent:GetBodygroup(i))
-	end
 end
 
 function GM:EntityEmitSound(data)

@@ -95,23 +95,6 @@ MAT_MULTIPLIERS 	= { -- Material based multipliers for weapon penetration
 	[MAT_METAL]			= 0.3
 }
 
-CRAFTVIS_ALWAYS 			= 2^0
-CRAFTVIS_ALLINGREDIENTS 	= 2^2
-CRAFTVIS_ENTITY 			= 2^3
-CRAFTVIS_TOOLS				= 2^4
-CRAFTVIS_FIRSTINGREDIENT 	= 2^5
-
-ITEM_NONE 				= 0 -- No location, used for items that were just made
-ITEM_PLAYER 			= 1 -- In a player's inventory
-ITEM_WORLD 				= 2 -- In the world somewhere
--- ITEM_CONTAINER 			= 3 -- In a container
-ITEM_AUGMENT			= 4 -- In a player, installed as an augmentation
-
-INVTYPE_SELF 			= 1
-INVTYPE_ADMIN 			= 2
-INVTYPE_BUSINESS		= 4
-
-
 LOG_NONE 		= 0
 LOG_SECURITY 	= 1
 LOG_SANDBOX 	= 2
@@ -128,50 +111,8 @@ META_PLY 	= 3
 THROW_NORMAL 	= 1
 THROW_ROLL 		= 2
 THROW_LOB 		= 3
---red / green / blue order
-COLOR_GREEN 	= Color(52, 216, 56)
-COLOR_PURPLE 	= Color(150, 100, 255)
-COLOR_BLUE 		= Color(0, 100, 255)
-COLOR_RED 		= Color(255, 0, 0)
-COLOR_ORANGE 	= Color(255, 191, 0)
-COLOR_PINK 		= Color(255, 0, 255)
 
 OVERLAY_NONE 		= 0
 OVERLAY_NVG 		= 1
 OVERLAY_TARGET 		= 2
 OVERLAY_THERMAL 	= 3
-
--- Only used for debugging, not the actual damage values used
-SHOTGUN_PELLETS = 8
-
-DAMAGE = {}
-DAMAGE.Pistol = {
-	Light = 11,
-	Normal = 13,
-	Heavy = 16,
-	Magnum = 22
-}
-DAMAGE.SMG = {
-	Normal = 16,
-	Heavy = 18
-}
-DAMAGE.Rifle = {
-	Normal = 22,
-	Heavy = 24
-}
-DAMAGE.LMG = {
-	Normal = 23,
-	Heavy = 24
-}
-DAMAGE.Sniper = {
-	DMR = 28,
-	Normal = 30,
-	Heavy = 33,
-	NTW = 120
-}
-DAMAGE.Shotgun = {
-	Normal = 90 / SHOTGUN_PELLETS
-}
-DAMAGE.RPG = {
-	Normal = 300
-}

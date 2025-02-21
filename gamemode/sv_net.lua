@@ -36,8 +36,6 @@ util.AddNetworkString("nCRadioChannel")
 
 util.AddNetworkString("nSetTyping")
 
-util.AddNetworkString("nPopulateBusiness")
-util.AddNetworkString("nBuyBusinessLicense")
 util.AddNetworkString("nBuyItem")
 util.AddNetworkString("nSellItem")
 

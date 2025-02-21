@@ -462,68 +462,6 @@ function GM:CCCreateGiveCredits()
 	CCP.GiveCredits.Entry.OnEnter = CCP.GiveCredits.OK.DoClick
 end
 
-function GM:CCCreatePlayerViewer(ent)
-	if not ent or not ent:IsValid() then return end
-
-	local title = string.format("%s %s", ent:VisibleRPName(), LocalPlayer():IsAdmin() and string.format("- %s (%s)", ent:Nick(), ent:SteamID()) or "")
-	CCP.PlayerViewer = vgui.Create("DFrame")
-	CCP.PlayerViewer:SetSize(800, 426)
-	CCP.PlayerViewer:Center()
-	CCP.PlayerViewer:SetTitle(title)
-	CCP.PlayerViewer.lblTitle:SetFont("CombineControl.Window")
-	CCP.PlayerViewer:MakePopup()
-	CCP.PlayerViewer.PerformLayout = CCFramePerformLayout
-	CCP.PlayerViewer:PerformLayout()
-
-	CCP.PlayerViewer:SetCloseOnPause(true)
-
-	CCP.PlayerViewer.CharacterModel = vgui.Create("DModelPanel", CCP.PlayerViewer)
-	CCP.PlayerViewer.CharacterModel:SetPos(10, 34)
-	CCP.PlayerViewer.CharacterModel:SetModel(ent:GetModel())
-	CCP.PlayerViewer.CharacterModel.Entity:SetSkin(ent:GetSkin())
-	CCP.PlayerViewer.CharacterModel.Entity:SetMaterial(ent:GetMaterial())
-	CCP.PlayerViewer.CharacterModel.Entity:CopyBodygroups(ent)
-	CCP.PlayerViewer.CharacterModel:SetSize(200, 382)
-	CCP.PlayerViewer.CharacterModel:SetFOV(20)
-	CCP.PlayerViewer.CharacterModel:SetCamPos(Vector(50, 0, 56))
-	CCP.PlayerViewer.CharacterModel:SetLookAt(Vector(0, 0, 56))
-
-	function CCP.PlayerViewer.CharacterModel:DoClick()
-		self:StartScene("scenes/expressions/citizen_angry_idle_01.vcd")
-	end
-
-	function CCP.PlayerViewer.CharacterModel.Entity:GetPlayerColor()
-		if not IsValid(ent) then
-			return Vector(1, 1, 1)
-		end
-
-		return ent:GetPlayerColor()
-	end
-
-	part.Copy(ent, CCP.PlayerViewer.CharacterModel.Entity)
-
-	CCP.PlayerViewer.CharacterName = vgui.Create("DLabel", CCP.PlayerViewer)
-	CCP.PlayerViewer.CharacterName:SetText(ent:VisibleRPName())
-	CCP.PlayerViewer.CharacterName:SetPos(220, 34)
-	CCP.PlayerViewer.CharacterName:SetSize(540, 22)
-	CCP.PlayerViewer.CharacterName:SetFont("CombineControl.LabelGiant")
-	CCP.PlayerViewer.CharacterName:PerformLayout()
-
-	CCP.PlayerViewer.CharacterDescScroll = vgui.Create("DScrollPanel", CCP.PlayerViewer)
-	CCP.PlayerViewer.CharacterDescScroll:SetPos(220, 64)
-	CCP.PlayerViewer.CharacterDescScroll:SetSize(540, 352)
-	function CCP.PlayerViewer.CharacterDescScroll:Paint(w, h) end
-
-	CCP.PlayerViewer.CharacterDesc = vgui.Create("CCLabel")
-	CCP.PlayerViewer.CharacterDesc:SetPos(0, 0)
-	CCP.PlayerViewer.CharacterDesc:SetSize(530, 10)
-	CCP.PlayerViewer.CharacterDesc:SetFont("CombineControl.LabelSmall")
-	CCP.PlayerViewer.CharacterDesc:SetText(ent:Description())
-	CCP.PlayerViewer.CharacterDesc:PerformLayout()
-
-	CCP.PlayerViewer.CharacterDescScroll:AddItem(CCP.PlayerViewer.CharacterDesc)
-end
-
 function GM:CreateCCContext(ent)
 	CloseDermaMenus()
 end
