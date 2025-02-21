@@ -3,11 +3,7 @@ GM:Include("sh_money.lua")
 GM:Include("sh_player_remover.lua")
 
 GM:LoadFolder(ContentFolder .. "_defines/")
-
--- Load order determines category order (for now)
-GM:Include("settings/settings_general.lua")
-GM:Include("settings/settings_hud.lua")
-GM:Include("settings/settings_admin.lua")
+GM:LoadFolder(ContentFolder .. "settings/")
 
 GM:LoadFolder(ContentFolder .. "commands/")
 
