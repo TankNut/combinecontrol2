@@ -13,7 +13,8 @@ end
 
 function GM:LogFile(name, text)
 	local folder = self:DataFolder() .. "/logs/"
-	file.AppendSafe(folder .. os.date("!%Y-%m-%d") .. "/" .. name .. ".txt", text)
+
+	--file.AppendSafe(folder .. os.date("!%Y-%m-%d") .. "/" .. name .. ".txt", text)
 end
 
 net.Receive("nGetLogList", function(len, ply)
