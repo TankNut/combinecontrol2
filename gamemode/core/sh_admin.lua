@@ -82,6 +82,12 @@ function GM:PlayerNoClip(ply, state)
 	return true
 end
 
+function GM:OnUserGroupChanged(ply, old, new)
+	if CLIENT and ply == lp then
+		Hud.Rebuild()
+	end
+end
+
 if SERVER then
 	hook.Remove("PlayerInitialSpawn", "PlayerAuthSpawn")
 

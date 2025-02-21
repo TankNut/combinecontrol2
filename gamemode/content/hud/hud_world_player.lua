@@ -7,11 +7,12 @@ HUD.Setting = "PlayerLabels"
 
 HUD.ExtraSettings = {
 	{"Legacy", {
-		Name = "- Use Legacy Mode",
+		Name = "    Use Legacy Mode",
 		ClientOnly = true,
 		Default = false,
 		Validate = validate.Bool(),
-		Panel = "CC_Setting_Bool"
+		Panel = "CC_Setting_Bool",
+		Dark = true
 	}}
 }
 

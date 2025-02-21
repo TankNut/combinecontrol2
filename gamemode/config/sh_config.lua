@@ -11,7 +11,8 @@ GM.Config.MapOverrides = {} -- Makes the script believe it's running on a differ
 GM.Config.SettingCategories = {
 	"General",
 	"Hud",
-	"Admin"
+	"Admin",
+	"SeeAll"
 }
 
 -- Gameplay
