@@ -27,6 +27,8 @@ function GM:OnEntityCreated(ent)
 		return
 	end
 
+	EntityCache.OnCreated(ent)
+
 	if CLIENT and ent:EntIndex() > 0 then
 		table.insert(self.VarSyncCache, ent)
 	end
@@ -48,6 +50,8 @@ function GM:EntityRemoved(ent, fullUpdate)
 	if fullUpdate then
 		return
 	end
+
+	EntityCache.OnRemoved(ent)
 
 	if ent:IsPlayer() then
 		Inventory.Clear(ent, true)
