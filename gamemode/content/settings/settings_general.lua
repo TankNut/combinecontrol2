@@ -4,3 +4,11 @@ Settings.Add("Newbie", {
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool"
 }, "General")
+
+Settings.Add("TransparentBackgrounds", {
+	Name = "Use Transparent Backgrounds on Menus",
+	ClientOnly = true,
+	Default = true,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool"
+}, "General")

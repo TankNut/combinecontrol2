@@ -68,9 +68,8 @@ SKIN.Colours.TooltipText = Color(110, 102, 60)
 
 SKIN.colNumSliderNotch = SKIN.Colors.FillLight
 
--- Hook this to a setting at some point
 local function getAlpha()
-	return 230
+	return Settings.Get("TransparentBackgrounds") and 240 or 255
 end
 
 function SKIN:DrawButton(disabled, w, h)
