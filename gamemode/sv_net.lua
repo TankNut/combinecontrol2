@@ -30,8 +30,6 @@ util.AddNetworkString("nCGiveCredits")
 util.AddNetworkString("nCReceiveCredits")
 util.AddNetworkString("nCRadioChannel")
 
-util.AddNetworkString("nSetTyping")
-
 util.AddNetworkString("nBuyItem")
 util.AddNetworkString("nSellItem")
 

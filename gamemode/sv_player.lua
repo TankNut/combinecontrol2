@@ -337,11 +337,6 @@ hook.Add("CC.SV.PlayerThink", "SV.Player.HealThink", function(plys)
 	end
 end)
 
-net.Receive("nSetTyping", function(len, ply)
-	local val = net.ReadFloat()
-	ply:SetTyping(val)
-end)
-
 local function RollDice(ply, cmd, args)
 	local errmessage = "rp_roll NdX+m -- N = # of dice, X = # of sides on dice, m = optional modifier\ne.g. rp_roll 2d20-4 will roll two d20's with a -4 modifier.\n"
 	local num, sides, sign, mod
