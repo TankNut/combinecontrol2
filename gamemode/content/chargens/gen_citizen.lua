@@ -14,7 +14,7 @@ function GENERATOR:GetFields(ply)
 		name = CharacterCreate.GetRandomName("English/Masculine")
 	end
 
-	local desc = string.format([[a height between 5'2 - 6'2, [blank] accent, ect ect]])
+	local desc = string.format([[A height between 5'2 - 6'2, [blank] accent, ect ect]])
 
 	return {
 		CharacterName = name,

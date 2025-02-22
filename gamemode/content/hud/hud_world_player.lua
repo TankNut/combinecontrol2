@@ -13,6 +13,14 @@ HUD.ExtraSettings = {
 		Validate = validate.Bool(),
 		Panel = "CC_Setting_Bool",
 		Dark = true
+	}},
+	{"Newbie", {
+		Name = "    Draw Inexperienced Player Labels",
+		ClientOnly = true,
+		Default = true,
+		Validate = validate.Bool(),
+		Panel = "CC_Setting_Bool",
+		Dark = true
 	}}
 }
 
@@ -65,7 +73,7 @@ function HUD:Think()
 end
 
 local colorBlack = Color(0, 0, 0)
-local colorDescription = Color(220, 220, 220)
+local colorWhite = Color(220, 220, 220)
 
 function HUD:DrawLine(text, font, x, y, color, alpha)
 	colorBlack.a = alpha
@@ -78,10 +86,14 @@ function HUD:DrawLine(text, font, x, y, color, alpha)
 end
 
 function HUD:DrawPlayer(ply, x, y, alpha)
+	if ply:GetSetting("Newbie") and self:GetExtraSetting("Newbie") then
+		y = self:DrawLine("Inexperienced Roleplayer", "CombineControl.LabelSmall", x, y, colorWhite, alpha)
+	end
+
 	local desc = ply:ShortDescription()
 
 	if #desc > 0 then
-		y = self:DrawLine(desc, "CombineControl.PlayerFont", x, y, colorDescription, alpha)
+		y = self:DrawLine(desc, "CombineControl.PlayerFont", x, y, colorWhite, alpha)
 	end
 
 	self:DrawLine(ply:VisibleRPName(), "CombineControl.PlayerFont", x, y, team.GetColor(ply:Team()), alpha)
