@@ -6,14 +6,19 @@ CLASS.Aliases = {"@"}
 
 CLASS.Tabs = TAB_ADMIN
 
-CLASS.NameColor = Color(255, 107, 218)
-CLASS.TextColor = Color(255, 156, 230)
+CLASS.AdminNameColor = Color(255, 107, 218)
+CLASS.AdminTextColor = Color(255, 156, 230)
+
+CLASS.PlayerNameColor = Color(225, 51, 51)
+CLASS.PlayerTextColor = Color(255, 83, 83)
 
 if CLIENT then
 	function CLASS:OnReceive(data)
-		local prefix = lp:IsAdmin() and "ADMIN" or "TO ADMINS"
+		local prefix = data.FromAdmin and "ADMIN" or "TO ADMINS"
+		local nameColor = data.FromAdmin and self.AdminNameColor or self.PlayerNameColor
+		local textColor = data.FromAdmin and self.AdminTextColor or self.PlayerTextColor
 
-		return string.format("<c=%s>%s:</c> <c=%s>[%s] %s", self.NameColor, data.Name, self.TextColor, prefix, data.Text)
+		return string.format("<c=%s>%s:</c> <c=%s>[%s] %s", nameColor, data.Name, textColor, prefix, data.Text)
 	end
 end
 
@@ -25,7 +30,8 @@ if SERVER then
 	function CLASS:Parse(ply, lang, cmd, text)
 		return {
 			Name = string.format("%s (%s)", ply:VisibleRPName(), ply:Nick()),
-			Text = ply:IsAdmin() and text or "! " .. text
+			Text = text,
+			FromAdmin = ply:IsAdmin()
 		}
 	end
 end
