@@ -14,8 +14,32 @@ HUD.ExtraSettings = {
 		Panel = "CC_Setting_Bool",
 		Dark = true
 	}},
-	{"Newbie", {
-		Name = "    Draw Inexperienced Player Labels",
+	{"ShowNames", {
+		Name = "    Show Character Names",
+		ClientOnly = true,
+		Default = true,
+		Validate = validate.Bool(),
+		Panel = "CC_Setting_Bool",
+		Dark = true
+	}},
+	{"ShowDescriptions", {
+		Name = "    Show Descriptions",
+		ClientOnly = true,
+		Default = true,
+		Validate = validate.Bool(),
+		Panel = "CC_Setting_Bool",
+		Dark = true
+	}},
+	{"ShowTyping", {
+		Name = "    Show Typing Indicators",
+		ClientOnly = true,
+		Default = true,
+		Validate = validate.Bool(),
+		Panel = "CC_Setting_Bool",
+		Dark = true
+	}},
+	{"AlwaysTyping", {
+		Name = "    Always Show Typing Indicators",
 		ClientOnly = true,
 		Default = true,
 		Validate = validate.Bool(),
@@ -86,17 +110,21 @@ function HUD:DrawLine(text, font, x, y, color, alpha)
 end
 
 function HUD:DrawPlayer(ply, x, y, alpha)
-	if ply:GetSetting("Newbie") and self:GetExtraSetting("Newbie") then
-		y = self:DrawLine("Inexperienced Roleplayer", "CombineControl.LabelSmall", x, y, colorWhite, alpha)
+	if self:GetExtraSetting("ShowTyping") and ply:Typing() then
+		y = self:DrawLine(ply:GetTypingString(), "CombineControl.LabelSmallItalic", x, y, colorWhite, self:GetExtraSetting("AlwaysTyping") and 255 or alpha)
 	end
 
-	local desc = ply:ShortDescription()
+	if self:GetExtraSetting("ShowDescriptions") then
+		local desc = ply:ShortDescription()
 
-	if #desc > 0 then
-		y = self:DrawLine(desc, "CombineControl.PlayerFont", x, y, colorWhite, alpha)
+		if #desc > 0 then
+			y = self:DrawLine(desc, "CombineControl.PlayerFont", x, y, colorWhite, alpha)
+		end
 	end
 
-	self:DrawLine(ply:VisibleRPName(), "CombineControl.PlayerFont", x, y, team.GetColor(ply:Team()), alpha)
+	if self:GetExtraSetting("ShowNames") then
+		self:DrawLine(ply:VisibleRPName(), "CombineControl.PlayerFont", x, y, team.GetColor(ply:Team()), alpha)
+	end
 end
 
 function HUD:PaintBackground(w, h)

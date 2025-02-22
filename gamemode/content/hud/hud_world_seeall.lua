@@ -51,9 +51,9 @@ function HUD:ShouldDraw()
 end
 
 local colorBlack = Color(0, 0, 0)
+local colorNormal = Color("cc_normal")
 
 local colorNick = Color(87, 165, 255)
-local colorTyping = Color("cc_normal")
 local colorHealth = Color(200, 0, 0)
 local colorArmor = Color(0, 63, 255)
 
@@ -73,9 +73,9 @@ function HUD:DrawPlayer(ply, x, y)
 		y = self:DrawLine(string.format("%s%%", ply:Health()), "CombineControl.PlayerFont", x, y, colorHealth)
 	end
 
-	-- if Settings.Get("SeeAllPlayersTyping") then
-	-- 	y = self:DrawLine(string.format("%s%%", ply:Health()), "CombineControl.PlayerFont", x, y, colorTyping)
-	-- end
+	if Settings.Get("SeeAllPlayersTyping") and ply:Typing() then
+		y = self:DrawLine(ply:GetTypingString(), "CombineControl.LabelSmallItalic", x, y, colorNormal)
+	end
 
 	if Settings.Get("SeeAllPlayersNicks") then
 		y = self:DrawLine(ply:Nick(), "CombineControl.PlayerFont", x, y, colorNick)
