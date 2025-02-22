@@ -43,6 +43,21 @@ function PANEL:CycleChatHistory(code)
 	self.HistoryIndex = index
 end
 
+function PANEL:OnValueChange(str)
+	local _, cmd, args = Chat.Process(lp, str)
+	local command = Chat.Commands[cmd]
+
+	if not command or not command.Typing or #args < 1 then
+		cmd = nil
+	end
+
+	if cmd != lp:Typing() then
+		lp:SetTyping(cmd)
+
+		netstream.Send("Typing", cmd)
+	end
+end
+
 function PANEL:OnEnter()
 	local str = self:GetText()
 

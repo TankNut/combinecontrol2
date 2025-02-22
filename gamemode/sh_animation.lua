@@ -254,22 +254,22 @@ function GM:RadioAnimation(ply)
 
 	if ply:IsPlayingTaunt() then return end
 
-	if ply:Typing() > 1 then
+	-- if ply:Typing() > 1 then
 
-		ply.RadioWeight = math.Approach(ply.RadioWeight, 1, FrameTime() * 5.0)
+	-- 	ply.RadioWeight = math.Approach(ply.RadioWeight, 1, FrameTime() * 5.0)
 
-	else
+	-- else
 
-		ply.RadioWeight = math.Approach(ply.RadioWeight, 0, FrameTime() * 5.0)
+	-- 	ply.RadioWeight = math.Approach(ply.RadioWeight, 0, FrameTime() * 5.0)
 
-	end
+	-- end
 
-	if ply.RadioWeight > 0 then
+	-- if ply.RadioWeight > 0 then
 
-		ply:AnimRestartGesture(GESTURE_SLOT_VCD, ACT_GMOD_IN_CHAT, true)
-		ply:AnimSetGestureWeight(GESTURE_SLOT_VCD, ply.RadioWeight)
+	-- 	ply:AnimRestartGesture(GESTURE_SLOT_VCD, ACT_GMOD_IN_CHAT, true)
+	-- 	ply:AnimSetGestureWeight(GESTURE_SLOT_VCD, ply.RadioWeight)
 
-	end
+	-- end
 end
 
 net.Receive("nPlayVCD", function(len)

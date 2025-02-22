@@ -12,6 +12,8 @@ Class.__index = Class
 local ENTITY = FindMetaTable("Entity")
 local PLAYER = FindMetaTable("Player")
 
+PlayerVar.Add("Typing", {})
+
 function Register(data)
 	data = inherit.Register("chat", data.Name, data, data.Base or "base")
 
@@ -147,6 +149,12 @@ if CLIENT then
 
 	function Hide()
 		GUI.Get("Chat"):Hide()
+
+		if lp:Typing() != nil then
+			lp:SetTyping(nil)
+
+			netstream.Send("Typing", nil)
+		end
 	end
 
 	function Receive(name, data)
@@ -167,6 +175,14 @@ if CLIENT then
 	end)
 else
 	netstream.Hook("ParseChat", Parse)
+
+	netstream.Hook("Typing", function(ply, cmd)
+		if cmd and Commands[cmd] then
+			ply:SetTyping(cmd)
+		else
+			ply:SetTyping(nil)
+		end
+	end)
 
 	function Send(name, data, targets)
 		if isstring(data) then
@@ -202,4 +218,8 @@ function PLAYER:SendChat(name, data)
 	else
 		Send(name, data, self)
 	end
+end
+
+function PLAYER:GetTypingString()
+	return Commands[self:Typing()].Typing
 end
