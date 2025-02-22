@@ -219,6 +219,20 @@ netstream.Hook("ChangeCharacterDescription", function(ply, new)
 	ply:SetCharacterDescription(new)
 end)
 
+netstream.Hook("ChangeCharacterNotes", function(ply, new)
+	if not ply:HasCharacter() then
+		return
+	end
+
+	new = string.Escape(new)
+
+	if not validate.Value(new, Config.Get("CharacterDescriptionRules")) then
+		return
+	end
+
+	ply:SetCharacterNotes(new)
+end)
+
 function GM:OnCharacterNameChanged(ply, old, new)
 	ply:UpdateVisibleName()
 end

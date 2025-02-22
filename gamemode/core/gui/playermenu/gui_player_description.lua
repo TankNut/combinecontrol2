@@ -39,6 +39,21 @@ function PANEL:Init()
 		end)
 	end
 
+	self.ChangeNotes = self:Add("DButton")
+	self.ChangeNotes:SetText("Edit Notes")
+
+	self.ChangeNotes.DoClick = function()
+		async.Start(function()
+			netstream.Send("ChangeCharacterNotes",
+				GUI.Open("Input", "multiline", "Edit Character Notes", {
+					Default = lp:CharacterNotes(),
+					Validate = Config.Get("CharacterDescriptionRules"),
+					Name = "Your personal notes"
+				})
+			)
+		end)
+	end
+
 	self.MiscInfo = self:Add("ScribeLabel")
 
 	self.CharacterName = self:Add("DLabel")
@@ -74,6 +89,7 @@ end
 function PANEL:PerformLayout(w, h)
 	self.ChangeName:SizeToContentsX(20)
 	self.ChangeDescription:SizeToContentsX(20)
+	self.ChangeNotes:SizeToContentsX(20)
 
 	self.ModelPanel:SetPos(0, 0)
 	self.ModelPanel:StretchToParent(nil, nil, nil, 0)
@@ -83,7 +99,9 @@ function PANEL:PerformLayout(w, h)
 	self.CharacterName:SizeToContentsY()
 	self.CharacterName:StretchToParent(nil, nil, 0, nil)
 
-	self.ChangeDescription:AlignRight()
+	self.ChangeNotes:AlignRight()
+	self.ChangeNotes:AlignBottom()
+	self.ChangeDescription:MoveLeftOf(self.ChangeNotes, 5)
 	self.ChangeDescription:AlignBottom()
 	self.ChangeName:MoveLeftOf(self.ChangeDescription, 5)
 	self.ChangeName:AlignBottom()
