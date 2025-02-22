@@ -62,4 +62,6 @@ GM.Badges = {
 
 	Badge("betatest",   "Beta Tester", "icon16/controller.png"),
 	Badge("bughunter",  "Bug Hunter",  "icon16/bug.png"),
+
+	Badge("newbie",     "Inexperienced Roleplayer", "icon16/new.png", function(ply) return ply:GetSetting("Newbie") end)
 }
