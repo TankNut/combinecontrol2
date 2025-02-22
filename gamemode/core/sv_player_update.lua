@@ -32,7 +32,7 @@ function PLAYER:UpdateVisibleDescription()
 	local config = Config.Get("ShortDescLength")
 
 	if #short > 0 and #short > config then
-		short = string.Trim(string.sub(short, 1, config)) .. "..."
+		short = string.Trim(string.sub(short, 1, config - 3)) .. "..."
 	end
 
 	self:SetShortDescription(short)
