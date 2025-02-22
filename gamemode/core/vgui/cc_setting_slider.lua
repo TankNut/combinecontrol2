@@ -47,6 +47,7 @@ function PANEL:Setup(args)
 	self.Slider:SetMin(args.Min or 0)
 	self.Slider:SetMax(args.Max or 1)
 	self.Slider:SetDecimals(args.Decimals or 0)
+	self.Slider.Slider:SetNotches(args.Notches or 2)
 end
 
 derma.DefineControl("CC_Setting_Slider", "", PANEL, "CC_Setting")
