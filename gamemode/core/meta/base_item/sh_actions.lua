@@ -158,8 +158,6 @@ function ITEM:RunAction(ply, name, ...)
 
 				local val = progress.Start(ply, data)
 
-				print(val, check())
-
 				if val and val != 1 then
 					return
 				end
