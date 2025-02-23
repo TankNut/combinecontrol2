@@ -21,7 +21,8 @@ GlobalVar.Add("AINoTarget", {Default = false})
 local immunity = {
 	user = 0,
 	admin = 1,
-	superadmin = 2
+	superadmin = 2,
+	developer = 3
 }
 
 function PLAYER:CanTarget(target)
