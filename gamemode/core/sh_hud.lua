@@ -57,6 +57,8 @@ end
 Active = Active or {}
 Lookup = Lookup or {}
 
+Labels = {}
+
 function Event(name, ...)
 	for _, element in ipairs(Active) do
 		local func = element["On" .. name .. "Event"]
@@ -123,6 +125,93 @@ function Rebuild()
 	table.SortByMember(Active, "DrawOrder", true)
 end
 
+function WorldLabel(text, font, color, alpha)
+	if alpha == 0 then
+		return nil
+	end
+
+	return {
+		Text = text,
+		Font = font,
+		Color = color,
+		Alpha = alpha or 255
+	}
+end
+
+function AddWorldLabel(pos, lines)
+	local screen = pos:ToScreen()
+
+	if not screen.visible then
+		return
+	end
+
+	table.insert(Labels, {
+		Pos = pos,
+		Screen = screen,
+		Lines = lines
+	})
+end
+
+-- Stripped down and optimized version of draw.SimpleText
+local function simpleText(text, font, x, y, color, alpha)
+	text = tostring(text)
+	surface.SetFont(font)
+
+	local w = surface.GetFontSize(font, text)
+
+	x = x - (w * 0.5)
+
+	surface.SetTextPos(x, y)
+	surface.SetTextColor(color.r, color.g, color.b, alpha)
+	surface.DrawText(text)
+end
+
+local colorBlack = Color(0, 0, 0)
+local background = Color(0, 0, 0)
+local spacing = 20
+local margin = 2
+
+function DrawWorldLabels()
+	local eye = EyePos()
+
+	table.sort(Labels, function(a, b)
+		return a.Pos:DistToSqr(eye) > b.Pos:DistToSqr(eye)
+	end)
+
+	local mult = Settings.Get("WorldLabelBackgrounds")
+
+	for _, label in ipairs(Labels) do
+		local x = math.ceil(label.Screen.x)
+		local y = math.ceil(label.Screen.y)
+
+		if mult > 0 then
+			local w = 0
+			local alpha = 0
+
+			for _, line in ipairs(label.Lines) do
+				w = math.max(w, surface.GetFontSize(line.Font, line.Text))
+				alpha = math.max(alpha, line.Alpha)
+			end
+
+			local h = #label.Lines * spacing
+
+			background.a = alpha * (mult * 0.01)
+
+			draw.RoundedBox(0, x - w * 0.5 - margin, y - h + spacing - margin, w + margin * 2, h + margin * 2, background)
+			surface.SetDrawColor(colorBlack)
+		end
+
+		for _, line in SortedPairs(label.Lines) do
+			simpleText(line.Text, line.Font, x + 1, y + 1, colorBlack, line.Alpha)
+			simpleText(line.Text, line.Font, x, y, line.Color, line.Alpha)
+
+			y = y - spacing
+		end
+	end
+
+	Labels = {}
+end
+
 function GM:GetHudElements()
 	for id, class in pairs(List) do
 		if class:ShouldAddElement() then
@@ -171,6 +260,8 @@ function GM:HUDPaintBackground()
 	if IsValid(wep) and wep.HUDPaintBackground then
 		wep:HUDPaintBackground()
 	end
+
+	DrawWorldLabels()
 end
 
 local disabled = table.Lookup({
