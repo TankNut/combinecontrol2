@@ -49,8 +49,8 @@ function PLAYER:UpdateHull()
 			return
 		end
 
-		self:SetHull(hull.Standing[1] * scale, hull.Standing[2] * scale)
-		self:SetHullDuck(hull.Crouching[1] * scale, hull.Crouching[2] * scale)
+		self:SetHull(hull.Standing[1], hull.Standing[2])
+		self:SetHullDuck(hull.Crouching[1], hull.Crouching[2])
 
 		self:SetViewOffset(hull.Standing[3] * scale)
 		self:SetViewOffsetDucked(hull.Crouching[3] * scale)
