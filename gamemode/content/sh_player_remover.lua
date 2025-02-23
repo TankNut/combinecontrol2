@@ -32,7 +32,7 @@ hook.Add("CanTool", "player_remover", function(args, ply, tr, tool)
 	local ok = args[2]
 	local ent = tr.Entity
 
-	if not ok then
+	if not ok or tool != "remover" then
 		return
 	end
 
