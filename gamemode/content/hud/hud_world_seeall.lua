@@ -33,6 +33,8 @@ Settings.Add("SeeAllPlayersTyping", fallback({Name = "    Show Typing"}, toggle)
 Settings.Add("SeeAllPlayersHealth", fallback({Name = "    Show Health"}, toggle), "SeeAll")
 Settings.Add("SeeAllPlayersArmor", fallback({Name = "    Show Armor"}, toggle), "SeeAll")
 
+Settings.Add("SeeAllItems", fallback({Name = "See Players", Dark = false}, toggle), "SeeAll")
+
 HUD.Name = "SeeAll"
 
 function HUD:Initialize()
@@ -64,26 +66,36 @@ function HUD:DrawLine(text, font, x, y, color)
 	return y - 20
 end
 
-function HUD:DrawPlayer(ply, x, y)
+function HUD:DrawPlayer(ply)
+	self:StartWorldLabel()
+
 	if Settings.Get("SeeAllPlayersArmor") and ply:GetMaxArmor() > 0 then
-		y = self:DrawLine(string.format("%s%%", ply:Armor()), "CombineControl.PlayerFont", x, y, colorArmor)
+		self:AddWorldLabel(ply:Armor() .. "%", "CombineControl.PlayerFont", colorArmor)
 	end
 
 	if Settings.Get("SeeAllPlayersHealth") then
-		y = self:DrawLine(string.format("%s%%", ply:Health()), "CombineControl.PlayerFont", x, y, colorHealth)
+		self:AddWorldLabel(ply:Health() .. "%", "CombineControl.PlayerFont", colorHealth)
 	end
 
 	if Settings.Get("SeeAllPlayersTyping") and ply:Typing() then
-		y = self:DrawLine(ply:GetTypingString(), "CombineControl.LabelSmallItalic", x, y, colorNormal)
+		self:AddWorldLabel(ply:GetTypingString(), "CombineControl.LabelSmallItalic", colorNormal)
 	end
 
 	if Settings.Get("SeeAllPlayersNicks") then
-		y = self:DrawLine(ply:Nick(), "CombineControl.PlayerFont", x, y, colorNick)
+		self:AddWorldLabel(ply:Nick(), "CombineControl.PlayerFont", colorNick)
 	end
 
 	if Settings.Get("SeeAllPlayersNames") then
-		y = self:DrawLine(ply:VisibleRPName(), "CombineControl.PlayerFont", x, y, team.GetColor(ply:Team()))
+		self:AddWorldLabel(ply:VisibleRPName(), "CombineControl.PlayerFont", team.GetColor(ply:Team()))
 	end
+
+	self:EndWorldLabel(self:GetPlayer(ply):EyePos() + Vector(0, 0, 10))
+end
+
+function HUD:DrawItem(item)
+	local rarity = Item.Rarities[item:GetRarity()]
+
+	self:AddWorldLabel(item:WorldSpaceCenter() + Vector(0, 0, 10), item:GetItemName(), "CombineControl.PlayerFont", rarity.Color)
 end
 
 function HUD:PaintBackground(w, h)
@@ -93,10 +105,13 @@ function HUD:PaintBackground(w, h)
 				continue
 			end
 
-			local ent = self:GetPlayer(ply)
-			local pos = (ent:EyePos() + Vector(0, 0, 10)):ToScreen()
+			self:DrawPlayer(ply)
+		end
+	end
 
-			self:DrawPlayer(ply, pos.x, pos.y)
+	if Settings.Get("SeeAllItems") then
+		for item in pairs(EntityCache.Get("items")) do
+			self:DrawItem(item)
 		end
 	end
 end

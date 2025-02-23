@@ -2,6 +2,10 @@ module("Hud", package.seeall)
 
 List = List or {}
 
+if CLIENT then
+	EntityCache.Add("items", function(ent) return ent:GetClass() == "cc_item" end)
+end
+
 function Register(name, hud)
 	List[name] = inherit.Register("hud", name, hud, hud.Base or "base")
 

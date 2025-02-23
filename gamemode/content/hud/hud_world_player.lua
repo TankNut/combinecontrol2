@@ -96,35 +96,28 @@ function HUD:Think()
 	end
 end
 
-local colorBlack = Color(0, 0, 0)
 local colorWhite = Color(220, 220, 220)
 
-function HUD:DrawLine(text, font, x, y, color, alpha)
-	colorBlack.a = alpha
-	draw.DrawText(text, font, x + 1, y + 1, colorBlack, TEXT_ALIGN_CENTER)
+function HUD:DrawPlayer(ply, alpha)
+	self:StartWorldLabel()
 
-	color.a = alpha
-	draw.DrawText(text, font, x, y, color, TEXT_ALIGN_CENTER)
-
-	return y - 20
-end
-
-function HUD:DrawPlayer(ply, x, y, alpha)
 	if self:GetExtraSetting("ShowTyping") and ply:Typing() then
-		y = self:DrawLine(ply:GetTypingString(), "CombineControl.LabelSmallItalic", x, y, colorWhite, self:GetExtraSetting("AlwaysTyping") and 255 or alpha)
+		self:AddWorldLabel(ply:GetTypingString(), "CombineControl.LabelSmallItalic", colorWhite, self:GetExtraSetting("AlwaysTyping") and 255 or alpha)
 	end
 
 	if self:GetExtraSetting("ShowDescriptions") then
 		local desc = ply:ShortDescription()
 
 		if #desc > 0 then
-			y = self:DrawLine(desc, "CombineControl.PlayerFont", x, y, colorWhite, alpha)
+			self:AddWorldLabel(desc, "CombineControl.PlayerFont", colorWhite, alpha)
 		end
 	end
 
 	if self:GetExtraSetting("ShowNames") then
-		self:DrawLine(ply:VisibleRPName(), "CombineControl.PlayerFont", x, y, team.GetColor(ply:Team()), alpha)
+		self:AddWorldLabel(ply:VisibleRPName(), "CombineControl.PlayerFont", team.GetColor(ply:Team()), alpha)
 	end
+
+	self:EndWorldLabel(self:GetPlayer(ply):EyePos() + Vector(0, 0, 10))
 end
 
 function HUD:PaintBackground(w, h)
@@ -143,13 +136,6 @@ function HUD:PaintBackground(w, h)
 			continue
 		end
 
-		local ent = self:GetPlayer(ply)
-		local pos = (ent:EyePos() + Vector(0, 0, 10)):ToScreen()
-
-		if not pos.visible then
-			continue
-		end
-
-		self:DrawPlayer(ply, pos.x, pos.y, cache.Alpha * 255)
+		self:DrawPlayer(ply, cache.Alpha * 255)
 	end
 end

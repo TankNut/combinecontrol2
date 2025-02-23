@@ -78,6 +78,26 @@ function HUD:DrawAlignedRect(x, y, w, h, color, xAlign, yAlign)
 	surface.DrawRect(x, y, w, h)
 end
 
+function HUD:StartWorldLabel()
+	self._Label = {}
+end
+
+function HUD:AddWorldLabel(pos, ...)
+	if self._Label then
+		table.insert(self._Label, Hud.WorldLabel(pos, ...))
+	else
+		Hud.AddWorldLabel(pos, {Hud.WorldLabel(...)})
+	end
+end
+
+function HUD:EndWorldLabel(pos)
+	if #self._Label > 0 then
+		Hud.AddWorldLabel(pos, self._Label)
+	end
+
+	self._Label = nil
+end
+
 function HUD:Paint(w, h)
 end
 

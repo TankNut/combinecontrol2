@@ -21,3 +21,18 @@ function GM:OnThirdpersonSettingChanged(ply, old, new)
 		ctp:Disable()
 	end
 end
+
+Settings.Add("WorldLabelBackgrounds", {
+	Name = "World Label Background Opacity",
+	ClientOnly = true,
+	Default = 0,
+	Validate = {
+		validate.Min(0),
+		validate.Max(100)
+	},
+	Panel = "CC_Setting_Slider",
+	Args = {
+		Max = 100,
+		Notches = 1
+	}
+}, "Hud")
