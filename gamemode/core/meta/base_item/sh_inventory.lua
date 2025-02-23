@@ -62,8 +62,10 @@ if SERVER then
 			self:SetItemAppearance(ent)
 
 			ent.Item = self
+
 			ent:SetItemName(self:GetName())
 			ent:SetItemWeight(self:GetWeight())
+			ent:SetRarity(self:GetRarity())
 
 			ent:Spawn()
 			ent:Activate()

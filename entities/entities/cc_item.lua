@@ -19,6 +19,8 @@ end
 function ENT:SetupDataTables()
 	self:NetworkVar("String", "ItemName")
 	self:NetworkVar("Float", "ItemWeight")
+
+	self:NetworkVar("Int", "Rarity")
 end
 
 function ENT:Think()
@@ -28,6 +30,7 @@ function ENT:Think()
 
 	if self.Item and self:HasMoved() then
 		self:SaveMoved()
+
 		async.Start(self.Item.SaveLocation, self.Item)
 	end
 
