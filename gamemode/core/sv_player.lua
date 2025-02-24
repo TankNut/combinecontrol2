@@ -25,6 +25,8 @@ function GM:PlayerInitialSpawn(ply)
 		return
 	end
 
+	ply.ArmorFraction = 1
+
 	ply:SetTeam(TEAM_UNASSIGNED)
 	ply:SetMaxArmor(0)
 
