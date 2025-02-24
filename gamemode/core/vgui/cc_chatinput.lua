@@ -47,7 +47,7 @@ function PANEL:OnValueChange(str)
 	local _, cmd, args = Chat.Process(lp, str)
 	local command = Chat.Commands[cmd]
 
-	if not command or not command.Typing or #args < 1 then
+	if not command or not command.Typing or #args < 1 or args == "/" then
 		cmd = nil
 	end
 
