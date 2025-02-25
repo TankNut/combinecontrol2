@@ -60,19 +60,10 @@ function HUD:ShouldDraw()
 	return BaseClass.ShouldDraw(self)
 end
 
-function HUD:IsVisible(ply)
-	local ent = self:GetPlayer(ply)
-
-	if self:GetExtraSetting("Legacy") then
-		return lp:CanSee(ent, true)
-	else
-		local tr = lp:GetEyeTrace()
-
-		return tr.Entity == ent and (tr.Fraction * 32768) <= lp:GetSightRange()
-	end
-end
-
 function HUD:Think()
+	local ct = CurTime()
+	local ft = FrameTime()
+
 	for _, ply in player.Iterator() do
 		if ply == lp then
 			continue
@@ -81,23 +72,39 @@ function HUD:Think()
 		if not self.Cache[ply] then
 			self.Cache[ply] = {
 				Alpha = 0,
-				FadeTime = CurTime()
+				FadeTime = ct,
+				LegacyAlpha = 0,
+				LegacyFade = ct,
+				Entity = ply
 			}
 		end
 
 		local cache = self.Cache[ply]
 
-		if self:IsVisible(ply) then
-			cache.Alpha = math.min(cache.Alpha + FrameTime(), 1)
-			cache.FadeTime = CurTime() + 0.05
-		elseif cache.FadeTime < CurTime() then
-			cache.Alpha = math.max(cache.Alpha - FrameTime(), 0)
+		local ent = self:GetPlayer(ply)
+		local canSee = lp:CanSee(ent, true)
+
+		cache.Entity = ent
+
+		if canSee and lp:GetEyeTrace().Entity == ent then
+			cache.Alpha = math.min(cache.Alpha + ft, 1)
+			cache.FadeTime = ct + 0.05
+		elseif cache.FadeTime < ct then
+			cache.Alpha = math.max(cache.Alpha - ft, 0)
+		end
+
+		if canSee then
+			cache.LegacyAlpha = math.min(cache.LegacyAlpha + ft, 1)
+			cache.LegacyFade = ct + 0.05
+		elseif cache.LegacyFade < ct then
+			cache.LegacyAlpha = math.max(cache.LegacyAlpha - ft, 0)
 		end
 	end
 end
 
-function HUD:DrawPlayer(ply, alpha)
+function HUD:DrawPlayer(ply, cache)
 	local lines = {}
+	local alpha = self:GetExtraSetting("Legacy") and cache.LegacyAlpha or cache.Alpha
 
 	if self:GetExtraSetting("ShowNames") then
 		local color = ColorToHex(team.GetColor(ply:Team()))
@@ -120,12 +127,12 @@ function HUD:DrawPlayer(ply, alpha)
 	if self:GetExtraSetting("ShowTyping") and ply:Typing() then
 		table.insert(lines, {
 			scribe.Parse("<f=CombineControl.LabelMediumItalic><ol><c=cc_normal>" .. ply:GetTypingString()),
-			self:GetExtraSetting("AlwaysTyping") and 1 or alpha
+			self:GetExtraSetting("AlwaysTyping") and cache.LegacyAlpha or alpha
 		})
 	end
 
 	if #lines > 0 then
-		self:AddWorldLabel(self:GetPlayer(ply):EyePos() + Vector(0, 0, 10), lines)
+		self:AddWorldLabel(cache.Entity:EyePos() + Vector(0, 0, 10), lines)
 	end
 end
 
@@ -145,6 +152,6 @@ function HUD:PaintBackground(w, h)
 			continue
 		end
 
-		self:DrawPlayer(ply, cache.Alpha)
+		self:DrawPlayer(ply, cache)
 	end
 end
