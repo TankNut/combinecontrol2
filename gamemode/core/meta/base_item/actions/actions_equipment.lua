@@ -1,3 +1,17 @@
+local closeMenu = function(self, ply, ...)
+	if Settings.Get("EquipTogglesMenu") then
+		GUI.Close("PlayerMenu")
+	end
+
+	return ...
+end
+
+local openMenu = function(ply)
+	if ply:GetSetting("EquipTogglesMenu") then
+		ply:OpenGUI("PlayerMenu")
+	end
+end
+
 ITEM.Actions.Equip = {
 	Priority = 10,
 
@@ -12,8 +26,10 @@ ITEM.Actions.Equip = {
 			Callback = CLIENT and stub or nil
 		}
 	end,
+	Client = closeMenu,
 	Callback = function(self, ply)
 		self:SetEquipmentSlot(self:GetEquipmentSlots()[1])
+		openMenu(ply)
 	end
 }
 
@@ -50,8 +66,10 @@ ITEM.Actions.EquipSlot = {
 
 		return hook.Run("CanUseEquipmentSlot", ply, self, slot)
 	end,
+	Client = closeMenu,
 	Callback = function(self, ply, slot)
 		self:SetEquipmentSlot(slot)
+		openMenu(ply)
 	end
 }
 
@@ -69,7 +87,9 @@ ITEM.Actions.Unequip = {
 			Callback = CLIENT and stub or nil
 		}
 	end,
+	Client = closeMenu,
 	Callback = function(self, ply)
 		self:SetEquipmentSlot(nil)
+		openMenu(ply)
 	end
 }

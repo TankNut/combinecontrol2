@@ -19,3 +19,10 @@ Settings.Add("UITransparency", {
 		Notches = 20
 	}
 }, "General")
+
+Settings.Add("EquipTogglesMenu", {
+	Name = "Toggle the player menu when equipping items",
+	Default = true,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool"
+}, "General")
