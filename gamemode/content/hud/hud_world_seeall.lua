@@ -33,7 +33,7 @@ Settings.Add("SeeAllPlayersTyping", fallback({Name = "    Show Typing"}, toggle)
 Settings.Add("SeeAllPlayersHealth", fallback({Name = "    Show Health"}, toggle), "SeeAll")
 Settings.Add("SeeAllPlayersArmor", fallback({Name = "    Show Armor"}, toggle), "SeeAll")
 
-Settings.Add("SeeAllItems", fallback({Name = "See Players", Dark = false}, toggle), "SeeAll")
+Settings.Add("SeeAllItems", fallback({Name = "See Items", Dark = false}, toggle), "SeeAll")
 
 HUD.Name = "SeeAll"
 
