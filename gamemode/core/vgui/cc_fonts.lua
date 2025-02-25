@@ -60,30 +60,25 @@ scribe.Register({
 
 scribe.Register({
 	Name = {"dark"},
-	Push = function(self) self.Context:PushColor(Color("cc_dark")) end,
-	Pop = function(self) self.Context:PopColor() end,
-})
+	Components = {{"color", "cc_dark"}}
+}, "compound")
 
 scribe.Register({
 	Name = {"new"},
-	Push = function(self) self.Context:PushColor(Color("cc_new")) end,
-	Pop = function(self) self.Context:PopColor() end,
-})
+	Components = {{"color", "cc_new"}}
+}, "compound")
 
 scribe.Register({
 	Name = {"upd"},
-	Push = function(self) self.Context:PushColor(Color("cc_update")) end,
-	Pop = function(self) self.Context:PopColor() end,
-})
+	Components = {{"color", "cc_update"}}
+}, "compound")
 
 scribe.Register({
 	Name = {"rem"},
-	Push = function(self) self.Context:PushColor(Color("cc_remove")) end,
-	Pop = function(self) self.Context:PopColor() end,
-})
+	Components = {{"color", "cc_remove"}}
+}, "compound")
 
 scribe.Register({
 	Name = {"fix"},
-	Push = function(self) self.Context:PushColor(Color("cc_fix")) end,
-	Pop = function(self) self.Context:PopColor() end,
-})
+	Components = {{"color", "cc_fix"}}
+}, "compound")
