@@ -105,29 +105,31 @@ end
 function HUD:DrawPlayer(ply, cache)
 	local lines = {}
 	local alpha = self:GetExtraSetting("Legacy") and cache.LegacyAlpha or cache.Alpha
+	local typingAlpha = self:GetExtraSetting("AlwaysTyping") and cache.LegacyAlpha or alpha
 
-	if self:GetExtraSetting("ShowNames") then
-		local color = ColorToHex(team.GetColor(ply:Team()))
+	if alpha > 0 then
+		if self:GetExtraSetting("ShowNames") then
+			local color = ColorToHex(team.GetColor(ply:Team()))
 
-		table.insert(lines, {
-			scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><c=%s>%s", color, ply:VisibleRPName())), alpha
-		})
-	end
-
-	if self:GetExtraSetting("ShowDescriptions") then
-		local desc = ply:ShortDescription()
-
-		if #desc > 0 then
 			table.insert(lines, {
-				scribe.Parse("<f=CombineControl.PlayerFont><ol><c=#DCDCDC>" .. ply:ShortDescription()), alpha
+				scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><c=%s>%s", color, ply:VisibleRPName())), alpha
 			})
+		end
+
+		if self:GetExtraSetting("ShowDescriptions") then
+			local desc = ply:ShortDescription()
+
+			if #desc > 0 then
+				table.insert(lines, {
+					scribe.Parse("<f=CombineControl.PlayerFont><ol><c=#DCDCDC>" .. ply:ShortDescription()), alpha
+				})
+			end
 		end
 	end
 
-	if self:GetExtraSetting("ShowTyping") and ply:Typing() then
+	if typingAlpha > 0 and self:GetExtraSetting("ShowTyping") and ply:Typing() then
 		table.insert(lines, {
-			scribe.Parse("<f=CombineControl.LabelMediumItalic><ol><c=cc_normal>" .. ply:GetTypingString()),
-			self:GetExtraSetting("AlwaysTyping") and cache.LegacyAlpha or alpha
+			scribe.Parse("<f=CombineControl.LabelMediumItalic><ol><c=cc_normal>" .. ply:GetTypingString()), typingAlpha
 		})
 	end
 
