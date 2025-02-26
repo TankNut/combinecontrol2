@@ -161,14 +161,16 @@ slap:AddParameter(console.Player({
 }))
 
 local function printCharacterList(data)
+	local defaultFlag = CharacterFlag.Get(CharacterVar.Vars["CharacterFlag"].Default).Name
+
 	MsgC(Color(214, 172, 19), string.format("Character list for: %s (%d character%s)\n", data.Name, #data.Characters, #data.Characters > 1 and "s" or ""))
 
 	for _, character in pairs(data.Characters) do
-		MsgC(Color(229, 201, 98, 255), "\t", string.format("CharID %d: %s%s%s",
+		MsgC(Color(229, 201, 98, 255), "\t", string.format("CharID %d: %s%s - %s",
 				character.id,
 				character.Name,
 				character.NameOverride and " (" .. character.NameOverride .. ")" or "",
-				character.Flag and (" - " .. CharacterFlag.Get(flag).Name or flag) or ""),
+				character.Flag and (CharacterFlag.Get(flag).Name or flag) or defaultFlag),
 			"\n")
 	end
 end
