@@ -42,7 +42,6 @@ util.AddNetworkString("nPlayExpression")
 
 util.AddNetworkString("nSwapItem")
 
-util.AddNetworkString("nAListCharacters")
 util.AddNetworkString("nACharacterData")
 util.AddNetworkString("nACharacterInventory")
 

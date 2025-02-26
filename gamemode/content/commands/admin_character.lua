@@ -97,7 +97,7 @@ local setCharacterScale = console.AddCommand("rpa_setcharscale", function (ply, 
 end)
 
 setCharacterScale:SetCategory("Character Commands")
-setCharacterScale:SetDescription("Updates a player's current character scaling")
+setCharacterScale:SetDescription("Updates a player's current character scale")
 setCharacterScale:SetExecutionContext(console.Server)
 setCharacterScale:SetAccess(console.IsAdmin)
 
@@ -226,7 +226,7 @@ local setCharacterFlag = console.AddCommand("rpa_setcharflag", function(ply, tar
 end)
 
 setCharacterFlag:SetCategory("Character Commands")
-setCharacterFlag:SetDescription("Updates a player's character flag")
+setCharacterFlag:SetDescription("Updates a player's current character flag")
 setCharacterFlag:SetExecutionContext(console.Server)
 setCharacterFlag:SetAccess(console.IsAdmin)
 

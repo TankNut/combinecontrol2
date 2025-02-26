@@ -26,35 +26,6 @@ net.Receive("nAPlayOverwatch", function(len)
 	surface.PlaySound(GAMEMODE.OverwatchLines[id][1])
 end)
 
-net.Receive("nAListCharacters", function(len)
-	local steamID = net.ReadString()
-	local tab = net.ReadTable()
-
-	if #tab < 1 then
-		MsgC(Color(200, 0, 0, 255), "No characters found for " .. steamID .. ".\n")
-
-		return
-	else
-		MsgC(Color(200, 200, 200, 255), "Character list for: " .. steamID .. " (" .. #tab .. " characters)\n")
-	end
-
-	local fieldsLen = {}
-
-	for _, char in pairs(tab) do
-		for index, field in pairs(char) do
-			fieldsLen[index] = math.max(fieldsLen[index] or 0, #tostring(field))
-		end
-	end
-
-	for _, v in pairs(tab) do
-		-- Using %-*s wouldn't work for some reason, so we'll do it the ugly way
-		MsgC(Color(200, 200, 200, 255), string.format("CharID: %-" .. fieldsLen.id ..
-			"s | Name: %-" .. fieldsLen.RPName ..
-			"s | Flags: %-" .. fieldsLen.CharFlags ..
-			"s\n",v.id, v.RPName, v.CharFlags))
-	end
-end)
-
 net.Receive("nACharacterData", function(len)
 	local id = net.ReadInt(32)
 	local tab = net.ReadTable()

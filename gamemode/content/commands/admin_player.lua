@@ -1,49 +1,3 @@
-local setPhysTrust = console.AddCommand("rpa_setphystrust", function (ply, target, bool)
-	target:SetPhysTrust(bool and PHYSTRUST_ENABLED or PHYSTRUST_BANNED)
-	target:UpdateLoadout()
-
-	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s phystrust to " .. tostring(bool), ply)
-
-	console.Feedback(ply, "NOTICE", "You %s %s physics gun trust", bool and "gave" or "removed", target)
-	console.Feedback(target, "NOTICE", "%s has %s physics gun trust", ply, bool and "given you" or "taken your")
-end)
-
-setPhysTrust:SetCategory("Player Commands")
-setPhysTrust:SetDescription("Sets a player's physics gun access")
-setPhysTrust:SetExecutionContext(console.Server)
-setPhysTrust:SetAccess(console.IsAdmin)
-
-setPhysTrust:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = true,
-	NoSelfTarget = false
-}))
-
-setPhysTrust:AddParameter(console.Bool())
-
-local setPropTrust = console.AddCommand("rpa_setproptrust", function (ply, target, bool)
-	target:SetPropTrust(bool and PROPTRUST_ENABLED or PROPTRUST_BANNED)
-	target:UpdateLoadout()
-
-	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s proptrust to " .. tostring(bool), ply)
-
-	console.Feedback(ply, "NOTICE", "You %s %s prop spawning trust", bool and "gave" or "removed", target)
-	console.Feedback(target, "NOTICE", "%s has %s prop spawning trust", ply, bool and "given you" or "taken your")
-end)
-
-setPropTrust:SetCategory("Player Commands")
-setPropTrust:SetDescription("Sets a player's prop spawning access")
-setPropTrust:SetExecutionContext(console.Server)
-setPropTrust:SetAccess(console.IsAdmin)
-
-setPropTrust:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = true,
-	NoSelfTarget = false
-}))
-
-setPropTrust:AddParameter(console.Bool())
-
 local toolTrustMapping = {
 	banned = TOOLTRUST_BANNED,
 	untrusted = TOOLTRUST_UNTRUSTED,
@@ -201,4 +155,57 @@ slap:AddParameter(console.Player({
 	SingleTarget = true,
 	CheckImmunity = true,
 	NoSelfTarget = false
+}))
+
+if CLIENT then
+	netstream.Hook("ListCharacters", function(data)
+		MsgC(Color(214, 172, 19), string.format("Character list for: %s (%d character%s)\n", data.Name, #data.Characters, #data.Characters > 1 and "s" or ""))
+
+		for _, character in pairs(data.Characters) do
+			MsgC(Color(229, 201, 98, 255), "\t", string.format("CharID %d: %s%s%s",
+					character.id,
+					character.Name,
+					character.NameOverride and " (" .. character.NameOverride .. ")" or "",
+					character.Flag and (" - " .. CharacterFlag.Get(flag).Name or flag) or ""),
+				"\n")
+		end
+	end)
+end
+
+local listCharacters = console.AddCommand("rpa_listcharacters", function(ply, steamId)
+	local target = player.GetBySteamID(steamId)
+	local name = target and target:Nick() or steamId
+	local query = GAMEMODE.Database:Select("rp_characters")
+		query:Select("id")
+		query:Select("Name")
+		query:Select("NameOverride")
+		query:Select("Flag")
+		query:WhereEqual("SteamID", steamId)
+		query:WhereNull("Deleted_At")
+	local characters = query:Execute()
+
+	if #characters < 1 then
+		console.Feedback(ply, "ERROR", "No characters exist for %s", name)
+
+		return
+	end
+
+	console.Feedback(ply, "NOTICE", "Sent %s's character list to your console", name)
+
+	netstream.Send(ply, "ListCharacters", {
+		Name = name,
+		Characters = characters
+	})
+end)
+
+listCharacters:SetCategory("Player Commands")
+listCharacters:SetDescription("Lists all characters created by a player")
+listCharacters:SetExecutionContext(console.Server)
+listCharacters:SetAccess(console.IsAdmin)
+
+listCharacters:AddParameter(console.SteamID({
+	SingleTarget = true,
+	CheckImmunity = false,
+	NoSelfTarget = false,
+	Online = false,
 }))

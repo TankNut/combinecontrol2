@@ -371,28 +371,6 @@ concommand.AddAdmin("rpa_travelban", function(ply, targ)
 	targ:SendChat("NOTICE", ply:Nick() .. str .. "you from travelling")
 end, false, {TYPE_ENTITY})
 
-concommand.AddAdmin("rpa_charlist", function(ply, steamid)
-	if not util.IsValidSteamID(steamid) then
-		ply:SendChat("ERROR", "SteamID is invalid")
-
-		return
-	end
-
-	GAMEMODE:GetCharacterList(steamid, ply)
-end, false, {TYPE_STRING})
-
--- concommand.AddAdmin("rpa_getchardata", function(ply, id)
--- 	id = math.Round(id)
-
--- 	if id < 1 then
--- 		ply:SendChat("ERROR", "Character ID is invalid")
-
--- 		return
--- 	end
-
--- 	GAMEMODE:GetCharacterData(id, ply)
--- end, false, {TYPE_NUMBER})
-
 concommand.AddAdmin("rpa_getcharinv", function(ply, id)
 	id = math.Round(id)
 

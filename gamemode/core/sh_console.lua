@@ -169,7 +169,7 @@ console.Parser("SteamID", function(ply, args, last, options)
 	local val = console.ReadArg(args, last)
 
 	if util.IsValidSteamID(val) and not options.Online then
-		return val
+		return true, val
 	end
 
 	options = table.Copy(options)
