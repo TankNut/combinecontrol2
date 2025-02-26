@@ -1,16 +1,31 @@
-local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, target, usergroup)
+local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, steamId, usergroup)
 	if IsValid(ply) and (usergroup == "superadmin" or usergroup == "developer") then
 		console.Feedback(ply, "ERROR", "Elevated access must be set from the server console")
 
 		return
 	end
 
-	target:SetUserGroup(usergroup)
-	target:SetTempAdmin(false)
+	local target = player.GetBySteamID(steamId)
 
-	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target, usergroup)
-	console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
+	if target then
+		target:SetUserGroup(usergroup)
+		target:SetTempAdmin(false)
 
+		console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
+	else
+		local query = GAMEMODE.Database:Upsert("rp_players")
+		query:Insert("SteamID", steamId)
+
+		if usergroup == "user" then
+			query:InsertRaw("UserGroup", "NULL")
+		else
+			query:Insert("UserGroup", usergroup)
+		end
+
+		query:Execute()
+	end
+
+	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target and target:Nick() or steamId, usergroup)
 	-- TODO: Log this, one of the logging system is setup.
 end)
 
@@ -19,10 +34,11 @@ setUserGroup:SetDescription("Updates a player's assigned permission group")
 setUserGroup:SetExecutionContext(console.Server)
 setUserGroup:SetAccess(console.IsSuperAdmin)
 
-setUserGroup:AddParameter(console.Player({
+setUserGroup:AddParameter(console.SteamID({
 	SingleTarget = true,
 	CheckImmunity = true,
-	NoSelfTarget = true
+	NoSelfTarget = true,
+	Online = false
 }))
 
 setUserGroup:AddParameter(console.String({
