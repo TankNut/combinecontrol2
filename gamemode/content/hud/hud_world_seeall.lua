@@ -34,6 +34,7 @@ Settings.Add("SeeAllPlayersHealth", fallback({Name = "    Show Health"}, toggle)
 Settings.Add("SeeAllPlayersArmor", fallback({Name = "    Show Armor"}, toggle), "SeeAll")
 
 Settings.Add("SeeAllItems", fallback({Name = "See Items", Dark = false}, toggle), "SeeAll")
+Settings.Add("SeeAllNPCs", fallback({Name = "See NPC's", Dark = false}, toggle), "SeeAll")
 
 HUD.Name = "SeeAll"
 
@@ -106,6 +107,12 @@ function HUD:DrawItem(item)
 	})
 end
 
+function HUD:DrawNPC(npc)
+	self:AddWorldLabel(npc:EyePos() + Vector(0, 0, 10), {
+		{scribe.Parse("<f=CombineControl.PlayerFont><ol><c=#C8C864><lang>" .. npc:GetClass())}
+	})
+end
+
 function HUD:PaintBackground(w, h)
 	if Settings.Get("SeeAllPlayers") then
 		for _, ply in player.Iterator() do
@@ -120,6 +127,12 @@ function HUD:PaintBackground(w, h)
 	if Settings.Get("SeeAllItems") then
 		for item in pairs(EntityCache.Get("items")) do
 			self:DrawItem(item)
+		end
+	end
+
+	if Settings.Get("SeeAllNPCs") then
+		for npc in pairs(EntityCache.Get("npcs")) do
+			self:DrawNPC(npc)
 		end
 	end
 end
