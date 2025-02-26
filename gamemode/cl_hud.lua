@@ -149,27 +149,6 @@ function GM:DrawEntities()
 			pos.y = pos.y + 16
 		end
 	end
-
-	for k, v in pairs(self.EntityTable.npc) do
-		if not IsValid(v) then table.remove(self.EntityTable.npc, k) continue end
-		if table.HasValue(self.NPCDrawBlacklist, v:GetClass()) then table.remove(self.EntityTable.npc, k) continue end
-		if not Settings.Get("SeeAll") then continue end
-
-		if not v.HUDAlpha then v.HUDAlpha = 0 end
-
-		local pos = (v:EyePos() + Vector(0, 0, 10)):ToScreen()
-
-		if (Settings.Get("SeeAll") and tobool(cookie.GetNumber("cc_seeallnpcs", 1))) and v:Health() > 0 then
-			v.HUDAlpha = math.Clamp(v.HUDAlpha + FrameTime(), 0, 1)
-		elseif v.HUDAlpha > 0 then
-			v.HUDAlpha = math.Clamp(v.HUDAlpha - FrameTime(), 0, 1)
-		end
-
-		if v.HUDAlpha > 0 then
-			draw.DrawTextShadow("#" .. v:GetClass(), "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 200, 100, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-			pos.y = pos.y + 20
-		end
-	end
 end
 
 function GM:DrawDoors()
@@ -341,27 +320,6 @@ net.Receive("nWarnName", function(len)
 	GAMEMODE.NameWarningStart = CurTime()
 end)
 
-function GM:DrawWarnings()
-	if self.NameWarning and CurTime() - self.NameWarningStart < 15 then
-		local t = CurTime() - self.NameWarningStart
-		local a = 1
-
-		if t < 1 then
-			a = t
-		elseif t > 14 then
-			a = 1 - (t - 14)
-		end
-
-		local h = 250
-		local dh = (ScrH() - h) / 2
-
-		draw.RoundedBox(0, 0, dh, ScrW(), h, Color(30, 30, 30, 200 * a))
-
-		draw.DrawText("YOU HAVE BEEN ISSUED A NAME WARNING", "CombineControl.LabelStupid", ScrW() / 2, dh + 20, Color(150, 20, 20, 255 * a), 1)
-		draw.DrawText("An administrator considers your character's name to be inappropriate for Terminator RP.\n\nPlease change it through the player menu (F3) to a proper, realistic first and last name.\n\nIf you ignore this warning, you may be subject to a kick or ban.", "CombineControl.LabelGiant", ScrW() / 2, dh + 100, Color(200, 200, 200, 255 * a), 1)
-	end
-end
-
 function GM:DrawUnconnected()
 	if not lp:HasCharacter() and not vgui.CursorVisible() then
 		surface.SetDrawColor(0, 0, 0, 150)
@@ -398,28 +356,19 @@ end
 function GM:HUDPaint()
 	if not CCP or not lp:HasCharacter() then return end
 
-	local mode = lp:OverlayMode()
-
-	if mode == OVERLAY_TARGET then
-		self:DrawTargetHUD()
-	end
-
 	WeaponSelect.Draw()
 
 	if Settings.Get("HUD") then
 		self:DrawDamage()
 		self:DrawDoors()
 
-		if mode != OVERLAY_TARGET then
-			self:DrawEntities()
-			self:DrawPlayerInfo()
-			self:DrawHealthBars()
-		end
+		self:DrawEntities()
+		self:DrawPlayerInfo()
+		self:DrawHealthBars()
 
 		self:DrawAmmo()
 	end
 
-	self:DrawWarnings()
 	self:DrawUnconnected()
 
 	local wep = LocalPlayer():GetActiveWeapon()
@@ -436,10 +385,6 @@ function GM:PostDrawOpaqueRenderables()
 		if IsValid(wep) and wep.PostDrawOpaqueRenderables then
 			wep:PostDrawOpaqueRenderables()
 		end
-	end
-
-	if self.MapPostDrawOpaqueRenderables then
-		self:MapPostDrawOpaqueRenderables()
 	end
 end
 
@@ -531,21 +476,6 @@ function GM:RenderScreenspaceEffects()
 		DrawColorModify(tab)
 	end
 
-	local mode = LocalPlayer():OverlayMode()
-
-	if mode == OVERLAY_NVG then
-		self:DrawNVG()
-	elseif mode == OVERLAY_TARGET then
-		self:DrawTargetHUDPP()
-	elseif mode == OVERLAY_THERMAL then
-		self:DrawThermal()
-	else
-		if IsValid(self.NVGLight) then
-			self.NVGLight:Remove()
-			self.NVGLight = nil
-		end
-	end
-
 	local weapon = lp:GetActiveWeapon()
 
 	if IsValid(weapon) and weapon.RenderScreenspaceEffects then
@@ -563,393 +493,4 @@ function GM:PlayerEndVoice(ply)
 	if not game.IsDedicated() then
 		self.BaseClass:PlayerEndVoice(ply)
 	end
-end
-
-function GM:CreateNVGLight()
-	self.NVGLight = ProjectedTexture()
-
-	self.NVGLight:SetTexture("effects/flashlight001")
-	self.NVGLight:SetFOV(60)
-	self.NVGLight:SetFarZ(1000)
-	self.NVGLight:SetEnableShadows(false)
-end
-
-GM.NVGScale = 0.5
-
-function GM:DrawNVG()
-	if not IsValid(self.NVGLight) then
-		self:CreateNVGLight()
-	end
-
-	if self.NVGScale < 1 then
-		self.NVGScale = self.NVGScale + 0.1 * (1 - self.NVGScale)
-	else
-		self.NVGScale = 1
-	end
-
-	self.NVGLight:SetBrightness(1.2 - self.NVGScale)
-
-	self.NVGLight:SetPos(EyePos())
-	self.NVGLight:SetAngles(EyeAngles())
-	self.NVGLight:Update()
-
-	local tab = {}
-
-	tab["$pp_colour_addr"] 			= -1
-	tab["$pp_colour_addg"] 			= -0.65
-	tab["$pp_colour_addb"] 			= -1
-	tab["$pp_colour_brightness"] 	= self.NVGScale * 0.8
-	tab["$pp_colour_contrast"] 		= self.NVGScale * 1.106
-	tab["$pp_colour_colour"] 		= 0
-	tab["$pp_colour_mulr"] 			= 0.1
-	tab["$pp_colour_mulg"] 			= 0.2
-	tab["$pp_colour_mulb"] 			= 0.1
-
-	DrawColorModify(tab)
-	DrawBloom(0, self.NVGScale * 0.74, 2.97, 3.18, 4, self.NVGScale * 3.14, 240 / 255, 1, 1)
-end
-
-function GM:DrawTargetHUD()
-	local target = LocalPlayer():GetEyeTrace().Entity
-
-	if not IsValid(target) or not (target:IsPlayer() or target:IsNPC()) then
-		target = nil
-	end
-
-	local pos
-
-	if LocalPlayer():ShouldDrawLocalPlayer() then
-		local vec = (LocalPlayer():EyeAngles() + LocalPlayer():GetViewPunchAngles()):Forward()
-		local trace = util.TraceLine({
-			start = LocalPlayer():GetShootPos(),
-			endpos = LocalPlayer():EyePos() + (vec * 10000),
-			filter = {LocalPlayer()}
-		})
-
-		local tab = trace.HitPos:ToScreen()
-
-		pos = Vector(tab.x, tab.y, 0)
-	else
-		pos = Vector(ScrW() * 0.5, ScrH() * 0.5, 0)
-	end
-
-	self:DrawTargetHUDText(pos, target)
-end
-
-GM.TargetHUDUpdate = CurTime()
-GM.TargetHUDText = {}
-GM.TargetHUDFont = "CombineControl.CombineScanner"
-GM.TargetHUDColor = Color(255, 0, 0)
-GM.TargetHUDColorReprog = Color(0, 191, 255)
-
-function GM:DrawTargetHUDText(pos, target)
-	local col = ColorAlpha(LocalPlayer():Team() == TEAM_REPROG and self.TargetHUDColorReprog or self.TargetHUDColor, self.TargetScale * 255)
-	local size = 80
-
-	surface.SetDrawColor(col.r, col.g, col.b, col.a)
-	surface.SetTexture(surface.GetTextureID("models/tnb/trpweapons/reticule_square"))
-
-	surface.DrawTexturedRect(pos.x - size, pos.y - size, size * 2, size * 2)
-
-	local dist = LocalPlayer():GetEyeTrace().HitPos:Distance(LocalPlayer():EyePos())
-
-	draw.DrawText(string.format("DIST: %s (%s)", math.Round(dist * 0.0254), math.Round(dist)), "DebugFixed", pos.x - size, pos.y + size, col)
-	draw.DrawText("BEARING: " .. math.floor(math.AngleToHeading(LocalPlayer():EyeAngles().y)), "DebugFixed", pos.x - size, pos.y + size + draw.GetFontHeight("DebugFixed"), col)
-
-	if self.TargetHUDUpdate <= CurTime() then
-		table.insert(self.TargetHUDText, 1, string.Right(tostring({}), 10))
-
-		if #self.TargetHUDText > 8 then
-			table.remove(self.TargetHUDText)
-		end
-
-		self.TargetHUDUpdate = CurTime() + 0.1
-	end
-
-	surface.SetFont(self.TargetHUDFont)
-
-	local x = 20
-	local y = 20
-
-	local function drawText(text, align)
-		align = align or TEXT_ALIGN_LEFT
-
-		draw.DrawText(text, self.TargetHUDFont, x, y, col, align)
-
-		y = y + surface.GetFontHeight(self.TargetHUDFont)
-	end
-
-	drawText("DATA RECV:")
-	drawText("**********")
-
-	for _, v in pairs(self.TargetHUDText) do
-		drawText(v)
-	end
-
-	x = ScrW() - 20
-	y = ScrH() * 0.4
-
-	if target then
-		local tab = {}
-		local width = 0
-
-		local function add(preface, text)
-			width = math.max(width, #tostring(text))
-
-			table.insert(tab, {preface, text})
-		end
-
-		add("389 TARGID", target:IsPlayer() and target:VisibleRPName() or "NULL")
-		add("105 STRCTR", math.Round((target:Health() / target:GetMaxHealth()) * 100))
-
-		if target:IsPlayer() then
-			local weaponlist = target:GetWeapons()
-			local output = {}
-
-			for _, v in pairs(weaponlist) do
-				if v.Tekka then
-					table.insert(output, self:GetWeaponName(v))
-				elseif v.TRP then
-					table.insert(output, v.PrintName)
-				end
-			end
-
-			table.sort(output)
-
-			add("790 WEAPON", table.remove(output, 1) or "NULL")
-
-			for _, v in pairs(output) do
-				add("", v)
-			end
-		else
-			add("790 WEAPON", "NULL")
-		end
-
-		drawText("TARGET ANALYSIS:", TEXT_ALIGN_RIGHT)
-		drawText(string.rep("*", width + 12), TEXT_ALIGN_RIGHT)
-
-		for _, v in pairs(tab) do
-			drawText(string.format("%s  %-" .. width .. "s", unpack(v)), TEXT_ALIGN_RIGHT)
-		end
-	end
-
-	x = 20
-	y = ScrH() - 20 - (surface.GetFontHeight(self.TargetHUDFont) * 4)
-
-	drawText("DEBUG QUERY")
-	drawText("SYSCHECK...")
-	drawText(string.format("NETWORK MASK: %s...", LocalPlayer():VisibleRPName()))
-	drawText(string.format("STRCTR: %d/%d... VEL: %.2f M/S...", LocalPlayer():Health(), LocalPlayer():GetMaxHealth(), LocalPlayer():GetVelocity():Length() * 0.0254))
-end
-
-function GM:GetWeaponName(ent)
-	local blacklist = {
-		["admin"] = true,
-		["drone"] = true,
-		["dual"] = true,
-		["infiltrator"] = true,
-		["skynet"] = true,
-		["tc"] = true,
-		["tekka"] = true,
-		["trp"] = true
-	}
-
-	local expl = string.Explode("_", ent:GetClass())
-	local weapon = {}
-
-	for _, v in pairs(expl) do
-		if blacklist[v] then
-			continue
-		end
-
-		table.insert(weapon, v)
-	end
-
-	return table.concat(weapon, "_")
-end
-
-function GM:DrawTargetHUDPP()
-	if not IsValid(self.NVGLight) then
-		self:CreateNVGLight()
-	end
-
-	self.TargetScale = math.Clamp(self.TargetScale + 0.02 * (1 - self.TargetScale), 0, 1)
-
-	self.NVGLight:SetBrightness(1.2 - self.TargetScale)
-
-	self.NVGLight:SetPos(EyePos())
-	self.NVGLight:SetAngles(EyeAngles())
-	self.NVGLight:Update()
-
-	local tab = {}
-
-	tab["$pp_colour_addr"] 			= 0
-	tab["$pp_colour_addg"] 			= 0
-	tab["$pp_colour_addb"] 			= 0
-	tab["$pp_colour_brightness"] 	= 0
-	tab["$pp_colour_contrast"] 		= 1 * self.TargetScale
-	tab["$pp_colour_colour"] 		= 0
-	tab["$pp_colour_mulr"] 			= 0.1 * self.TargetScale
-	tab["$pp_colour_mulg"] 			= 0.1 * self.TargetScale
-	tab["$pp_colour_mulb"] 			= 0.1 * self.TargetScale
-
-	DrawColorModify(tab)
-
-	local bloom = self.TargetScale * 2
-
-	if bloom > 1 then
-		bloom = 1 - (bloom - 1)
-	end
-
-	DrawBloom(0.07, bloom * 5, 9, 9, 1, 1, 1, 1, 1 )
-end
-
-local white = Material("engine/singlecolor")
-
-function GM:DrawThermal()
-	local tab = {}
-
-	table.Add(tab, player.GetAll())
-	table.Add(tab, ents.FindByClass("npc_*"))
-
-	render.SetStencilEnable(true)
-
-	render.SetStencilWriteMask(255)
-	render.SetStencilTestMask(255)
-
-	render.SetStencilReferenceValue(1)
-
-	render.SetStencilCompareFunction(STENCIL_ALWAYS)
-
-	render.SetStencilPassOperation(STENCIL_REPLACE)
-	render.SetStencilFailOperation(STENCIL_KEEP)
-	render.SetStencilZFailOperation(STENCIL_KEEP)
-
-	render.ClearStencil()
-
-	render.SuppressEngineLighting(true)
-	render.MaterialOverride(white)
-
-	cam.Start3D()
-		for _, v in pairs(tab) do
-			local thermal = v:IsPlayer() and v:ThermalHidden() or false
-			local ent = GAMEMODE:ShouldDrawStencilEnt(v)
-
-			if not IsValid(ent) or ent:IsDormant() then
-				continue
-			end
-
-			GAMEMODE:DrawStencilEnt(ent, thermal)
-		end
-	cam.End3D()
-
-	render.MaterialOverride()
-	render.SuppressEngineLighting(false)
-
-	render.SetStencilCompareFunction(STENCIL_NOTEQUAL)
-
-	DrawColorModify({
-		["$pp_colour_addr"] = 0,
-		["$pp_colour_addg"] = 0,
-		["$pp_colour_addb"] = 0,
-		["$pp_colour_brightness"] = -0.1,
-		["$pp_colour_contrast"] = 0.25,
-		["$pp_colour_colour"] = 0,
-		["$pp_colour_mulr"] = 0,
-		["$pp_colour_mulg"] = 0,
-		["$pp_colour_mulb"] = 0
-	})
-
-	DrawColorModify({
-		["$pp_colour_addr"] = 0,
-		["$pp_colour_addg"] = 0,
-		["$pp_colour_addb"] = 0,
-		["$pp_colour_brightness"] = 0,
-		["$pp_colour_contrast"] = 1,
-		["$pp_colour_colour"] = 0,
-		["$pp_colour_mulr"] = 0,
-		["$pp_colour_mulg"] = 0,
-		["$pp_colour_mulb"] = 0
-	})
-
-	render.SetStencilEnable(false)
-
-	DrawBloom(0, 2, 1, 1, 1, 1, 1, 1, 1)
-	DrawMotionBlur(0.5, 0.4, 0.04)
-end
-
-hook.Add("OnOverlayModeChanged", "CL.Hud.OverlayMode", function(ply, mode)
-	local snd = (mode == OVERLAY_NONE) and "items/nvg_off.wav" or "items/nvg_on.wav"
-
-	surface.PlaySound(snd)
-
-	if mode == OVERLAY_NVG then
-		GAMEMODE.NVGScale = 0
-	elseif mode == OVERLAY_TARGET then
-		GAMEMODE.TargetScale = 0
-	end
-end)
-
-hook.Add("PreDrawOutlines", "CL.Hud.Outlines", function()
-	if LocalPlayer():OverlayMode() != OVERLAY_TARGET then
-		return
-	end
-
-	local target = LocalPlayer():GetEyeTrace().Entity
-
-	if not IsValid(target) or not (target:IsPlayer() or target:IsNPC()) then
-		target = nil
-	end
-
-	for _, v in ents.Iterator() do
-		if not IsValid(v) then
-			continue
-		end
-
-		if v:IsDormant() then
-			continue
-		end
-
-		if not (v:IsNPC() or v:IsPlayer()) then
-			continue
-		end
-
-		local ent = GAMEMODE:ShouldDrawStencilEnt(v)
-
-		if not IsValid(ent) then
-			continue
-		end
-
-		local color = (ent:IsPlayer() and ent != target) and GAMEMODE:GetTeamColor(ent) or color_white
-
-		local tab = {ent}
-
-		local weapon = ent.GetActiveWeapon and ent:GetActiveWeapon()
-
-		if IsValid(weapon) then
-			table.insert(tab, weapon)
-		end
-
-		outline.Add(tab, color, OUTLINE_MODE_VISIBLE)
-	end
-end)
-
-function GM:ShouldDrawStencilEnt(ent)
-	if ent:IsNPC() and ent:Health() > 0 then
-		return ent
-	elseif ent:IsPlayer() and ent:Alive() then
-		local ragdoll = ent:Ragdoll()
-
-		if IsValid(ragdoll) then
-			return ragdoll
-		end
-
-		return not ent:GetNoDraw() and ent or false
-	end
-
-	return false
-end
-
-function GM:DrawStencilEnt(ent, thermal)
-	ent:DrawModel()
 end
