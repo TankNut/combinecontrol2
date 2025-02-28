@@ -16,6 +16,7 @@ function CreateTables(db)
 		query:Create("SteamID", "VARCHAR(32) NOT NULL")
 		query:Create("Created_At", "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 		query:Create("Deleted_At", "TIMESTAMP")
+
 		query:Index("SteamID")
 	query:Execute()
 
@@ -26,6 +27,7 @@ function CreateTables(db)
 		query:Create("StoreID", "VARCHAR(64)")
 		query:Create("MapData", "BLOB")
 		query:Create("CustomData", "BLOB")
+
 		query:Index("StoreType", "StoreID")
 	query:Execute()
 
@@ -33,6 +35,15 @@ function CreateTables(db)
 		query:Create("Map", "VARCHAR(32) NOT NULL", true)
 		query:Create("Key", "VARCHAR(64) NOT NULL", true)
 		query:Create("Value", "BLOB NOT NULL")
+	query:Execute()
+
+	query = db:Create("rp_bans")
+		query:Create("SteamID", "VARCHAR(32) NOT NULL", true)
+		query:Create("Admin", "VARCHAR(32) NOT NULL")
+		query:Create("AdminID", "VARCHAR(32) NOT NULL")
+		query:Create("Timestamp", "INT UNSIGNED NOT NULL")
+		query:Create("Length", "INT UNSIGNED")
+		query:Create("Reason", "VARCHAR(256) NOT NULL")
 	query:Execute()
 
 	PopulateFromVars(db, "rp_players", PlayerVar.Vars)
@@ -79,6 +90,7 @@ function GM:LoadDatabase()
 
 		Load(self.Database)
 
+		Access.LoadBans()
 		Item.LoadWorld()
 		GlobalVar.Load()
 	end)
