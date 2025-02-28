@@ -86,14 +86,6 @@ function PANEL:SelectMenu(index)
 
 	self.ContentScroll:SetVerticalScrollbarEnabled(true)
 	self.ContentScroll:Dock(FILL)
-
-	self:UpdateMenuButtons()
-end
-
-function PANEL:UpdateMenuButtons()
-	for index, option in pairs(self.MenuButtons) do
-		option.Button:SetDisabled(self.SelectedMenu == index)
-	end
 end
 
 derma.DefineControl("GUI_HelpMenu", "", PANEL, "CC_Frame")

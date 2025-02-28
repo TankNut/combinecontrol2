@@ -6,6 +6,9 @@ function GM:OnPlayerReady(ply)
 	async.Start(function()
 		PlayerVar.Load(ply)
 		ply:LoadCharacterList()
+
+		ply:SetLastOnlineName(ply:Nick())
+		ply:SetLastOnlineTime(os.time())
 	end)
 end
 

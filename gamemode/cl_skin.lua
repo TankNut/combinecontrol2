@@ -130,11 +130,11 @@ function SKIN:PaintListViewColumn(panel, w, h)
 end
 
 function SKIN:PaintListViewLine(panel, w, h)
-	if self:IsSelected() then
+	if panel:IsSelected() then
 		surface.SetDrawColor(self.Colors.Primary)
-	elseif self.Hovered then
+	elseif panel.Hovered then
 		surface.SetDrawColor(self.Colors.FillLight)
-	elseif self.m_bAlt then
+	elseif panel.m_bAlt then
 		surface.SetDrawColor(self.Colors.FillMedium)
 	end
 

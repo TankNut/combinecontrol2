@@ -7,6 +7,20 @@ PlayerVar.Add("DonatorActive", {Default = false})
 
 PlayerVar.Add("OOCMuted", {Default = 0, Persist = true, DataType = TINYINT()})
 
+PlayerVar.Add("LastOnlineName", {
+	Default = "",
+	ServerOnly = true,
+	Persist = true,
+	DataType = VARCHAR(32)
+})
+
+PlayerVar.Add("LastOnlineTime", {
+	Default = nil,
+	ServerOnly = true,
+	Persist = true,
+	DataType = TIMESTAMP()
+})
+
 -- Todo: Implement weapon zoom as a multiplier
 function PLAYER:GetSightRange()
 	return Config.Get("PlayerSight")

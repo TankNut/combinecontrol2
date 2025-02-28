@@ -39,8 +39,8 @@ function PLAYER:CreateCharacter(fields)
 				error(string.format("%s value '%s' doesn't match database type %s", k, v, var.DataType))
 			end
 
-			if var.DataType == "BLOB" then
-				query:Insert(var.Field, sfs.encode(v))
+			if var.Encode then
+				query:Insert(var.Field, var.Encode(v))
 			else
 				query:Insert(var.Field, v)
 			end
@@ -112,8 +112,8 @@ function PLAYER:LoadCharacter(id)
 			continue
 		end
 
-		if var.DataType == "BLOB" then
-			val = sfs.decode(val)
+		if var.Decode then
+			val = var.Decode(val)
 		end
 
 		self["Set" .. var.Name](self, val, true)

@@ -18,7 +18,9 @@ function Add(name, data)
 		Persist = true,
 		Field = data.Field or name,
 		DataType = databaseType.DataType,
-		Validate = data.Validate or databaseType.Validate
+		Validate = data.Validate or databaseType.Validate,
+		Encode = data.Encode or databaseType.Encode,
+		Decode = data.Decode or databaseType.Decode,
 	}
 
 	Store[name] = Store[name] or {}
@@ -153,7 +155,7 @@ else
 				if value == nil then
 					query:UpdateRaw(var.Field, "NULL")
 				else
-					value = var.DataType == "BLOB" and sfs.encode(value) or value
+					value = var.Encode and var.Encode(value) or value
 
 					query:Update(var.Field, value)
 				end
