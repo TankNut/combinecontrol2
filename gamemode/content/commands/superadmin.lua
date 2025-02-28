@@ -13,16 +13,27 @@ local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, steamI
 
 		console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
 	else
-		local query = GAMEMODE.Database:Upsert("rp_players")
-		query:Insert("SteamID", steamId)
+		local query = GAMEMODE.Database:Select("rp_players")
+			query:Select("UserGroup")
+			query:WhereEqual("SteamID", steamId)
+		local data = query:Execute()
+		data = data[1] and data[1] or nil
 
-		if usergroup == "user" then
-			query:InsertRaw("UserGroup", "NULL")
-		else
-			query:Insert("UserGroup", usergroup)
+		if data and data.UserGroup and not ply:CanTargetUserGroup(data.UserGroup, true) then
+			console.Feedback(ply, "ERROR", "You cannot modify %s's %s usergroup", steamId, data.UserGroup)
+
+			return
 		end
 
-		query:Execute()
+		local upsert = GAMEMODE.Database:Upsert("rp_players")
+			upsert:Insert("SteamID", steamId)
+
+			if usergroup == "user" then
+				upsert:InsertRaw("UserGroup", "NULL")
+			else
+				upsert:Insert("UserGroup", usergroup)
+			end
+		upsert:Execute()
 	end
 
 	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target and target:Nick() or steamId, usergroup)
@@ -36,7 +47,7 @@ setUserGroup:SetAccess(console.IsSuperAdmin)
 
 setUserGroup:AddParameter(console.SteamID({
 	SingleTarget = true,
-	CheckImmunity = true,
+	StrictImmunity = true,
 	NoSelfTarget = true,
 	Online = false
 }))
@@ -68,7 +79,7 @@ setUserAlias:SetAccess(console.IsSuperAdmin)
 
 setUserAlias:AddParameter(console.SteamID({
 	SingleTarget = true,
-	CheckImmunity = true,
+	StrictImmunity = true,
 	NoSelfTarget = false,
 	Online = false
 }))
@@ -175,7 +186,7 @@ giveTempAdmin:SetAccess(console.IsSuperAdmin)
 
 giveTempAdmin:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = true,
+	StrictImmunity = true,
 	NoSelfTarget = true
 }))
 
@@ -203,6 +214,6 @@ takeTempAdmin:SetAccess(console.IsSuperAdmin)
 
 takeTempAdmin:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = true,
+	StrictImmunity = true,
 	NoSelfTarget = true
 }))

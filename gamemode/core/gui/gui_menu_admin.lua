@@ -9,6 +9,12 @@ function PANEL:Init()
 
 	self:MakePopup()
 	self:Center()
+
+	hook.Add("OnUserGroupChanged", self, function(_, ply, old, new)
+		if lp == ply and not ply:IsAdmin() then
+			self:Remove()
+		end
+	end)
 end
 
 derma.DefineControl("GUI_AdminMenu", "", PANEL, "CC_BaseMenu")

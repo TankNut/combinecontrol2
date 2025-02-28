@@ -107,6 +107,67 @@ end
 
 derma.DefineControl("GUI_Input_Multiline", "", PANEL, "GUI_Input_Text")
 
+PANEL = {}
+
+function PANEL:Init()
+	self:SetSize(250, 90)
+	self:SetDraggable(true)
+
+	self.Submit:Remove()
+	self.Input:Remove()
+	self.ErrorText:Remove()
+
+	self.Prompt = self:Add("DLabel")
+	self.Prompt:SetContentAlignment(4)
+	self.Prompt:SetTextInset(2, 0)
+	self.Prompt:SetWrap(true)
+	self.Prompt:SetAutoStretchVertical(true)
+
+	self.Confirm = self:Add("DButton")
+	self.Confirm:SetText("Confirm")
+	self.Confirm:SetWide(110)
+
+	self.Confirm.DoClick = function()
+		async.Handle(self.Coroutine, true)
+
+		self:Remove()
+	end
+
+	self.Cancel = self:Add("DButton")
+	self.Cancel:SetText("Cancel")
+	self.Cancel:SetWide(110)
+
+	self.Cancel.DoClick = function()
+		async.Handle(self.Coroutine, false)
+
+		self:Remove()
+	end
+end
+
+function PANEL:Setup(data)
+	self.Coroutine = coroutine.running()
+
+	self.Prompt:SetText(data.Prompt and data.Prompt or "Are you sure you'd like to do this?")
+	self.Confirm:SetText(data.Confirm and data.Confirm or "Confirm")
+	self.Cancel:SetText(data.Cancel and data.Cancel or "Cancel")
+end
+
+function PANEL:PerformLayout(w, h)
+	BaseClass.PerformLayout(self, w, h)
+
+	self.Prompt:AlignLeft(10)
+	self.Prompt:AlignTop(34)
+	self.Prompt:StretchToParent(nil, nil, 10, 35)
+
+	self.Confirm:AlignBottom(10)
+	self.Confirm:AlignRight(10)
+
+	self.Cancel:AlignBottom(10)
+	self.Cancel:AlignLeft(10)
+end
+
+derma.DefineControl("GUI_Input_Confirm", "", PANEL, "GUI_Input_Text")
+
 GUI.Register("Input", function(subtype, title, data)
 	local panel
 
@@ -116,6 +177,8 @@ GUI.Register("Input", function(subtype, title, data)
 		panel = vgui.Create("GUI_Input_Number")
 	elseif subtype == "multiline" then
 		panel = vgui.Create("GUI_Input_Multiline")
+	elseif subtype == "confirm" then
+		panel = vgui.Create("GUI_Input_Confirm")
 	end
 
 	panel:SetCloseOnPause(true)

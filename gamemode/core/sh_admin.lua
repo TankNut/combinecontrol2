@@ -33,12 +33,16 @@ local immunity = {
 }
 
 function PLAYER:CanTarget(target, strict)
+	return self:CanTargetUserGroup(target:UserGroup(), strict)
+end
+
+function PLAYER:CanTargetUserGroup(userGroup, strict)
 	if self:IsDeveloper() then
 		return true
 	end
 
 	local ourImmunity = immunity[self:UserGroup()] or 0
-	local theirImmunity = immunity[target:UserGroup()] or 0
+	local theirImmunity = immunity[userGroup] or 0
 
 	if strict then
 		return ourImmunity > theirImmunity
@@ -113,4 +117,17 @@ if SERVER then
 	function GM:OnAINoTargetChanged(old, new, loaded)
 		RunConsoleCommand("ai_ignoreplayers", new and 1 or 0)
 	end
+
+	request.Hook("AdminRoster", function(ply)
+		local query = GAMEMODE.Database:Select("rp_players")
+			query:Select("SteamID")
+			query:Select("UserGroup")
+			query:Select("UserAlias")
+			query:Select("LastOnlineName")
+			query:Select("LastOnlineTime")
+			query:WhereNotNull("UserGroup")
+		local data = query:Execute()
+
+		return data
+	end)
 end
