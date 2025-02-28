@@ -32,12 +32,19 @@ local immunity = {
 	developer = 3
 }
 
-function PLAYER:CanTarget(target)
+function PLAYER:CanTarget(target, strict)
 	if self:IsDeveloper() then
 		return true
 	end
 
-	return (immunity[self:UserGroup()] or 0) >= (immunity[target:UserGroup()] or 0)
+	local ourImmunity = immunity[self:UserGroup()] or 0
+	local theirImmunity = immunity[target:UserGroup()] or 0
+
+	if strict then
+		return ourImmunity > theirImmunity
+	else
+		return ourImmunity >= theirImmunity
+	end
 end
 
 function PLAYER:IsAdmin()

@@ -140,6 +140,12 @@ function console.FindPlayer(ply, str, options)
 		end)
 	end
 
+	if options.StrictImmunity and not isConsole then
+		targets = table.Filter(targets, function(_, target)
+			return ply:CanTarget(target, true)
+		end)
+	end
+
 	if options.NoAdmins then
 		targets = table.Filter(targets, function(_, target)
 			return not target:IsAdmin()
