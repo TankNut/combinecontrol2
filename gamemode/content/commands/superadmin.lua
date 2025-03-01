@@ -174,7 +174,6 @@ local giveTempAdmin = console.AddCommand("rpa_givetempadmin", function(ply, targ
 		return
 	end
 
-	target:SetTempUserGroup("admin")
 	target:SetTempAdmin(true)
 
 	Chat.Send("NOTICE", string.format("%s has given temporary admin to %s.", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), player.GetAdmins())
@@ -192,17 +191,12 @@ giveTempAdmin:AddParameter(console.Player({
 }))
 
 local takeTempAdmin = console.AddCommand("rpa_taketempadmin", function(ply, target)
-	if not target:IsAdmin() then
-		console.Feedback(ply, "ERROR", "%s does not have administrator access", target)
-
-		return
-	elseif target:IsAdmin() and not target:TempAdmin() then
+	if not target:TempAdmin() then
 		console.Feedback(ply, "ERROR", "%s is not a temporary administrator", target)
 
 		return
 	end
 
-	target:SetUserGroup("user")
 	target:SetTempAdmin(false)
 
 	Chat.Send("NOTICE", string.format("%s has taken temporary admin from %s.", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), player.GetAdmins())

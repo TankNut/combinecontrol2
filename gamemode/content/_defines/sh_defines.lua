@@ -51,10 +51,11 @@ end
 
 -- Badges are displayed right to left based on this order
 GM.Badges = {
-	Badge("bot",        "Bot",         "icon16/monkey.png",        function(ply) return ply:IsBot() end),
-	Badge("developer",  "Developer",   "icon16/tag.png",           function(ply) return ply:GetUserGroup() == "developer" end),
-	Badge("superadmin", "Superadmin",  "icon16/shield_add.png",    function(ply) return ply:GetUserGroup() == "superadmin" end),
-	Badge("admin",      "Admin",       "icon16/shield.png",        function(ply) return ply:GetUserGroup() == "admin" end),
+	Badge("bot",        "Bot",             "icon16/monkey.png",        function(ply) return ply:IsBot() end),
+	Badge("developer",  "Developer",       "icon16/tag.png",           function(ply) return ply:GetUserGroup() == "developer" end),
+	Badge("superadmin", "Superadmin",      "icon16/shield_add.png",    function(ply) return ply:GetUserGroup() == "superadmin" end),
+	Badge("admin",      "Admin",           "icon16/shield.png",        function(ply) return ply:GetUserGroup() == "admin" end),
+	Badge("tempadmin",  "Temporary Admin", "icon16/shield.png",        function(ply) return ply:TempAdmin() end),
 
 	Badge("bannedtt",   "Banned Tooltrust",    "icon16/key_delete.png",    function(ply) return ShowToAdminsOrSelf(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end),
 	Badge("advancedtt", "Advanced Tooltrust",  "icon16/key_add.png",       function(ply) return ShowToAdminsOrSelf(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end),

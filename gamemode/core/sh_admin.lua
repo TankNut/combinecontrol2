@@ -14,11 +14,7 @@ PlayerVar.Add("UserAlias", {
 	DataType = VARCHAR(64)
 })
 
-PlayerVar.Add("TempAdmin", {
-	Default = false,
-	ServerOnly = true,
-	Persist = false
-})
+PlayerVar.Add("TempAdmin", {Default = false})
 
 GlobalVar.Add("OOCDelay", {Default = 0})
 
@@ -52,7 +48,7 @@ function PLAYER:CanTargetUserGroup(userGroup, strict)
 end
 
 function PLAYER:IsAdmin()
-	return self:IsDeveloper() or self:IsSuperAdmin() or self:UserGroup() == "admin"
+	return self:IsDeveloper() or self:IsSuperAdmin() or self:UserGroup() == "admin" or self:TempAdmin()
 end
 
 function PLAYER:IsSuperAdmin()
