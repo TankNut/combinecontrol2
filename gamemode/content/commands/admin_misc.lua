@@ -97,16 +97,16 @@ yell:SetAccess(console.IsAdmin)
 
 yell:AddParameter(console.String())
 
-local deadmin = console.AddCommand("rpa_deadmin", function(ply)
-	ply:SetUserGroup("user", true)
+-- local deadmin = console.AddCommand("rpa_deadmin", function(ply)
+-- 	ply:SetTempUserGroup("user")
 
-	console.Feedback(ply, "NOTICE", "You've deadminned yourself")
-	Chat.Send("NOTICE", string.format("%s has deadminned themself", ply:Nick()), player.GetAdmins())
-end)
+-- 	console.Feedback(ply, "NOTICE", "You've deadminned yourself")
+-- 	Chat.Send("NOTICE", string.format("%s has deadminned themself", ply:Nick()), player.GetAdmins())
+-- end)
 
-deadmin:SetDescription("Removes yourself from the admin role")
-deadmin:SetExecutionContext(console.Server)
-deadmin:SetAccess(console.IsAdmin)
+-- deadmin:SetDescription("Removes yourself from the admin role")
+-- deadmin:SetExecutionContext(console.Server)
+-- deadmin:SetAccess(console.IsAdmin)
 
 local oocDelay = console.AddCommand("rpa_oocdelay", function(ply, delay)
 	GAMEMODE:SetOOCDelay(delay)

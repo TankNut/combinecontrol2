@@ -97,22 +97,6 @@ function Add(name, data)
 		end
 	end
 
-	PLAYER["SetTemp" .. name] = function(ply, value)
-		if value == default then value = nil end
-
-		if validate and value != nil and not validate(value) then
-			error(string.format("Set value '%s' doesn't match database type %s", value, dataType), 2)
-		end
-
-		if set(ply, value) then
-			return
-		end
-
-		if SERVER and not serverOnly then
-			netstream.Send(private and ply or nil, index, ply, value)
-		end
-	end
-
 	if CLIENT then
 		netstream.Hook(index, set)
 	end
