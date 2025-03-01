@@ -39,7 +39,7 @@ function PANEL:Init()
 	self.List:AddColumn("Usergroup"):SetFixedWidth(100)
 	self.List:AddColumn("SteamID"):SetFixedWidth(150)
 	self.List:AddColumn("Community Alias")
-	self.List:AddColumn("Last Name")
+	self.List:AddColumn("Steam Name")
 	self.List:AddColumn("Last Online")
 
 	self.List.OnRowSelected = function(panel, index, row)
