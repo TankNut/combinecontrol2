@@ -161,3 +161,9 @@ function GM:PlayerSetHandsModel(ply, ent)
 	ent:SetSkin(0)
 	ent:SetBodyGroups("11")
 end
+
+gameevent.Listen("player_changename")
+
+hook.Add("player_changename", "core/player", function(data)
+	Player(data.userid):SetLastNick(data.newname)
+end)
