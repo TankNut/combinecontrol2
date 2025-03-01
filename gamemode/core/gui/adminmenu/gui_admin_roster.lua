@@ -82,16 +82,14 @@ function PANEL:RequestAdminRoster()
 	end)
 end
 
+local function getName(data)
+	return data.Alias or data.LastNick or data.SteamID
+end
+
 function PANEL:DoDemoteUser()
 	local _, line = self.List:GetSelectedLine()
 	local data = line.Data
-	local admin = data.SteamID
-
-	if data.Alias then
-		admin = data.Alias
-	elseif data.LastSeen then
-		admin = data.LastSeen
-	end
+	local admin = getName(data)
 
 	async.Start(function()
 		local confirm = GUI.Open("Input", "confirm", string.format("Demote %s", admin), {
@@ -113,12 +111,12 @@ end
 function PANEL:DoUpdateAlias()
 	local _, line = self.List:GetSelectedLine()
 	local steamId = line.Data.SteamID
+	local name = getName(line.Data)
 
 	async.Start(function()
-		local alias = GUI.Open("Input", "string", "Update Alias", {
-			Default = line:GetValue(3),
+		local alias = GUI.Open("Input", "string", "Update Alias for " .. name, {
+			Default = line:GetValue(3) or line:GetValue(4),
 			Validate = {
-				validate.Min(1),
 				validate.Max(32),
 			}
 		})

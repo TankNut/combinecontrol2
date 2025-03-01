@@ -86,8 +86,7 @@ setUserAlias:AddParameter(console.SteamID({
 }))
 
 setUserAlias:AddParameter(console.String({
-	validate.Min(1),
-	validate.Max(64),
+	validate.Max(32),
 }))
 
 local giveBadge = console.AddCommand("rpa_givebadge", function(ply, target, badge)
