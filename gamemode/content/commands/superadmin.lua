@@ -51,38 +51,6 @@ setUserGroup:AddParameter(console.String({
 	validate.InList({"user", "admin", "superadmin", "developer"})
 }))
 
-local setUserAlias = console.AddCommand("rpa_setuseralias", function(ply, steamId, alias)
-	local target = player.GetBySteamID(steamId)
-	local name = target and target:Nick() or steamId
-
-	if target then
-		target:SetAlias(alias)
-	else
-		local query = GAMEMODE.Database:Upsert("rp_players")
-			query:Insert("SteamID", steamId)
-			query:Insert("Alias", alias)
-		query:Execute()
-	end
-
-	console.Feedback(ply, "NOTICE", "You've set %s's user alias to %s", name, alias)
-end)
-
-setUserAlias:SetCategory("Superadmin Commands")
-setUserAlias:SetDescription("Updates a player's alias on the admin roster")
-setUserAlias:SetExecutionContext(console.Server)
-setUserAlias:SetAccess(console.IsSuperAdmin)
-
-setUserAlias:AddParameter(console.SteamID({
-	SingleTarget = true,
-	StrictImmunity = true,
-	NoSelfTarget = false,
-	Online = false
-}))
-
-setUserAlias:AddParameter(console.String({
-	validate.Max(32),
-}))
-
 local giveBadge = console.AddCommand("rpa_givebadge", function(ply, target, badge)
 	if target:HasBadge(badge) then
 		console.Feedback(ply, "ERROR", "%s already has this badge", target)

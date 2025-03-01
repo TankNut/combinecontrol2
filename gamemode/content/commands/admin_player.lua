@@ -224,3 +224,35 @@ listCharacters:AddParameter(console.SteamID({
 	NoSelfTarget = false,
 	Online = false,
 }))
+
+local setAlias = console.AddCommand("rpa_setalias", function(ply, steamId, alias)
+	local target = player.GetBySteamID(steamId)
+	local name = target and target:Nick() or steamId
+
+	if target then
+		target:SetAlias(alias)
+	else
+		local query = GAMEMODE.Database:Upsert("rp_players")
+			query:Insert("SteamID", steamId)
+			query:Insert("Alias", alias)
+		query:Execute()
+	end
+
+	console.Feedback(ply, "NOTICE", "You've set %s's alias to %s", name, alias)
+end)
+
+setAlias:SetCategory("Player Commands")
+setAlias:SetDescription("Sets a player's alias name")
+setAlias:SetExecutionContext(console.Server)
+setAlias:SetAccess(console.IsAdmin)
+
+setAlias:AddParameter(console.SteamID({
+	SingleTarget = true,
+	CheckImmunity = true,
+	NoSelfTarget = false,
+	Online = false
+}))
+
+setAlias:AddParameter(console.String({
+	validate.Max(32),
+}))

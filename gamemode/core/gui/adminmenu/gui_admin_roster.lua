@@ -1,15 +1,5 @@
 local PANEL = {}
 
-function PANEL:CreateLabel(text, wide)
-	local label = self:Add("DLabel")
-
-	label:SetFont("CombineControl.LabelMedium")
-	label:SetWide(wide or 190)
-	label:SetText(text)
-
-	return label
-end
-
 function PANEL:Init()
 	self.ActionsLabel = self:Add("DLabel")
 	self.ActionsLabel:SetFont("CombineControl.LabelMediumBold")
@@ -23,6 +13,14 @@ function PANEL:Init()
 	self.UpdateAlias:SetDisabled(true)
 	self.UpdateAlias.DoClick = function()
 		self:DoUpdateAlias()
+	end
+
+	self.PromoteUser = self:Add("DButton")
+	self.PromoteUser:SetText("Promote User")
+	self.PromoteUser:SetWide(120)
+	self.PromoteUser:SetDisabled(not lp:IsSuperAdmin())
+	self.PromoteUser.DoClick = function()
+		self:DoPromoteUser()
 	end
 
 	self.DemoteUser = self:Add("DButton")
@@ -92,13 +90,30 @@ local function getName(data)
 	return data.Alias or data.LastNick or data.SteamID
 end
 
+function PANEL:DoPromoteUser()
+	async.Start(function()
+		local target = GUI.Open("Input", "string", "Promote User to Admin", {
+			Default = "",
+			Validate = {
+				validate.Max(32),
+			}
+		})
+
+		RunConsoleCommand("rpa_setusergroup", target, "admin")
+
+		if IsValid(self) then
+			self:RequestAdminRoster()
+		end
+	end)
+end
+
 function PANEL:DoDemoteUser()
 	local _, line = self.List:GetSelectedLine()
 	local data = line.Data
 	local admin = getName(data)
 
 	async.Start(function()
-		local confirm = GUI.Open("Input", "confirm", string.format("Demote %s", admin), {
+		local confirm = GUI.Open("Input", "confirm", "Demote Admin to User", {
 			Prompt = string.format("Demote %s and revoke all of their current in-game access?", admin),
 		})
 
@@ -108,8 +123,8 @@ function PANEL:DoDemoteUser()
 
 		RunConsoleCommand("rpa_setusergroup", data.SteamID, "user")
 
-		if IsValid(self) and IsValid(line) then
-			self.List:RemoveLine(line:GetID())
+		if IsValid(self) then
+			self:RequestAdminRoster()
 		end
 	end)
 end
@@ -127,7 +142,7 @@ function PANEL:DoUpdateAlias()
 			}
 		})
 
-		RunConsoleCommand("rpa_setuseralias", steamId, alias)
+		RunConsoleCommand("rpa_setalias", steamId, alias)
 
 		if IsValid(self) and IsValid(line) then
 			line:SetColumnText(3, alias)
@@ -142,11 +157,14 @@ function PANEL:PerformLayout(w, h)
 	self.ActionsLabel:AlignRight()
 	self.ActionsLabel:AlignTop()
 
-	self.UpdateAlias:AlignRight()
-	self.UpdateAlias:MoveBelow(self.ActionsLabel, 5)
+	self.PromoteUser:AlignRight()
+	self.PromoteUser:MoveBelow(self.ActionsLabel, 5)
 
 	self.DemoteUser:AlignRight()
-	self.DemoteUser:MoveBelow(self.UpdateAlias, 5)
+	self.DemoteUser:MoveBelow(self.PromoteUser, 5)
+
+	self.UpdateAlias:AlignRight()
+	self.UpdateAlias:MoveBelow(self.DemoteUser, 5)
 
 	self.List:AlignLeft()
 	self.List:StretchRightTo(self.ActionsLabel, 10)
