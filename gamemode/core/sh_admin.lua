@@ -22,16 +22,12 @@ local immunity = {
 }
 
 function PLAYER:CanTarget(target, strict)
-	return self:CanTargetUserGroup(target:UserGroup(), strict)
-end
-
-function PLAYER:CanTargetUserGroup(userGroup, strict)
 	if self:IsDeveloper() then
 		return true
 	end
 
 	local ourImmunity = immunity[self:UserGroup()] or 0
-	local theirImmunity = immunity[userGroup] or 0
+	local theirImmunity = immunity[target:UserGroup()] or 0
 
 	if strict then
 		return ourImmunity > theirImmunity

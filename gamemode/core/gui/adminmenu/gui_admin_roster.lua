@@ -11,9 +11,15 @@ function PANEL:CreateLabel(text, wide)
 end
 
 function PANEL:Init()
+	self.ActionsLabel = self:Add("DLabel")
+	self.ActionsLabel:SetFont("CombineControl.LabelMediumBold")
+	self.ActionsLabel:SetWide(120)
+	self.ActionsLabel:SetContentAlignment(5)
+	self.ActionsLabel:SetText("Superadmin Tools")
+
 	self.UpdateAlias = self:Add("DButton")
 	self.UpdateAlias:SetText("Update Alias")
-	self.UpdateAlias:SetWide(100)
+	self.UpdateAlias:SetWide(120)
 	self.UpdateAlias:SetDisabled(true)
 	self.UpdateAlias.DoClick = function()
 		self:DoUpdateAlias()
@@ -21,7 +27,7 @@ function PANEL:Init()
 
 	self.DemoteUser = self:Add("DButton")
 	self.DemoteUser:SetText("Demote User")
-	self.DemoteUser:SetWide(100)
+	self.DemoteUser:SetWide(120)
 	self.DemoteUser:SetDisabled(true)
 	self.DemoteUser.DoClick = function()
 		self:DoDemoteUser()
@@ -29,21 +35,21 @@ function PANEL:Init()
 
 	self.Refresh = self:Add("DButton")
 	self.Refresh:SetText("Refresh Roster")
-	self.Refresh:SetWide(100)
+	self.Refresh:SetWide(120)
 	self.Refresh.DoClick = function()
 		self:RequestAdminRoster()
 	end
 
 	self.List = self:Add("DListView")
 	self.List:SetMultiSelect(false)
-	self.List:AddColumn("Usergroup"):SetFixedWidth(100)
+	self.List:AddColumn("Usergroup"):SetFixedWidth(70)
 	self.List:AddColumn("SteamID"):SetFixedWidth(150)
-	self.List:AddColumn("Alias")
-	self.List:AddColumn("Steam Name")
-	self.List:AddColumn("Last Seen")
+	self.List:AddColumn("Alias"):SetFixedWidth(150)
+	self.List:AddColumn("Steam Name"):SetFixedWidth(150)
+	self.List:AddColumn("Last Seen"):SetFixedWidth(130)
 
 	self.List.OnRowSelected = function(panel, index, row)
-		local canTarget = lp:CanTargetUserGroup(row.Data.UserGroup, true)
+		local canTarget = lp:IsSuperAdmin() and row.Data.UserGroup == "admin"
 
 		self.UpdateAlias:SetDisabled(not canTarget)
 		self.DemoteUser:SetDisabled(not canTarget)
@@ -133,14 +139,18 @@ function PANEL:PerformLayout(w, h)
 	self.Refresh:AlignRight()
 	self.Refresh:AlignBottom()
 
-	self.UpdateAlias:AlignLeft()
-	self.UpdateAlias:AlignBottom()
+	self.ActionsLabel:AlignRight()
+	self.ActionsLabel:AlignTop()
 
-	self.DemoteUser:MoveRightOf(self.UpdateAlias, 5)
-	self.DemoteUser:AlignBottom()
+	self.UpdateAlias:AlignRight()
+	self.UpdateAlias:MoveBelow(self.ActionsLabel, 5)
 
-	self.List:MoveAbove(self.UpdateAlias, 10)
-	self.List:StretchToParent(nil, 0, 0, 30)
+	self.DemoteUser:AlignRight()
+	self.DemoteUser:MoveBelow(self.UpdateAlias, 5)
+
+	self.List:AlignLeft()
+	self.List:StretchRightTo(self.ActionsLabel, 10)
+	self.List:StretchToParent(nil, nil, nil, 0)
 end
 
 derma.DefineControl("CC_AdminMenu_Roster", "", PANEL, "Panel")
