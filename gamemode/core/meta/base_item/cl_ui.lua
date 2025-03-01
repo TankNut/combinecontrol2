@@ -33,6 +33,8 @@ function ITEM:OpenActionMenu(context)
 	end
 
 	local dmenu = DermaMenu()
+
+	dmenu:SetSkin("CombineControlNew")
 	dmenu:SetPos(gui.MousePos())
 
 	for _, action in ipairs(actions) do
