@@ -42,7 +42,7 @@ function CreateTables(db)
 		query:Create("Admin", "VARCHAR(32) NOT NULL")
 		query:Create("AdminID", "VARCHAR(32) NOT NULL")
 		query:Create("Timestamp", "INT UNSIGNED NOT NULL")
-		query:Create("Length", "INT UNSIGNED")
+		query:Create("Length", "INT UNSIGNED NOT NULL")
 		query:Create("Reason", "VARCHAR(256) NOT NULL")
 	query:Execute()
 
