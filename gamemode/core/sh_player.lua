@@ -7,6 +7,12 @@ PlayerVar.Add("DonatorActive", {Default = false})
 
 PlayerVar.Add("OOCMuted", {Default = 0, Persist = true, DataType = TINYINT()})
 
+PlayerVar.Add("Alias", {
+	Default = "",
+	Persist = true,
+	DataType = VARCHAR(32)
+})
+
 PlayerVar.Add("LastNick", {
 	Default = "",
 	ServerOnly = true,
@@ -23,6 +29,12 @@ PlayerVar.Add("LastSeen", {
 -- Todo: Implement weapon zoom as a multiplier
 function PLAYER:GetSightRange()
 	return Config.Get("PlayerSight")
+end
+
+function PLAYER:GetAlias()
+	local alias = self:Alias()
+
+	return #alias > 0 and alias or self:Nick()
 end
 
 function PLAYER:CanSee(target, checkSight)

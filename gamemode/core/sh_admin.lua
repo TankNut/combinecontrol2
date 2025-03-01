@@ -7,13 +7,6 @@ PlayerVar.Add("UserGroup", {
 	DataType = VARCHAR(64)
 })
 
-PlayerVar.Add("UserAlias", {
-	Default = "",
-	ServerOnly = true,
-	Persist = true,
-	DataType = VARCHAR(64)
-})
-
 PlayerVar.Add("TempAdmin", {Default = false})
 
 GlobalVar.Add("OOCDelay", {Default = 0})
@@ -118,7 +111,7 @@ if SERVER then
 		local query = GAMEMODE.Database:Select("rp_players")
 			query:Select("SteamID")
 			query:Select("UserGroup")
-			query:Select("UserAlias")
+			query:Select("Alias")
 			query:Select("LastNick")
 			query:Select("LastSeen")
 			query:WhereNotNull("UserGroup")

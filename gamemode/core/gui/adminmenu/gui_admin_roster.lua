@@ -38,7 +38,7 @@ function PANEL:Init()
 	self.List:SetMultiSelect(false)
 	self.List:AddColumn("Usergroup"):SetFixedWidth(100)
 	self.List:AddColumn("SteamID"):SetFixedWidth(150)
-	self.List:AddColumn("Community Alias")
+	self.List:AddColumn("Alias")
 	self.List:AddColumn("Steam Name")
 	self.List:AddColumn("Last Seen")
 
@@ -68,7 +68,7 @@ function PANEL:RequestAdminRoster()
 			self.List:AddLine(
 				string.FirstToUpper(admin.UserGroup),
 				admin.SteamID,
-				admin.UserAlias,
+				admin.Alias,
 				admin.LastNick,
 				admin.LastSeen and string.NiceTime(os.time() - admin.LastSeen) .. " ago" or "Never"
 			).Data = admin
@@ -83,8 +83,8 @@ function PANEL:DoDemoteUser()
 	local data = line.Data
 	local admin = data.SteamID
 
-	if data.UserAlias then
-		admin = data.UserAlias
+	if data.Alias then
+		admin = data.Alias
 	elseif data.LastSeen then
 		admin = data.LastSeen
 	end
@@ -115,9 +115,8 @@ function PANEL:DoUpdateAlias()
 			Default = line:GetValue(3),
 			Validate = {
 				validate.Min(1),
-				validate.Max(64),
-			},
-			Name = "UserAlias"
+				validate.Max(32),
+			}
 		})
 
 		RunConsoleCommand("rpa_setuseralias", steamId, alias)
