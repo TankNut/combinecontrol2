@@ -55,6 +55,7 @@ end
 function PANEL:RequestAdminRoster()
 	self.UpdateAlias:SetDisabled(true)
 	self.DemoteUser:SetDisabled(true)
+
 	self.List:Clear()
 
 	async.Start(function()
@@ -65,12 +66,15 @@ function PANEL:RequestAdminRoster()
 		end
 
 		for index, admin in pairs(admins) do
+			local lastSeen = IsValid(player.GetBySteamID(admin.SteamID)) and "Online" or
+				(admin.LastSeen and string.NiceTime(os.time() - admin.LastSeen) .. " ago" or "Never")
+
 			self.List:AddLine(
 				string.FirstToUpper(admin.UserGroup),
 				admin.SteamID,
 				admin.Alias,
 				admin.LastNick,
-				admin.LastSeen and string.NiceTime(os.time() - admin.LastSeen) .. " ago" or "Never"
+				lastSeen
 			).Data = admin
 		end
 
