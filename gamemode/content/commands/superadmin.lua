@@ -1,43 +1,37 @@
-local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, steamId, usergroup)
-	if IsValid(ply) and (usergroup == "superadmin" or usergroup == "developer") then
-		console.Feedback(ply, "ERROR", "Elevated access must be set from the server console")
+local elevated = table.Lookup({
+	"superadmin", "developer"
+})
+
+local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, steamID, usergroup)
+	if IsValid(ply) and elevated[usergroup] then
+		console.Feedback(ply, "ERROR", "Elevated access can only be set from the server console")
 
 		return
 	end
 
-	local target = player.GetBySteamID(steamId)
+	local target = player.GetBySteamID(steamID)
 
 	if target then
 		target:SetUserGroup(usergroup)
-		target:SetTempAdmin(false)
 
 		console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
 	else
 		local query = GAMEMODE.Database:Select("rp_players")
 			query:Select("UserGroup")
-			query:WhereEqual("SteamID", steamId)
+			query:WhereEqual("SteamID", steamID)
 		local data = query:Execute()
-		data = data[1] and data[1] or nil
+		local offlineGroup = data[1] and data[1].UserGroup or nil
 
-		if data and data.UserGroup and not ply:CanTargetUserGroup(data.UserGroup, true) then
-			console.Feedback(ply, "ERROR", "You cannot modify %s's %s usergroup", steamId, data.UserGroup)
+		if offlineGroup and elevated[offlineGroup] then
+			console.Feedback(ply, "ERROR", "Elevated access can only be set from the server console")
 
 			return
 		end
 
-		local upsert = GAMEMODE.Database:Upsert("rp_players")
-		upsert:Insert("SteamID", steamId)
-
-		if usergroup == "user" then
-			upsert:InsertRaw("UserGroup", "NULL")
-		else
-			upsert:Insert("UserGroup", usergroup)
-		end
-
-		upsert:Execute()
+		PlayerVar.SetOffline(steamID, "UserGroup", usergroup)
 	end
 
-	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target and target:Nick() or steamId, usergroup)
+	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target and target:Nick() or steamID, usergroup)
 	-- TODO: Log this, one of the logging system is setup.
 end)
 
