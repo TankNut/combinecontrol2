@@ -21,8 +21,7 @@ function AddBan(steamid, admin, length, reason)
 
 	local ban = {
 		SteamID = steamid,
-		Admin = IsValid(admin) and admin:Nick() or "CONSOLE", -- Todo: Admin aliases
-		AdminID = IsValid(admin) and admin:SteamID() or "CONSOLE",
+		Admin = IsValid(admin) and admin:GetAlias() or "CONSOLE",
 		Timestamp = os.time(),
 		Length = length,
 		Reason = reason or "No reason specified"
@@ -31,7 +30,6 @@ function AddBan(steamid, admin, length, reason)
 	local query = GAMEMODE.Database:Insert("rp_bans")
 		query:Insert("SteamID", ban.SteamID)
 		query:Insert("Admin", ban.Admin)
-		query:Insert("AdminID", ban.AdminID)
 		query:Insert("Timestamp", ban.Timestamp)
 		query:Insert("Length", ban.Length)
 		query:Insert("Reason", ban.Reason)
