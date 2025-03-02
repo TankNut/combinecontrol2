@@ -111,6 +111,28 @@ setHealth:SetAccess(console.IsAdmin)
 setHealth:AddParameter(console.Player())
 setHealth:AddParameter(console.Number())
 
+local setArmor = console.AddCommand("rpa_setarmor", function(ply, targets, armor)
+	for _, target in ipairs(targets) do
+		target:SetArmor(armor)
+
+		console.Feedback(target, "NOTICE", "%s has set your armor to %d", ply, armor)
+	end
+
+	if #targets > 1 then
+		console.Feedback(ply, "NOTICE", "You've set %d players' armor to %d", #targets, armor)
+	else
+		console.Feedback(ply, "NOTICE", "You've set %s's armor to %d", targets[1], armor)
+	end
+end)
+
+setArmor:SetCategory("Player Commands")
+setArmor:SetDescription("Sets a player's armor")
+setArmor:SetExecutionContext(console.Server)
+setArmor:SetAccess(console.IsAdmin)
+
+setArmor:AddParameter(console.Player())
+setArmor:AddParameter(console.Number())
+
 local kill = console.AddCommand("rpa_kill", function(ply, target)
 	target:Kill()
 
