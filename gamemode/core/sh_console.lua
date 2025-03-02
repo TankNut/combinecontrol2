@@ -128,7 +128,7 @@ function console.FindPlayer(ply, str, options)
 				continue
 			end
 
-			if priv and target:SteamID() == str then
+			if priv and string.lower(target:SteamID()) == str then
 				table.insert(targets, target)
 
 				continue
