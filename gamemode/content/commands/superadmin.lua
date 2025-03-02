@@ -1,10 +1,6 @@
-local elevated = table.Lookup({
-	"superadmin", "developer"
-})
-
 local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, steamID, usergroup)
-	if IsValid(ply) and elevated[usergroup] then
-		console.Feedback(ply, "ERROR", "Elevated access can only be set from the server console")
+	if IsValid(ply) and IsElevatedUserGroup(usergroup) then
+		console.Feedback(ply, "ERROR", "Elevated access can only be changed from the server console")
 
 		return
 	end
@@ -16,14 +12,8 @@ local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, steamI
 
 		console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
 	else
-		local query = GAMEMODE.Database:Select("rp_players")
-			query:Select("UserGroup")
-			query:WhereEqual("SteamID", steamID)
-		local data = query:Execute()
-		local offlineGroup = data[1] and data[1].UserGroup or nil
-
-		if offlineGroup and elevated[offlineGroup] then
-			console.Feedback(ply, "ERROR", "Elevated access can only be set from the server console")
+		if IsElevatedUserGroup(PlayerVar.GetOffline(steamID, "UserGroup")) then
+			console.Feedback(ply, "ERROR", "Elevated access can only be changed from the server console")
 
 			return
 		end
@@ -41,14 +31,38 @@ setUserGroup:SetExecutionContext(console.Server)
 setUserGroup:SetAccess(console.IsSuperAdmin)
 
 setUserGroup:AddParameter(console.SteamID({
-	SingleTarget = true,
 	StrictImmunity = true,
-	NoSelfTarget = true,
-	Online = false
+	NoSelfTarget = true
 }))
 
 setUserGroup:AddParameter(console.String({
 	validate.InList({"user", "admin", "superadmin", "developer"})
+}))
+
+local setUserAlias = console.AddCommand("rpa_setuseralias", function(ply, steamID, alias)
+	local target = player.GetBySteamID(steamID)
+	local name = target and target:Nick() or steamID
+
+	PlayerVar.SetOffline(steamID, "Alias", alias)
+
+	if alias == "" then
+		console.Feedback(ply, "NOTICE", "You've removed %s's alias", name)
+	else
+		console.Feedback(ply, "NOTICE", "You've set %s's alias to %s", name, alias)
+	end
+end)
+
+setUserAlias:SetCategory("Superadmin Commands")
+setUserAlias:SetDescription("Updates a player's alias on the admin roster")
+setUserAlias:SetExecutionContext(console.Server)
+setUserAlias:SetAccess(console.IsSuperAdmin)
+
+setUserAlias:AddParameter(console.SteamID({
+	StrictImmunity = true
+}))
+
+setUserAlias:AddParameter(console.String({
+	validate.Max(32),
 }))
 
 local giveBadge = console.AddCommand("rpa_givebadge", function(ply, target, badge)
