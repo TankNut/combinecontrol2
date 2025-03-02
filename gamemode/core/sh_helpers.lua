@@ -52,5 +52,13 @@ function EquipmentSlot(slot)
 	return GAMEMODE.EquipmentNames[slot]
 end
 
+local elevated = table.Lookup({
+	"superadmin", "developer"
+})
+
+function IsElevatedUserGroup(usergroup)
+	return tobool(elevated[usergroup])
+end
+
 ContentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
 DataFolder = "combinecontrol/" .. Config.Get("InternalName") .. "/"
