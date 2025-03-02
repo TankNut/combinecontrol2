@@ -61,14 +61,15 @@ oocMute:AddOptional(console.Bool())
 
 local heal = console.AddCommand("rpa_heal", function(ply, targets)
 	for _, target in ipairs(targets) do
-		if target:Health() > target:GetMaxHealth() then
-			continue -- Don't reset the health of admins using rpa_sethealth.
+		-- Don't reset the health of rpa_sethealth'ed players
+		if target:Health() < target:GetMaxHealth() then
+			target:SetHealth(target:GetMaxHealth())
 		end
 
-		target.ArmorFraction = 1
-
-		target:SetHealth(target:GetMaxHealth())
-		target:SetArmor(target:GetMaxArmor())
+		-- Ditto for rpa_setarmor
+		if target:Armor() < target:GetMaxArmor() then
+			target:SetArmor(target:GetMaxArmor())
+		end
 
 		GAMEMODE:WriteLog("admin_heal", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target), Self = ply == target})
 
