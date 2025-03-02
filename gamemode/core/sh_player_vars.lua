@@ -116,6 +116,29 @@ if CLIENT then
 		end
 	end)
 else
+	function GetOffline(steamid, name)
+		local ply = player.GetBySteamID(steamid)
+
+		if ply then
+			return ply[name](ply)
+		end
+
+		local data = assert(Vars[name], name .. " is not a valid player var")
+
+		local query = GAMEMODE.Database:Select("rp_players")
+			query:Select(data.Field)
+			query:WhereEqual("SteamID", steamid)
+		local value = query:Execute()[1]
+
+		if value then
+			value = value[data.Field]
+		else
+			return util.SafeCopy(data.Default)
+		end
+
+		return data.Decode and data.Decode(value) or value
+	end
+
 	function SetOffline(steamid, name, value)
 		local ply = player.GetBySteamID(steamid)
 
