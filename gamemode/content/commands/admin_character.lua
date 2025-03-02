@@ -92,9 +92,7 @@ setCharacterScale:SetExecutionContext(console.Server)
 setCharacterScale:SetAccess(console.IsAdmin)
 
 setCharacterScale:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false
+	SingleTarget = true
 }))
 
 setCharacterScale:AddParameter(console.Number({
