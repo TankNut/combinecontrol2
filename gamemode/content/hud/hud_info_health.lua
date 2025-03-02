@@ -8,6 +8,7 @@ HUD.Height = 14
 
 HUD.HealthColor = Color(150, 20, 20, 255)
 HUD.ArmorColor = Color(37, 84, 158, 255)
+HUD.OverArmorColor = Color(255, 255, 255, 85)
 
 HUD.DrawOrder = 1
 
@@ -18,7 +19,7 @@ end
 
 function HUD:Think()
 	self.HP = math.min(math.ApproachSpeed(self.HP, lp:Health(), 20), lp:GetMaxHealth())
-	self.Armor = math.min(math.ApproachSpeed(self.Armor, lp:Armor(), 20), lp:GetMaxArmor())
+	self.Armor = math.min(math.ApproachSpeed(self.Armor, lp:Armor(), 20), lp:GetMaxArmor() * 4)
 end
 
 function HUD:Paint(w, h)
@@ -42,10 +43,22 @@ function HUD:Paint(w, h)
 	end
 
 	if self.Armor >= 0.5 then
-		local ratio = math.min(self.Armor / lp:GetMaxArmor(), 1)
+		local max = lp:GetMaxArmor()
+		local ratio = math.min(self.Armor / max, 1)
 
 		self:DrawAlignedRect(20, y, self.Width, self.Height, background, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 		self:DrawAlignedRect(22, y - 2, (self.Width - 4) * ratio, self.Height - 4, self.ArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+
+		if self.Armor > max then
+			local rep = math.ceil(self.Armor / max) - 1
+			local excess = self.Armor % max
+
+			for i = 1, rep do
+				ratio = i != rep and 1 or excess / max
+
+				self:DrawAlignedRect(22, y - 2, (self.Width - 4) * ratio, self.Height - 4, self.OverArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+			end
+		end
 
 		y = y - self.Height - 2
 	end
