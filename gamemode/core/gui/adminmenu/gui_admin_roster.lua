@@ -125,8 +125,8 @@ function PANEL:DoDemoteUser()
 
 		RunConsoleCommand("rpa_setusergroup", data.SteamID, "user")
 
-		if IsValid(self) then
-			self:RequestAdminRoster()
+		if IsValid(self) and IsValid(line) then
+			self.List:RemoveLine(line:GetID())
 		end
 	end)
 end
