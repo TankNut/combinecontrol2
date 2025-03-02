@@ -125,7 +125,7 @@ else
 			return
 		end
 
-		local data = Vars[name]
+		local data = assert(Vars[name], name .. " is not a valid player var")
 
 		local default = data.Default
 		local persist = assert(data.Persist, "Cannot SetOffline non-persist player vars")
@@ -163,17 +163,17 @@ else
 
 	function Save(steamid, var, value)
 		async.Start(function()
-			local query = GAMEMODE.Database:Update("rp_players")
+			local query = GAMEMODE.Database:Upsert("rp_players")
+				query:Insert("SteamID", steamid)
 
 			if value == nil then
-				query:UpdateRaw(var.Field, "NULL")
+				query:InsertRaw(var.Field, "NULL")
 			else
 				value = var.Encode and var.Encode(value) or value
 
-				query:Update(var.Field, value)
+				query:Insert(var.Field, value)
 			end
 
-			query:WhereEqual("SteamID", steamid)
 			query:Execute()
 		end)
 	end
