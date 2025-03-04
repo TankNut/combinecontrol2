@@ -102,6 +102,14 @@ function LiftBan(steamid)
 	Bans[steamid] = nil
 end
 
+function SecureAdmin(ply, endpoint)
+	if not ply:IsAdmin() then
+		Access.AddBan(ply:SteamID(), nil, 0, string.format("AUTOMATED: ACL bypass attempt (%s)", endpoint))
+
+		return true
+	end
+end
+
 function GM:CheckPassword(steam64, ip, sv, cl, nick)
 	local steamid = util.SteamIDFrom64(steam64)
 	local banned, ban = CheckBanned(steamid)
