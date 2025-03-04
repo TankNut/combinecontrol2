@@ -31,6 +31,7 @@ end
 function PLAYER:CreateCharacter(fields)
 	local query = GAMEMODE.Database:Insert("rp_characters")
 		query:Insert("SteamID", self:SteamID())
+		query:Insert("Created_At", os.time())
 
 		for k, v in pairs(fields) do
 			local var = CharacterVar.Vars[k]
@@ -176,7 +177,7 @@ end
 
 function Delete(id)
 	local query = GAMEMODE.Database:Update("rp_characters")
-		query:UpdateRaw("Deleted_At", "CURRENT_TIMESTAMP")
+		query:UpdateRaw("Deleted_At", os.time())
 		query:WhereEqual("id", id)
 	query:Execute()
 end
