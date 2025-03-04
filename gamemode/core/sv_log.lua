@@ -100,6 +100,8 @@ function Write(name, ...)
 			math.randomseed(tonumber(util.CRC(prefix)))
 
 			colorCache[prefix] = HSVToColor(math.random(360), 0.5, 1)
+
+			math.randomseed(os.time())
 		end
 
 		MsgC(baseColor, os.date("!%Y-%m-%dT%H:%M:%SZ "), "[", colorCache[prefix], name, baseColor, "] ", log, "\n")
