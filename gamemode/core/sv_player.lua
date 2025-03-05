@@ -22,10 +22,6 @@ function PLAYER:FullRestore()
 end
 
 function GM:PlayerInitialSpawn(ply)
-	if not self.FullyLoaded then
-		return
-	end
-
 	ply.ArmorFraction = 1
 
 	ply:SetTeam(TEAM_UNASSIGNED)
