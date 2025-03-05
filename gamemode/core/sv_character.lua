@@ -144,6 +144,8 @@ netstream.Hook("DeleteCharacter", function(ply, id)
 		return
 	end
 
+	Log.Write("character_delete", ply, id)
+
 	ply:DeleteCharacter(id)
 end)
 
@@ -203,6 +205,8 @@ netstream.Hook("ChangeCharacterName", function(ply, new)
 		return
 	end
 
+	Log.Write("character_set_name", ply, new)
+
 	ply:SetCharacterName(new)
 end)
 
@@ -217,6 +221,8 @@ netstream.Hook("ChangeCharacterDescription", function(ply, new)
 		return
 	end
 
+	Log.Write("character_set_description", ply, new)
+
 	ply:SetCharacterDescription(new)
 end)
 
@@ -230,6 +236,8 @@ netstream.Hook("ChangeCharacterNotes", function(ply, new)
 	if not validate.Value(new, Config.Get("CharacterDescriptionRules")) then
 		return
 	end
+
+	-- Notes are only visible to the player themselves, admins don't have to know what's in there
 
 	ply:SetCharacterNotes(new)
 end)
