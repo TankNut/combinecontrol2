@@ -7,11 +7,8 @@ local wheelSpeed = GetConVar("physgun_wheelspeed")
 function GM:Think()
 	self.BaseClass:Think()
 
-	hook.Run("PlayerThink", player.GetAll())
-
 	if CLIENT then
 		-- Legacy code
-		self:MusicThink()
 		self:ToggleHolsterThink()
 		-- Legacy code ends
 

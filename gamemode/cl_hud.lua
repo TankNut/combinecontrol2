@@ -98,128 +98,6 @@ GM.TypeText = {
 	"Requesting..."
 }
 
-function GM:DrawEntities()
-	if cookie.GetNumber("cc_noscopelabels", 0) == 1 then
-		local weapon = LocalPlayer():GetActiveWeapon()
-
-		if IsValid(weapon) and weapon.InScope and weapon:InScope() then
-			PlayerCache = {}
-
-			for _, v in player.Iterator() do
-				v.HUDAlpha = 0
-				v.TitleAlpha = 0
-			end
-
-			for _, tab in pairs({"prop", "item", "paper", "npc"}) do
-				for _, v in pairs(self.EntityTable[tab]) do
-					v.HUDAlpha = 0
-				end
-			end
-
-			return
-		end
-	end
-
-	for k, v in pairs(self.EntityTable.paper) do
-
-		if not IsValid(v) then table.remove(self.EntityTable.paper, k) continue end
-		if not v.HUDAlpha then v.HUDAlpha = 0 end
-
-		local distance = LocalPlayer():GetPos():Distance(v:GetPos())
-
-		if distance > self:GetPlayerSight() / 2 and not Settings.Get("SeeAll") then
-			continue
-		end
-
-		local a, b = v:GetRotatedAABB(v:OBBMins(), v:OBBMaxs())
-		local wpos = (v:GetPos() + (a + b) / 2)
-		local pos = wpos:ToScreen()
-
-		if Settings.Get("SeeAll") or (pos.visible and LocalPlayer():CanSee(v)) then
-			v.HUDAlpha = math.Clamp(v.HUDAlpha + FrameTime(), 0, 1)
-		elseif v.HUDAlpha > 0 then
-			v.HUDAlpha = math.Clamp(v.HUDAlpha - FrameTime(), 0, 1)
-		end
-
-		if v.HUDAlpha > 0 then
-			draw.DrawTextShadow("Paper", "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-			pos.y = pos.y + 20
-
-			draw.DrawTextShadow("Press C to read.", "CombineControl.LabelSmall", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-			pos.y = pos.y + 16
-		end
-	end
-end
-
-function GM:DrawDoors()
-	-- Indexing some variables to cut down on unnecessary calls
-	local sight = self:GetPlayerSight()
-	local eyeEnt = LocalPlayer():GetEyeTrace().Entity
-
-	for k, v in pairs(self.EntityTable.door) do
-		-- Doors without an original name don't need to be drawn, they aren't buyable and don't have names to show
-		if #v:DoorOriginalName() < 1 then continue end
-		if not IsValid(v) then table.remove(self.EntityTable.door, k) continue end
-		if not v.HUDAlpha then v.HUDAlpha = 0 end
-
-		local a, b = v:GetRotatedAABB(v:OBBMins(), v:OBBMaxs())
-		local wpos = (v:GetPos() + (a + b) / 2)
-
-		local pos = wpos:ToScreen()
-
-		if pos.visible and v:GetPos():Distance(LocalPlayer():GetPos()) <= sight then
-			-- GetEyeTrace() is already cached for us, let's use that instead of doing a new trace FOR EVERY VISIBLE DOOR ON EVERY FRAME
-			if eyeEnt == v then
-				v.HUDAlpha = math.Clamp(v.HUDAlpha + FrameTime(), 0, 1)
-			elseif v.HUDAlpha > 0 then
-				v.HUDAlpha = math.Clamp(v.HUDAlpha - FrameTime(), 0, 1)
-			end
-		else
-			v.HUDAlpha = math.Clamp(v.HUDAlpha - FrameTime(), 0, 1)
-		end
-
-		if v.HUDAlpha > 0 then
-			local name = v:DoorOriginalName()
-
-			if v:DoorName() != "" then
-				name = v:DoorName()
-			end
-
-			draw.DrawTextShadow(name, "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-			pos.y = pos.y + 20
-
-			if (v:DoorType() == DOOR_BUYABLE or v:DoorType() == DOOR_BUYABLE_ASSIGNABLE) and #v:DoorOwners() == 0 and #v:DoorAssignedOwners() == 0 then
-				draw.DrawTextShadow(util.FormatCurrency(v:DoorPrice()), "CombineControl.PlayerFont", pos.x, pos.y, Color(226, 205, 95, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-				pos.y = pos.y + 20
-			end
-
-			if Settings.Get("SeeAll") then
-				local tab = v:DoorOwners()
-				table.Merge(tab, v:DoorAssignedOwners())
-
-				for _, owner in pairs(tab) do
-					local ply = nil
-
-					for _, l in player.Iterator() do
-						if l:CharID() == owner then
-							ply = l
-						end
-					end
-
-					local text = "Owner: CharID #" .. owner
-
-					if IsValid(ply) then
-						text = "Owner: " .. ply:VisibleRPName()
-					end
-
-					draw.DrawTextShadow(text, "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
-					pos.y = pos.y + 20
-				end
-			end
-		end
-	end
-end
-
 GM.WeaponOutText = {}
 GM.WeaponOutText["weapon_physgun"] = "Your physgun is out! Switch to your hands when you're done building."
 GM.WeaponOutText["weapon_physcannon"] = "Your gravgun is out! Switch to your hands when you're done moving things."
@@ -315,11 +193,6 @@ function GM:DrawAmmo()
 	end
 end
 
-net.Receive("nWarnName", function(len)
-	GAMEMODE.NameWarning = true
-	GAMEMODE.NameWarningStart = CurTime()
-end)
-
 function GM:DrawUnconnected()
 	if not lp:HasCharacter() and not vgui.CursorVisible() then
 		surface.SetDrawColor(0, 0, 0, 150)
@@ -360,12 +233,6 @@ function GM:HUDPaint()
 
 	if Settings.Get("HUD") then
 		self:DrawDamage()
-		self:DrawDoors()
-
-		self:DrawEntities()
-		self:DrawPlayerInfo()
-		self:DrawHealthBars()
-
 		self:DrawAmmo()
 	end
 

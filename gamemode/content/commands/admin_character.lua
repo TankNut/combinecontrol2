@@ -107,8 +107,6 @@ local giveCharacterLanguage = console.AddCommand("rpa_givecharlang", function(pl
 
 	target:GiveLanguage(lang, speak)
 
-	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " gave player " .. target:CharacterName() .. " " .. languageName .. ".", ply)
-
 	console.Feedback(ply, "NOTICE", "You've given %s the ability to %s %s", target:VisibleRPName(), accessType, languageName)
 	console.Feedback(target, "NOTICE", "%s has given you the ability to %s %s", ply, accessType, languageName)
 end)
@@ -137,8 +135,6 @@ local takeCharacterLanguage = console.AddCommand("rpa_takecharlang", function(pl
 	end
 
 	target:TakeLanguage(lang)
-
-	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " took " .. languageName ..  " from player " .. target:CharacterName() .. ".", ply)
 
 	console.Feedback(ply, "NOTICE", "You've taken %s's ability to %s %s", target:VisibleRPName(), accessType, languageName)
 	console.Feedback(target, "NOTICE", "%s has taken your the ability to %s %s", ply, accessType, languageName)
@@ -189,8 +185,6 @@ hideCharacter:AddOptional(console.Bool())
 
 local setCharacterFlag = console.AddCommand("rpa_setcharflag", function(ply, target, flag)
 	target:SetCharacterFlag(flag)
-
-	GAMEMODE:LogAdmin("[F] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s character flag to \"" .. flag .. "\"", ply)
 
 	local name = CharacterFlag.Get(flag).Name or flag
 

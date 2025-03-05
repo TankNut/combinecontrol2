@@ -23,8 +23,6 @@ end
 
 function GM:PlayerInitialSpawn(ply)
 	if not self.FullyLoaded then
-		self:LogBug("ERROR: PlayerInitialSpawn on player " .. ply:Nick() .. " before gamemode fully loaded.")
-
 		return
 	end
 

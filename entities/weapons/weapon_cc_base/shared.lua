@@ -736,19 +736,6 @@ end
 function SWEP:SecondaryUnholstered()
 end
 
-if SERVER then local function SetDaveVictim(ply, args)
-
-	if not args[1] then
-
-		davevictim = null
-		return
-
-	end
-	davevictim = GAMEMODE:FindPlayer(args[1], ply)
-
-end
-concommand.AddAdmin("rpa_setdavevictim", SetDaveVictim, true) end
-
 function SWEP:ShootBullet(damage, force, n, aimcone)
 	local bullet 		= {}
 	bullet.Num 			= n or 1

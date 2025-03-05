@@ -11,8 +11,6 @@ local setToolTrust = console.AddCommand("rpa_settooltrust", function (ply, targe
 	target:SetToolTrust(toolTrustLevel)
 	target:UpdateLoadout()
 
-	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed " .. target:Nick() .. "'s tooltrust to " .. tostring(trust), ply)
-
 	console.Feedback(ply, "NOTICE", "You've set %s's tool trust to %s", target, trust)
 	console.Feedback(target, "NOTICE", "%s has set your tool trust to %s", ply, trust)
 end)
@@ -39,8 +37,6 @@ local oocMute = console.AddCommand("rpa_oocmute", function (ply, target, bool)
 	end
 
 	target:SetOOCMuted(new)
-
-	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s ooc mute to " .. tostring(new == 1), ply)
 
 	console.Feedback(ply, "NOTICE", "You %s %s from OOC chat", new == 1 and "muted" or "unmuted", target)
 	console.Feedback(target, "NOTICE", "%s has %s you from OOC chat", ply, new == 1 and "muted" or "unmuted")

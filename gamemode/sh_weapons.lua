@@ -19,23 +19,7 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 end
 
 function GM:PlayerSwitchFlashlight(ply, enable)
-	if not enable then
-		return true
-	end
-
-	local item = ply:GetEquipment(EQUIPMENT_LIGHT)
-
-	if not ply.NextFlashlight then
-		ply.NextFlashlight = CurTime()
-	end
-
-	if item and CurTime() >= ply.NextFlashlight then
-		ply.NextFlashlight = CurTime() + 0.2
-
-		return item:Toggle(ply)
-	end
-
-	return false
+	return true
 end
 
 if SERVER then

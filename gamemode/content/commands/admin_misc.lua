@@ -108,7 +108,6 @@ yell:AddParameter(console.String())
 
 local oocDelay = console.AddCommand("rpa_oocdelay", function(ply, delay)
 	GAMEMODE:SetOOCDelay(delay)
-	GAMEMODE:LogAdmin("[V] " .. ply:Nick() .. " set variable \"rpa_oocdelay\" to \"" .. tonumber(delay) .. "\".", ply)
 
 	Chat.Send("NOTICE", ply:Nick() .. " has set the OOC delay to " .. string.NiceTime(delay) .. ".")
 end)
@@ -124,7 +123,6 @@ oocDelay:AddParameter(console.Duration({
 
 local oocDisable = console.AddCommand("rpa_oocdisable", function(ply)
 	GAMEMODE:SetOOCDelay(-1)
-	GAMEMODE:LogAdmin("[V] " .. ply:Nick() .. " set variable \"rpa_oocdelay\" to \"-1\".", ply)
 
 	Chat.Send("NOTICE", ply:Nick() .. " has disabled OOC chat.")
 end)

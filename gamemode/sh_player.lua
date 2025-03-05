@@ -1,23 +1,11 @@
 local PLAYER = FindMetaTable("Player")
 
 GM.PlayerAccessors = {
-	{"NewbieStatus", 		false, 	"Float", 	NEWBIE_STATUS_NEW},
 	{"Holstered", 			false, 	"Bit", 		true},
-	{"ActiveFlag", 			false, 	"String", 	""},
-	{"CharCreationDate",	true,	"String",	""},
 	{"InAttack2",			false,	"Bit",		false},
 	{"PropProtection",		true,	"Table",	{}},
 	{"RagdollIndex",		false,	"Float",	-1},
-	{"HideAdmin",			false,	"Bit",		false},
-	{"LastPMSender",		true,	"String",	""},
-	{"LastNotesUpdate", 	false, 	"Float", 	0},
-	{"IsTravelBanned", 		false, 	"Bit", 		false},
-	{"AdminRadio", 			true, 	"Bit", 		false},
-	{"InfiniteAmmo", 		false, 	"Bit", 		false},
-	{"OverlayMode", 		true, 	"Float", 	OVERLAY_NONE},
-	{"ThermalHidden", 		false, 	"Bit", 		false},
-	{"ZoneMins", 			true, 	"Vector", 	Vector()},
-	{"ZoneMaxs", 			true, 	"Vector", 	Vector()},
+	{"LastPMSender",		true,	"String",	""}
 }
 
 for k, v in pairs(GM.PlayerAccessors) do
@@ -348,22 +336,4 @@ function GM:GetPlayerByCharID(id)
 			return v
 		end
 	end
-end
-
-local blacklist = {
-	ammo_40mm = true,
-	ammo_rpg = true,
-	ammo_20mm = true
-}
-
-function PLAYER:HasInfiniteAmmo(ammo)
-	if self:InfiniteAmmo() then
-		return true
-	end
-
-	if self:DonatorActive() and not blacklist[ammo] then
-		return true
-	end
-
-	return self:RunCharFlag("InfiniteAmmo")
 end

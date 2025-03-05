@@ -30,6 +30,3 @@ function IncludeFolder(path)
 		IncludeFolder(path .. "/" .. folder)
 	end
 end
-
-IncludeFolder(GM.FolderName .. "/gamemode/includes")
-IncludeFolder(GM.FolderName .. "/gamemode/plugins")

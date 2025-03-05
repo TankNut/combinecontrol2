@@ -1,22 +1,5 @@
 local PLAYER = FindMetaTable("Player")
 
-GM.CombineRadioFreq = 1000 -- dick weed
-
-hook.Add("CC.SV.PlayerThink", "SV.Player.HealthThink", function(plys)
-	for i = 1, #plys do
-		local ply = plys[i]
-
-		ply.NextHealthRegen = ply.NextHealthRegen or 0
-
-		if ply.NextHealthRegen <= CurTime() and ply:Health() < ply:GetMaxHealth() and ply:Alive() then
-			local rate = 2
-
-			ply.NextHealthRegen = CurTime() + rate
-			ply:SetHealth(ply:Health() + 1)
-		end
-	end
-end)
-
 function GM:IsSpawnpointSuitable(ply, spawn, force)
 	if ply:Team() == TEAM_SPECTATOR then return true end
 
@@ -56,16 +39,6 @@ function PLAYER:SetPhysgunColor()
 	end
 
 	self:SetWeaponColor(vec)
-end
-
-function GM:KeyPress(ply, key)
-	if key == IN_USE then
-		local tr = self:GetHandTrace(ply, 100)
-
-		if IsValid(tr.Entity) and tr.Entity:IsDoor() and tr.Entity:DoorType() == DOOR_COMBINEOPEN then
-			tr.Entity:Fire("Open")
-		end
-	end
 end
 
 function GM:PlayerSay(ply, text, t)
@@ -171,13 +144,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 		else
 			weapon = weapon:GetClass()
 		end
-
-		self:LogSQL(string.format("Player %s (%s) killed player %s (%s) with %s.", attacker:Nick(), attacker:SteamID(), ply:Nick(), ply:SteamID(), weapon))
 	end
-
-	net.Start("nSetNightvision")
-		net.WriteBit(0)
-	net.Send(ply)
 
 	hook.Run("CC.SV.PlayerDeath", ply)
 end
@@ -194,16 +161,6 @@ end
 function GM:PlayerDisconnected(ply)
 	ply:SetLastSeen(os.time())
 
-	for _, v in pairs(game.GetDoors()) do
-		if table.HasValue(v:DoorOwners(), ply:CharID()) then
-			if table.Count(v:DoorOwners()) == 1 then
-				ply:SellDoor(v)
-			else
-				ply:RemoveDoorOwner(v)
-			end
-		end
-	end
-
 	if ply:Ragdoll() and ply:Ragdoll():IsValid() then
 		ply:Ragdoll():Remove()
 	end
@@ -211,18 +168,6 @@ end
 
 function GM:ShutDown()
 	GAMEMODE.IsShuttingDown = true
-
-	for _, ply in player.Iterator() do
-		for _, v in pairs(game.GetDoors()) do
-			if table.HasValue(v:DoorOwners(), ply:CharID()) then
-				if table.Count(v:DoorOwners()) == 1 then
-					ply:SellDoor(v)
-				else
-					ply:RemoveDoorOwner(v)
-				end
-			end
-		end
-	end
 
 	hook.Run("CC.SV.ShutDown")
 end
