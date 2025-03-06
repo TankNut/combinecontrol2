@@ -69,7 +69,7 @@ local template = [[<font=CombineControl.LabelGiant><col=%s>%s</col></font>
 <font=CombineControl.LabelSmall><col=cc_disabled>%s]]
 
 function ITEM:GetTooltip()
-	return string.format(template, "rarity_" .. self:GetRarityData().Name,
+	return string.format(template, "rarity_" .. self:GetRarity(),
 		self:GetName(), self:GetDescription(),
 		string.format("Weight: %s kg", self:GetWeight()))
 end
