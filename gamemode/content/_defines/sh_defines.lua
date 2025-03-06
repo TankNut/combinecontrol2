@@ -6,6 +6,8 @@ function GM:CreateTeams()
 	team.SetUp(TEAM_AOF, "Auxiliary Organic Forces", Color(127, 0, 0, 255), false)
 end
 
+GM.DefaultFlag = "citizen"
+
 GM.EquipmentNames = {
 	test = "Test Slot"
 }

@@ -5,7 +5,6 @@ List = List or {}
 local PLAYER = FindMetaTable("Player")
 
 CharacterVar.Add("CharacterFlag", {
-	Default = "citizen",
 	Field = "Flag",
 	DataType = VARCHAR(64)
 })
@@ -37,7 +36,7 @@ function RegisterFolder(dir)
 end
 
 function PLAYER:GetCharFlag()
-	return List[PLAYER.CharacterFlag(self)]
+	return List[PLAYER.CharacterFlag(self) or GAMEMODE.DefaultFlag]
 end
 
 function PLAYER:RunCharFlag(name, ...)
@@ -45,7 +44,7 @@ function PLAYER:RunCharFlag(name, ...)
 end
 
 function GM:RunCharFlag(ply, name, ...)
-	local flag = List[PLAYER.CharacterFlag(ply)]
+	local flag = ply:GetCharFlag()
 
 	if isfunction(flag[name]) then
 		return flag[name](flag, ply, ...)
