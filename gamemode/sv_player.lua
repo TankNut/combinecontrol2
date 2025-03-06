@@ -116,35 +116,11 @@ hook.Add("EntityTakeDamage", "SV.Player.EntityTakeDamage", function(ent, dmginfo
 end)
 
 function GM:DoPlayerDeath(ply, attacker, dmg)
-	if ply.Inventory then
-		for _, v in pairs(ply.Inventory) do
-			v:OnPlayerDeath(ply)
-		end
-	end
-
 	if not ply:IsRagdolled() then
 		ply:CreateRagdoll()
 	end
 
-	local func = ply:RunCharFlag("OnDeath")
-
-	if func then
-		func(ply)
-	end
-
-	if attacker and attacker:IsPlayer() and attacker != ply then
-		local weapon = dmg:GetInflictor()
-
-		if not IsValid(weapon) then
-			return
-		end
-
-		if weapon:IsPlayer() then
-			weapon = weapon:GetActiveWeapon():GetClass()
-		else
-			weapon = weapon:GetClass()
-		end
-	end
+	ply:RunCharFlag("OnDeath")
 end
 
 function GM:ScaleNPCDamage(ply, hitgroup, dmginfo)
