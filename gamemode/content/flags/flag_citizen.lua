@@ -7,6 +7,9 @@ FLAG.EquipmentSlots = {
 	"test"
 }
 
+util.PrecacheModel("models/tnb/clothing/trp/body/male_survivor.mdl")
+util.PrecacheModel("models/tnb/clothing/trp/body/female_survivor.mdl")
+
 function FLAG:GetModelData(ply)
 	local mdl = ply:CharacterModel()
 
