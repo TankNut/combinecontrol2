@@ -45,10 +45,9 @@ function PANEL:Init()
 		self.Item:OpenActionMenu("Examine")
 	end
 
-	self.TitleLabel = self:Add("DLabel")
+	self.TitleLabel = self:Add("ScribeLabel")
 	self.TitleLabel:DockMargin(0, 5, 0, 0)
 	self.TitleLabel:Dock(TOP)
-	self.TitleLabel:SetFont("CombineControl.LabelGiant")
 
 	self.Scroll = self:Add("DScrollPanel")
 	self.Scroll:Dock(FILL)
@@ -79,9 +78,14 @@ function PANEL:ItemUpdated()
 
 	self:SetTopBar(name)
 
-	self.TitleLabel:SetText(name)
+	local title = string.format("<giant><c=rarity_%s>%s", item:GetRarity(), name)
+
+	if Settings.Get("ShowItemClass") and hook.Run("CanSpawnItem", lp, item) then
+		title = title .. string.format("<small><dark>\n%s", item.ClassName)
+	end
+
+	self.TitleLabel:SetText(title)
 	self.TitleLabel:SizeToContentsY()
-	self.TitleLabel:SetTextColor(item:GetRarityData().Color)
 
 	self.DescriptionLabel:SetWide(self.Scroll:GetWide() - 15)
 	self.DescriptionLabel:SetText("<font=CombineControl.LabelMedium>\n" .. item:GetDescription())
