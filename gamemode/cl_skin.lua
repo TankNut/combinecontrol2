@@ -402,7 +402,7 @@ function SKIN:PaintScoreboardEntry(panel, w, h)
 
 	draw.DrawText(ply:Ping(), "CombineControl.LabelSmall", w - 20, 5, self.Text.Normal, TEXT_ALIGN_RIGHT)
 
-	if LocalPlayer():IsAdmin() then
+	if lp:IsAdmin() then
 		draw.DrawText(ply:Nick(), "CombineControl.LabelSmall", w - 20, 40, self.Text.Normal, TEXT_ALIGN_RIGHT)
 	end
 

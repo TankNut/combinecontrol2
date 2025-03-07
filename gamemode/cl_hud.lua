@@ -15,12 +15,9 @@ language.Add("npc_fisherman", "Fisherman")
 
 function draw.DrawTextShadow(text, font, x, y, col1, col2, align)
 	if align != 0 then
-
 		draw.DrawText(text, font, x + 1, y + 1, col2, align) -- Less efficient than surface, so we only use this if we need special alignment stuff.
 		draw.DrawText(text, font, x, y, col1, align)
-
 	else
-
 		surface.SetFont(font)
 
 		surface.SetTextColor(col2)
@@ -29,7 +26,6 @@ function draw.DrawTextShadow(text, font, x, y, col1, col2, align)
 		surface.SetTextColor(col1)
 		surface.SetTextPos(x, y)
 		surface.DrawText(text)
-
 	end
 end
 
@@ -42,12 +38,11 @@ function draw.DrawBackgroundBlur(frac, x, y, w, h)
 	surface.SetDrawColor(255, 255, 255, 255)
 
 	for i = 1, 3 do
-
 		matBlurScreen:SetFloat("$blur", frac * 5 * (i / 3))
 		matBlurScreen:Recompute()
+
 		render.UpdateScreenEffectTexture()
 		surface.DrawTexturedRect(x or 0, y or 0, w or ScrW(), h or ScrH())
-
 	end
 
 	DisableClipping(false)
