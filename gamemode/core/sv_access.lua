@@ -10,7 +10,7 @@ function LoadBans()
 	for _, ban in ipairs(query:Execute()) do
 		Bans[ban.SteamID] = ban
 
-		CheckBanned(ban.Steamid)
+		CheckBanned(ban.SteamID)
 	end
 end
 
@@ -150,3 +150,11 @@ function GM:CheckPassword(steam64, ip, sv, cl, nick)
 
 	return true
 end
+
+request.Hook("RequestBans", function(ply, config)
+	if Access.SecureAdmin(ply, "RequestBans") then
+		return
+	end
+
+	return Bans
+end)

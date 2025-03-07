@@ -32,5 +32,6 @@ end, true)
 function GM:PopulateAdminMenu(panel)
 	panel:AddMenu(1, "Tools", "CC_AdminMenu_Tools", nil, true)
 	panel:AddMenu(2, "Logs", "CC_AdminMenu_Logs")
-	panel:AddMenu(3, "Admin Roster", "CC_AdminMenu_Roster")
+	panel:AddMenu(3, "Bans", "CC_AdminMenu_Bans")
+	panel:AddMenu(4, "Admin Roster", "CC_AdminMenu_Roster")
 end

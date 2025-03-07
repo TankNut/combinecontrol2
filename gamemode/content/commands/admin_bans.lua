@@ -12,7 +12,9 @@ ban:AddParameter(console.SteamID({
 	NoSelfTarget = true
 }))
 
-ban:AddParameter(console.Duration({}, "length"))
+ban:AddParameter(console.Duration({
+	AllowZero = true
+}, "length"))
 ban:AddOptional(console.String({
 	Max = 256
 }), nil, "No reason specified")
