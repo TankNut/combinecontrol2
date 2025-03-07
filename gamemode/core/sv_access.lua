@@ -42,11 +42,11 @@ function AddBan(steamid, admin, length, reason)
 	local ply = player.GetBySteamID(steamid)
 
 	if ply then
-		ply:Kick(GetBanMessage(ban))
+		Log.Write("security_ban", admin, ply:Nick(), steamid, ban.Length, ban.Reason, false)
 
-		Log.Write("security_banned", admin, ply, ban.Length, ban.Reason)
+		ply:Kick(GetBanMessage(ban))
 	else
-		Log.Write("security_banned", admin, Log.FormatPlayer(nil, steamid), ban.Length, ban.Reason)
+		Log.Write("security_ban", admin, nil, steamid, ban.Length, ban.Reason, true)
 	end
 end
 
@@ -114,9 +114,9 @@ end
 function Kick(admin, ply, reason)
 	reason = reason or "No reason specified"
 
-	ply:Kick(string.format(kickFormat, IsValid(admin) and admin:Nick() or "CONSOLE", reason))
+	Log.Write("security_kick", admin, ply, reason)
 
-	Log.Write("security_kicked", admin, ply, reason)
+	ply:Kick(string.format(kickFormat, IsValid(admin) and admin:Nick() or "CONSOLE", reason))
 end
 
 function SecureAdmin(ply, endpoint)
@@ -132,7 +132,7 @@ function GM:CheckPassword(steam64, ip, sv, cl, nick)
 	local banned, ban = CheckBanned(steamid)
 
 	if banned then
-		Log.Write("security_denied_banned", Log.FormatPlayer(nick, steamid))
+		Log.Write("security_deny_banned", nick, steamid)
 
 		return false, GetBanMessage(ban)
 	end
@@ -143,7 +143,7 @@ function GM:CheckPassword(steam64, ip, sv, cl, nick)
 	-- end
 
 	if #sv > 0 and cl != sv then
-		Log.Write("security_denied_password", Log.FormatPlayer(nick, steamid))
+		Log.Write("security_deny_password", nick, steamid)
 
 		return false, "#GameUI_ServerRejectBadPassword"
 	end
