@@ -3,14 +3,11 @@ module("Log", package.seeall)
 function Character(ply)
 	local data = {
 		CharID = ply:CharID(),
-		CharName = ply:VisibleRPName()
+		CharName = ply:VisibleRPName(),
+		IsTemporary = ply:IsTemporaryCharacter() and 1 or 0
 	}
 
 	table.Merge(data, Player(ply))
-
-	if ply:IsTemporaryCharacter() then
-		data.IsTemporary = 1
-	end
 
 	return data
 end
