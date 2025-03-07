@@ -52,6 +52,8 @@ function PANEL:Init()
 end
 
 function PANEL:RequestAdminRoster()
+	self.Refresh:SetDisabled(true)
+
 	if lp:IsSuperAdmin() then
 		self.UpdateAlias:SetDisabled(true)
 		self.DemoteUser:SetDisabled(true)
@@ -65,6 +67,8 @@ function PANEL:RequestAdminRoster()
 		if not IsValid(self) then
 			return
 		end
+
+		self.Refresh:SetDisabled(false)
 
 		for index, admin in pairs(admins) do
 			local lastSeen = IsValid(player.GetBySteamID(admin.SteamID)) and "Online" or
