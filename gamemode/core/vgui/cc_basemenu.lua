@@ -28,7 +28,7 @@ end
 function PANEL:Think()
 	BaseClass.Think(self)
 
-	self:MoveToBack()
+	-- self:MoveToBack()
 end
 
 function PANEL:PerformLayout(w, h)

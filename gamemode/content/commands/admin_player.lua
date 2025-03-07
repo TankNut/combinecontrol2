@@ -165,7 +165,7 @@ slap:AddParameter(console.Player({
 }))
 
 local function printCharacterList(data)
-	local defaultFlag = CharacterFlag.Get(CharacterVar.Vars["CharacterFlag"].Default).Name
+	local defaultFlag = CharacterFlag.Get(GAMEMODE.DefaultFlag).Name
 
 	MsgC(Color(214, 172, 19), string.format("Character list for: %s (%d character%s)\n", data.Name, #data.Characters, #data.Characters > 1 and "s" or ""))
 
