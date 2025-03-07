@@ -22,13 +22,6 @@ function Player(ply)
 	}
 end
 
-function FormatPlayer(nick, steamid)
-	return {
-		Nick = function() return nick end,
-		SteamID = function() return steamid end,
-	}
-end
-
 function Admin(ply)
 	if not IsValid(ply) then
 		return {
