@@ -27,3 +27,22 @@ unban:SetExecutionContext(console.Server)
 unban:SetAccess(console.IsAdmin)
 
 unban:AddParameter(console.SteamID())
+
+local kick = console.AddCommand("rpa_kick", function(ply, target, reason)
+	Access.Kick(ply, target, reason)
+end)
+
+kick:SetCategory("Bans")
+kick:SetDescription("Kicks a player")
+kick:SetExecutionContext(console.Server)
+kick:SetAccess(console.IsAdmin)
+
+kick:AddParameter(console.Player({
+	SingleTarget = true,
+	StrictImmunity = true,
+	NoSelfTarget = true
+}))
+
+kick:AddOptional(console.String({
+	Max = 256
+}), nil, "No reason specified")

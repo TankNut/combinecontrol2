@@ -43,6 +43,10 @@ function AddBan(steamid, admin, length, reason)
 
 	if ply then
 		ply:Kick(GetBanMessage(ban))
+
+		Log.Write("security_banned", admin, ply, ban.Length, ban.Reason)
+	else
+		Log.Write("security_banned", admin, Log.FormatPlayer(nil, steamid), ban.Length, ban.Reason)
 	end
 end
 
@@ -57,6 +61,11 @@ Banned by %s for %s:
 %s
 
 This ban will expire in %s]]
+
+local kickFormat = [[
+Kicked by %s:
+
+%s]]
 
 function GetBanMessage(ban)
 	if ban.Length == 0 then
@@ -102,6 +111,14 @@ function LiftBan(steamid)
 	Bans[steamid] = nil
 end
 
+function Kick(admin, ply, reason)
+	reason = reason or "No reason specified"
+
+	ply:Kick(string.format(kickFormat, IsValid(admin) and admin:Nick() or "CONSOLE", reason))
+
+	Log.Write("security_kicked", admin, ply, reason)
+end
+
 function SecureAdmin(ply, endpoint)
 	if not ply:IsAdmin() then
 		Access.AddBan(ply:SteamID(), nil, 0, string.format("AUTOMATED: ACL bypass attempt (%s)", endpoint))
@@ -115,6 +132,8 @@ function GM:CheckPassword(steam64, ip, sv, cl, nick)
 	local banned, ban = CheckBanned(steamid)
 
 	if banned then
+		Log.Write("security_denied_banned", Log.FormatPlayer(nick, steamid))
+
 		return false, GetBanMessage(ban)
 	end
 
@@ -124,6 +143,8 @@ function GM:CheckPassword(steam64, ip, sv, cl, nick)
 	-- end
 
 	if #sv > 0 and cl != sv then
+		Log.Write("security_denied_password", Log.FormatPlayer(nick, steamid))
+
 		return false, "#GameUI_ServerRejectBadPassword"
 	end
 
