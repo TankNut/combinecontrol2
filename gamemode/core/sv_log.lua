@@ -104,6 +104,7 @@ function Write(name, ...)
 
 		if not colorCache[prefix] then
 			math.randomseed(tonumber(util.CRC(prefix)))
+			math.random()
 
 			colorCache[prefix] = HSVToColor(math.random(360), 0.5, 1)
 
