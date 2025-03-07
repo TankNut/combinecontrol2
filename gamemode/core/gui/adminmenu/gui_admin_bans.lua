@@ -46,13 +46,28 @@ function PANEL:RequestBans()
 		self.Refresh:SetDisabled(false)
 
 		for _, ban in SortedPairsByMemberValue(bans, "Timestamp") do
-			self.List:AddLine(
-				os.date("%Y-%m-%d %H:%M:%S", ban.Timestamp),
+			local bannedOn = os.date("%Y-%m-%d %H:%M:%S", ban.Timestamp)
+			local bannedFor = ban.Length > 0 and string.NiceTime(ban.Length) or "Permanent"
+			local banRemaining =  ban.Length > 0 and string.NiceTime(ban.Timestamp + ban.Length - os.time()) or "Permanent"
+
+			local line = self.List:AddLine(
+				bannedOn,
 				ban.Admin,
 				ban.SteamID,
-				ban.Length > 0 and string.NiceTime(ban.Length) or "Permanent",
+				bannedFor,
 				ban.Reason
-			).Data = ban
+			)
+
+			line.Data = ban
+			line:SetTooltipPanelOverride("CC_Tooltip")
+			line:SetTooltip(string.format([[<b>Banned SteamID:</b> <dark>%s</dark>
+<b>Banned By:</b> <dark>%s</dark>
+<b>Banned On:</b> <dark>%s</dark>
+<b>Time For:</b> <dark>%s</dark>
+<b>Time Left:</b> <dark>%s</dark>
+
+<dark>%s
+]], ban.SteamID, ban.Admin, bannedOn, bannedFor, banRemaining, ban.Reason))
 		end
 	end)
 end
