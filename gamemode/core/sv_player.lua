@@ -150,6 +150,10 @@ function GM:PlayerShouldTaunt(ply, act)
 	return false
 end
 
+function GM:PlayerDeathSound()
+	return true
+end
+
 function GM:PlayerSetHandsModel(ply, ent)
 	ent:SetModel("models/weapons/c_arms_citizen.mdl")
 	ent:SetSkin(0)

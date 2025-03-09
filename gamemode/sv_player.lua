@@ -41,14 +41,6 @@ function PLAYER:SetPhysgunColor()
 	self:SetWeaponColor(vec)
 end
 
-function GM:PlayerSay(ply, text, t)
-	return ""
-end
-
-function GM:PlayerDeathSound()
-	return true
-end
-
 hook.Add("EntityTakeDamage", "SV.Player.EntityTakeDamage", function(ent, dmginfo)
 	if ent.NoDamage then
 		dmginfo:ScaleDamage(0)

@@ -29,19 +29,3 @@ function GM:GetHandTrace(ply, len)
 
 	return util.TraceLine(trace)
 end
-
--- Maps a yaw to 0 -> 360
-function math.AngleToHeading(yaw)
-	return (-yaw % 360) + 360 % 360
-end
-
--- Takes a heading and returns the compass direction
-function GM:GetHeading(heading)
-	local northSouth = (heading < 67.5 or heading > 292.5) and "N" or
-		(heading > 112.5 and heading < 247.5) and "S" or ""
-
-	local eastWest = (heading > 22.5 and heading < 157.5) and "E" or
-		(heading > 202.5 and heading < 337.5) and "W" or ""
-
-	return northSouth .. eastWest
-end
