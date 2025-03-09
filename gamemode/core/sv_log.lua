@@ -91,7 +91,7 @@ function Read(name, data, offset, fromTime, toTime)
 		where = " WHERE " .. where
 	end
 
-	return GAMEMODE.Database:Query(string.format("SELECT UNIQUE `id`, `Log`, `Name`, `Timestamp`, `Data` FROM rp_logs LEFT JOIN rp_log_data USING (id)%s ORDER BY `id` ASC LIMIT %s OFFSET %s", where, Config.Get("LogLines"), offset or 0))
+	return GAMEMODE.Database:Query(string.format("SELECT UNIQUE `id`, `Log`, `Name`, `Timestamp`, `Data` FROM rp_logs LEFT JOIN rp_log_data USING (id)%s ORDER BY `id` DESC LIMIT %s OFFSET %s", where, Config.Get("LogLines"), offset or 0))
 end
 
 local colorCache = {}
