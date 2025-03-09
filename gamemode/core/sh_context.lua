@@ -1,7 +1,5 @@
 module("Context", package.seeall)
 
-Actions = Actions or {}
-
 local PLAYER = FindMetaTable("Player")
 
 if CLIENT then
@@ -33,9 +31,6 @@ function PLAYER:GetContextEntity()
 	end
 
 	return ent, distance <= Config.Get("InteractRange"), distance
-end
-
-function PLAYER:RunAction(name)
 end
 
 if CLIENT then
@@ -78,6 +73,12 @@ if CLIENT then
 
 				Context.Add(string.format("Inventory/%s/%s", name, entry.Name), entry.Callback, CONTEXT_INVENTORY)
 			end
+		end
+	end
+
+	function GM:BuildAdminContext()
+		for _, entry in ipairs(lp:GetActionMenuData("Admin")) do
+			Context.Add(entry.Name, entry.Callback, CONTEXT_ADMIN)
 		end
 	end
 

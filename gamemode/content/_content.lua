@@ -6,6 +6,7 @@ GM:LoadFolder(ContentFolder .. "_defines/")
 GM:LoadFolder(ContentFolder .. "settings/")
 GM:LoadFolder(ContentFolder .. "commands/")
 GM:LoadFolder(ContentFolder .. "logs/")
+GM:LoadFolder(ContentFolder .. "actions/")
 
 Badge.Load()
 Language.Load()
