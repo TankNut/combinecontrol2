@@ -39,6 +39,10 @@ CONTEXT_SELF = 50 -- Self actions e.g. gestures, animations
 CONTEXT_MISC = 60 -- Default
 CONTEXT_ADMIN = 70 -- Admin-only stuff
 
+PROP_CLASSES = table.Lookup({
+	"prop_physics", "prop_effect"
+})
+
 WEAPONS_TOOLS = table.Lookup({
 	"weapon_physgun",
 	"gmod_tool"

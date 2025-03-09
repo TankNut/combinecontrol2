@@ -22,7 +22,10 @@ GM.Config.UntieOnDeath = true
 
 GM.Config.MaxItemDescLength = 300
 
+GM.Config.InteractRange = 82 -- Source default for +use
+GM.Config.EntityRange = 256
 GM.Config.PlayerSight = 1024
+
 GM.Config.ConsciousnessRate = 0.7
 
 -- Characters

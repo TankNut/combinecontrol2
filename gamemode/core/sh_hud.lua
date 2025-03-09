@@ -5,6 +5,7 @@ List = List or {}
 if CLIENT then
 	EntityCache.Add("items", function(ent) return ent:GetClass() == "cc_item" end)
 	EntityCache.Add("npcs", function(ent) return ent:IsNPC() end)
+	EntityCache.Add("props", function(ent) return PROP_CLASSES[ent:GetClass()] and not ent:CreatedByMap() end)
 end
 
 function Register(name, hud)
