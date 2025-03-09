@@ -36,8 +36,8 @@ function HUD:ShouldDraw()
 end
 
 function HUD:DrawWarning(w, h, baseOffset, rightOffset, margin)
-	local toolScribe = scribe.Parse("<giant><ol><c=cc_normal>One of your building tools is visible on your character!")
-	local oocScribe = scribe.Parse("<giant><ol><c=cc_normal>You will be considered out-of-character until it is put away!")
+	local toolScribe = scribe.Parse("<giant><ol><c=cc_bad>One of your building tools is visible on your character!")
+	local oocScribe = scribe.Parse("<giant><ol><c=cc_bad>You will be considered out-of-character until it is put away!")
 
 	local warningScribeW = math.max(toolScribe:GetWide(), oocScribe:GetWide())
 	local warningScribeH = toolScribe:GetTall() + oocScribe:GetTall()
