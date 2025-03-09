@@ -3,7 +3,10 @@ local create = console.AddCommand("rpa_createitem", function(ply, item)
 		return
 	end
 
-	Item.Create(item):SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0))
+	item = Item.Create(item)
+	item:SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0))
+
+	Log.Write("admin_item_create", ply, item)
 end)
 
 create:SetCategory("Item Commands")
@@ -21,7 +24,10 @@ local createTemp = console.AddCommand("rpa_createtempitem", function(ply, item)
 		return
 	end
 
-	Item.CreateTemp(item):SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0))
+	item = Item.CreateTemp(item)
+	item:SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0))
+
+	Log.Write("admin_item_create", ply, item)
 end)
 
 createTemp:SetCategory("Item Commands")
@@ -40,7 +46,11 @@ local give = console.AddCommand("rpa_giveitem", function(ply, targets, item)
 	end
 
 	for _, target in ipairs(targets) do
-		target:GiveItem(item)
+		if not target:HasCharacter() or target:IsTemporaryCharacter() then
+			continue
+		end
+
+		Log.Write("admin_item_give", ply, target:GiveItem(item), target)
 	end
 end)
 
@@ -60,7 +70,11 @@ local giveTemp = console.AddCommand("rpa_givetempitem", function(ply, targets, i
 	end
 
 	for _, target in ipairs(targets) do
-		target:GiveTempItem(item)
+		if not target:HasCharacter() then
+			continue
+		end
+
+		Log.Write("admin_item_give", ply, target:GiveTempItem(item), target)
 	end
 end)
 

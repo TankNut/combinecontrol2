@@ -4,7 +4,7 @@ function Character(ply)
 	local data = {
 		CharID = ply:CharID(),
 		CharName = ply:VisibleRPName(),
-		IsTemporary = ply:IsTemporaryCharacter() and 1 or 0
+		IsTemporaryCharacter = ply:IsTemporaryCharacter() and 1 or 0
 	}
 
 	table.Merge(data, Player(ply))
@@ -39,6 +39,14 @@ function Admin(ply)
 	end
 
 	return data
+end
+
+function Item(item)
+	return {
+		ItemID = item.ID,
+		ItemClass = item.ClassName,
+		IsTemporaryItem = item:IsTemporaryItem() and 1 or 0
+	}
 end
 
 function Read(name, data, offset, fromTime, toTime)

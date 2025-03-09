@@ -52,17 +52,21 @@ function LoadWorld()
 end
 
 function PLAYER:GiveItem(class, data)
-	assert(not self:IsTempCharacter(), "Attempt to give a normal item to a temp character")
+	assert(not self:IsTemporaryCharacter(), "Attempt to give a normal item to a temp character")
 
 	local item = Create(class, data)
 
 	item:SetInventory(self:GetInventory())
+
+	return item
 end
 
 function PLAYER:GiveTempItem(class, data)
 	local item = CreateTemp(class, data)
 
 	item:SetInventory(self:GetInventory())
+
+	return item
 end
 
 function GM:CanPickupItem(ply, item)

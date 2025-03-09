@@ -4,6 +4,8 @@ local restart = console.AddCommand("rpa_restart", function(ply)
 		Color = Color(200, 0, 0)
 	})
 
+	Log.Write("admin_misc_restart", ply)
+
 	timer.Simple(5, function()
 		game.ConsoleCommand("changelevel " .. game.GetMap() .. "\n")
 	end)
@@ -47,6 +49,8 @@ local changeLevel = console.AddCommand("rpa_changelevel", function(ply, map)
 	})
 
 	file.Write("cc_maps/" .. game.GetPort() .. ".txt", map)
+	Log.Write("admin_misc_changelevel", ply, map)
+
 	timer.Simple(5, function()
 		game.ConsoleCommand("changelevel " .. map .. "\n")
 	end)
@@ -62,6 +66,8 @@ changeLevel:AddOptional(console.String())
 local disableAI = console.AddCommand("rpa_ai_disable", function (ply, bool)
 	Chat.Send("NOTICE", console.FormatMessage("%s has %s AI thinking", ply, bool and "disabled" or "enabled"), player.GetAdmins())
 
+	Log.Write("admin_misc_setvariable", ply, "ai_disable", bool and 1 or 0)
+
 	GAMEMODE:SetAIDisabled(bool)
 end)
 
@@ -75,6 +81,8 @@ disableAI:AddParameter(console.Bool())
 local ignoreAI = console.AddCommand("rpa_ai_notarget", function (ply, bool)
 	Chat.Send("NOTICE", console.FormatMessage("%s has turned %s NPC's ignoring players", ply, bool and "on" or "off"), player.GetAdmins())
 
+	Log.Write("admin_misc_setvariable", ply, "ai_notarget", bool and 1 or 0)
+
 	GAMEMODE:SetAINoTarget(bool)
 end)
 
@@ -86,6 +94,8 @@ ignoreAI:SetAccess(console.IsAdmin)
 ignoreAI:AddParameter(console.Bool())
 
 local yell = console.AddCommand("rpa_yell", function(ply, message)
+	Log.Write("admin_misc_yell", ply, message)
+
 	Chat.Send("ADMINYELL", {Name = console.RPName(ply), Text = message})
 end)
 
@@ -109,6 +119,8 @@ yell:AddParameter(console.String())
 local oocDelay = console.AddCommand("rpa_oocdelay", function(ply, delay)
 	GAMEMODE:SetOOCDelay(delay)
 
+	Log.Write("admin_misc_setvariable", ply, "oocdelay", delay)
+
 	Chat.Send("NOTICE", ply:Nick() .. " has set the OOC delay to " .. string.NiceTime(delay) .. ".")
 end)
 
@@ -123,6 +135,8 @@ oocDelay:AddParameter(console.Duration({
 
 local oocDisable = console.AddCommand("rpa_oocdisable", function(ply)
 	GAMEMODE:SetOOCDelay(-1)
+
+	Log.Write("admin_misc_setvariable", ply, "oocdelay", -1)
 
 	Chat.Send("NOTICE", ply:Nick() .. " has disabled OOC chat.")
 end)
@@ -139,6 +153,8 @@ if CLIENT then
 end
 
 local stopSound = console.AddCommand("rpa_stopsound", function(ply)
+	Log.Write("admin_misc_stopsound", ply)
+
 	netstream.Broadcast("StopSound")
 end)
 
@@ -170,7 +186,13 @@ local toggleSaved = console.AddCommand("rpa_togglesaved", function(ply)
 		-- Context that gets passed to OnPermaPropChanged to write to PermaPropInfo
 		Admin = ply
 
-		ent:SetPermaProp(not ent:PermaProp())
+		local new = not ent:PermaProp()
+
+		ent:SetPermaProp(new)
+		Log.Write("admin_misc_togglesaved",
+			ply,
+			ent.AttachedEntity and ent.AttachedEntity:GetModel() or ent:GetModel(),
+			new)
 
 		Admin = nil
 	end
