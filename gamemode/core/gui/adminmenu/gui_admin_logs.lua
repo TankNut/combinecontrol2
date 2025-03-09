@@ -28,6 +28,12 @@ function PANEL:Init()
 		return names
 	end
 
+	self.NameFilter.OnChange = function(pnl)
+		if IsValid(pnl.Menu) then
+			pnl.Menu:SetSkin("CombineControlNew")
+		end
+	end
+
 	self.KeyValues = self:Add("DListView")
 	self.KeyValues:SetMultiSelect(false)
 	self.KeyValues:AddColumn("Key"):SetFixedWidth(120)
