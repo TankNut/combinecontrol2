@@ -7,3 +7,9 @@ Settings.Add("ShowItemClass", {
 	Panel = "CC_Setting_Bool",
 	CanAccess = isAdmin
 }, "Admin")
+
+Settings.Add("EditMode", {
+	Default = false,
+	Validate = validate.Bool(),
+	CanAccess = isAdmin
+})
