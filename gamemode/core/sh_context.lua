@@ -48,7 +48,9 @@ if CLIENT then
 	end
 
 	function GM:BuildEntityContext(ent, canInteract, distance)
-		-- Implement actions into cc_base_ent, add those here
+		for _, entry in ipairs(ent:GetActionMenuData()) do
+			Context.Add(entry.Name, entry.Callback, CONTEXT_ENTITY)
+		end
 	end
 
 	function GM:BuildSelfContext()

@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 ENT.Base = "cc_base_ent"
 
-ENT.AllowPhys = true
+ENT.AllowPhys = true -- Allow everyone to physgun us
 
 function ENT:Initialize()
 	if CLIENT then return end

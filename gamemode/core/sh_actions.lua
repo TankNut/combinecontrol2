@@ -1,6 +1,9 @@
 module("Action", package.seeall)
 
 List = List or {}
+Cache = {}
+
+local ENTITY = FindMetaTable("Entity")
 
 function Add(id, data)
 	data.Name = data.Name or id
@@ -9,104 +12,61 @@ function Add(id, data)
 	List[id] = data
 end
 
-local PLAYER = FindMetaTable("Player")
+function ENTITY:GetActions()
+	local ourClass = self:GetClass()
+	local cache = Cache[ourClass]
 
-function PLAYER:CanRunAction(name)
-	local action = List[name]
-
-	if not action then
-		return false
+	if cache then
+		return cache
 	end
 
-	if action.CanRun then
-		local ok = action.CanRun(self)
+	local actions = {}
 
-		if not ok then
-			return false
-		end
-	end
-
-	return true
-end
-
-function PLAYER:RunAction(name, ...)
-	local feedback = function(err, ...)
-		if not err then
-			return
+	for k, action in pairs(List) do
+		if action.Filter and not action.Filter(ourClass) then
+			continue
 		end
 
-		self:SendChat("ERROR", string.format(err, ...))
+		actions[k] = action
 	end
 
-	local action = List[name]
+	if self.CCEntity then
+		local class = scripted_ents.GetStored(ourClass).t
 
-	if not action then
-		feedback("No action with id '%s' exists!", name)
+		while true do
+			local actionTable = rawget(class, "Actions")
 
-		return
-	end
+			if actionTable then
+				for k, action in pairs(actionTable) do
+					if not actions[k] then
+						actions[k] = action
 
-	local args = {...}
+						action.ID = k
 
-	local function check()
-		if action.CanRun then
-			local ok, err = action.CanRun(self)
-
-			if not ok then
-				feedback(err)
-
-				return true
-			end
-		end
-
-		-- We only validate on the client if we're never running server code (ClientOnly), or we're not bothering with action.Client (which might pass different values along)
-		local shouldValidate = CLIENT and (action.ClientOnly or not action.Client) or SERVER
-
-		if action.Validate and shouldValidate then
-			local ok, err = action.Validate(self, unpack(args))
-
-			if not ok then
-				feedback(err)
-
-				return true
-			end
-		end
-	end
-
-	if check() then
-		return
-	end
-
-	async.Start(function()
-		if action.Progress then
-			local data = action.Progress(self, unpack(args))
-
-			if data then
-				data.Validate = data.Validate or {}
-
-				table.insert(data.Validate, check)
-
-				local val = progress.Start(self, data)
-
-				if val and val != 1 then
-					return
+						if not action.Name then action.Name = k end
+					end
 				end
 			end
-		end
 
-		if CLIENT then
-			self:HandleClientAction(name, action, unpack(args))
-		else
-			self:HandleServerAction(name, action, unpack(args))
+			if class.ClassName == "cc_base_ent" then
+				break
+			end
+
+			class = scripted_ents.GetStored(class.Base).t
 		end
-	end)
+	end
+
+	Cache[ourClass] = actions
+
+	return actions
 end
 
 if CLIENT then
-	function PLAYER:GetActionMenuData(context)
+	-- Used for generating different listings based on what kind of UI is used, doesn't actually restrict anything
+	function ENTITY:GetActionMenuData(context)
 		local actions = {}
 
-		for name, action in pairs(List) do
+		for name, action in pairs(self:GetActions()) do
 			if action.ServerOnly then
 				continue
 			end
@@ -115,11 +75,23 @@ if CLIENT then
 				continue
 			end
 
+			if action.Self and self != lp then
+				continue
+			end
+
+			if action.Interaction then
+				local _, canInteract = lp:GetContextEntity()
+
+				if not canInteract then
+					continue
+				end
+			end
+
 			if action.Context != context then
 				continue
 			end
 
-			if action.CanRun and not action.CanRun(self) then
+			if action.CanRun and not action.CanRun(self, lp) then
 				continue
 			end
 
@@ -155,7 +127,9 @@ if CLIENT then
 					table.insert(menuData, {
 						Name = string.format("%s/%s", action.Name, sub.Name),
 						Callback = function()
-							self:RunAction(action.ID, sub.Value)
+							if IsValid(self) then
+								self:RunAction(lp, action.ID, sub.Value)
+							end
 						end
 					})
 				end
@@ -163,7 +137,9 @@ if CLIENT then
 				table.insert(menuData, {
 					Name = action.Name,
 					Callback = function()
-						self:RunAction(action.ID)
+						if IsValid(self) then
+							self:RunAction(lp, action.ID)
+						end
 					end
 				})
 			end
@@ -171,45 +147,166 @@ if CLIENT then
 
 		return menuData
 	end
+end
 
-	function PLAYER:HandleClientAction(name, action, ...)
+function ENTITY:CanRunAction(ply, name)
+	local action = self:GetActions()[name]
+
+	if not action then
+		return false
+	end
+
+	if action.Self then
+		if ply != self then
+			return false
+		end
+	else
+		local ent, canInteract = ply:GetContextEntity()
+
+		if ent != self or action.Interaction and not canInteract then
+			return false
+		end
+	end
+
+	if action.CanRun then
+		local ok = action.CanRun(self, ply)
+
+		if not ok then
+			return false
+		end
+	end
+
+	return true
+end
+
+function ENTITY:RunAction(ply, name, ...)
+	local feedback = function(err, ...)
+		if not err then
+			return
+		end
+
+		ply:SendChat("ERROR", string.format(err, ...))
+	end
+
+	local action = self:GetActions()[name]
+
+	if not action then
+		feedback("No action with id '%s' exists!", name)
+
+		return
+	end
+
+	local args = {...}
+
+	local function check()
+		if action.Self then
+			if ply != self then
+				return true
+			end
+		else
+			local ent, canInteract = ply:GetContextEntity()
+
+			if ent != self or action.Interaction and not canInteract then
+				return true
+			end
+		end
+
+		if action.CanRun then
+			local ok, err = action.CanRun(self, ply)
+
+			if not ok then
+				feedback(err)
+
+				return true
+			end
+		end
+
+		-- We only validate on the client if we're never running server code (ClientOnly), or we're not bothering with action.Client (which might pass different values along)
+		local shouldValidate = CLIENT and (action.ClientOnly or not action.Client) or SERVER
+
+		if action.Validate and shouldValidate then
+			local ok, err = action.Validate(self, ply, unpack(args))
+
+			if not ok then
+				feedback(err)
+
+				return true
+			end
+		end
+	end
+
+	if check() then
+		return
+	end
+
+	async.Start(function()
+		if action.Progress then
+			local data = action.Progress(self, ply, unpack(args))
+
+			if data then
+				data.Validate = data.Validate or {}
+
+				table.insert(data.Validate, check)
+
+				local val = progress.Start(ply, data)
+
+				if val and val != 1 then
+					return
+				end
+			end
+		end
+
+		if CLIENT then
+			self:HandleClientAction(ply, name, action, unpack(args))
+		else
+			self:HandleServerAction(ply, name, action, unpack(args))
+		end
+	end)
+end
+
+if CLIENT then
+	function ENTITY:HandleClientAction(ply, name, action, ...)
 		assert(not action.ServerOnly, "Attempt to run SERVER only action on CLIENT")
 
 		if action.ClientOnly then
-			local ok, err = action.Client(self, ...)
+			local ok, err = action.Client(self, ply, ...)
 
 			if not ok and err then
-				self:SendChat("ERROR", err)
+				lp:SendChat("ERROR", err)
 			end
 		else
 			if action.Client then
-				local args = {action.Client(self, ...)}
+				local args = {action.Client(self, ply, ...)}
 
 				if not table.remove(args, 1) and args[1] then
-					self:SendChat("ERROR", args[1])
+					lp:SendChat("ERROR", args[1])
 
 					return
 				end
 
-				netstream.Send("PlayerAction", name, unpack(args))
+				netstream.Send("EntityAction", self, name, unpack(args))
 			else
-				netstream.Send("PlayerAction", name, ...)
+				netstream.Send("EntityAction", self, name, ...)
 			end
 		end
 	end
 else
-	function PLAYER:HandleServerAction(name, action, ...)
+	function ENTITY:HandleServerAction(ply, name, action, ...)
 		assert(not action.ClientOnly, "Attempt to run CLIENT only action on SERVER")
 
-		local ok, err = action.Callback(self, ...)
+		local ok, err = action.Callback(self, ply, ...)
 
 		if not ok and err then
-			self:SendChat("ERROR", err)
+			ply:SendChat("ERROR", err)
 		end
 	end
 
-	netstream.Hook("PlayerAction", function(ply, id, name, ...)
-		local action = List[name]
+	netstream.Hook("EntityAction", function(ply, ent, name, ...)
+		if not IsValid(ent) then
+			return
+		end
+
+		local action = ent:GetActions()[name]
 
 		if not action then
 			return
@@ -221,6 +318,6 @@ else
 			return
 		end
 
-		ply:RunAction(name, ...)
+		ent:RunAction(ply, name, ...)
 	end)
 end

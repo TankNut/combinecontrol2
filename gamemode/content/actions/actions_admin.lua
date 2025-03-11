@@ -5,6 +5,7 @@ Action.Add("SeeAll", {
 	ClientOnly = true,
 	Priority = 10,
 
+	Self = true,
 	Context = "Admin",
 
 	CanRun = isAdmin,
@@ -25,6 +26,7 @@ for k, setting in ipairs(settings) do
 		ClientOnly = true,
 		Priority = #settings - k,
 
+		Self = true,
 		Context = "Admin",
 
 		CanRun = isAdmin,
