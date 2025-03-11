@@ -3,7 +3,7 @@ local ENTITY = FindMetaTable("Entity")
 
 PlayerVar.Add("ToolTrust", {Default = TOOLTRUST_UNTRUSTED, Persist = true, DataType = TINYINT()})
 
-EntityVar.Add("PropDescription", {Default = ""})
+EntityVar.Add("PropDescription", {})
 
 function GM:GetToolTrust(ply)
 	if ply:IsDeveloper() then
