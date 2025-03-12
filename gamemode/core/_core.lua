@@ -106,6 +106,7 @@ GM:Include("sv_luapad.lua")
 GM:Include("sv_player_update.lua")
 GM:Include("sv_player.lua")
 GM:Include("sv_resource.lua")
+GM:Include("sv_worldents.lua")
 
 local baseFolder = engine.ActiveGamemode() .. "/gamemode/"
 

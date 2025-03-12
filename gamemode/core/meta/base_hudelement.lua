@@ -2,12 +2,12 @@ local HUD = {}
 
 HUD.Name = "Unnamed Hud Element"
 
-HUD.Default = false -- Whether the element is added to the hud by default
-HUD.Setting = false -- If set, will add a setting to enable-disable the hud element based on the value of CLASS.Default
+HUD.Default = nil -- Whether the element is added to the hud by default
+HUD.Setting = nil -- If set, will add a setting to enable-disable the hud element based on the value of CLASS.Default
 
 HUD.ExtraSettings = {}
 
-HUD.AlwaysDraw = false -- Whether the element draws when the hud is disabled
+HUD.AlwaysDraw = nil -- Whether the element draws when the hud is disabled
 
 HUD.DrawOrder = 0
 

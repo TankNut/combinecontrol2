@@ -2,6 +2,8 @@ HUD.Name = "Progress Bars"
 
 HUD.Default = true
 
+HUD.AlwaysDraw = true
+
 HUD.Width = 400
 HUD.Height = 40
 

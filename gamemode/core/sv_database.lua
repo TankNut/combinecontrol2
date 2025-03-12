@@ -63,6 +63,14 @@ function CreateTables(db)
 	db:Suppress()
 	db:Query("ALTER TABLE rp_log_data ADD CONSTRAINT fk_id FOREIGN KEY (id) REFERENCES rp_logs (id) ON DELETE CASCADE")
 
+	query = db:Create("rp_worldents")
+		query:Create("id", "INT NOT NULL AUTO_INCREMENT", true)
+		query:Create("Class", "VARCHAR(64) NOT NULL")
+		query:Create("Map", "VARCHAR(32) NOT NULL")
+		query:Create("MapData", "BLOB")
+		query:Create("CustomData", "BLOB")
+	query:Execute()
+
 	PopulateFromVars(db, "rp_players", PlayerVar.Vars)
 	PopulateFromVars(db, "rp_characters", CharacterVar.Vars)
 end
@@ -117,5 +125,6 @@ function GM:LoadDatabase()
 		Access.LoadBans()
 		Item.LoadWorld()
 		GlobalVar.Load()
+		WorldEnts.LoadEntities()
 	end)
 end
