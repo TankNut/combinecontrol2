@@ -91,9 +91,11 @@ function GM:PlayerNoClip(ply, state)
 	return true
 end
 
-function GM:OnUserGroupChanged(ply, old, new)
+function GM:OnUserGroupChanged(ply, old, new, loaded)
 	if CLIENT and ply == lp then
 		Hud.Rebuild()
+
+		RunConsoleCommand("spawnmenu_reload")
 	end
 end
 

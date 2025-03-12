@@ -94,7 +94,7 @@ setCharacterScale:AddParameter(console.Number({
 	validate.Max(10),
 }))
 
-setCharacterScale:AddOptional(console.Bool(), false)
+setCharacterScale:AddOptional(console.Bool({}, "Persist"), nil, "false")
 
 local giveCharacterLanguage = console.AddCommand("rpa_givecharlang", function(ply, target, lang, speak)
 	local languageName = Language.Get(lang).Name

@@ -9,12 +9,9 @@ function ENTITY:GetPlayerColor()
 end
 
 function GM:InitPostEntity()
-	-- Legacy code
-	hook.Run("CC.SH.InitEnts")
-
-	-- Legacy code ends
 	if CLIENT then
 		Settings.LoadClient()
+		RunConsoleCommand("spawnmenu_reload")
 
 		return
 	end
