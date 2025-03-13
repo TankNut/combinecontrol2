@@ -188,7 +188,7 @@ if SERVER then
 			end
 		end
 
-		timer.Create("plugins.permaprops.save", 60, 1, function()
+		timer.Create("permaprops.save", 60, 1, function()
 			Save()
 		end)
 	end
