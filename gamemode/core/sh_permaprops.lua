@@ -94,11 +94,8 @@ if SERVER then
 		ent:Spawn()
 		ent:Activate()
 
-		local phys = ent:GetPhysicsObject()
-
-		if IsValid(phys) then
-			phys:EnableMotion(false)
-			phys:Sleep()
+		if IsValid(ent:GetPhysicsObject()) then
+			ent:PhysFreeze()
 		else
 			ent:Remove()
 
@@ -180,12 +177,7 @@ if SERVER then
 
 			constraint.RemoveAll(ent)
 
-			local phys = ent:GetPhysicsObject()
-
-			if IsValid(phys) then
-				phys:EnableMotion(false)
-				phys:Sleep()
-			end
+			ent:PhysFreeze()
 		end
 
 		timer.Create("permaprops.save", 60, 1, function()
