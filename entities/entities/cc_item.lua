@@ -13,7 +13,7 @@ function ENT:Initialize()
 	self:AddEFlags(EFL_KEEP_ON_RECREATE_ENTITIES)
 
 	if not IsValid(self:GetPhysicsObject()) then
-		self:PhysicsInitBox(self:GetModelBounds())
+		self:PhysicsInitCustom(self:GetModelBounds())
 	end
 end
 
