@@ -128,6 +128,21 @@ spawnmenu.AddCreationTab("CombineControl", function()
 	return panel
 end, "icon16/palette.png", 25)
 
+search.AddProvider(function(str)
+	local items = {}
+
+	for class, item in SortedPairs(Item.Find(lp, str)) do
+		table.insert(items, {
+			text = class,
+			func = function() RunConsoleCommand("rpa_createitem", class) end,
+			icon = spawnmenu.CreateContentIcon("cc_item", nil, item),
+			words = {class}
+		})
+	end
+
+	return items
+end, "combinecontrol")
+
 spawnmenu.AddContentType("cc_item", function(container, item)
 	local icon = vgui.Create("ContentIcon", container)
 
