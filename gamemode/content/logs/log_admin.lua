@@ -25,7 +25,7 @@ Log.AddType("admin_changelevel", function(ply, map)
 	}
 end)
 
-Log.AddType("admin_setvariable", function(ply, variable, value)
+Log.AddType("admin_variable_set", function(ply, variable, value)
 	return string.format("%s has set the %s variable to %s", ply:Nick(), variable, value), {
 		Log.Admin(ply),
 		VariableName = variable,
@@ -74,8 +74,8 @@ Log.AddType("admin_teleport_send", function(ply, from, to)
 	}
 end)
 
-Log.AddType("admin_character_setvariable", function(ply, target, variable, value)
-	return string.format("%s has updated %s's %s variable to %s", ply:Nick(), target:VisibleRPName(), variable, value), {
+Log.AddType("admin_character_set", function(ply, target, variable, value)
+	return string.format("%s has updated %s's %s to %s", ply:Nick(), target:VisibleRPName(), variable, value), {
 		Log.Admin(ply),
 		Log.Character(target),
 		VariableName = variable,
@@ -97,8 +97,8 @@ Log.AddType("admin_character_takelang", function(ply, target, lang, speak)
 	}
 end)
 
-Log.AddType("admin_player_setvariable", function(ply, target, variable, value)
-	return string.format("%s has updated %s's %s variable to %s", ply:Nick(), target:Nick(), variable, value), {
+Log.AddType("admin_player_set", function(ply, target, variable, value)
+	return string.format("%s has set %s's %s to %s", ply:Nick(), target:Nick(), variable, value), {
 		Log.Admin(ply),
 		Log.Player(target),
 		VariableName = variable,

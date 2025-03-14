@@ -5,13 +5,13 @@ local setCharacterModel = console.AddCommand("rpa_setcharmodel", function (ply, 
 		return
 	end
 
+	Log.Write("admin_character_set", ply, target, "Model", mdl)
+
 	target:SetCharacterModel(mdl)
 	target:UpdateAppearance()
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character model to %s", target, mdl)
 	console.Feedback(target, "NOTICE", "%s has set your character model to %s", ply, mdl)
-
-	Log.Write("admin_character_setvariable", ply, target, "CharacterModel", mdl)
 end)
 
 setCharacterModel:SetCategory("Character Commands")
@@ -26,13 +26,13 @@ setCharacterModel:AddParameter(console.Player({
 setCharacterModel:AddParameter(console.String())
 
 local setCharacterSkin = console.AddCommand("rpa_setcharskin", function (ply, target, skin)
+	Log.Write("admin_character_set", ply, target, "Skin", skin)
+
 	target:SetCharacterSkin(skin)
 	target:UpdateAppearance()
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character skin to %d", target, skin)
 	console.Feedback(target, "NOTICE", "%s has set your character skin to %d", ply, skin)
-
-	Log.Write("admin_character_setvariable", ply, target, "CharacterSkin", skin)
 end)
 
 setCharacterSkin:SetCategory("Character Commands")
@@ -47,13 +47,13 @@ setCharacterSkin:AddParameter(console.Player({
 setCharacterSkin:AddParameter(console.Number())
 
 local setCharacterName = console.AddCommand("rpa_setcharname", function (ply, target, name)
+	Log.Write("admin_character_set", ply, target, "Name", name)
+
 	target:SetCharacterName(name)
 	target:UpdateVisibleName()
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character name to %s", target, name)
 	console.Feedback(target, "NOTICE", "%s has set your character name to %s", ply, name)
-
-	Log.Write("admin_character_setvariable", ply, target, "CharacterName", name)
 end)
 
 setCharacterName:SetCategory("Character Commands")
@@ -80,12 +80,12 @@ local setCharacterScale = console.AddCommand("rpa_setcharscale", function (ply, 
 		target:SetCharacterScale(scale)
 	end
 
+	Log.Write("admin_character_set", ply, target, "Scale", scale)
+
 	target:SetScale(scale)
 
 	console.Feedback(ply, "NOTICE", "You've set %s's %s scale to %d", target, persist and "character" or "", scale)
 	console.Feedback(target, "NOTICE", "%s has set your %s scale to %d", ply, persist and "character" or "", scale)
-
-	Log.Write("admin_character_setvariable", ply, target, "CharacterScale", scale)
 end)
 
 setCharacterScale:SetCategory("Character Commands")
@@ -180,11 +180,11 @@ local hideCharacter = console.AddCommand("rpa_charhidden", function(ply, targets
 			new = bool and 1 or 0
 		end
 
+		Log.Write("admin_character_set", ply, target, "Hidden", new)
+
 		target:SetCharacterHidden(new)
 
 		console.Feedback(ply, "NOTICE", "%s has %s you from the scoreboard", ply, new == 1 and "hidden" or "unhidden")
-
-		Log.Write("admin_character_setvariable", ply, target, "CharacterHidden", new)
 	end
 
 	console.Feedback(ply, "NOTICE", "You've updated scoreboard visibility for %s", targetCount == 1 and targets[1] or (targetCount .. " players"))
@@ -199,14 +199,14 @@ hideCharacter:AddParameter(console.Player())
 hideCharacter:AddOptional(console.Bool())
 
 local setCharacterFlag = console.AddCommand("rpa_setcharflag", function(ply, target, flag)
+	Log.Write("admin_character_set", ply, target, "Flag", flag)
+
 	target:SetCharacterFlag(flag)
 
 	local name = CharacterFlag.Get(flag).Name or flag
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character flag to %s", target:VisibleRPName(), name)
 	console.Feedback(target, "NOTICE", "%s has set your character flag to %s", ply, name)
-
-	Log.Write("admin_character_setvariable", ply, target, "CharacterFlag", flag)
 end)
 
 setCharacterFlag:SetCategory("Character Commands")

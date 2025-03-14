@@ -14,7 +14,7 @@ local setToolTrust = console.AddCommand("rpa_settooltrust", function (ply, targe
 	console.Feedback(ply, "NOTICE", "You've set %s's tool trust to %s", target, trust)
 	console.Feedback(target, "NOTICE", "%s has set your tool trust to %s", ply, trust)
 
-	Log.Write("admin_player_setvariable", ply, target, "ToolTrust", trust)
+	Log.Write("admin_player_set", ply, target, "ToolTrust", trust)
 end)
 
 setToolTrust:SetCategory("Player Commands")
@@ -43,7 +43,7 @@ local oocMute = console.AddCommand("rpa_oocmute", function (ply, target, bool)
 	console.Feedback(ply, "NOTICE", "You %s %s from OOC chat", new == 1 and "muted" or "unmuted", target)
 	console.Feedback(target, "NOTICE", "%s has %s you from OOC chat", ply, new == 1 and "muted" or "unmuted")
 
-	Log.Write("admin_player_setvariable", ply, target, "OOCMuted", new)
+	Log.Write("admin_player_set", ply, target, "OOCMuted", new)
 end)
 
 oocMute:SetCategory("Player Commands")
@@ -96,7 +96,7 @@ local setHealth = console.AddCommand("rpa_sethealth", function(ply, targets, hea
 
 		console.Feedback(target, "NOTICE", "%s has set your health to %d", ply, health)
 
-		Log.Write("admin_player_setvariable", ply, target, "Health", health)
+		Log.Write("admin_player_set", ply, target, "Health", health)
 	end
 
 	if #targets > 1 then
@@ -120,7 +120,7 @@ local setArmor = console.AddCommand("rpa_setarmor", function(ply, targets, armor
 
 		console.Feedback(target, "NOTICE", "%s has set your armor to %d", ply, armor)
 
-		Log.Write("admin_player_setvariable", ply, target, "Armor", armor)
+		Log.Write("admin_player_set", ply, target, "Armor", armor)
 	end
 
 	if #targets > 1 then
@@ -253,7 +253,7 @@ local setAlias = console.AddCommand("rpa_setalias", function(ply, steamId, alias
 		query:Execute()
 	end
 
-	Log.Write("admin_player_setvariable",
+	Log.Write("admin_player_set",
 		ply,
 		target or {
 			SteamID = function() return steamID end,

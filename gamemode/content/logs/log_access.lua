@@ -38,3 +38,10 @@ Log.AddType("access_ban", function(admin, nick, steamid, length, reason, offline
 		Permanent = length == 0 and 1 or 0
 	}
 end)
+
+Log.AddType("access_unban", function(admin, steamid)
+	return string.format("%s has unbanned %s", IsValid(admin) and admin:Nick() or "CONSOLE", steamid), {
+		Log.Admin(admin),
+		SteamID = steamid
+	}
+end)

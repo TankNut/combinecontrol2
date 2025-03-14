@@ -108,6 +108,8 @@ function LiftBan(steamid, admin)
 		query:Execute()
 	end)
 
+	Log.Write("access_unban", admin, steamid)
+
 	Bans[steamid] = nil
 end
 

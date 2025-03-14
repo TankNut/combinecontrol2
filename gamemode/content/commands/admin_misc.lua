@@ -66,7 +66,7 @@ changeLevel:AddOptional(console.String())
 local disableAI = console.AddCommand("rpa_ai_disable", function (ply, bool)
 	Chat.Send("NOTICE", console.FormatMessage("%s has %s AI thinking", ply, bool and "disabled" or "enabled"), player.GetAdmins())
 
-	Log.Write("admin_setvariable", ply, "ai_disable", bool and 1 or 0)
+	Log.Write("admin_variable_set", ply, "ai_disable", bool and 1 or 0)
 
 	GAMEMODE:SetAIDisabled(bool)
 end)
@@ -81,7 +81,7 @@ disableAI:AddParameter(console.Bool())
 local ignoreAI = console.AddCommand("rpa_ai_notarget", function (ply, bool)
 	Chat.Send("NOTICE", console.FormatMessage("%s has turned %s NPC's ignoring players", ply, bool and "on" or "off"), player.GetAdmins())
 
-	Log.Write("admin_setvariable", ply, "ai_notarget", bool and 1 or 0)
+	Log.Write("admin_variable_set", ply, "ai_notarget", bool and 1 or 0)
 
 	GAMEMODE:SetAINoTarget(bool)
 end)
@@ -119,7 +119,7 @@ yell:AddParameter(console.String())
 local oocDelay = console.AddCommand("rpa_oocdelay", function(ply, delay)
 	GAMEMODE:SetOOCDelay(delay)
 
-	Log.Write("admin_setvariable", ply, "OOCDelay", delay)
+	Log.Write("admin_variable_set", ply, "OOCDelay", delay)
 
 	Chat.Send("NOTICE", ply:Nick() .. " has set the OOC delay to " .. string.NiceTime(delay) .. ".")
 end)
@@ -136,7 +136,7 @@ oocDelay:AddParameter(console.Duration({
 local oocDisable = console.AddCommand("rpa_oocdisable", function(ply)
 	GAMEMODE:SetOOCDelay(-1)
 
-	Log.Write("admin_setvariable", ply, "OOCDelay", -1)
+	Log.Write("admin_variable_set", ply, "OOCDelay", -1)
 
 	Chat.Send("NOTICE", ply:Nick() .. " has disabled OOC chat.")
 end)
