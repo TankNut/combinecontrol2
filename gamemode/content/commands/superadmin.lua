@@ -23,7 +23,7 @@ local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, steamI
 
 	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target and target:Nick() or steamID, usergroup)
 
-	Log.Write("superadmin_usergroup_set",
+	Log.Write("superadmin_setusergroup",
 		ply,
 		target or {
 			Nick = function() return steamID end,
@@ -151,7 +151,7 @@ local giveTempAdmin = console.AddCommand("rpa_givetempadmin", function(ply, targ
 		return
 	end
 
-	Log.Write("superadmin_tempadmin_give", ply, target)
+	Log.Write("superadmin_givetempadmin", ply, target)
 
 	target:SetTempAdmin(true)
 
@@ -176,7 +176,7 @@ local takeTempAdmin = console.AddCommand("rpa_taketempadmin", function(ply, targ
 		return
 	end
 
-	Log.Write("superadmin_tempadmin_take", ply, target)
+	Log.Write("superadmin_taketempadmin", ply, target)
 
 	target:SetTempAdmin(false)
 
