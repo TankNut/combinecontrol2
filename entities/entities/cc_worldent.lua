@@ -41,5 +41,13 @@ if SERVER then
 	end
 
 	function ENT:PostInitData()
+		self:AddEFlags(EFL_KEEP_ON_RECREATE_ENTITIES)
+		self:PhysFreeze()
+
+		if not self.Physical then
+			self:DrawShadow(false)
+			self:SetMoveType(MOVETYPE_NONE)
+			self:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
+		end
 	end
 end

@@ -48,14 +48,7 @@ function Load(data)
 	ent:SetEntityID(data.id)
 	ent:LoadSaveData(sfs.decode(data.CustomData))
 
-	local phys = ent:GetPhysicsObject()
-
-	if IsValid(phys) then
-		phys:EnableMotion(false)
-	end
-
 	ent:PostInitData()
-	ent:AddEFlags(EFL_KEEP_ON_RECREATE_ENTITIES)
 end
 
 function Save(ent)
@@ -84,7 +77,6 @@ function Save(ent)
 
 			ent:SetEntityID(id)
 			ent:PostInitData()
-			ent:AddEFlags(EFL_KEEP_ON_RECREATE_ENTITIES)
 		end)
 	end
 end
