@@ -131,31 +131,6 @@ function Rebuild()
 	table.SortByMember(Active, "DrawOrder", true)
 end
 
-function DrawWorldText(pos, text, noz)
-	local ang = (pos - EyePos()):Angle()
-
-	cam.Start3D2D(pos, Angle(0, ang.y - 90, 90), 0.25)
-		if noz then
-			render.DepthRange(0, 0)
-		end
-
-		render.PushFilterMag(TEXFILTER.NONE)
-		render.PushFilterMin(TEXFILTER.NONE)
-			local w, h = surface.GetFontSize("BudgetLabel", text)
-
-			surface.SetTextColor(255, 255, 255, 255)
-			surface.SetTextPos(-w * 0.5, -h * 0.5)
-
-			surface.DrawText(text)
-		render.PopFilterMin()
-		render.PopFilterMag()
-
-		if noz then
-			render.DepthRange(0, 1)
-		end
-	cam.End3D2D()
-end
-
 function AddWorldLabel(pos, lines)
 	local screen = pos:ToScreen()
 
