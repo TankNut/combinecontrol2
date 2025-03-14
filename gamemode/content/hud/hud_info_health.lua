@@ -21,7 +21,7 @@ end
 
 function HUD:Think()
 	self.HP = math.min(math.ApproachSpeed(self.HP, lp:Health(), 20), lp:GetMaxHealth())
-	self.Armor = math.min(math.ApproachSpeed(self.Armor, lp:Armor(), 20), lp:GetMaxArmor() * 4)
+	self.Armor = math.min(math.ApproachSpeed(self.Armor, lp:Armor(), 20), 200)
 end
 
 function HUD:Paint(w, h)
@@ -43,28 +43,16 @@ function HUD:Paint(w, h)
 	end
 
 	if self.Armor >= 0.5 then
-		local baseMax = math.min(lp:GetMaxArmor(), 100)
-		local baseRatio = math.min(self.Armor / baseMax, 1)
+		local baseRatio = math.min(self.Armor / 100, 1)
 
 		self:DrawAlignedRect(20, y, self.Width, self.Height, self.BackgroundColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 		self:DrawAlignedRect(22, y - 2, (self.Width - 4) * baseRatio, self.Height - 4, self.ArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 
-		if self.Armor > baseMax then
-			local extraRatio = math.min((self.Armor - baseMax) / 100, 1)
+		if self.Armor > 100 then
+			local extraRatio = math.min((self.Armor - 100) / 100, 1)
 
 			self:DrawAlignedRect(22, y - 2, (self.Width - 4) * extraRatio, self.Height - 4, self.OverArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 		end
-
-		-- if self.Armor > max then
-		-- 	local rep = math.ceil(self.Armor / max) - 1
-		-- 	local excess = self.Armor % max
-
-		-- 	for i = 1, rep do
-		-- 		ratio = i != rep and 1 or excess / max
-
-		-- 		self:DrawAlignedRect(22, y - 2, (self.Width - 4) * ratio, self.Height - 4, self.OverArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-		-- 	end
-		-- end
 
 		y = y - self.Height - 2
 	end
