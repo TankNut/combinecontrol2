@@ -45,9 +45,11 @@ end
 function ENT:OnRemove()
 	local phys = self.PhysCollide
 
-	timer.Simple(0, function()
-		if not IsValid(self) then
-			phys:Destroy()
-		end
-	end)
+	if IsValid(phys) then
+		timer.Simple(0, function()
+			if not IsValid(self) then
+				phys:Destroy()
+			end
+		end)
+	end
 end
