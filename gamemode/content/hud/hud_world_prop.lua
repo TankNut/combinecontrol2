@@ -38,8 +38,8 @@ function HUD:DrawPropDescription(ent, cache)
 		return
 	end
 
-	self:AddWorldLabel(ent:WorldSpaceCenter() + self.Offset, {
-		{scribe.Parse("<f=CombineControl.PlayerFont><ol>" .. ent:PropDescription()), cache.Alpha}
+	self:AddWorldLabel(ent:WorldSpaceCenter(), {
+		{scribe.Parse("<f=CombineControl.PlayerFont><ol><c=white>" .. ent:PropDescription(), ScrW() * 0.25), cache.Alpha}
 	})
 end
 
