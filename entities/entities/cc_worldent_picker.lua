@@ -65,7 +65,7 @@ end
 function ENT:CanSave()
 	local ent = self:GetTrace().Entity
 
-	if not IsValid(ent) or ent:IsPlayer() or string.StartsWith(ent:GetClass(), "cc_") then
+	if not IsValid(ent) or not ent:CreatedByMap() then
 		return false
 	end
 
