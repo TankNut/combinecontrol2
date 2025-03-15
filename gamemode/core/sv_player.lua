@@ -90,6 +90,55 @@ end
 
 -- Todo: Expand on this
 function GM:PlayerSelectSpawn(ply)
+	local overrideSpawns = {}
+	local groupSpawns = {}
+	local teamSpawns = {}
+	local fallbackSpawns = {}
+
+	for spawn in pairs(EntityCache.Get("spawns")) do
+		if not spawn:IsSaved() then
+			continue
+		end
+
+		if spawn.Mode == SPAWN_FALLBACK then
+			table.insert(fallbackSpawns, spawn)
+		elseif spawn.Mode == SPAWN_TEAM and spawn:GetTeam() == ply:Team() then
+			table.insert(teamSpawns, spawn)
+		elseif spawn.Mode == SPAWN_GROUP and ply:RunCharFlag("AllowSpawngroups") and spawn:GetGroup() == ply:Spawngroup() then
+			table.insert(groupSpawns, spawn)
+		elseif spawn.Mode == SPAWN_OVERRIDE then
+			table.insert(overrideSpawns, spawn)
+		end
+	end
+
+	local spawns
+
+	if #overrideSpawns > 0 then
+		spawns = overrideSpawns
+	elseif #groupSpawns > 0 then
+		spawns = groupSpawns
+	elseif #teamSpawns > 0 then
+		spawns = teamSpawns
+	elseif #fallbackSpawns > 0 then
+		spawns = fallbackSpawns
+	end
+
+	if spawns then
+		local preferred = {}
+
+		for _, spawn in ipairs(spawns) do
+			if not spawn:IsOccupied() and not spawn:IsBlocked() then
+				table.insert(preferred, spawn)
+			end
+		end
+
+		if #preferred > 0 then
+			return table.Random(preferred)
+		else
+			return table.Random(spawns)
+		end
+	end
+
 	return self.BaseClass.PlayerSelectSpawn(self, ply)
 end
 

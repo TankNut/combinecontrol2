@@ -15,8 +15,9 @@ CharacterVar.Add("CharacterModel", {Default = "models/player/skeleton.mdl", Serv
 CharacterVar.Add("CharacterSkin", {Default = 0, ServerOnly = true, Field = "Skin", DataType = TINYINT()})
 
 CharacterVar.Add("CharacterHidden", {Default = 0, Field = "Hidden", DataType = TINYINT()})
-
 CharacterVar.Add("CharacterLastSeen", {Default = 0, ServerOnly = true, DataType = UINT()})
+
+CharacterVar.Add("Spawngroup", {Default = "", Private = true, DataType = VARCHAR(32)})
 
 local PLAYER = FindMetaTable("Player")
 
