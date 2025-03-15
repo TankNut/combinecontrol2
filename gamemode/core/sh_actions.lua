@@ -51,6 +51,10 @@ function ENTITY:GetActions()
 			continue
 		end
 
+		if action.Self and ourClass != "player" then
+			continue
+		end
+
 		actions[k] = action
 	end
 
