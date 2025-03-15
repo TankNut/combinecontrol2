@@ -1,5 +1,6 @@
 local entityCategoryIcons = {
 	["Spawnpoints"] = "icon16/status_online.png",
+	["Utilities"] = "icon16/cog.png",
 	["World Entities"] = "icon16/world.png"
 }
 
