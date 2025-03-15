@@ -1,5 +1,8 @@
 GM.FontFace = system.IsOSX() and "ChatFont" or "Tahoma"
 
+scribe.DefaultFont = "CombineControl.LabelMedium"
+scribe.DefaultColor = Color("cc_normal")
+
 surface.CreateFont("CombineControl.Window", {
 	font = GM.FontFace,
 	size = 14,
