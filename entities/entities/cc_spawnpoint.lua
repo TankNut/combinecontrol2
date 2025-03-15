@@ -99,7 +99,7 @@ if CLIENT then
 	end
 
 	function ENT:Draw()
-		if lp:EditMode() or not self:IsSaved() or self:IsBlocked() then
+		if self:ShouldDraw() or self:IsBlocked() then
 			self:DrawSpawnpoint()
 		end
 
@@ -117,7 +117,7 @@ if CLIENT then
 			render.SetBlend(1)
 		end
 
-		if halo.RenderedEntity() != self and (lp:EditMode() or not self:IsSaved()) then
+		if halo.RenderedEntity() != self and self:ShouldDraw() then
 			render.DrawWorldText(self:LocalToWorld(Vector(0, 0, self.MaxBounds.z + 2)), self:GetLabel())
 		end
 	end

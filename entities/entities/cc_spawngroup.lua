@@ -98,7 +98,7 @@ if CLIENT then
 
 		local group = self:GetGroup()
 
-		if #group > 0 and (not self:IsSaved() or lp:EditMode()) then
+		if #group > 0 and self:ShouldDraw() then
 			local _, maxs = self:GetModelBounds()
 
 			render.DrawWorldText(self:LocalToWorld(Vector(0, 0, maxs.z + 5)), group)

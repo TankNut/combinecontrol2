@@ -69,7 +69,11 @@ function ENT:CanTool(ply, tr, tool)
 	return not self:IsSaved()
 end
 
-if SERVER then
+if CLIENT then
+	function ENT:ShouldDraw()
+		return lp:EditMode() or not self:IsSaved()
+	end
+else
 	function ENT:PreSaveEntity()
 	end
 
