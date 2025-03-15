@@ -141,11 +141,7 @@ if CLIENT then
 		end
 
 		for teleport, location in SortedPairs(teleports) do
-			Context.Add(
-				"Admin Utilities/Quick Teleport/" .. teleport, function()
-					netstream.Send("QuickTeleport", location.Pos, location.Angles)
-				end,
-				CONTEXT_ADMIN)
+			Context.Add("Admin Utilities/Quick Teleport/" .. teleport, function() netstream.Send("QuickTeleport", location.Pos, location.Angles) end, CONTEXT_ADMIN)
 		end
 	end
 
