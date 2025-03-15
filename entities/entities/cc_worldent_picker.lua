@@ -4,6 +4,8 @@ AddCSLuaFile()
 ENT.Base = "cc_worldent"
 ENT.RenderGroup = RENDERGROUP_BOTH
 
+ENT.Physical = false
+
 ENT.Model = Model("models/hunter/blocks/cube025x025x025.mdl")
 ENT.Color = Color(255, 255, 255)
 
@@ -23,20 +25,20 @@ if SERVER then
 end
 
 function ENT:SetupDataTables()
-	self:NetworkVar("Int", "EntityID")
-end
-
-function ENT:SetupDataTables()
 	BaseClass.SetupDataTables(self)
 
-	self:NetworkVar("Entity", 0, "PickedEntity")
-	self:SetPickedEntity(NULL)
+	self:NetworkVar("Entity", "PickedEntity")
+	self:NetworkVar("Vector", "TraceHit")
 end
 
 function ENT:Initialize()
 	self:SetModel(self.Model)
 
-	if SERVER then
+	if CLIENT then
+		local mins, maxs = self:GetRenderBounds()
+
+		self:SetRenderBounds(mins, maxs + Vector(128, 0, 0))
+	else
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetSolid(SOLID_VPHYSICS)
@@ -62,54 +64,85 @@ function ENT:GetTrace()
 	})
 end
 
-function ENT:CanSave()
+function ENT:IsValidPick(ent)
+	return ent:CreatedByMap()
+end
+
+function ENT:GetTraceEntity()
 	local ent = self:GetTrace().Entity
 
-	if not IsValid(ent) or not ent:CreatedByMap() then
-		return false
+	if not IsValid(ent) or not self:IsValidPick(ent) then
+		return NULL
 	end
 
-	return true
+	return ent
+end
+
+function ENT:CanSave()
+	local ent = self:GetTraceEntity()
+
+	return IsValid(ent) and self:IsValidPick(ent)
 end
 
 if CLIENT then
 	function ENT:Draw()
-		if lp:EditMode() then
+		if self:ShouldDraw() then
 			self:DrawModel()
+		end
+	end
 
-			local mins = self:OBBMins() - Vector(0.1, 0.1, 0.1)
-			local maxs = self:OBBMaxs() + Vector(0.1, 0.1, 0.1)
+	function ENT:DrawTranslucent()
+		if not self:ShouldDraw() then
+			return
+		end
 
-			render.SetColorMaterial()
-			render.DrawBox(self:GetPos(), self:GetAngles(), mins, maxs, ColorAlpha(self.Color, 50), true)
+		local mins = self:OBBMins() - Vector(0.1, 0.1, 0.1)
+		local maxs = self:OBBMaxs() + Vector(0.1, 0.1, 0.1)
 
+		render.SetColorMaterial()
+		render.DrawBox(self:GetPos(), self:GetAngles(), mins, maxs, ColorAlpha(self.Color, 50), true)
+
+		if self:IsSaved() then
+			local ent = self:GetPickedEntity()
+
+			render.DrawLine(self:WorldSpaceCenter(), self:GetTraceHit(), self.Color, true)
+
+			if IsValid(ent) then
+				render.DrawWireframeBox(ent:GetPos(), ent:GetAngles(), ent:OBBMins(), ent:OBBMaxs(), self.Color, true)
+			end
+		else
 			local tr = self:GetTrace()
+			local ent = tr.Entity
 
 			render.DrawLine(tr.StartPos, tr.HitPos, self.Color, true)
 
-			local ent = tr.Entity
-
-			if self:IsSaved() then
-				ent = self:GetPickedEntity()
-			end
-
-			if IsValid(ent) and not ent:IsPlayer() then
-				render.DrawWireframeBox(ent:GetPos(), ent:GetAngles(), ent:OBBMins(), ent:OBBMaxs(), self.Color, not edit)
+			if IsValid(ent) and self:IsValidPick(ent) then
+				render.DrawWireframeBox(ent:GetPos(), ent:GetAngles(), ent:OBBMins(), ent:OBBMaxs(), self.Color, true)
 			end
 		end
 	end
 else
+	function ENT:PreSaveEntity()
+		local ang = self:GetAngles()
+
+		ang.r = 0
+
+		self:SetAngles(ang)
+	end
+
 	function ENT:PostInitData()
 		BaseClass.PostInitData(self)
 
-		self:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
+		local ent = self:GetTraceEntity()
 
-		local ent = self:GetTrace().Entity
+		if IsValid(ent) then
+			self:SetPickedEntity(ent)
+			self:SetTraceHit(self:GetTrace().HitPos)
 
-		if not IsValid(ent) or ent:IsPlayer() then
-			return
+			self:OnEntityPicked(ent)
 		end
+	end
 
-		self:SetPickedEntity(ent)
+	function ENT:OnEntityPicked(ent)
 	end
 end
