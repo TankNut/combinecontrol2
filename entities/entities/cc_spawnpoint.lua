@@ -123,11 +123,6 @@ if CLIENT then
 	end
 else
 	function ENT:PreSaveEntity()
-		local ang = self:GetAngles()
-
-		ang.p = 0
-		ang.r = 0
-
-		self:SetAngles(ang)
+		self:UpdateAngles(0, nil, 0)
 	end
 end
