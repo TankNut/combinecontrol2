@@ -1,18 +1,4 @@
-local function Team(id, name, color)
-	local index = #GAMEMODE.Teams + 1
-
-	_G["TEAM_" .. id] = index
-
-	team.SetUp(index, name, color, false)
-
-	GAMEMODE.Teams[index] = name
-end
-
-function GM:CreateTeams()
-	self.Teams = {}
-
-	Team("CITIZEN", "Citizens", Color(0, 120, 0))
-end
+TEAM_CITIZEN = Team.Add("Citizens", Color(0, 120, 0))
 
 GM.DefaultFlag = "citizen"
 
