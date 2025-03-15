@@ -38,8 +38,30 @@ if CLIENT then
 	end
 end
 
-function PLAYER:GetContextEntity()
+EntityCache.Add("worldents_trace", function(ent) return ent:IsType("cc_worldent") and not ent.Physical end)
+
+function PLAYER:TraceWorldEnts()
+	local traceEnts = EntityCache.Get("worldents_trace")
+
+	for ent in pairs(traceEnts) do
+		if not ent:IsSaved() then continue end
+
+		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
+	end
+
 	local tr = self:GetEyeTrace()
+
+	for ent in pairs(traceEnts) do
+		if not ent:IsSaved() then continue end
+
+		ent:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
+	end
+
+	return tr
+end
+
+function PLAYER:GetContextEntity()
+	local tr = self:EditMode() and self:TraceWorldEnts() or self:GetEyeTrace()
 	local ent = tr.Entity
 	local distance = tr.Fraction * 32768
 
