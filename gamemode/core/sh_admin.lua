@@ -126,13 +126,4 @@ if SERVER then
 
 		return data
 	end)
-
-	netstream.Hook("QuickTeleport", function(ply, pos, angles)
-		if Access.SecureAdmin(ply, "QuickTeleport") then
-			return
-		end
-
-		ply:SetPos(pos)
-		ply:SetEyeAngles(Angle(ply:EyeAngles().p, angles.y, 0))
-	end)
 end

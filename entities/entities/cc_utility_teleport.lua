@@ -49,6 +49,56 @@ ENT.Actions.SetTeleport = {
 	end
 }
 
+Action.Add("QuickTeleport", {
+	Name = "Admin Utilities/Quick Teleport",
+
+	Self = true,
+	Context = "Admin",
+
+	CanRun = FindMetaTable("Player").IsAdmin,
+	SubOptions = function(self, ply)
+		local options = {}
+
+		for ent in pairs(EntityCache.Get("quickteleports")) do
+			if not ent:IsSaved() then
+				continue
+			end
+
+			table.insert(options, {
+				Name = ent:GetTeleportID(),
+				Value = ent
+			})
+		end
+
+		return options
+	end,
+
+	Validate = function(self, ply, ent)
+		return IsValid(ent) and ent:IsType("cc_utility_teleport") and ent:IsSaved()
+	end,
+	Callback = function(self, ply, ent)
+		local ang = ent:GetAngles()
+
+		ply:SetPos(ent:GetPos())
+		ply:SetEyeAngles(Angle(ply:EyeAngles().p, ang.y, 0))
+	end
+})
+
+if SERVER then
+	function ENT:SpawnFunction(ply, tr, class)
+		local ent = BaseClass.SpawnFunction(self, ply, tr, class)
+
+		if not IsValid(ent) then
+			return
+		end
+
+		ent:SetPos(ply:GetPos())
+		ent:SetAngles(Angle(0, ply:EyeAngles().y, 0))
+
+		return ent
+	end
+end
+
 function ENT:Initialize()
 	self:SetModel(self.Model)
 	self:PhysicsInitCustom(self.MinBounds, self.MaxBounds)
@@ -66,8 +116,8 @@ function ENT:SetupDataTables()
 end
 
 function ENT:CanSave()
-	for teleport in pairs(EntityCache.Get("quickteleports")) do
-		if self != teleport and self:GetTeleportID() == teleport:GetTeleportID() then
+	for ent in pairs(EntityCache.Get("quickteleports")) do
+		if self != ent and self:GetTeleportID() == ent:GetTeleportID() then
 			return false
 		end
 	end
@@ -77,13 +127,23 @@ end
 
 if CLIENT then
 	function ENT:Draw()
-		if lp:EditMode() or not self:IsSaved() then
-			render.SetColorModulation(self.Color:ToVector():Unpack())
-			self:DrawModel()
-			render.SetColorModulation(1, 1, 1)
-
-			render.DrawWorldText(self:LocalToWorld(Vector(0, 0, self.MaxBounds.z + 2)), "Quick Teleport: " .. (#self:GetTeleportID() > 0 and self:GetTeleportID() or "** MISSING NAME **"))
+		if not self:ShouldDraw() then
+			return
 		end
+
+		render.SetColorModulation(self.Color:ToVector():Unpack())
+		self:DrawModel()
+		render.SetColorModulation(1, 1, 1)
+	end
+
+	function ENT:DrawTranslucent()
+		if not self:ShouldDraw() then
+			return
+		end
+
+		local label = "Quick Teleport: " .. (#self:GetTeleportID() > 0 and self:GetTeleportID() or "*INVALID*")
+
+		render.DrawWorldText(self:LocalToWorld(Vector(0, 0, self.MaxBounds.z + 2)), label)
 	end
 else
 	function ENT:UpdateTransmitState()
@@ -91,12 +151,7 @@ else
 	end
 
 	function ENT:PreSaveEntity()
-		local ang = self:GetAngles()
-
-		ang.p = 0
-		ang.r = 0
-
-		self:SetAngles(ang)
+		self:UpdateAngles(0, nil, 0)
 	end
 
 	function ENT:GetSaveData()

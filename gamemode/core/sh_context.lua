@@ -119,29 +119,13 @@ if CLIENT then
 
 	function GM:BuildAdminContext()
 		local actions = lp:GetActionMenuData("Admin")
-		local teleports = {}
 
-		for teleport in pairs(EntityCache.Get("quickteleports")) do
-			if not teleport:IsSaved() then
-				continue
-			end
-
-			teleports[teleport:GetTeleportID()] = {
-				Pos = teleport:GetPos(),
-				Angles = teleport:GetAngles()
-			}
-		end
-
-		if #actions > 0 or table.Count(teleports) > 0 then
+		if #actions > 0 then
 			Context.Spacer("", true, CONTEXT_ADMIN)
 		end
 
 		for _, entry in ipairs(actions) do
 			Context.Add(entry.Name, entry.Callback, CONTEXT_ADMIN)
-		end
-
-		for teleport, location in SortedPairs(teleports) do
-			Context.Add("Admin Utilities/Quick Teleport/" .. teleport, function() netstream.Send("QuickTeleport", location.Pos, location.Angles) end, CONTEXT_ADMIN)
 		end
 	end
 
