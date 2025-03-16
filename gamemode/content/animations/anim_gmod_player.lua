@@ -78,7 +78,7 @@ function CONTROLLER:UpdateAnimation(ply, vel, max)
 
 		if vehicle:GetClass() == "prop_vehicle_prisoner_pod" then
 			steer = 0
-			ply:SetPoseParameter("aim_yaw", math.NormalizeAngle(ply:GetAimVector():Angle().y - Vehicle:GetAngles().y - 90))
+			ply:SetPoseParameter("aim_yaw", math.NormalizeAngle(ply:GetAimVector():Angle().y - vehicle:GetAngles().y - 90))
 		end
 
 		ply:SetPoseParameter("vehicle_steer", steer)
