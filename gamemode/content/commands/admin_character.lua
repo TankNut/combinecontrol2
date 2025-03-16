@@ -164,7 +164,7 @@ takeCharacterLanguage:AddParameter(console.Player({
 
 takeCharacterLanguage:AddParameter(console.Language())
 
-local hideCharacter = console.AddCommand("rpa_charhidden", function(ply, targets, bool)
+local hideCharacter = console.AddCommand("rpa_setcharhidden", function(ply, targets, bool)
 	local targetCount = table.Count(targets)
 
 	if targetCount > 1 and bool == nil then

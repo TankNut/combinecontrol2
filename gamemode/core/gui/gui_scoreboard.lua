@@ -59,32 +59,20 @@ function PANEL:IsInvalid()
 end
 
 function PANEL:OpenScoreboardCommands()
-	local actions = Config.Get("ScoreboardCommands")
-
-	if self:IsInvalid() or table.IsEmpty(actions) then
+	if self:IsInvalid() then
 		return
 	end
 
-	local dmenu = DermaMenu()
+	local menuData = self.Player:GetActionMenuData("Scoreboard")
 
-	dmenu:SetSkin("CombineControl")
-	dmenu:SetPos(gui.MousePos())
-
-	for _, action in ipairs(actions) do
-		dmenu:AddOption(action[1], function()
-			gui.EnableScreenClicker(false)
-
-			if not IsValid(self.Player) then
-				return
-			end
-
-			local cmd = isstring(action[2]) and action[2] or action[2](self.Player)
-
-			RunConsoleCommand(cmd, self.Player:SteamID())
-		end)
+	if table.Count(menuData) == 0 then
+		return
 	end
 
-	dmenu:Open()
+	local dmenu = util.BuildMenu(menuData)
+
+	dmenu:SetSkin("CombineControl")
+	dmenu:Open(gui.MousePos())
 end
 
 function PANEL:Think()

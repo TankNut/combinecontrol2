@@ -70,14 +70,6 @@ GM.Config.BotGenerator = "citizen"
 -- Admin stuff
 GM.Config.LogLines = 200
 
-GM.Config.ScoreboardCommands = {
-	{"Goto Player", "rpa_goto"},
-	{"Bring Player", "rpa_bring"},
-	{"Toggle Hidden", "rpa_charhidden"},
-	{"Toggle OOC Muted", "rpa_oocmute"},
-	{"List Characters", "rpa_listcharacters"},
-}
-
 -- Sandbox
 GM.Config.ToolTrust = {
 	Physgun = TOOLTRUST_UNTRUSTED, -- Given a physgun
