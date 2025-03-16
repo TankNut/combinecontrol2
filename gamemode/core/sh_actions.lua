@@ -58,7 +58,7 @@ function ENTITY:GetActions()
 		actions[k] = action
 	end
 
-	if self.IsCCEntity then
+	if self:IsType("cc_base_ent") then
 		local class = scripted_ents.GetStored(ourClass).t
 
 		while true do

@@ -2,7 +2,6 @@ DEFINE_BASECLASS("cc_base_ent")
 AddCSLuaFile()
 
 ENT.Base = "cc_base_ent"
-ENT.IsWorldEntity = true
 
 ENT.Physical = true
 
