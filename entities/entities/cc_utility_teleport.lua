@@ -61,6 +61,11 @@ Action.Add("QuickTeleport", {
 	SubOptions = function(self, ply)
 		local options = {}
 
+		table.insert(options, {
+			Name = "Create Quick Teleport...",
+			Value = nil
+		})
+
 		for ent in pairs(EntityCache.Get("quickteleports")) do
 			if not ent:IsSaved() then
 				continue
@@ -71,12 +76,20 @@ Action.Add("QuickTeleport", {
 				Value = ent
 			})
 		end
-
 		return options
 	end,
 
 	Validate = function(self, ply, ent)
 		return IsValid(ent) and ent:IsType("cc_utility_teleport") and ent:IsSaved()
+	end,
+	Client = function(self, ply, ent)
+		if not ent then
+			ply:ConCommand("gm_spawnsent cc_utility_teleport")
+
+			return false
+		end
+
+		return true, ent
 	end,
 	Callback = function(self, ply, ent)
 		local ang = ent:GetAngles()
