@@ -58,7 +58,7 @@ function PLAYER:CanSpeakLanguage(lang)
 end
 
 function GM:CanUnderstandLanguage(ply, lang)
-	return ply:Languages()[lang] != nil
+	return ply:GetSetting("UnderstandLanguages") or ply:Languages()[lang] != nil
 end
 
 function PLAYER:CanUnderstandLanguage(lang)

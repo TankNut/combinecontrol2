@@ -57,7 +57,7 @@ if SERVER then
 		local invalid = {}
 
 		for _, target in pairs(targets) do
-			if target == ply or ply:CanUnderstandLanguage(lang) then
+			if target == ply or target:CanUnderstandLanguage(lang) then
 				table.insert(valid, target)
 			else
 				table.insert(invalid, target)

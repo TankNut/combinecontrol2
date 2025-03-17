@@ -16,3 +16,11 @@ Settings.Add("ShowItemClass", {
 	Panel = "CC_Setting_Bool",
 	CanAccess = isAdmin
 }, "Admin")
+
+Settings.Add("UnderstandLanguages", {
+	Name = "Understand all character languages",
+	Default = false,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool",
+	CanAccess = isAdmin
+}, "Admin")
