@@ -47,19 +47,4 @@ function GM:Initialize()
 
 	concommand.Add("gm_save", function(ply)
 	end)
-
-	-- Auto map switch support for rpa_changelevel
-	local port = game.GetPort()
-
-	if not file.Exists("cc_maps", "DATA") then
-		file.CreateDir("cc_maps")
-	end
-
-	if file.Exists("cc_maps/" .. port .. ".txt", "DATA") then
-		local map = file.Read("cc_maps/" .. port .. ".txt", "DATA")
-
-		if map and map != game.GetMap() and table.HasValue(game.GetMapList(), map) then
-			self.AutoMapOverride = map
-		end
-	end
 end

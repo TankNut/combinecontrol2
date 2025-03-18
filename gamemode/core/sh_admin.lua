@@ -15,6 +15,13 @@ GlobalVar.Add("OOCDelay", {Default = 0})
 GlobalVar.Add("AIDisabled", {Default = false})
 GlobalVar.Add("AINoTarget", {Default = false})
 
+GlobalVar.Add("AutoMapOverride", {
+	Default = nil,
+	ServerOnly = true,
+	Persist = true,
+	MapBased = false,
+})
+
 local immunity = {
 	user = 0,
 	admin = 1,
@@ -108,6 +115,16 @@ if SERVER then
 
 	function GM:OnAINoTargetChanged(old, new, loaded)
 		RunConsoleCommand("ai_ignoreplayers", new and 1 or 0)
+	end
+
+	function GM:OnAutoMapOverrideChanged(old, new, loaded)
+		if not loaded then
+			return -- Only apply this when loading off the database. 
+		end
+
+		if new and new != game.GetMap() and table.HasValue(game.GetMapList(), new) then
+			game.ConsoleCommand("changelevel " .. new .. "\n")
+		end
 	end
 
 	request.Hook("AdminRoster", function(ply)

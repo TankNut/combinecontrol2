@@ -139,11 +139,6 @@ function GM:CheckPassword(steam64, ip, sv, cl, nick)
 		return false, GetBanMessage(ban)
 	end
 
-	-- if self.AutoMapOverride then
-	-- 	game.ConsoleCommand("changelevel " .. self.AutoMapOverride .. "\n")
-	-- 	self.AutoMapOverride = false -- just in case...
-	-- end
-
 	if #sv > 0 and cl != sv then
 		Log.Write("access_deny", nick, steamid, "bad password")
 

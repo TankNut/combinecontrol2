@@ -48,7 +48,7 @@ local changeLevel = console.AddCommand("rpa_changelevel", function(ply, map)
 		Color = Color(200, 0, 0)
 	})
 
-	file.Write("cc_maps/" .. game.GetPort() .. ".txt", map)
+	GAMEMODE:SetAutoMapOverride(map)
 	Log.Write("admin_changelevel", ply, map)
 
 	timer.Simple(5, function()
