@@ -19,7 +19,6 @@ include("shared.lua")
 include("sh_player.lua")
 include("sh_weapons.lua")
 
-include("cl_binds.lua")
 include("cl_hud.lua")
 
 include("core/_core.lua")

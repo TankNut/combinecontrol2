@@ -33,7 +33,6 @@ AddCSLuaFile("shared.lua")
 AddCSLuaFile("sh_player.lua")
 AddCSLuaFile("sh_weapons.lua")
 
-AddCSLuaFile("cl_binds.lua")
 AddCSLuaFile("cl_hud.lua")
 
 AddCSLuaFile("core/_core.lua")
