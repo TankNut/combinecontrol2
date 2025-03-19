@@ -58,6 +58,7 @@ if CLIENT then
 		local crouch = ply:GetCrouchState()
 
 		pos.z = pos.z + crouch
+		ang.p = ang.p - crouch
 		ang.r = ang.r - crouch * 5
 	end
 

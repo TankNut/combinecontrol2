@@ -93,7 +93,7 @@ end
 function SWEP:DoImpactEffect(tr, dmgtype)
 	local impact = self:GetImpactEffect()
 
-	if impact then
+	if impact and not tr.HitSky then
 		local effectData = EffectData()
 
 		effectData:SetOrigin(tr.HitPos + tr.HitNormal)
