@@ -40,6 +40,8 @@ function GM:OnCharIDChanged(ply, old, new, loaded)
 		if new == 0 then
 			GUI.Open("CharacterSelect")
 
+			Hud.Rebuild()
+
 			return
 		end
 
