@@ -117,6 +117,10 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	if IsValid(attacker) and attacker:IsPlayer() and attacker != ply then
 		local weapon = dmg:GetInflictor()
 
+		if weapon:IsPlayer() and IsValid(weapon:GetActiveWeapon()) then
+			weapon = weapon:GetActiveWeapon()
+		end
+
 		if IsValid(weapon) then
 			Log.Write("sandbox_kill", attacker, ply, weapon:GetClass())
 		end
