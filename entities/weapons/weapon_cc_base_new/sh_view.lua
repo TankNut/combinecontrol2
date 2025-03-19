@@ -55,7 +55,10 @@ if CLIENT then
 
 		ang.r = ang.r + math.RemapC(sidewaysVelocity, -1, 1, -roll, roll)
 
-		ang.r = ang.r - ply:GetCrouchState() * 10
+		local crouch = ply:GetCrouchState()
+
+		pos.z = pos.z + crouch
+		ang.r = ang.r - crouch * 5
 	end
 
 	function SWEP:GetViewModelTarget()
