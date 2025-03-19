@@ -50,6 +50,48 @@ function GM:CanUseTool(ply, tool)
 	return ply:GetToolTrust() >= requirement, "You're not allowed to use this tool!z"
 end
 
+local toolblacklist = {
+	["paint"] = true,
+	["duplicator"] = true,
+	["creator"] = true,
+	["rb655_easy_inspector"] = true,
+	["removeradvanced"] = true,
+	["animprop_gesturizer"] = true,
+	["animprop_physify"] = true,
+	["animprop_poseparams"] = true,
+	["animprop"] = true,
+	["particlecontrol"] = true,
+	["particlecontrol_proj"] = true,
+	["particlecontrol_tracer"] = true,
+	["leafblower"] = true
+}
+
+local worldblacklist = {
+	["remover"] = true,
+	["advmat"] = true,
+	["submaterial"] = true,
+	["material"] = true,
+	["colour"] = true,
+	["rb655_easy_bodygroup"] = true,
+	["nocollideworld"] = true
+}
+
+function GM:WriteToolLog(ply, tr, tool)
+	if toolblacklist[tool] then
+		return false
+	end
+
+	if worldblacklist[tool] and tr.Entity == game.GetWorld() then
+		return false
+	end
+
+	if IsValid(tr.Entity) and tr.Entity:GetClass() == "gmod_" .. tool then
+		return false
+	end
+
+	return true
+end
+
 function GM:CanTool(ply, tr, tool)
 	if not hook.Run("CanUseTool", ply, tool) then
 		return false
@@ -72,12 +114,10 @@ function GM:CanTool(ply, tr, tool)
 		if trust < config.IgnoreOwnership and not ply:IsCreator(ent) then
 			return false
 		end
+	end
 
-		if SERVER then
-			Log.Write("sandbox_tool", ply, tool, ent:GetClass())
-		end
-	elseif SERVER then
-		Log.Write("sandbox_tool", ply, tool, "worldspawn")
+	if SERVER and self:WriteToolLog(ply, tr, tool) then
+		Log.Write("sandbox_tool", ply, tool, ent:GetClass())
 	end
 
 	return true

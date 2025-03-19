@@ -93,3 +93,11 @@ function ENT:Use(activator, caller, usetype, val)
 
 	item:OnWorldUse(activator)
 end
+
+function ENT:CanTool(ply, tool)
+	if SERVER and tool == "remover" then
+		Log.Write("item_destroy", ply, self.Item)
+	end
+
+	return true
+end

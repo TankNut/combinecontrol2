@@ -5,6 +5,8 @@ ITEM.Actions.Pickup = {
 		return hook.Run("CanPickupItem", ply, self)
 	end,
 	Callback = function(self, ply)
+		Log.Write("item_pickup", ply, self)
+
 		self:SetInventory(ply:GetInventory())
 	end
 }
@@ -33,6 +35,8 @@ ITEM.Actions.Drop = {
 		return hook.Run("CanDropItem", ply, self)
 	end,
 	Callback = function(self, ply)
+		Log.Write("item_drop", ply, self)
+
 		self:SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0))
 	end
 }
@@ -46,6 +50,8 @@ ITEM.Actions.Destroy = {
 		return hook.Run("CanDestroyItem", ply, self)
 	end,
 	Callback = function(self, ply)
+		Log.Write("item_destroy", ply, self)
+
 		self:Delete()
 	end
 }
