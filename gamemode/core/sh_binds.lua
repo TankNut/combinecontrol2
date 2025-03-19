@@ -1,3 +1,19 @@
+function GM:PlayerButtonDown(ply, button)
+	if button == KEY_B then
+		local weapon = ply:GetActiveWeapon()
+
+		if weapon:IsType("weapon_cc_base_new") then
+			weapon:ToggleHolster()
+		end
+
+		return
+	end
+
+	if SERVER then
+		numpad.Activate(ply, button)
+	end
+end
+
 if CLIENT then
 	function GM:PlayerBindPress(ply, bind, down)
 		if not ply:HasCharacter() then
