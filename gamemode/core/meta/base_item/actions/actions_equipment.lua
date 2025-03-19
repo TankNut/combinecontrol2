@@ -33,6 +33,7 @@ ITEM.Actions.Equip = {
 	Client = closeMenu,
 	Callback = function(self, ply)
 		self:SetEquipmentSlot(self:GetEquipmentSlots()[1])
+		Log.Write("item_equip", ply, self)
 		openMenu(ply)
 	end
 }
@@ -78,6 +79,7 @@ ITEM.Actions.EquipSlot = {
 	Client = closeMenu,
 	Callback = function(self, ply, slot)
 		self:SetEquipmentSlot(slot)
+		Log.Write("item_equip", ply, self)
 		openMenu(ply)
 	end
 }
@@ -103,6 +105,7 @@ ITEM.Actions.Unequip = {
 	Client = closeMenu,
 	Callback = function(self, ply)
 		self:SetEquipmentSlot(nil)
+		Log.Write("item_unequip", ply, self)
 		openMenu(ply)
 	end
 }
