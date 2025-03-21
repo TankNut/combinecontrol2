@@ -125,6 +125,12 @@ local function handle(ply, index, ...)
 end
 
 function GM:SetupMove(ply, mv, cmd)
+	if cmd:GetForwardMove() <= 0 then
+		local speed = Lerp(0.5, ply:GetWalkSpeed(), ply:GetRunSpeed())
+
+		mv:SetMaxSpeed(speed)
+		mv:SetMaxClientSpeed(speed)
+	end
 
 	handle(ply, "SetupMove", mv, cmd)
 
