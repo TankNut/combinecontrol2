@@ -24,9 +24,9 @@ ENT.Actions.SetSpawnTeam = {
 	SubOptions = function(self, ply)
 		local options = {}
 
-		for id, name in ipairs(GAMEMODE.Teams) do
+		for id, team in ipairs(Team.List) do
 			table.insert(options, {
-				Name = name,
+				Name = team.Name,
 				Value = id
 			})
 		end
@@ -34,7 +34,7 @@ ENT.Actions.SetSpawnTeam = {
 		return options
 	end,
 	Validate = function(self, ply, id)
-		return tobool(GAMEMODE.Teams[id])
+		return tobool(Team.List[id])
 	end,
 
 	Callback = function(self, ply, id)
