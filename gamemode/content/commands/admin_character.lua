@@ -184,7 +184,7 @@ local hideCharacter = console.AddCommand("rpa_setcharhidden", function(ply, targ
 
 		target:SetCharacterHidden(new)
 
-		console.Feedback(ply, "NOTICE", "%s has %s you from the scoreboard", ply, new == 1 and "hidden" or "unhidden")
+		console.Feedback(target, "NOTICE", "%s has %s you from the scoreboard", ply, new == 1 and "hidden" or "unhidden")
 	end
 
 	console.Feedback(ply, "NOTICE", "You've updated scoreboard visibility for %s", targetCount == 1 and targets[1] or (targetCount .. " players"))
