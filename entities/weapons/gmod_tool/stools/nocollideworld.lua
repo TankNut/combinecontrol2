@@ -1,5 +1,5 @@
-TOOL.Category		= "Construction"
-TOOL.Name			= "#tool.nocollideworld.name"
+TOOL.Category = "Construction"
+TOOL.Name     = "#tool.nocollideworld.name"
 
 if CLIENT then
 	TOOL.Information = {
@@ -10,8 +10,8 @@ if CLIENT then
 	language.Add("tool.nocollideworld.name", "No Collide World")
 	language.Add("tool.nocollideworld.desc", "Disable collisions between a prop and the world")
 	language.Add("tool.nocollideworld.panel", "Optionally enable or disable collisions between a prop and the world")
-	language.Add("tool.nocollideworld.left", "Disable collisions with the world")
-	language.Add("tool.nocollideworld.right", "Enable collisions with the world")
+	language.Add("tool.nocollideworld.left", "Select an object to disable world collisions")
+	language.Add("tool.nocollideworld.right", "Restore world collision to an object")
 end
 
 local function IsValidConstraintTarget(ent, bone)
@@ -170,8 +170,8 @@ function TOOL:Reload(tr)
 	return false
 end
 
-function TOOL.BuildCPanel(Panel)
-	Panel:AddControl("Header", {
+function TOOL.BuildCPanel(panel)
+	panel:AddControl("Header", {
 		Text = "#tool.nocollideworld.name",
 		Description = "#tool.nocollideworld.panel"
 	})
