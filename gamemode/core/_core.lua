@@ -1,5 +1,3 @@
--- Starting off fresh
-
 local prefixes = {
 	["cl_"] = "client",
 	["cc_"] = "client",
@@ -54,8 +52,6 @@ function GM:LoadFolder(dir, subFile)
 end
 
 -- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
---GM:Include("enums.lua")
---GM:Include("sh_config.lua")
 GM:Include("sh_helpers.lua")
 GM:Include("sh_player_vars.lua")
 GM:Include("sh_character_vars.lua")
@@ -118,6 +114,21 @@ GM:LoadFolder(baseFolder .. "core/vgui/")
 GM:LoadFolder(baseFolder .. "core/gui/")
 
 GM:Include(baseFolder .. "content/_content.lua")
+
+function GM:Initialize()
+	if CLIENT then
+		RunConsoleCommand("cl_showhints", 0)
+	else
+		RunConsoleCommand("sv_allowupload", 0)
+		RunConsoleCommand("sv_allowdownload", 0)
+
+		RunConsoleCommand("combine_spawn_health", 0)
+		RunConsoleCommand("combine_guard_spawn_health", 0)
+
+		concommand.Remove("gm_save")
+		concommand.Add("gm_save", function(ply) end)
+	end
+end
 
 function GM:OnReloaded()
 	if CLIENT then

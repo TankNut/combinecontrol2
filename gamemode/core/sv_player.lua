@@ -55,8 +55,6 @@ function GM:PlayerInitialSpawn(ply)
 	ply:SetCanZoom(false)
 	ply:Freeze(true)
 
-	ply:SetHolstered(true)
-
 	ply.AFKTime = CurTime()
 end
 
@@ -75,8 +73,6 @@ function GM:PlayerSpawn(ply)
 
 		return
 	end
-
-	ply:SetHolstered(true)
 
 	ply:FullRestore()
 
@@ -105,7 +101,31 @@ function GM:PlayerPostThink(ply)
 	end
 end
 
--- Todo: Expand on this
+function GM:PlayerDisconnected(ply)
+	ply:SetLastSeen(os.time())
+	ply:SetCharacterLastSeen(os.time())
+end
+
+function GM:DoPlayerDeath(ply, attacker, dmg)
+	if not ply:IsRagdolled() then
+		ply:CreateRagdoll()
+	end
+
+	ply:RunCharFlag("OnDeath")
+
+	if IsValid(attacker) and attacker:IsPlayer() and attacker != ply then
+		local weapon = dmg:GetInflictor()
+
+		if weapon:IsPlayer() and IsValid(weapon:GetActiveWeapon()) then
+			weapon = weapon:GetActiveWeapon()
+		end
+
+		if IsValid(weapon) then
+			Log.Write("sandbox_kill", attacker, ply, weapon:GetClass())
+		end
+	end
+end
+
 function GM:PlayerSelectSpawn(ply)
 	local overrideSpawns = {}
 	local groupSpawns = {}

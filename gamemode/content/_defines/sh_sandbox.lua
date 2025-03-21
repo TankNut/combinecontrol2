@@ -158,3 +158,12 @@ list.Add("OverrideMaterials", "models/props_c17/door03a_glass")
 list.Add("OverrideMaterials", "models/props_c17/gate_door01a")
 list.Add("OverrideMaterials", "models/props_combine/combine_cell_burned")
 list.Add("OverrideMaterials", "models/props_combine/coredx70")
+
+if CLIENT then
+	language.Add("npc_clawscanner", "Claw Scanner")
+	language.Add("npc_combine_camera", "Combine Camera")
+	language.Add("npc_helicopter", "Helicopter")
+	language.Add("npc_barnacle_tongue_tip", "Barnacle Tongue Tip")
+	language.Add("prop_vehicle_apc", "APC")
+	language.Add("npc_fisherman", "Fisherman")
+end

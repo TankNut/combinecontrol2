@@ -1,5 +1,6 @@
--- 5/25/2013
-
+-- 08/11/2024: First combinecontrol-tnb commit
+-- 21/03/2025: Last remaining CC code stripped out
+AddCSLuaFile()
 DeriveGamemode("sandbox")
 
 GM.Name = "CombineControl: TnB"
@@ -11,21 +12,19 @@ function GM:GetGameDescription()
 	return self.Name
 end
 
-local ENTITY = FindMetaTable("Entity")
+local function client(path) if CLIENT then return include(path) else AddCSLuaFile(path) end end
+local function server(path) if SERVER then return include(path) end end
+local function shared(path) AddCSLuaFile(path) return include(path) end
 
-function ENTITY:IsDoor()
-	if self:GetClass() == "prop_door_rotating" then return true end
-	if self:GetClass() == "func_door_rotating" then return true end
-	if self:GetClass() == "func_door" then return true end
+GM.Config = {}
 
-	return false
-end
+shared("core/enums.lua")
+shared("core/sh_config.lua")
 
-function GM:GetHandTrace(ply, len)
-	local trace = {}
-	trace.start = ply:EyePos()
-	trace.endpos = trace.start + ply:GetAimVector() * (len or 50)
-	trace.filter = ply
+shared("config/sh_config.lua")
+server("config/sv_config.lua")
+client("config/cl_motd.lua")
 
-	return util.TraceLine(trace)
-end
+client("cl_skin.lua")
+
+shared("core/_core.lua")
