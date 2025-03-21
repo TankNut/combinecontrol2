@@ -34,7 +34,7 @@ if CLIENT then
 	function SWEP:AddComputedOffsets(pos, ang)
 		local ply = self:GetOwner()
 		local eye = ply:EyeAngles()
-		local roll = 5
+		local roll = Lerp(self:GetAimState(), 10, 5)
 
 		 -- Offset the weapon depending on the view pitch
 		if self:GetHolstered() or self:IsSprinting() then
@@ -51,13 +51,14 @@ if CLIENT then
 		end
 
 		local vel = ply:GetVelocity()
-		local sidewaysVelocity = vel:GetNormalized():Dot(eye:Right()) * vel:Length() / ply:GetRunSpeed()
+		local sidewaysVelocity = vel:GetNormalized():Dot(eye:Right()) * vel:Length()
 
-		ang.r = ang.r + math.RemapC(sidewaysVelocity, -1, 1, -roll, roll)
+		ang.r = ang.r + math.RemapC(sidewaysVelocity, -90, 90, -roll, roll)
 
 		local crouch = ply:GetCrouchState()
 
-		pos.z = pos.z + crouch
+		pos.x = pos.x - crouch
+		pos.z = pos.z - crouch
 		ang.p = ang.p - crouch
 		ang.r = ang.r - crouch * 5
 	end
@@ -84,12 +85,63 @@ if CLIENT then
 		return targetPos, targetAng
 	end
 
+	local HL2_BOB_VERTICAL = 0.5
+	local HL2_BOB_LATERAL = HL2_BOB_VERTICAL * 2
+	local HL2_BOB = 0.5
+
+	local bobTime = 0
+	local lastBobTime = 0
+
+	function SWEP:AddViewmodelBob(pos, ang)
+		local ply = self:GetOwner()
+		local maxSpeed = ply:IsOnGround() and 160 or 500
+		local scale = Lerp(self:GetAimState(), 1.5, 1)
+
+		local speed = math.min(ply:GetVelocity():Length2D(), ply:GetRunSpeed())
+		local offset = math.Remap(speed, 0, maxSpeed, 0, 1)
+		local curTime = CurTime()
+
+		bobTime = bobTime + (curTime - lastBobTime) * offset
+		lastBobTime = curTime
+
+		local cycle = bobTime - math.floor((bobTime / HL2_BOB_VERTICAL) * HL2_BOB_VERTICAL)
+		cycle = cycle / HL2_BOB_VERTICAL
+
+		if cycle < HL2_BOB then
+			cycle = math.pi * (cycle / HL2_BOB)
+		else
+			cycle = math.pi + math.pi * (cycle - HL2_BOB) / (1 - HL2_BOB)
+		end
+
+		local vertical = speed * 0.005 * scale
+		vertical = math.Clamp(vertical * 0.3 + vertical * 0.7 * math.sin(cycle), -7, 4)
+
+		cycle = bobTime - math.floor((bobTime / HL2_BOB_LATERAL) * HL2_BOB_LATERAL)
+		cycle = cycle / HL2_BOB_LATERAL
+
+		if cycle < HL2_BOB then
+			cycle = math.pi * cycle / HL2_BOB
+		else
+			cycle = math.pi + math.pi * (cycle - HL2_BOB) / (1 - HL2_BOB)
+		end
+
+		local lateral = speed * 0.005 * scale
+		lateral = math.Clamp(lateral * 0.3 + lateral * 0.7 * math.sin(cycle), -7, 4)
+
+		pos:Add(ang:Forward() * vertical * 0.1)
+		pos:Add(ang:Right() * lateral * 0.8)
+		pos.z = pos.z + vertical * 0.1 * scale
+
+		ang.p = ang.p - vertical * 0.4
+		ang.y = ang.y - lateral * 0.3
+		ang.r = ang.r + vertical * 0.5
+	end
+
 	local timescale = GetConVar("host_timescale")
 	local lastDelta = SysTime()
 
 	function SWEP:GetViewModelPosition(pos, ang)
-		self.BobScale = Lerp(self:GetAimState(), 1.5, 0.5)
-		self.SwayScale = Lerp(self:GetAimState(), 2, 0.3)
+		self.SwayScale = Lerp(self:GetAimState(), 2, 1)
 
 		local targetPos, targetAng = self:GetViewModelTarget()
 
@@ -113,9 +165,11 @@ if CLIENT then
 		approachMod(self.VMPos, targetPos, speed * 0.1)
 		approachMod(self.VMAng, targetAng, speed * 0.1)
 
-		local recoilPos, recoilAng = self:GetVMRecoil()
+		local addPos, addAng = self:GetVMRecoil()
 
-		return LocalToWorld(self.VMPos + recoilPos, self.VMAng + recoilAng, pos, ang)
+		self:AddViewmodelBob(addPos, addAng)
+
+		return LocalToWorld(self.VMPos + addPos, self.VMAng + addAng, pos, ang)
 	end
 
 	function SWEP:AdjustMouseSensitivity()

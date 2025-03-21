@@ -11,6 +11,7 @@ Secondary + Scroll: Zoom]]
 
 SWEP.Spawnable = true
 
+SWEP.BobScale = 0 -- Don't change this
 SWEP.ViewModelFOV = 54
 
 SWEP.UseHands   = true
