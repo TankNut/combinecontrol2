@@ -69,12 +69,10 @@ function SWEP:UpdateFiremode()
 end
 
 function SWEP:FireWeapon()
-	self["Fire" .. self.Stats.Type](self)
+	self["Fire" .. self.Stats.Type](self, self:GetOwner())
 end
 
-function SWEP:FireBullet()
-	local ply = self:GetOwner()
-
+function SWEP:FireBullet(ply)
 	local tracer, count = self:GetTracerEffect()
 	local damage = self:GetDamage()
 
