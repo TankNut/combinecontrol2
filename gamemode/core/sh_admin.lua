@@ -109,6 +109,9 @@ end
 if SERVER then
 	hook.Remove("PlayerInitialSpawn", "PlayerAuthSpawn")
 
+	GM:SetAIDisabled(GetConVar("ai_disabled"):GetBool(), true)
+	GM:SetAINoTarget(GetConVar("ai_ignoreplayers"):GetBool(), true)
+
 	function GM:OnAIDisabledChanged(old, new, loaded)
 		RunConsoleCommand("ai_disabled", new and 1 or 0)
 	end
