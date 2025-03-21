@@ -52,11 +52,6 @@ Action.Add("QuickButton", {
 	SubOptions = function(self, ply)
 		local options = {}
 
-		table.insert(options, {
-			Name = "Create Quick Button...",
-			Value = nil
-		})
-
 		for ent in pairs(EntityCache.Get("worldents_quickbuttons")) do
 			if not ent:IsSaved() then
 				continue
@@ -67,6 +62,16 @@ Action.Add("QuickButton", {
 				Value = ent
 			})
 		end
+
+		table.sort(options, function (left, right)
+			return left.Value:GetButtonID() < right.Value:GetButtonID()
+		end)
+
+		table.insert(options, 1, {
+			Name = "Create Quick Button...",
+			Value = nil
+		})
+
 		return options
 	end,
 

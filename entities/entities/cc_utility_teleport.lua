@@ -61,11 +61,6 @@ Action.Add("QuickTeleport", {
 	SubOptions = function(self, ply)
 		local options = {}
 
-		table.insert(options, {
-			Name = "Create Quick Teleport...",
-			Value = nil
-		})
-
 		for ent in pairs(EntityCache.Get("worldents_quickteleports")) do
 			if not ent:IsSaved() then
 				continue
@@ -76,6 +71,16 @@ Action.Add("QuickTeleport", {
 				Value = ent
 			})
 		end
+
+		table.sort(options, function (left, right)
+			return left.Value:GetTeleportID() < right.Value:GetTeleportID()
+		end)
+
+		table.insert(options, 1, {
+			Name = "Create Quick Teleport...",
+			Value = nil
+		})
+
 		return options
 	end,
 
