@@ -5,7 +5,11 @@ function SWEP:GetCommandNumber()
 end
 
 function SWEP:ForceStopFire()
-	self:GetOwner():ConCommand("-attack")
+	local owner = self:GetOwner()
+
+	if owner:IsPlayer() then
+		owner:ConCommand("-attack")
+	end
 end
 
 function SWEP:GetFiremode()
@@ -29,19 +33,19 @@ function SWEP:CycleFiremode()
 end
 
 function SWEP:GetShootDir()
-	local ply = self:GetOwner()
+	local owner = self:GetOwner()
 
-	if ply:IsNPC() then
-		return ply:GetAimVector()
+	if owner:IsNPC() then
+		return owner:GetAimVector()
 	else
-		return (ply:GetAimVector():Angle() + ply:GetViewPunchAngles()):Forward()
+		return (owner:GetAimVector():Angle() + owner:GetViewPunchAngles()):Forward()
 	end
 end
 
 function SWEP:IsSprinting()
 	local ply = self:GetOwner()
 
-	return ply:IsSprinting() and ply:GetVelocity():Length2D() >= Lerp(0.5, ply:GetWalkSpeed(), ply:GetRunSpeed())
+	return ply:IsSprinting() and ply:GetVelocity():Length2D() >= Lerp(0.3, ply:GetWalkSpeed(), ply:GetRunSpeed())
 end
 
 function SWEP:ShouldLower()

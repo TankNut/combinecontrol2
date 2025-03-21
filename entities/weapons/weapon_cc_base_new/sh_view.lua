@@ -34,11 +34,11 @@ if CLIENT then
 	function SWEP:AddComputedOffsets(pos, ang)
 		local ply = self:GetOwner()
 		local eye = ply:EyeAngles()
-		local roll = Lerp(self:GetAimState(), 10, 5)
+		local roll = 15
 
 		 -- Offset the weapon depending on the view pitch
 		if self:GetHolstered() or self:IsSprinting() then
-			roll = 15
+			roll = 20
 
 			local pitch = eye.p
 			local vOffset = math.ease.InOutSine(math.Remap(pitch, 0, 90, 0, 1))
@@ -53,7 +53,7 @@ if CLIENT then
 		local vel = ply:GetVelocity()
 		local sidewaysVelocity = vel:GetNormalized():Dot(eye:Right()) * vel:Length()
 
-		ang.r = ang.r + math.RemapC(sidewaysVelocity, -90, 90, -roll, roll)
+		ang.r = ang.r + math.RemapC(sidewaysVelocity, -ply:GetRunSpeed(), ply:GetRunSpeed(), -roll, roll)
 
 		local crouch = ply:GetCrouchState()
 

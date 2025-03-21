@@ -1,19 +1,31 @@
 AddCSLuaFile()
 
 function SWEP:CanFire()
-	if self:GetHolstered() then
-		self:ForceStopFire()
+	local owner = self:GetOwner()
 
-		return false
-	end
+	if owner:IsPlayer() then
+		if self:GetHolstered() then
+			self:ForceStopFire()
 
-	if self:ShouldLower() then
-		return false
+			return false
+		end
+
+		if self:ShouldLower() then
+			return false
+		end
 	end
 
 	if self.Primary.ClipSize > 0 and self:Clip1() <= 0 then
 		if CLIENT then
 			self:EmitSound(self.Sounds.Empty)
+		end
+
+		if owner:IsNPC() then
+			if SERVER then
+				owner:SetSchedule(SCHED_RELOAD)
+			end
+
+			return false
 		end
 
 		self:SetNextPrimaryFire(CurTime() + 0.2)
@@ -30,22 +42,37 @@ function SWEP:PrimaryAttack()
 		return
 	end
 
-	self:UpdateFiremode()
+	local owner = self:GetOwner()
 
-	local ply = self:GetOwner()
+	if owner:IsPlayer() then
+		self:PrimaryPlayer(owner)
+	else
+		self:PrimaryNPC(owner)
+	end
+end
+
+function SWEP:PrimaryPlayer(ply)
+	self:UpdateFiremode()
 
 	local anim = self:PlayAnimation("Attack")
 	ply:SetAnimation(PLAYER_ATTACK1)
 
 	self:EmitSound(self.Sounds.Primary)
-
 	self:FireWeapon()
+
 	self:ApplyRecoil()
 
 	local delay = self:GetDelay()
 
 	self:SetNextIdle(CurTime() + anim)
 	self:SetNextPrimaryFire(CurTime() + (delay == -1 and anim or delay))
+end
+
+function SWEP:PrimaryNPC(npc)
+	npc:SetAnimation(PLAYER_ATTACK1)
+
+	self:EmitSound(self.Sounds.Primary)
+	self:FireWeapon()
 end
 
 function SWEP:SecondaryAttack()

@@ -4,6 +4,7 @@ SWEP.Base = "weapon_base"
 SWEP.m_WeaponDeploySpeed = 10
 
 SWEP.Category = "CombineControl"
+SWEP.NPCCategory = nil
 
 SWEP.InfoText = [[Primary: Fire Weapon
 Secondary: Aim Down Sights
@@ -48,6 +49,7 @@ SWEP.Settings = {
 	LowerHoldType = "passive", -- Holstered/lowered
 	BaseHoldType = "ar2", -- Default
 	AimHoldType = nil, -- If set, aiming
+	NPCHoldType = nil, -- If set, overrides the NPC hold type
 
 	AutoBurst = false, -- Automatic cycling between bursts
 	Firemodes = {-1}, -- -1 = automatic, 0 = semi, 1+ = burst
@@ -65,7 +67,11 @@ SWEP.Settings = {
 	AimTime = 0.35, -- Seconds
 
 	Zoom = {1.25}, -- Scrollwheel to switch between zoom levels
-	ScopeIndex = nil -- If set, the index of Zoom at which point you're considered scoped
+	ScopeIndex = nil, -- If set, the index of Zoom at which point you're considered scoped
+
+	NoNPC = false, -- If set, disables NPC support
+	NPCBurst = {2, 5}, -- Burst size
+	NPCRest = nil, -- If set, overrides standard rest times between bursts
 }
 
 SWEP.Animations = {
@@ -110,10 +116,12 @@ SWEP.Offsets = {
 
 include("sh_animations.lua")
 include("sh_attack.lua")
+include("sh_holdtype.lua")
 include("sh_recoil.lua")
 include("sh_stats.lua")
 include("sh_utils.lua")
 include("sh_view.lua")
+include("sv_npc.lua")
 
 function SWEP:Initialize()
 	self.Primary.ClipSize = self.Settings.ClipSize
@@ -143,20 +151,40 @@ function SWEP:SetupDataTables()
 	self:NetworkVar("Angle", "RecoilPunch")
 	self:NetworkVar("Angle", "RecoilVelocity")
 
-	self:SetHolstered(true)
 	self:SetFiremodeIndex(1)
 end
 
 function SWEP:Think()
-	local idle = self:GetNextIdle()
+	self:UpdateHoldType()
 
-	if idle > 0 and idle <= CurTime() then
-		self:PlayAnimation("Idle")
-		self:SetNextIdle(0)
+	local owner = self:GetOwner()
+
+	if owner:IsPlayer() then
+		local idle = self:GetNextIdle()
+
+		if idle > 0 and idle <= CurTime() then
+			self:PlayAnimation("Idle")
+			self:SetNextIdle(0)
+		end
+
+		self:DoRecoilDecay()
+		self:SetAimState(math.Approach(self:GetAimState(), self:ShouldAim() and 1 or 0, FrameTime() / self:GetAimTime()))
 	end
+end
 
-	self:DoRecoilDecay()
-	self:SetAimState(math.Approach(self:GetAimState(), self:ShouldAim() and 1 or 0, FrameTime() / self:GetAimTime()))
+if SERVER then
+	function SWEP:OwnerChanged()
+		local owner = self:GetOwner()
+
+		if IsValid(owner) and owner:IsNPC() then
+			self:SetHoldType(self:GetNPCHoldType())
+		elseif owner == NULL then
+			self:Remove()
+		end
+	end
+end
+
+function SWEP:UpdateHoldType()
 end
 
 function SWEP:ToggleHolster()

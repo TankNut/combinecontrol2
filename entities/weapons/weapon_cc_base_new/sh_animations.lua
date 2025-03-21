@@ -1,13 +1,13 @@
 AddCSLuaFile()
 
 function SWEP:PlayAnimation(name)
-	local ply = self:GetOwner()
+	local owner = self:GetOwner()
 
-	if not IsValid(ply) or not ply:IsPlayer() then
+	if not IsValid(owner) or not owner:IsPlayer() then
 		return
 	end
 
-	local vm = ply:GetViewModel()
+	local vm = owner:GetViewModel()
 	local func = self["Get" .. name .. "Animation"]
 	local animation = func and func(self) or self.Animations[name]
 
