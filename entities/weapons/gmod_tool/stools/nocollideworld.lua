@@ -8,9 +8,10 @@ if CLIENT then
 	}
 
 	language.Add("tool.nocollideworld.name", "No Collide World")
-	language.Add("tool.nocollideworld.desc", "Disable collisions between a prop and the world.")
-	language.Add("tool.nocollideworld.left", "Click to disable collisions with the world.")
-	language.Add("tool.nocollideworld.right", "Click to enable collisions with the world.")
+	language.Add("tool.nocollideworld.desc", "Disable collisions between a prop and the world")
+	language.Add("tool.nocollideworld.panel", "Optionally enable or disable collisions between a prop and the world")
+	language.Add("tool.nocollideworld.left", "Disable collisions with the world")
+	language.Add("tool.nocollideworld.right", "Enable collisions with the world")
 end
 
 local function IsValidConstraintTarget(ent, bone)
@@ -167,4 +168,11 @@ end
 
 function TOOL:Reload(tr)
 	return false
+end
+
+function TOOL.BuildCPanel(Panel)
+	Panel:AddControl("Header", {
+		Text = "#tool.nocollideworld.name",
+		Description = "#tool.nocollideworld.panel"
+	})
 end
