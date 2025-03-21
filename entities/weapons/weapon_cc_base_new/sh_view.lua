@@ -53,7 +53,7 @@ if CLIENT then
 		local vel = ply:GetVelocity()
 		local sidewaysVelocity = vel:GetNormalized():Dot(eye:Right()) * vel:Length()
 
-		ang.r = ang.r + math.RemapC(sidewaysVelocity, -ply:GetRunSpeed(), ply:GetRunSpeed(), -roll, roll)
+		ang.r = ang.r + math.ClampedRemap(sidewaysVelocity, -ply:GetRunSpeed(), ply:GetRunSpeed(), -roll, roll)
 
 		local crouch = ply:GetCrouchState()
 

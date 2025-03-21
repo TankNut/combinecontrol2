@@ -121,7 +121,10 @@ include("sh_recoil.lua")
 include("sh_stats.lua")
 include("sh_utils.lua")
 include("sh_view.lua")
-include("sv_npc.lua")
+
+if SERVER then
+	include("sv_npc.lua")
+end
 
 function SWEP:Initialize()
 	self.Primary.ClipSize = self.Settings.ClipSize
