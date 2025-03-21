@@ -9,8 +9,6 @@ SWEP.InfoText = [[Primary: Fire Weapon
 Secondary: Aim Down Sights
 Secondary + Scroll: Zoom]]
 
-SWEP.Spawnable = true
-
 SWEP.BobScale = 0 -- Don't change this
 SWEP.ViewModelFOV = 54
 
@@ -28,20 +26,21 @@ SWEP.Stats = {
 	FixedRange = false, -- For shotguns, overrides Settings.Range and forces it to use only Accuracy
 	Accuracy = {12, 2}, -- Hip vs aimed
 
-	Tracer = "AR2Tracer",
-	TracerCount = 1,
+	Tracer = "Tracer", -- The tracer effect, do not leave empty
+	TracerCount = 1, -- Fire a tracer every X bullets
 
-	Impact = "AR2Impact"
+	Impact = nil -- Optional impact effect that is layered on top of the default
 }
 
 SWEP.Recoil = {
+	-- The base recoil value
 	Value = 0.6,
 
 	-- How the recoil value is applied to the viewmodel
-	PosMult = Vector(2, -1, 1),
+	PosMult = Vector(0, 0, 0),
 	AngMult = Angle(0, 0),
 
-	-- Amount of recoil that's applied to the player's eyeangles
+	-- The amount of recoil that's applied to the player's eyeangles
 	Punch = 0.6
 }
 
@@ -92,20 +91,20 @@ SWEP.Sounds = {
 
 SWEP.Offsets = {
 	Default = {
-		Vector(0, 0, -1),
-		Angle()
+		Vector(0, 0, 0),
+		Angle(0, 0, 0)
 	},
 	Holster = {
-		Vector(0, 0, 2),
-		Angle(20, 15, 0)
+		Vector(0, 0, 0),
+		Angle(0, 0, 0)
 	},
 	Sprint = {
-		Vector(0, 0, 2),
-		Angle(15, 5, 0)
+		Vector(0, 0, 0),
+		Angle(0, 0, 0)
 	},
 	Aiming = {
-		Vector(-2, 2, 1),
-		Angle(0, 0, -5)
+		Vector(0, 0, 0),
+		Angle(0, 0, 0)
 	}
 }
 
