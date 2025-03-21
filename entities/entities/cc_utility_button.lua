@@ -83,7 +83,7 @@ Action.Add("QuickButton", {
 		return true, ent
 	end,
 	Callback = function(self, ply, ent)
-		ply:Use(ent)
+		ent:GetPickedEntity():Use(ply)
 	end
 })
 

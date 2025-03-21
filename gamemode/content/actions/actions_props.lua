@@ -5,7 +5,7 @@ local validation = {
 Action.Add("Describe", {
 	Name = "Describe...",
 
-	Target = ACCESS_INTERACT,
+	Target = ACTION_INTERACT,
 	Filter = FILTER_PROPS,
 
 	CanRun = function(self, ply)

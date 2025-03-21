@@ -21,6 +21,11 @@ function Add(name, data)
 	local index = data.Index
 	local default = data.Default
 	local persist = data.Persist
+	local serverOnly = data.ServerOnly
+
+	if serverOnly and CLIENT then
+		return
+	end
 
 	local hookName = "On" .. name .. "Changed"
 
@@ -65,7 +70,9 @@ function Add(name, data)
 				Save(data, value)
 			end
 
-			netstream.Broadcast(index, value, loading)
+			if not serverOnly then
+				netstream.Broadcast(index, value, loading)
+			end
 		end
 	end
 
@@ -82,7 +89,19 @@ if CLIENT then
 	end)
 else
 	function Sync(ply)
-		netstream.Send(ply, "BulkGlobalVars", Store)
+		local data = {}
+
+		for name, var in pairs(Vars) do
+			if var.ServerOnly then
+				continue
+			end
+
+			data[name] = Store[name]
+		end
+
+		if table.Count(data) > 0 then
+			netstream.Send(ply, "BulkGlobalVars", data)
+		end
 	end
 
 	function Save(var, value)
