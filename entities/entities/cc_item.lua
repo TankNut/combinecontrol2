@@ -98,7 +98,7 @@ function ENT:OnRemove()
 		return
 	end
 
-	if self.EphemeralGroup and Item.EphemeralCache[self.EphemeralGroup] then
+	if self.EphemeralGroup then
 		Item.EphemeralCache[self.EphemeralGroup][self] = nil
 	end
 

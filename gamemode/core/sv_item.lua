@@ -28,27 +28,25 @@ function CreateTemp(class, data)
 	return Item.Instance(class, TempIndex, data)
 end
 
-function CreateEphemeral(class, data, pos, ang, time, limit, limitGroup)
-	limitGroup = limitGroup or class
+function CreateEphemeral(class, data, pos, ang, time, limit, group)
+	group = group or class
 
-	if limit then
-		if not EphemeralCache[limitGroup] then
-			EphemeralCache[limitGroup] = {}
-		end
+	if not EphemeralCache[group] then
+		EphemeralCache[group] = {}
+	end
 
-		if table.Count(EphemeralCache[limitGroup]) >= limit then
-			return
-		end
+	if limit and table.Count(EphemeralCache[group]) >= limit then
+		return
 	end
 
 	local item = CreateTemp(class, data)
 	local ent = item:SetWorldItem(pos, ang)
 
 	ent.Ephemeral = true
-	ent.EphemeralGroup = limitGroup
+	ent.EphemeralGroup = group
 
 	if limit then
-		EphemeralCache[limitGroup][ent] = true
+		EphemeralCache[group][ent] = true
 	end
 
 	ent.ExpireTimer = time and math.ceil(time / 30) or 10 -- 5 minutes by default
