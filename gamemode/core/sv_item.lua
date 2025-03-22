@@ -31,21 +31,24 @@ end
 function CreateEphemeral(class, data, pos, ang, time, limit, group)
 	group = group or class
 
-	if not EphemeralCache[group] then
-		EphemeralCache[group] = {}
-	end
+	if limit then
+		if not EphemeralCache[group] then
+			EphemeralCache[group] = {}
+		end
 
-	if limit and table.Count(EphemeralCache[group]) >= limit then
-		return
+		if table.Count(EphemeralCache[group]) >= limit then
+			return
+		end
 	end
 
 	local item = CreateTemp(class, data)
 	local ent = item:SetWorldItem(pos, ang)
 
 	ent.Ephemeral = true
-	ent.EphemeralGroup = group
 
 	if limit then
+		ent.EphemeralGroup = group
+
 		EphemeralCache[group][ent] = true
 	end
 
