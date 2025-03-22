@@ -34,15 +34,37 @@ function ENT:Think()
 		return
 	end
 
-	if self.Item and self:HasMoved() then
+	local item = self.Item
+
+	if item and not item:IsTemporary() and self:HasMoved() then
 		self:SaveMoved()
 
 		async.Start(self.Item.SaveLocation, self.Item)
 	end
 
+	if self.Ephemeral then
+		self:CheckEphemeral()
+	end
+
 	self:NextThink(CurTime() + 30)
 
 	return true
+end
+
+function ENT:CheckEphemeral()
+	for _, ply in player.Iterator() do
+		if ply:TestPVS(self) then
+			self.ExpireCounter = 0
+
+			return
+		end
+	end
+
+	self.ExpireCounter = self.ExpireCounter + 1
+
+	if self.ExpireCounter >= self.ExpireTimer then
+		self:Remove()
+	end
 end
 
 function ENT:HasMoved()
@@ -76,6 +98,10 @@ function ENT:OnRemove()
 		return
 	end
 
+	if self.EphemeralGroup then
+		Item.EphemeralCache[self.EphemeralGroup][self] = nil
+	end
+
 	local item = self.Item
 
 	-- self.Item gets nulled out first if the item is being removed by other means, e.g. unloading or being picked up
@@ -84,14 +110,34 @@ function ENT:OnRemove()
 	end
 end
 
-function ENT:Use(activator, caller, usetype, val)
+function ENT:Use(ply)
 	local item = self.Item
 
 	if not item then
 		return
 	end
 
-	item:OnWorldUse(activator)
+	if self.Ephemeral then
+		if ply:IsTemporaryCharacter() then
+			ply:SendChat("ERROR", "You can't pick up normal items as a temporary character!")
+
+			return
+		end
+
+		local ok, err = hook.Run("CanPickupItem", ply, item)
+
+		if not ok then
+			ply:SendChat("ERROR", err)
+
+			return
+		end
+
+		ply:GiveItem(item.ClassName, item.Data)
+
+		item:Delete()
+	else
+		item:OnWorldUse(ply)
+	end
 end
 
 function ENT:CanTool(ply, tool)

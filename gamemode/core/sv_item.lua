@@ -1,5 +1,6 @@
 module("Item", package.seeall)
 
+EphemeralCache = EphemeralCache or {}
 TempIndex = TempIndex or 0
 
 local PLAYER = FindMetaTable("Player")
@@ -25,6 +26,33 @@ function CreateTemp(class, data)
 	TempIndex = TempIndex - 1
 
 	return Item.Instance(class, TempIndex, data)
+end
+
+function CreateEphemeral(class, data, pos, ang, time, limit, limitGroup)
+	limitGroup = limitGroup or class
+
+	if limit then
+		if not EphemeralCache[limitGroup] then
+			EphemeralCache[limitGroup] = {}
+		end
+
+		if table.Count(EphemeralCache[limitGroup]) >= limit then
+			return
+		end
+	end
+
+	local item = CreateTemp(class, data)
+	local ent = item:SetWorldItem(pos, ang)
+
+	ent.Ephemeral = true
+	ent.EphemeralGroup = limitGroup
+
+	if limit then
+		EphemeralCache[limitGroup][ent] = true
+	end
+
+	ent.ExpireTimer = time and math.ceil(time / 30) or 10 -- 5 minutes by default
+	ent.ExpireCounter = 0
 end
 
 function LoadWorld()
@@ -78,7 +106,7 @@ function GM:CanPickupItem(ply, item)
 		return false, "You can't pick up normal items as a temporary character!"
 	end
 
-	if ply:InventoryWeight() + item:GetWeight() > ply:MaxInventoryWeight() then
+	if ply:InventoryWeight() > ply:MaxInventoryWeight() then
 		return false, "That's too heavy for you to carry!"
 	end
 

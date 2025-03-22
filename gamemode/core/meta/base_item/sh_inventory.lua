@@ -83,5 +83,7 @@ if SERVER then
 		end
 
 		ent:SaveMoved()
+
+		return ent
 	end
 end
