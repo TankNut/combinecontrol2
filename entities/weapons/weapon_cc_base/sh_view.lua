@@ -31,38 +31,6 @@ if CLIENT then
 		from[3] = math.Approach(from[3], to[3], speed * (diff[3] / ratio))
 	end
 
-	function SWEP:AddComputedOffsets(pos, ang)
-		local ply = self:GetOwner()
-		local eye = ply:EyeAngles()
-		local roll = 15
-
-		 -- Offset the weapon depending on the view pitch
-		if self:GetHolstered() or self:IsSprinting() then
-			roll = 20
-
-			local pitch = eye.p
-			local vOffset = math.ease.InOutSine(math.Remap(pitch, 0, 90, 0, 1))
-			local factor = ply:GetFOV() / self.ViewModelFOV
-
-			pos.z = pos.z - math.abs(vOffset * 3)
-
-			ang.p = math.min(ang.p + vOffset * 30 - (pitch / factor), ang.p)
-			ang.y = ang.y * (1 - vOffset)
-		end
-
-		local vel = ply:GetVelocity()
-		local sidewaysVelocity = vel:GetNormalized():Dot(eye:Right()) * vel:Length()
-
-		ang.r = ang.r + math.ClampedRemap(sidewaysVelocity, -ply:GetRunSpeed(), ply:GetRunSpeed(), -roll, roll)
-
-		local crouch = ply:GetCrouchState()
-
-		pos.x = pos.x - crouch
-		pos.z = pos.z - crouch
-		ang.p = ang.p - crouch
-		ang.r = ang.r - crouch * 5
-	end
-
 	function SWEP:GetViewModelTarget()
 		local offsets = self.Offsets
 
@@ -75,12 +43,7 @@ if CLIENT then
 		elseif self:IsSprinting() then
 			targetPos:Add(offsets.Sprint[1])
 			targetAng:Add(offsets.Sprint[2])
-		elseif self:ShouldAim() then
-			targetPos:Add(offsets.Aiming[1])
-			targetAng:Add(offsets.Aiming[2])
 		end
-
-		self:AddComputedOffsets(targetPos, targetAng)
 
 		return targetPos, targetAng
 	end
@@ -140,6 +103,10 @@ if CLIENT then
 	local timescale = GetConVar("host_timescale")
 	local lastDelta = SysTime()
 
+	function SWEP:GetStaticViewModelOffset()
+		return Vector(), Angle()
+	end
+
 	function SWEP:GetViewModelPosition(pos, ang)
 		self.SwayScale = Lerp(self:GetAimState(), 2, 1)
 
@@ -165,7 +132,7 @@ if CLIENT then
 		approachMod(self.VMPos, targetPos, speed * 0.1)
 		approachMod(self.VMAng, targetAng, speed * 0.1)
 
-		local addPos, addAng = self:GetVMRecoil()
+		local addPos, addAng = self:GetStaticViewModelOffset()
 
 		self:AddViewmodelBob(addPos, addAng)
 
@@ -180,7 +147,7 @@ if CLIENT then
 	end
 
 	function SWEP:PreDrawViewModel(vm, _, ply)
-		if self.UseHolsterAnimations and self:GetHolstered() and self:GetCycle() > 0.9 then
+		if self.Settings.UseHolsterAnimations and self:GetHolstered() and (vm:GetCycle() > 0.9 or self:GetDeployed()) then
 			return true
 		end
 	end

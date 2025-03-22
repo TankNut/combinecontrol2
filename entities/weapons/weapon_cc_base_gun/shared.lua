@@ -1,7 +1,7 @@
+DEFINE_BASECLASS("weapon_cc_base")
 AddCSLuaFile()
 
-SWEP.Base = "weapon_base"
-SWEP.m_WeaponDeploySpeed = 10
+SWEP.Base = "weapon_cc_base"
 
 SWEP.Category = "CombineControl"
 SWEP.NPCCategory = nil
@@ -9,13 +9,6 @@ SWEP.NPCCategory = nil
 SWEP.InfoText = [[Primary: Fire Weapon
 Secondary: Aim Down Sights
 Secondary + Scroll: Zoom]]
-
-SWEP.BobScale = 0 -- Don't change this
-SWEP.ViewModelFOV = 54
-
-SWEP.UseHands   = true
-SWEP.ViewModel  = Model("models/weapons/c_irifle.mdl")
-SWEP.WorldModel = Model("models/weapons/w_irifle.mdl")
 
 SWEP.Stats = {
 	Type = "Bullet", -- Used to determine what swep base function is called
@@ -69,6 +62,8 @@ SWEP.Settings = {
 	Zoom = {1.25}, -- Scrollwheel to switch between zoom levels
 	ScopeIndex = nil, -- If set, the index of Zoom at which point you're considered scoped
 
+	UseHolsterAnimations = false, -- Hides the viewmodel when holstered
+
 	NoNPC = false, -- If set, disables NPC support
 	NPCBurst = {2, 5}, -- Burst size
 	NPCRest = nil, -- If set, overrides standard rest times between bursts
@@ -114,41 +109,22 @@ SWEP.Offsets = {
 	}
 }
 
-include("sh_animations.lua")
 include("sh_attack.lua")
 include("sh_holdtype.lua")
 include("sh_recoil.lua")
 include("sh_stats.lua")
-include("sh_utils.lua")
 include("sh_view.lua")
 
 if SERVER then
 	include("sv_npc.lua")
 end
 
-function SWEP:Initialize()
-	self.Primary.ClipSize = self.Settings.ClipSize
-	self.OrigViewModelFOV = self.ViewModelFOV
-end
-
-function SWEP:Deploy()
-	self:SetHolstered(true)
-
-	local delay = CurTime() + self:PlayAnimation("Deploy")
-
-	self:SetNextPrimaryFire(delay)
-	self:SetNextIdle(delay)
-
-	return true
-end
-
 function SWEP:SetupDataTables()
-	self:NetworkVar("Bool", "Holstered")
+	BaseClass.SetupDataTables(self)
 
 	self:NetworkVar("Int", "FiremodeIndex")
 	self:NetworkVar("Int", "BurstIndex")
 
-	self:NetworkVar("Float", "NextIdle")
 	self:NetworkVar("Float", "AimState")
 
 	self:NetworkVar("Angle", "RecoilPunch")
@@ -158,21 +134,10 @@ function SWEP:SetupDataTables()
 end
 
 function SWEP:Think()
-	self:UpdateHoldType()
+	BaseClass.Think(self)
 
-	local owner = self:GetOwner()
-
-	if owner:IsPlayer() then
-		local idle = self:GetNextIdle()
-
-		if idle > 0 and idle <= CurTime() then
-			self:PlayAnimation("Idle")
-			self:SetNextIdle(0)
-		end
-
-		self:DoRecoilDecay()
-		self:SetAimState(math.Approach(self:GetAimState(), self:ShouldAim() and 1 or 0, FrameTime() / self:GetAimTime()))
-	end
+	self:DoRecoilDecay()
+	self:SetAimState(math.Approach(self:GetAimState(), self:ShouldAim() and 1 or 0, FrameTime() / self:GetAimTime()))
 end
 
 if SERVER then
@@ -181,18 +146,18 @@ if SERVER then
 
 		if IsValid(owner) and owner:IsNPC() then
 			self:SetHoldType(self:GetNPCHoldType())
-		elseif owner == NULL then
-			self:Remove()
 		end
+
+		BaseClass.OwnerChanged(self)
 	end
 end
 
-function SWEP:OnReloaded()
-	self:SetHoldType("pistol")
-end
+function SWEP:ShouldAim()
+	if self:ShouldLower() or self:GetHolstered() then
+		return false
+	end
 
-function SWEP:ToggleHolster()
-	self:SetHolstered(not self:GetHolstered())
+	return self:GetOwner():KeyDown(IN_ATTACK2)
 end
 
 function SWEP:SetupMove(ply, mv, cmd)

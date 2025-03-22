@@ -119,7 +119,7 @@ local function handle(ply, index, ...)
 
 	local weapon = ply:GetActiveWeapon()
 
-	if IsValid(weapon) and weapon:IsType("weapon_cc_base_new") and weapon[index] then
+	if IsValid(weapon) and weapon:IsType("weapon_cc_base") and weapon[index] then
 		weapon[index](weapon, ply, ...)
 	end
 end

@@ -72,7 +72,8 @@ end
 function GM:PreRegisterSWEP(_, class)
 	if SERVER then
 		timer.Simple(0, function()
-			if not weapons.IsBasedOn(class, "weapon_cc_base_new") then
+			-- Only firearms can be wielded by NPC's, because reasons
+			if not weapons.IsBasedOn(class, "weapon_cc_base_gun") then
 				return
 			end
 

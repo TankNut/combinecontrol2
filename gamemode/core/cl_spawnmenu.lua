@@ -303,7 +303,7 @@ hook.Add("PopulateMenuBar", "CombineControl", function(_, menuBar)
 	local categories = {}
 
 	for _, weapon in pairs(weapons.GetList()) do
-		if weapon and weapon.Spawnable and weapons.IsBasedOn(weapon.ClassName, "weapon_cc_base_new") then
+		if weapon and weapon.Spawnable and weapons.IsBasedOn(weapon.ClassName, "weapon_cc_base_gun") then
 			local category = weapon.NPCCategory or "Misc"
 
 			categories[category] = categories[category] or {}

@@ -2,7 +2,7 @@ function GM:PlayerButtonDown(ply, button)
 	if button == KEY_B then
 		local weapon = ply:GetActiveWeapon()
 
-		if weapon:IsType("weapon_cc_base_new") then
+		if weapon:IsType("weapon_cc_base") then
 			weapon:ToggleHolster()
 		end
 

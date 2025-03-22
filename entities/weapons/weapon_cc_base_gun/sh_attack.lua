@@ -64,7 +64,6 @@ function SWEP:PrimaryPlayer(ply)
 
 	local delay = self:GetDelay()
 
-	self:SetNextIdle(CurTime() + anim)
 	self:SetNextPrimaryFire(CurTime() + (delay == -1 and anim or delay))
 end
 
@@ -76,6 +75,10 @@ function SWEP:PrimaryNPC(npc)
 end
 
 function SWEP:SecondaryAttack()
+end
+
+function SWEP:GetFiremode()
+	return self.Settings.Firemodes[self:GetFiremodeIndex()]
 end
 
 function SWEP:UpdateFiremode()
@@ -93,6 +96,22 @@ function SWEP:UpdateFiremode()
 			self:SetBurstIndex(count + 1)
 		end
 	end
+end
+
+function SWEP:CycleFiremode()
+	local firemodes = self.Settings.Firemodes
+
+	if #firemodes == 1 then
+		return
+	end
+
+	local index = self:GetFiremodeIndex() + 1
+
+	if index > #firemodes then
+		index = 1
+	end
+
+	self:SetFiremodeIndex(index)
 end
 
 function SWEP:FireWeapon()

@@ -12,26 +12,6 @@ function SWEP:ForceStopFire()
 	end
 end
 
-function SWEP:GetFiremode()
-	return self.Settings.Firemodes[self:GetFiremodeIndex()]
-end
-
-function SWEP:CycleFiremode()
-	local firemodes = self.Settings.Firemodes
-
-	if #firemodes == 1 then
-		return
-	end
-
-	local index = self:GetFiremodeIndex() + 1
-
-	if index > #firemodes then
-		index = 1
-	end
-
-	self:SetFiremodeIndex(index)
-end
-
 function SWEP:GetShootDir()
 	local owner = self:GetOwner()
 
@@ -50,12 +30,4 @@ end
 
 function SWEP:ShouldLower()
 	return self:IsSprinting()
-end
-
-function SWEP:ShouldAim()
-	if self:ShouldLower() or self:GetHolstered() then
-		return false
-	end
-
-	return self:GetOwner():KeyDown(IN_ATTACK2)
 end

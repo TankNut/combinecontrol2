@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-SWEP.Base = "weapon_cc_base_new"
+SWEP.Base = "weapon_cc_base_gun"
 
 SWEP.PrintName = "AR2"
 SWEP.Category = "CombineControl"
@@ -14,51 +14,47 @@ SWEP.ViewModel  = Model("models/weapons/c_irifle.mdl")
 SWEP.WorldModel = Model("models/weapons/w_irifle.mdl")
 
 SWEP.Stats = {
-	Type = "Bullet", -- Used to determine what swep base function is called
-	Count = 1, -- Amount of bullets to fire
+	Type = "Bullet",
+	Count = 1,
 
-	Damage = 11, -- Per bullet
-	DamageFalloff = 0.98, -- Damage percentage per 1000 units
+	Damage = 11,
+	DamageFalloff = 0.98,
 
-	FixedRange = false, -- For shotguns, overrides Settings.Range and forces it to use only Accuracy
-	Accuracy = {12, 2}, -- Hip vs aimed
+	Accuracy = {12, 2},
 
-	Tracer = "AR2Tracer", -- The tracer effect, do not leave empty
-	TracerCount = 1, -- Fire a tracer every X bullets
+	Tracer = "AR2Tracer",
+	TracerCount = 1,
 
-	Impact = "AR2Impact" -- Optional impact effect that is layered on top of the default
+	Impact = "AR2Impact"
 }
 
 SWEP.Recoil = {
-	-- The base recoil value
 	Value = 0.6,
 
-	-- How the recoil value is applied to the viewmodel
 	PosMult = Vector(2, -1, 1),
 	AngMult = Angle(0, 0),
 
-	-- Amount of recoil that's applied to the player's eyeangles
 	Punch = 0.6
 }
 
 SWEP.Settings = {
-	LowerHoldType = "passive", -- Holstered/lowered
-	BaseHoldType = "ar2", -- Default
+	LowerHoldType = "passive",
+	BaseHoldType = "ar2",
 
-	Firemodes = {-1}, -- -1 = automatic, 0 = semi, 1+ = burst
+	Firemodes = {-1},
 
-	FireRate = 600, -- Rounds per minute, -1 = animation time
-	BurstDelay = 0, -- Delay between bursts, -1 = animation time
+	FireRate = 600,
+	BurstDelay = 0,
 
 	ClipSize = 30,
-	ReloadTime = -1, -- -1 = animation time
-	ReloadAmount = -1, -- -1 = everything
+	ReloadTime = -1,
+	ReloadAmount = -1,
 
-	Range = 400, -- Range in units at which the weapon hits the accuracy stat exactly
+	Range = 400,
 
-	AimTime = 0.35, -- Seconds
+	AimTime = 0.35,
 
-	Zoom = {1.25}, -- Scrollwheel to switch between zoom levels
+	Zoom = {1.25},
 }
 
 SWEP.Sounds = {
