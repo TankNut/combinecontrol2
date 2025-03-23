@@ -71,10 +71,6 @@ function SWEP:ShouldLower()
 end
 
 function SWEP:PrimaryAttack()
-	if self:GetDeployed() then
-		return
-	end
-
 	self:PrimeRandomSeed()
 
 	if self:GetHolstered() then

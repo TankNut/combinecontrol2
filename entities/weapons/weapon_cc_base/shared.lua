@@ -79,12 +79,11 @@ function SWEP:Deploy()
 	self:SetDeployed(true)
 
 	if self.Settings.UseHolsterAnimations then
+		self:SetNextPrimaryFire(CurTime() + 0.1)
 		self:PlayAnimation("Holster")
 		self:SetNextIdle(0)
 	else
-		local delay = CurTime() + self:PlayAnimation("Deploy")
-
-		self:SetNextPrimaryFire(delay)
+		self:SetNextPrimaryFire(CurTime() + self:PlayAnimation("Deploy"))
 	end
 
 	return true
