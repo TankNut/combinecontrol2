@@ -1,13 +1,11 @@
 AddCSLuaFile()
 
 function SWEP:GetAnimation(name)
-	local owner = self:GetOwner()
-
-	if not IsValid(owner) or not owner:IsPlayer() then
+	if not self:GetOwner():IsPlayer() then
 		return
 	end
 
-	local vm = owner:GetViewModel()
+	local vm = self:GetViewModel()
 	local func = self["Get" .. name .. "Animation"]
 	local animation = func and func(self) or self.Animations[name]
 
@@ -15,16 +13,29 @@ function SWEP:GetAnimation(name)
 		return
 	end
 
-	return isnumber(animation) and vm:SelectWeightedSequence(animation) or vm:LookupSequence(animation), vm
+	local index
+
+	if istable(animation) then
+		animation = table.Random(animation)
+	end
+
+	if isnumber(animation) then
+		index = vm:SelectWeightedSequence(animation)
+	else
+		index = vm:LookupSequence(animation)
+	end
+
+	return index
 end
 
 function SWEP:PlayAnimation(name)
-	local index, vm = self:GetAnimation(name)
+	local index = self:GetAnimation(name)
 
 	if not index then
 		return
 	end
 
+	local vm = self:GetViewModel()
 	local duration = vm:SequenceDuration(index)
 
 	vm:SendViewModelMatchingSequence(index)
@@ -34,10 +45,6 @@ function SWEP:PlayAnimation(name)
 	return duration
 end
 
-function SWEP:GetHolsterAnimation()
-	if not self.Settings.UseHolsterAnimations then
-		return
-	end
-
-	return self:GetHolstered() and ACT_VM_HOLSTER or ACT_VM_DRAW
+function SWEP:PlayerAnimation(index)
+	self:GetOwner():SetAnimation(index)
 end

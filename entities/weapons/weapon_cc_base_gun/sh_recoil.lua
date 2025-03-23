@@ -54,8 +54,6 @@ function SWEP:ApplyRecoil()
 	local value = recoil.Value * zoomMultiplier
 	local viewPunchMult = self:GetRecoilMultiplier()
 
-	math.randomseed(self:EntIndex() .. self:GetCommandNumber())
-
 	local ang = Angle(-value, math.Rand(-1, 1) * (value / 3))
 	local ply = self:GetOwner()
 

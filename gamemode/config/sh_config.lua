@@ -18,6 +18,9 @@ GM.Config.SettingCategories = {
 -- Gameplay
 GM.Config.SprintSlow = 0.5 -- By how much to slow the player down if they're sprinting in a non-forward direction
 
+GM.Config.MeleeBlockMultiplier = 0.4
+GM.Config.FistBlockMultiplier = 0.7 -- It helps... a bit
+
 GM.Config.MaxItemDescLength = 300
 
 GM.Config.InteractRange = 82 -- Source default for +use

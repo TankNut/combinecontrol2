@@ -1,7 +1,7 @@
 FLAG.Name = "Citizen"
 FLAG.Team = TEAM_CITIZEN
 
-FLAG.Loadout = {--[["weapon_cc_hands"]]}
+FLAG.Loadout = {"weapon_cc_hands"}
 
 FLAG.EquipmentSlots = {
 	"test"

@@ -55,10 +55,18 @@ if CLIENT then
 	local bobTime = 0
 	local lastBobTime = 0
 
+	function SWEP:GetBobScale()
+		return 1
+	end
+
+	function SWEP:GetSwayScale()
+		return 2
+	end
+
 	function SWEP:AddViewmodelBob(pos, ang)
 		local ply = self:GetOwner()
 		local maxSpeed = ply:IsOnGround() and 160 or 500
-		local scale = Lerp(self:GetAimState(), 1.5, 1)
+		local scale = self:GetBobScale()
 
 		local speed = math.min(ply:GetVelocity():Length2D(), ply:GetRunSpeed())
 		local offset = math.Remap(speed, 0, maxSpeed, 0, 1)
@@ -108,7 +116,7 @@ if CLIENT then
 	end
 
 	function SWEP:GetViewModelPosition(pos, ang)
-		self.SwayScale = Lerp(self:GetAimState(), 2, 1)
+		self.SwayScale = self:GetSwayScale()
 
 		local targetPos, targetAng = self:GetViewModelTarget()
 

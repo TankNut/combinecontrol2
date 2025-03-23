@@ -47,6 +47,20 @@ function PLAYER:GetAlias()
 	return #alias > 0 and alias or self:Nick()
 end
 
+function PLAYER:IsBlocking()
+	local weapon = self:GetActiveWeapon()
+
+	if not IsValid(weapon) then
+		return false
+	end
+
+	if not weapon.GetBlockState then
+		return false
+	end
+
+	return weapon:GetBlockState() > 0
+end
+
 function PLAYER:CanSee(target, checkSight)
 	local startPos = self:EyePos()
 	local pos = target

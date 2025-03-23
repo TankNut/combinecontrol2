@@ -4,7 +4,7 @@ function SWEP:CanFire()
 	local owner = self:GetOwner()
 
 	if owner:IsPlayer() then
-		if self:GetHolstered() then
+		if self:GetHolstered() or self:GetDeployed() then
 			self:ForceStopFire()
 
 			return false
@@ -45,17 +45,18 @@ function SWEP:PrimaryAttack()
 	local owner = self:GetOwner()
 
 	if owner:IsPlayer() then
-		self:PrimaryPlayer(owner)
+		self:PrimaryPlayer()
 	else
-		self:PrimaryNPC(owner)
+		self:PrimaryNPC()
 	end
 end
 
-function SWEP:PrimaryPlayer(ply)
+function SWEP:PrimaryPlayer()
+	self:PrimeRandomSeed()
 	self:UpdateFiremode()
 
-	local anim = self:PlayAnimation("Attack")
-	ply:SetAnimation(PLAYER_ATTACK1)
+	local anim = self:PlayAnimation("Primary")
+	self:PlayerAnimation(PLAYER_ATTACK1)
 
 	self:EmitSound(self.Sounds.Primary)
 	self:FireWeapon()
@@ -68,7 +69,7 @@ function SWEP:PrimaryPlayer(ply)
 end
 
 function SWEP:PrimaryNPC(npc)
-	npc:SetAnimation(PLAYER_ATTACK1)
+	self:PlayerAnimation(PLAYER_ATTACK1)
 
 	self:EmitSound(self.Sounds.Primary)
 	self:FireWeapon()
@@ -118,13 +119,13 @@ function SWEP:FireWeapon()
 	self["Fire" .. self.Stats.Type](self, self:GetOwner())
 end
 
-function SWEP:FireBullet(ply)
+function SWEP:FireBullet(owner)
 	local tracer, count = self:GetTracerEffect()
 	local damage = self:GetDamage()
 
 	local bullet = {
 		Num = self:GetBulletCount(),
-		Src = ply:GetShootPos(),
+		Src = owner:GetShootPos(),
 		Dir = self:GetShootDir(),
 		Spread = self:GetSpread(),
 		TracerName = tracer,
@@ -136,7 +137,7 @@ function SWEP:FireBullet(ply)
 		end
 	}
 
-	ply:FireBullets(bullet)
+	owner:FireBullets(bullet)
 end
 
 function SWEP:DoImpactEffect(tr, dmgtype)

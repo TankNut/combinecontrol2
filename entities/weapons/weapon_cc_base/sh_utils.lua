@@ -12,6 +12,10 @@ function SWEP:ForceStopFire()
 	end
 end
 
+function SWEP:GetViewModel()
+	return self:GetOwner():GetViewModel()
+end
+
 function SWEP:GetShootDir()
 	local owner = self:GetOwner()
 
@@ -30,4 +34,22 @@ end
 
 function SWEP:ShouldLower()
 	return self:IsSprinting()
+end
+
+function SWEP:PrimeRandomSeed()
+	math.randomseed(self:EntIndex() .. self:GetCommandNumber())
+end
+
+function SWEP:PlaySound(name, level, pitch, volume)
+	local snd = self.Sounds[name]
+
+	if not snd then
+		return
+	end
+
+	if istable(snd) then
+		snd = table.Random(snd)
+	end
+
+	self:EmitSound(snd, level or 75, pitch or 100, volume or 1)
 end

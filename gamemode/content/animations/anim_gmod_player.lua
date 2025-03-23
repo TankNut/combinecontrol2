@@ -54,6 +54,25 @@ function CONTROLLER:UpdateRadioAnimation(ply)
 	end
 end
 
+function CONTROLLER:UpdateFistAnimation(ply)
+	if ply:IsPlayingTaunt() then return end
+
+	local plyTable = ply:GetTable()
+
+	plyTable.FistWeight = plyTable.FistWeight or 0
+
+	if ply:IsBlocking() then
+		plyTable.FistWeight = math.Approach(plyTable.FistWeight, 1, FrameTime() * 5.0)
+	else
+		plyTable.FistWeight = math.Approach(plyTable.FistWeight, 0, FrameTime() * 5.0)
+	end
+
+	if plyTable.FistWeight > 0 then
+		ply:AnimRestartGesture(GESTURE_SLOT_VCD, ACT_HL2MP_FIST_BLOCK, true)
+		ply:AnimSetGestureWeight(GESTURE_SLOT_VCD, plyTable.FistWeight)
+	end
+end
+
 function CONTROLLER:UpdateAnimation(ply, vel, max)
 	BaseClass.UpdateAnimation(self, ply, vel, max)
 
@@ -80,6 +99,7 @@ function CONTROLLER:UpdateAnimation(ply, vel, max)
 	end
 
 	self:UpdateRadioAnimation(ply)
+	self:UpdateFistAnimation(ply)
 end
 
 local idle = ACT_HL2MP_IDLE

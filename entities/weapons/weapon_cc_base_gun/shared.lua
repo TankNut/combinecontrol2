@@ -6,6 +6,8 @@ SWEP.Base = "weapon_cc_base"
 SWEP.Category = "CombineControl"
 SWEP.NPCCategory = nil
 
+SWEP.Slot = 2
+
 SWEP.InfoText = [[Primary: Fire Weapon
 Secondary: Aim Down Sights
 Secondary + Scroll: Zoom]]
@@ -50,7 +52,8 @@ SWEP.Settings = {
 	FireRate = 600, -- Rounds per minute, -1 = animation time
 	BurstDelay = 0, -- Delay between bursts, -1 = animation time
 
-	ClipSize = 30,
+	AmmoCost = 1, -- How much ammo is taken every time the weapon fires
+	ClipSize = 30, -- Self-explanatory
 	ReloadTime = -1, -- -1 = animation time
 	ReloadAmount = -1, -- -1 = everything
 
@@ -70,10 +73,13 @@ SWEP.Settings = {
 }
 
 SWEP.Animations = {
+	Draw = ACT_VM_DRAW,
+	Holster = ACT_VM_HOLSTER,
+
 	Deploy = ACT_VM_DRAW,
 	Idle = ACT_VM_IDLE,
 
-	Attack = ACT_VM_PRIMARYATTACK,
+	Primary = ACT_VM_PRIMARYATTACK,
 	Secondary = ACT_VM_SECONDARYATTACK,
 
 	Reload = ACT_VM_RELOAD,
@@ -117,6 +123,13 @@ include("sh_view.lua")
 
 if SERVER then
 	include("sv_npc.lua")
+end
+
+function SWEP:Initialize()
+	BaseClass.Initialize(self)
+
+	self.Primary.ClipSize = self.Settings.ClipSize
+	self:SetClip1(self.Primary.ClipSize)
 end
 
 function SWEP:SetupDataTables()
@@ -165,12 +178,12 @@ function SWEP:SetupMove(ply, mv, cmd)
 		return
 	end
 
-	local aimSlow = Lerp(self:GetAimState(), ply:GetWalkSpeed(), ply:GetWalkSpeed() * 0.75)
+	local slow = Lerp(self:GetAimState(), ply:GetWalkSpeed(), ply:GetWalkSpeed() * 0.75)
 
-	if mv:GetMaxSpeed() < aimSlow then
+	if mv:GetMaxSpeed() < slow then
 		return
 	end
 
-	mv:SetMaxSpeed(aimSlow)
-	mv:SetMaxClientSpeed(aimSlow)
+	mv:SetMaxSpeed(slow)
+	mv:SetMaxClientSpeed(slow)
 end

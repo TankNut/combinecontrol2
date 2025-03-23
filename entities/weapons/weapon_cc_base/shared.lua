@@ -13,18 +13,31 @@ SWEP.UseHands   = true
 SWEP.ViewModel  = Model("models/weapons/c_irifle.mdl")
 SWEP.WorldModel = Model("models/weapons/w_irifle.mdl")
 
+SWEP.Primary.Ammo = ""
+SWEP.Primary.ClipSize = -1
+SWEP.Primary.DefaultClip = 0
+
+SWEP.Secondary.Ammo = ""
+SWEP.Secondary.ClipSize = -1
+SWEP.Secondary.DefaultClip = 0
+
 SWEP.Settings = {
 	LowerHoldType = "passive", -- Holstered/lowered
 	BaseHoldType = "ar2", -- Default
 
-	UseHolsterAnimations = false, -- Hides the viewmodel when holstered
+	AimTime = 0.35,
+
+	UseHolsterAnimations = false -- Hides the viewmodel when holstered
 }
 
 SWEP.Animations = {
+	Draw = ACT_VM_DRAW,
+	Holster = ACT_VM_HOLSTER,
+
 	Deploy = ACT_VM_DRAW,
 	Idle = ACT_VM_IDLE,
 
-	Attack = ACT_VM_PRIMARYATTACK,
+	Primary = ACT_VM_PRIMARYATTACK,
 	Secondary = ACT_VM_SECONDARYATTACK,
 
 	Reload = ACT_VM_RELOAD,
@@ -58,16 +71,16 @@ include("sh_utils.lua")
 include("sh_view.lua")
 
 function SWEP:Initialize()
-	self.Primary.ClipSize = self.Settings.ClipSize
 	self.OrigViewModelFOV = self.ViewModelFOV
 end
 
 function SWEP:Deploy()
 	self:SetHolstered(true)
+	self:SetDeployed(true)
 
 	if self.Settings.UseHolsterAnimations then
 		self:PlayAnimation("Holster")
-		self:SetDeployed(true)
+		self:SetNextIdle(0)
 	else
 		local delay = CurTime() + self:PlayAnimation("Deploy")
 
@@ -91,7 +104,6 @@ function SWEP:Think()
 
 	if idle > 0 and idle <= CurTime() then
 		self:PlayAnimation("Idle")
-		self:SetNextIdle(0)
 	end
 end
 
@@ -118,10 +130,13 @@ function SWEP:ToggleHolster()
 
 	self:SetDeployed(false)
 	self:SetHolstered(state)
-	self:PlayAnimation("Holster")
 
-	if state then
-		self:SetNextIdle(0)
+	if self.Settings.UseHolsterAnimations then
+		self:PlayAnimation(state and "Holster" or "Draw")
+
+		if state then
+			self:SetNextIdle(0)
+		end
 	end
 end
 
