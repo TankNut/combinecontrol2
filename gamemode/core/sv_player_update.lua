@@ -49,7 +49,7 @@ function PLAYER:UpdateMovementSpeed()
 	self:SetCrouchedWalkSpeed(crouch / walk)
 end
 
-function PLAYER:UpdateLoadout()
+function PLAYER:UpdateLoadout(spawned)
 	local loadout = self:RunCharFlag("Loadout")
 
 	table.Add(loadout, hook.Run("GetPlayerLoadout", self))
@@ -67,6 +67,14 @@ function PLAYER:UpdateLoadout()
 	for _, weapon in ipairs(loadout) do
 		if not self:HasWeapon(weapon) then
 			self:Give(weapon)
+		end
+	end
+
+	if spawned and loadout[1] then
+		local weapon = self:GetActiveWeapon()
+
+		if weapon:GetClass() != loadout[1] then
+			self:SelectWeapon(loadout[1])
 		end
 	end
 end

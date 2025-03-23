@@ -48,7 +48,7 @@ if SERVER then
 	end
 
 	function CLASS:Handle(ply, lang, cmd, text)
-		-- TODO: config option
+		-- Todo: config option
 		text = string.Escape(string.sub(text, 1, 500))
 
 		if self.UseLanguage then

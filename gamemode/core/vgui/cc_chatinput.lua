@@ -77,7 +77,7 @@ function PANEL:OnEnter()
 	Chat.Hide()
 end
 
--- TODO: config option
+-- Todo: config option
 function PANEL:AllowInput(char)
 	if #self:GetValue() > 500 then
 		surface.PlaySound("weapons/pistol/pistol_empty.wav")

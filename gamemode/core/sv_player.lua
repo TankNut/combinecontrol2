@@ -59,7 +59,6 @@ function GM:PlayerInitialSpawn(ply)
 end
 
 function GM:PlayerSpawn(ply)
-	ply.SpawnPos = ply:GetPos()
 	ply.ArmorFraction = 1
 
 	-- Might want to update the bird workflow at some point
@@ -79,7 +78,7 @@ function GM:PlayerSpawn(ply)
 	ply:SetNotSolid(false)
 	ply:SetMoveType(MOVETYPE_WALK)
 
-	ply:UpdateLoadout()
+	ply:UpdateLoadout(true)
 
 	ply:SetUsingSpawnCamera(false)
 end
