@@ -1,5 +1,3 @@
-gameevent.Listen("player_disconnect")
-
 local toolTrust = {
 	[TOOLTRUST_BANNED] = "Banned",
 	[TOOLTRUST_UNTRUSTED] = "Untrusted",
@@ -242,6 +240,8 @@ function PANEL:UnselectPlayer(ply)
 
 	self.MutedCheckBox:SetChecked(false)
 	self.MutedCheckBox:SetDisabled(true)
+
+	self.SelectedPlayer = nil
 end
 
 function PANEL:CreateLabel(text, bold, wide)
