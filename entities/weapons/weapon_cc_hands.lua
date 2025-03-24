@@ -115,8 +115,8 @@ end
 
 local phys_pushscale = GetConVar("phys_pushscale")
 local damageForce = {
-	["fists_left"] = Vector(9998, -4912, 0),
-	["fists_right"] = Vector(9998, 4912, 0)
+	["fists_left"] = Vector(999, -491, 0),
+	["fists_right"] = Vector(999, 491, 0)
 }
 
 function SWEP:PerformSwing()
@@ -154,7 +154,7 @@ function SWEP:PerformSwing()
 		dmginfo:SetAttacker(ply)
 		dmginfo:SetInflictor(self)
 
-		local force = damageForce[anim]
+		local force = Vector(damageForce[anim])
 
 		force:Mul(scale)
 		force:Rotate(self:GetShootDir():Angle())
