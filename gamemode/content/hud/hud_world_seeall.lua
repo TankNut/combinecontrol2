@@ -109,6 +109,10 @@ function HUD:DrawItem(item)
 end
 
 function HUD:DrawNPC(npc)
+	if not npc:Alive() then
+		return
+	end
+
 	self:AddWorldLabel(npc:EyePos() + Vector(0, 0, 10), {
 		{scribe.Parse("<f=CombineControl.PlayerFont><ol><c=#C8C864><lang>" .. npc:GetClass())}
 	})
