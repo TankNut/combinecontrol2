@@ -262,6 +262,7 @@ function PANEL:CreateTextEntry(wide)
 	local entry = self:Add("DTextEntry")
 
 	entry:SetWide(wide or 150)
+	entry:SetTall(22)
 
 	return entry
 end

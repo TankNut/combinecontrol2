@@ -18,6 +18,8 @@ local function client(path) if CLIENT then return include(path) else AddCSLuaFil
 local function server(path) if SERVER then return include(path) end end
 local function shared(path) AddCSLuaFile(path) return include(path) end
 
+gameevent.Listen("player_disconnect")
+
 GM.Config = {}
 
 shared("core/enums.lua")
