@@ -29,6 +29,10 @@ end
 function SWEP:IsSprinting()
 	local ply = self:GetOwner()
 
+	if ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) then
+		return false
+	end
+
 	return ply:IsSprinting() and ply:GetVelocity():Length2D() >= Lerp(0.3, ply:GetWalkSpeed(), ply:GetRunSpeed())
 end
 
