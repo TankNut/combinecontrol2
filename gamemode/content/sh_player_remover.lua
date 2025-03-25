@@ -2,11 +2,11 @@ Config.Fallback("RemovePlayers", TOOLTRUST_DEVELOPER)
 
 function RemovePlayer(target, ply, tr)
 	-- Since the remover tool blocks internally on players, we have to re-create the effects ourselves
-	local ed = EffectData()
-		ed:SetOrigin(target:GetPos())
-		ed:SetEntity(target)
+	local effectData = EffectData()
+		effectData:SetOrigin(target:GetPos())
+		effectData:SetEntity(target)
 
-	util.Effect("entity_remove", ed, true, true)
+	util.Effect("entity_remove", effectData, true, true)
 
 	-- Putting this behind a check so we can call RemovePlayer(target, ply) from other contexts
 	if tr then
