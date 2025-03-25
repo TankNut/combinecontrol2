@@ -235,6 +235,10 @@ function GM:PlayerDeathSound()
 	return true
 end
 
+function GM:AllowPlayerPickup(ply, ent)
+	return false
+end
+
 function GM:PlayerSetHandsModel(ply, ent)
 	ent:SetModel("models/weapons/c_arms_citizen.mdl")
 	ent:SetSkin(0)
