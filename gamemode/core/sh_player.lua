@@ -178,7 +178,7 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 end
 
 function GM:PlayerTakeDamage(ply, dmginfo)
-	if ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) or ply:NoDamage() or not ply:HasCharacter() then
+	if ply:IsInNoClip() or ply:NoDamage() or not ply:HasCharacter() then
 		return true
 	end
 

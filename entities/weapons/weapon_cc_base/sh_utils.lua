@@ -29,7 +29,7 @@ end
 function SWEP:IsSprinting()
 	local ply = self:GetOwner()
 
-	if ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) then
+	if ply:IsInNoClip() then
 		return false
 	end
 
