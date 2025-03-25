@@ -135,23 +135,7 @@ function SWEP:PerformSwing()
 	local vm = ply:GetViewModel()
 	local anim = vm:GetSequenceName(vm:GetSequence())
 
-	ply:LagCompensation(true)
-
-	local trace = {
-		start = ply:GetShootPos(),
-		endpos = ply:GetShootPos() + self:GetShootDir() * self.Reach,
-		filter = ply,
-		mask = MASK_SHOT_HULL,
-		mins = Vector(-10, -10, -8),
-		maxs = Vector(10, 10, 8)
-	}
-
-	local tr = util.TraceLine(trace)
-	local line = tr
-
-	if not IsValid(tr.Entity) then
-		tr = util.TraceHull(trace)
-	end
+	local tr, line = self:GetMeleeTrace(self.Reach)
 
 	if tr.Hit then
 		self:PlaySound("Hit")
@@ -188,8 +172,6 @@ function SWEP:PerformSwing()
 			phys:ApplyForceOffset(ply:GetAimVector() * self.HitForce * phys:GetMass() * scale, tr.HitPos)
 		end
 	end
-
-	ply:LagCompensation(false)
 
 	local delay = tr.Hit and self.HitCooldown or self.MissCooldown
 

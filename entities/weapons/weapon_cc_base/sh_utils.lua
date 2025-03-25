@@ -57,3 +57,29 @@ function SWEP:PlaySound(name, level, pitch, volume)
 
 	self:EmitSound(snd, level or 75, pitch or 100, volume or 1)
 end
+
+function SWEP:GetMeleeTrace(reach)
+	local ply = self:GetOwner()
+
+	ply:LagCompensation(true)
+
+	local trace = {
+		start = ply:GetShootPos(),
+		endpos = ply:GetShootPos() + self:GetShootDir() * reach,
+		filter = ply,
+		mask = MASK_SHOT_HULL,
+		mins = Vector(-10, -10, -8),
+		maxs = Vector(10, 10, 8)
+	}
+
+	local tr = util.TraceLine(trace)
+	local line = tr
+
+	if not IsValid(tr.Entity) then
+		tr = util.TraceHull(trace)
+	end
+
+	ply:LagCompensation(false)
+
+	return tr, line
+end

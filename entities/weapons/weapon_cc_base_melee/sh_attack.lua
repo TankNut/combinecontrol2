@@ -30,24 +30,7 @@ function SWEP:PerformSwing()
 
 	self:PlayerAnimation(PLAYER_ATTACK1)
 
-	ply:LagCompensation(true)
-
-	local trace = {
-		start = ply:GetShootPos(),
-		endpos = ply:GetShootPos() + self:GetShootDir() * stats.Reach,
-		filter = ply,
-		mask = MASK_SHOT_HULL,
-		mins = Vector(-10, -10, -8),
-		maxs = Vector(10, 10, 8)
-	}
-
-	local tr = util.TraceLine(trace)
-	local line = tr
-
-	if not IsValid(tr.Entity) then
-		tr = util.TraceHull(trace)
-	end
-
+	local tr, line = self:GetMeleeTrace(stats.Reach)
 	local ent = tr.Entity
 
 	if tr.Hit then
@@ -112,8 +95,6 @@ function SWEP:PerformSwing()
 			util.Effect(self.Settings.Effect, effectData)
 		end
 	end
-
-	ply:LagCompensation(false)
 
 	self:SetNextPrimaryFire(CurTime() + self:GetDelay(tr.Hit))
 end
