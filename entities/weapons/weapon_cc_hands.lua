@@ -17,17 +17,22 @@ SWEP.Weight = 100
 SWEP.ViewModelFOV = 54
 SWEP.DrawCrosshair = false
 
+SWEP.Primary.Automatic = true
+
 SWEP.UseHands   = true
 SWEP.ViewModel  = Model("models/weapons/c_arms.mdl")
 SWEP.WorldModel = ""
 
 SWEP.Damage = {8, 12}
+SWEP.DamageTimer = 1
 
-SWEP.Reach = 48
+SWEP.Reach = 32
 SWEP.HitDelay = 0.15
 SWEP.HitForce = 80
 
-SWEP.SwingDelay = 0.9
+SWEP.HitCooldown = 0.4
+SWEP.MissCooldown = 0.9
+
 SWEP.BlockMultiplier = Config.Get("FistBlockMultiplier")
 
 SWEP.Settings = {
@@ -88,7 +93,7 @@ function SWEP:PrimaryAttack()
 		self:PlaySound("Swing")
 
 		self:SetHitDelay(CurTime() + self.HitDelay)
-		self:SetNextPrimaryFire(CurTime() + self.SwingDelay)
+		self:SetNextPrimaryFire(math.huge)
 	end
 end
 
@@ -111,6 +116,12 @@ function SWEP:Think()
 	end
 
 	self:SetBlockState(math.Approach(self:GetBlockState(), self:ShouldBlock() and 1 or 0, FrameTime() / 0.2))
+end
+
+function SWEP:GetDamage()
+	local fraction = math.Clamp(math.TimeFraction(self:GetNextPrimaryFire(), self:GetNextPrimaryFire() + self.DamageTimer, CurTime()), 0, 1)
+
+	return Lerp(fraction, self.Damage[1], self.Damage[2])
 end
 
 local phys_pushscale = GetConVar("phys_pushscale")
@@ -136,6 +147,7 @@ function SWEP:PerformSwing()
 	}
 
 	local tr = util.TraceLine(trace)
+	local line = tr
 
 	if not IsValid(tr.Entity) then
 		tr = util.TraceHull(trace)
@@ -153,6 +165,7 @@ function SWEP:PerformSwing()
 
 		dmginfo:SetAttacker(ply)
 		dmginfo:SetInflictor(self)
+		dmginfo:SetDamagePosition(line.HitPos)
 
 		local force = Vector(damageForce[anim])
 
@@ -160,7 +173,8 @@ function SWEP:PerformSwing()
 		force:Rotate(self:GetShootDir():Angle())
 
 		dmginfo:SetDamageForce(force)
-		dmginfo:SetDamage(math.random(self.Damage[1], self.Damage[2]))
+		dmginfo:SetDamage(self:GetDamage())
+		dmginfo:SetDamageType(DMG_CLUB)
 
 		SuppressHostEvents(NULL)
 			ent:TakeDamageInfo(dmginfo)
@@ -176,6 +190,10 @@ function SWEP:PerformSwing()
 	end
 
 	ply:LagCompensation(false)
+
+	local delay = tr.Hit and self.HitCooldown or self.MissCooldown
+
+	self:SetNextPrimaryFire(CurTime() + delay - self.HitDelay)
 end
 
 if CLIENT then

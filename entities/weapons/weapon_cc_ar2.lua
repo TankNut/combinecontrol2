@@ -64,7 +64,7 @@ SWEP.Sounds = {
 SWEP.Offsets = {
 	Default = {
 		Vector(0, 0, -1),
-		Angle()
+		Angle(0, 0, 0)
 	},
 	Holster = {
 		Vector(0, -2, 2),
