@@ -76,10 +76,12 @@ Action.Add("QuickTeleport", {
 			return left.Value:GetTeleportID() < right.Value:GetTeleportID()
 		end)
 
-		table.insert(options, 1, {
-			Name = "Create Quick Teleport...",
-			Value = nil
-		})
+		if lp:EditMode() then
+			table.insert(options, 1, {
+				Name = "Create Quick Teleport...",
+				Value = nil
+			})
+		end
 
 		return options
 	end,

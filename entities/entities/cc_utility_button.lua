@@ -67,10 +67,12 @@ Action.Add("QuickButton", {
 			return left.Value:GetButtonID() < right.Value:GetButtonID()
 		end)
 
-		table.insert(options, 1, {
-			Name = "Create Quick Button...",
-			Value = nil
-		})
+		if lp:EditMode() then
+			table.insert(options, 1, {
+				Name = "Create Quick Button...",
+				Value = nil
+			})
+		end
 
 		return options
 	end,
