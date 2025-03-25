@@ -5,6 +5,8 @@ PlayerVar.Add("ScoreboardTitleC", {Default = Vector(255, 255, 255), Persist = tr
 
 PlayerVar.Add("DonatorActive", {Default = false})
 
+PlayerVar.Add("NoDamage", {Default = false, Private = true})
+
 PlayerVar.Add("OOCMuted", {Default = 0, Persist = true, DataType = TINYINT()})
 
 PlayerVar.Add("Alias", {
@@ -176,7 +178,7 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 end
 
 function GM:PlayerTakeDamage(ply, dmginfo)
-	if ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) or not ply:HasCharacter() then
+	if ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) or ply:NoDamage() or not ply:HasCharacter() then
 		return true
 	end
 

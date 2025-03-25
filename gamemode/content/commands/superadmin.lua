@@ -193,3 +193,30 @@ takeTempAdmin:AddParameter(console.Player({
 	StrictImmunity = true,
 	NoSelfTarget = true
 }))
+
+local noDamage = console.AddCommand("rpa_nodamage", function(ply, targets, bool)
+	local action = bool and "given you godmode" or "taken your godmode"
+	local feedback = bool and "given godmode to" or "taken godmode from"
+
+	for _, target in ipairs(targets) do
+		target:SetNoDamage(bool)
+
+		console.Feedback(target, "NOTICE", "%s has %s", ply, action)
+
+		Log.Write("superadmin_player_set", ply, target, "NoDamage", tostring(bool))
+	end
+
+	if #targets > 1 then
+		console.Feedback(ply, "NOTICE", "You've %s %d players", feedback, #targets)
+	else
+		console.Feedback(ply, "NOTICE", "You've %s %s", feedback, targets[1])
+	end
+end)
+
+noDamage:SetCategory("Superadmin Commands")
+noDamage:SetDescription("Enables or disables a player's godmode")
+noDamage:SetExecutionContext(console.Server)
+noDamage:SetAccess(console.IsSuperAdmin)
+
+noDamage:AddParameter(console.Player())
+noDamage:AddOptional(console.Bool(), false)

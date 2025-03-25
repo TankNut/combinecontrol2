@@ -19,3 +19,12 @@ Log.AddType("superadmin_setusergroup", function(ply, target, usergroup)
 		UserGroup = usergroup
 	}
 end)
+
+Log.AddType("superadmin_player_set", function(ply, target, variable, value)
+	return string.format("%s has set %s's %s to %s", ply:Nick(), target:Nick(), variable, value), {
+		Log.Admin(ply),
+		Log.Player(target),
+		VariableName = variable,
+		VariableValue = value
+	}
+end)

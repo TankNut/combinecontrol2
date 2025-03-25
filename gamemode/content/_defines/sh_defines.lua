@@ -60,7 +60,7 @@ GM.Badges = {
 	Badge("developer",  "Developer",       "icon16/tag.png",           function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "developer" end),
 	Badge("superadmin", "Superadmin",      "icon16/shield_add.png",    function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "superadmin" end),
 	Badge("admin",      "Admin",           "icon16/shield.png",        function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "admin" end),
-	Badge("tempadmin",  "Temporary Admin", "icon16/shield.png",        function(ply) return ply:TempAdmin() end),
+	Badge("tempadmin",  "Temporary Admin", "icon16/shield_delete.png", function(ply) return ply:TempAdmin() end),
 
 	Badge("bannedtt",   "Banned Tooltrust",    "icon16/key_delete.png",    function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end),
 	Badge("advancedtt", "Advanced Tooltrust",  "icon16/key_add.png",       function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end),
