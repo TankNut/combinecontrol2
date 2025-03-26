@@ -1,3 +1,4 @@
+--GM:Include("cl_freelook.lua")
 GM:Include("sh_corpsefade.lua")
 GM:Include("sh_money.lua")
 GM:Include("sh_player_remover.lua")
