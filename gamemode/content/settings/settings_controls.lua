@@ -1,14 +1,6 @@
-Settings.Add("AutoWalk", {
-	Name = "Double-tap sticky directional keys",
-	ClientOnly = true,
-	Default = false,
-	Validate = validate.Bool(),
-	Panel = "CC_Setting_Bool"
-}, "Controls")
-
-Settings.Add("AutoWalkSensitivity", {
+Settings.Add("StickyKeySensitivity", {
 	Name = "Sticky key sensitivity",
-	ClientOnly = true,
+	Private = true,
 	Default = 0.4,
 	Validate = {
 		validate.Min(0.1),
@@ -20,6 +12,14 @@ Settings.Add("AutoWalkSensitivity", {
 		Notches = 10,
 		Decimals = 2
 	}
+}, "Controls")
+
+Settings.Add("AutoWalk", {
+	Name = "Double-tap sticky directional keys",
+	ClientOnly = true,
+	Default = false,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool"
 }, "Controls")
 
 Settings.Add("ToggleCrouch", {
@@ -46,16 +46,8 @@ Settings.Add("ToggleFreelook", {
 	Panel = "CC_Setting_Bool"
 }, "Controls")
 
-Settings.Add("ToggleAim", {
-	Name = "Toggle Aim",
-	Private = true,
-	Default = false,
-	Validate = validate.Bool(),
-	Panel = "CC_Setting_Bool"
-}, "Controls")
-
-Settings.Add("ToggleBlock", {
-	Name = "Toggle Block",
+Settings.Add("StickyAim", {
+	Name = "Toggle aim when tapped",
 	Private = true,
 	Default = false,
 	Validate = validate.Bool(),

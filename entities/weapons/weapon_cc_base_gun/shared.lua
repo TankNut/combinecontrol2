@@ -138,10 +138,13 @@ end
 function SWEP:SetupDataTables()
 	BaseClass.SetupDataTables(self)
 
+	self:NetworkVar("Bool", "ToggleAim")
+
 	self:NetworkVar("Int", "FiremodeIndex")
 	self:NetworkVar("Int", "BurstIndex")
 
 	self:NetworkVar("Float", "AimState")
+	self:NetworkVar("Float", "AimStart")
 
 	self:NetworkVar("Angle", "RecoilPunch")
 	self:NetworkVar("Angle", "RecoilVelocity")
@@ -154,6 +157,16 @@ function SWEP:Think()
 
 	self:DoRecoilDecay()
 	self:SetAimState(math.Approach(self:GetAimState(), self:ShouldAim() and 1 or 0, FrameTime() / self:GetAimTime()))
+
+	local ply = self:GetOwner()
+
+	if ply:GetSetting("StickyAim") and ply:KeyReleased(IN_ATTACK2) then
+		if self:GetToggleAim() then
+			self:SetToggleAim(false)
+		elseif CurTime() - self:GetAimStart() < 0.4 then
+			self:SetToggleAim(true)
+		end
+	end
 end
 
 if SERVER then
@@ -168,12 +181,16 @@ if SERVER then
 	end
 end
 
+function SWEP:SecondaryAttack()
+	self:SetAimStart(CurTime())
+end
+
 function SWEP:ShouldAim()
 	if self:GetHolstered() then
 		return false
 	end
 
-	return self:GetOwner():KeyDown(IN_ATTACK2)
+	return self:GetToggleAim() or self:GetOwner():KeyDown(IN_ATTACK2)
 end
 
 function SWEP:SetupMove(ply, mv, cmd)

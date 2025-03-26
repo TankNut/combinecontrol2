@@ -23,7 +23,7 @@ function GM:OnThirdpersonSettingChanged(ply, old, new)
 end
 
 Settings.Add("WorldLabelBackgrounds", {
-	Name = "World Label Background Opacity",
+	Name = "World label background opacity",
 	ClientOnly = true,
 	Default = 0,
 	Validate = {
