@@ -28,6 +28,10 @@ PlayerVar.Add("LastSeen", {
 	DataType = UINT()
 })
 
+function PLAYER:SetupDataTables()
+	self:InstallDataTable()
+end
+
 -- Todo: Implement weapon zoom as a multiplier
 function PLAYER:GetSightRange()
 	return Config.Get("PlayerSight")

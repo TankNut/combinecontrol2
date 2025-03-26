@@ -36,6 +36,7 @@ function GM:OnEntityCreated(ent)
 
 	if ent:IsPlayer() then
 		Inventory.Init(ent)
+		ent:SetupDataTables()
 	end
 
 	if SERVER then
