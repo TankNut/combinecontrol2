@@ -50,7 +50,7 @@ if CLIENT then
 		if Settings.Get("ToggleFreelook") then toggleKey(IN_WALK, cmd) end
 
 		if Settings.Get("AutoWalk") then
-			local sensitivity = Settings.Get("AutoWalkSensitivity")
+			local sensitivity = Settings.Get("StickyKeySensitivity")
 			local curTime = CurTime()
 			local move = Vector(cmd:GetForwardMove(), cmd:GetSideMove())
 
