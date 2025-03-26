@@ -1,10 +1,11 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self.Label = self:Add("DLabel")
+	self.Label = self:Add("ScribeLabel")
 	self.Label:DockMargin(10, 0, 0, 0)
 	self.Label:Dock(LEFT)
 	self.Label:SetWide(250)
+	self.Label:SetAlignment(TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
 	self.Reset = self:Add("DButton")
 	self.Reset:DockMargin(0, 1, 1, 1)
@@ -24,8 +25,12 @@ function PANEL:SetAlt(alt)
 	self:SetBackgroundColor(alt and colors.FillDark or colors.FillMedium)
 end
 
-function PANEL:SetTitle(title)
-	self.Label:SetText(title)
+function PANEL:SetTitle(title, dark, hint)
+	self.Label:SetText(
+		"<font=DermaDefault>" ..
+		(dark and "<col=cc_dark>" or "") ..
+		title ..
+		(hint and "<col=cc_dark> (?)</col>" or ""))
 end
 
 function PANEL:GetSetting()
@@ -52,10 +57,11 @@ end
 
 function PANEL:Configure(setting)
 	self.Setting = setting
-	self:SetTitle(setting.Name)
+	self:SetTitle(setting.Name, setting.Dark, setting.Hint)
 
-	if setting.Dark then
-		self.Label:SetTextColor(Color("cc_dark"))
+	if setting.Hint then
+		self.Label:SetTooltipPanelOverride("CC_Tooltip")
+		self.Label:SetTooltip(setting.Hint)
 	end
 
 	local value = self:GetSetting()

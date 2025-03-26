@@ -19,6 +19,7 @@ Settings.Add("ShowItemClass", {
 
 Settings.Add("UnderstandLanguages", {
 	Name = "Understand all character languages",
+	Hint = "Allows you to read all language commands used in chat, but does not grant you the ability to speak using all language commands.",
 	Default = false,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool",
