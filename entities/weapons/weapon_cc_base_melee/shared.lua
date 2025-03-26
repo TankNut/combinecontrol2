@@ -87,6 +87,10 @@ function SWEP:ShouldLower()
 end
 
 function SWEP:PrimaryAttack()
+	if self:TryShove() then
+		return
+	end
+
 	if self:GetHolstered() or self:ShouldLower() or self:GetBlockState() > 0 then
 		return
 	end

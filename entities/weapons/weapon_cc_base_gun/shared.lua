@@ -169,7 +169,7 @@ if SERVER then
 end
 
 function SWEP:ShouldAim()
-	if self:ShouldLower() or self:GetHolstered() then
+	if self:GetHolstered() then
 		return false
 	end
 
