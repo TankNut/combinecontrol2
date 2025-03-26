@@ -8,7 +8,7 @@ FLAG.BaseLanguage = "eng"
 FLAG.Health = 100
 FLAG.Armor = 0
 
-FLAG.Scale = 0
+FLAG.Scale = 1
 
 -- Last weapon on the list is selected on spawn
 FLAG.Loadout = {}
@@ -42,7 +42,7 @@ function FLAG:VisibleDescription(ply)
 end
 
 function FLAG:PlayerScale(ply)
-	return self.Scale != 0 and self.Scale or ply:CharacterScale()
+	return ply:CharacterScale() != 0 and ply:CharacterScale() or self.Scale
 end
 
 function FLAG:OnSpawn(ply)

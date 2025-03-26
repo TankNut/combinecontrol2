@@ -8,8 +8,8 @@ Default = {
 	Crouching = {Vector(-10, -10, 0), Vector(10, 10, 36), Vector(0, 0, 38)},
 }
 
-PlayerVar.Add("Scale", {Default = 0})
-CharacterVar.Add("CharacterScale", {Default = 1, Field = "Scale", DataType = FLOAT()})
+PlayerVar.Add("Scale", {Default = 1})
+CharacterVar.Add("CharacterScale", {Default = 0, Field = "Scale", DataType = FLOAT()})
 
 local PLAYER = FindMetaTable("Player")
 
@@ -58,9 +58,7 @@ function PLAYER:UpdateHull()
 end
 
 function GM:GetPlayerScale(ply)
-	local scale = ply:Scale()
-
-	return scale != 0 and scale or ply:RunCharFlag("PlayerScale")
+	return ply:RunCharFlag("PlayerScale") * ply:Scale()
 end
 
 function GM:OnScaleChanged(ply, old, new, loaded)
