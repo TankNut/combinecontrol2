@@ -1,11 +1,10 @@
 local PANEL = {}
 
 local sliderWidth = 250
-local overlap = 250
 
 function PANEL:Init()
 	self.Slider = self:Add("DNumSlider")
-	self.Slider:SetWide(sliderWidth + overlap)
+	self.Slider:SetWide(sliderWidth)
 
 	self.Slider.OnValueChanged = function(_, val)
 		val = math.Round(self.Slider:GetValue(), self.Slider:GetDecimals())
@@ -14,7 +13,7 @@ function PANEL:Init()
 	end
 
 	self.Slider.PerformLayout = function(pnl, w, h)
-		pnl.Label:SetWide(overlap)
+		pnl.Label:SetWide(0)
 	end
 
 	self.Save = self:Add("DButton")
@@ -37,7 +36,7 @@ function PANEL:ApplySetting(value)
 end
 
 function PANEL:PerformLayout(w, h)
-	self.Slider:MoveRightOf(self.Label, -overlap)
+	self.Slider:MoveRightOf(self.Label)
 	self.Slider:CenterVertical(0.5)
 end
 
