@@ -1,5 +1,5 @@
 function GM:PlayerButtonDown(ply, button)
-	if button == KEY_B then
+	if button == ply:GetSetting("WeaponHolsteringKey") then
 		local weapon = ply:GetActiveWeapon()
 
 		if weapon:IsType("weapon_cc_base") then
