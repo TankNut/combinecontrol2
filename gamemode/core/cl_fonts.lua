@@ -47,13 +47,6 @@ surface.CreateFont("CombineControl.PlayerFont", {
 	weight = 700
 })
 
-surface.CreateFont("CombineControl.PlayerFontItalic", {
-	font = GM.FontFace,
-	size = 17,
-	weight = 700,
-	italic = true
-})
-
 surface.CreateFont("CombineControl.HUDAmmo", {
 	font = GM.FontFace,
 	size = 50,

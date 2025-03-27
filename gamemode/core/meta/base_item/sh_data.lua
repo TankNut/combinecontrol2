@@ -37,7 +37,7 @@ end
 function ITEM:GetName()
 	local custom = self:GetData("CustomName")
 
-	if custom and #custom > 0 then
+	if custom then
 		return string.format("\"%s\"", custom)
 	end
 
@@ -48,8 +48,8 @@ function ITEM:GetDescription()
 	local custom = self:GetData("CustomDescription")
 	local description = {}
 
-	if custom and #custom > 0 then
-		table.insert(description, string.format("<i>%s<reset>", custom))
+	if custom then
+		table.insert(description, string.format("%s<reset>", custom))
 	else
 		table.insert(description, self:GetData("Description", self.Description) .. "<reset>")
 	end

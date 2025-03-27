@@ -54,7 +54,7 @@ function HUD:DrawItem(item, cache)
 	local rarity = Item.Rarities[item:GetRarity()]
 
 	local lines = {
-		{scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><c=rarity_%s>%s%s", rarity.Name, item:GetCustomDescription() and "<i>" or "", item:GetItemName())), cache.Alpha}
+		{scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><c=rarity_%s>%s", rarity.Name, item:GetItemName())), cache.Alpha}
 	}
 
 	if self:GetExtraSetting("ShowWeight") then

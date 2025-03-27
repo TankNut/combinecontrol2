@@ -32,7 +32,7 @@ ITEM.Actions.CustomizeName = {
 	Callback = function(self, ply, name)
 		Log.Write("item_set_name", ply, self, name)
 
-		self:SetData("CustomName", string.Escape(name))
+		self:SetData("CustomName", #name > 0 and string.Escape(name) or nil)
 	end
 }
 
@@ -62,6 +62,6 @@ ITEM.Actions.CustomizeDescription = {
 	Callback = function(self, ply, description)
 		Log.Write("item_set_description", ply, self, description)
 
-		self:SetData("CustomDescription", description)
+		self:SetData("CustomDescription", #description > 0 and description or nil)
 	end
 }

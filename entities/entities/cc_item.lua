@@ -25,7 +25,6 @@ end
 function ENT:SetupDataTables()
 	self:NetworkVar("String", "ItemName")
 	self:NetworkVar("Float", "ItemWeight")
-	self:NetworkVar("Bool", "CustomDescription")
 	self:NetworkVar("Int", "Rarity")
 end
 
