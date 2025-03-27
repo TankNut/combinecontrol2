@@ -29,9 +29,9 @@ Settings.Add("UnderstandLanguages", {
 }, "Admin")
 
 Settings.Add("SeeHiddenCharacters", {
-	Name = "See hidden characters on the scoreboard",
+	Name = "Hide hidden characters on the scoreboard",
 	Hint = "Prevents characters marked as hidden, except for your own, from appearing on the scoreboard.",
-	Default = true,
+	Default = false,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool",
 	CanAccess = isAdmin
