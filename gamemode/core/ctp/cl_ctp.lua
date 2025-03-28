@@ -393,6 +393,28 @@ do -- Enable
 		Settings.Set("Thirdperson", not Settings.Get("Thirdperson"))
 	end
 
+	function ctp:ShowMenu()
+		if IsValid(ctp.Frame) then return end
+
+		ctp.Frame = vgui.Create("ctp_MainFrame")
+	end
+
+	function ctp:CloseMenu()
+		if IsValid(ctp.Frame) then ctp.Frame:Close() end
+	end
+
+	function ctp:IsMenuVisible()
+		return IsValid(self.Frame)
+	end
+
+	function ctp:ToggleMenu()
+		if ctp:IsMenuVisible() then
+			ctp:CloseMenu()
+		else
+			ctp:ShowMenu()
+		end
+	end
+
 	concommand.Add("ctp", function()
 		ctp:Toggle()
 	end)
