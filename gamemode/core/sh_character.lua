@@ -110,7 +110,7 @@ if CLIENT then
 			return SCOREBOARD_SHOW
 		end
 
-		if --[[(lp == ply) or ]](lp:IsAdmin() and Settings.Get("ShowHiddenCharacters")) or (not characterHidden and lp:Team() == ply:Team()) then
+		if (lp == ply) or (lp:IsAdmin() and Settings.Get("ShowHiddenCharacters")) or (not characterHidden and lp:Team() == ply:Team()) then
 			return SCOREBOARD_HIDDEN
 		end
 
