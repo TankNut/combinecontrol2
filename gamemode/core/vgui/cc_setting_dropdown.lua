@@ -2,9 +2,6 @@ local PANEL = {}
 
 function PANEL:Init()
 	self.Dropdown = self:Add("DComboBox")
-	self.Dropdown:DockMargin(0, 1, 0, 1)
-	self.Dropdown:Dock(LEFT)
-	self.Dropdown:SetWide(200)
 	self.Dropdown:SetSortItems(false)
 
 	self.Dropdown.OnSelect = function(_, _, _, option)
@@ -20,6 +17,13 @@ function PANEL:ApplySetting(selection)
 			self.Dropdown:ChooseOptionID(index)
 		end
 	end
+end
+
+function PANEL:PerformLayout(w, h)
+	self.Dropdown:MoveRightOf(self.Label, 5)
+	self.Dropdown:CenterVertical(0.5)
+	self.Dropdown:SetTall(20)
+	self.Dropdown:SetWide(200)
 end
 
 function PANEL:Setup(options)
