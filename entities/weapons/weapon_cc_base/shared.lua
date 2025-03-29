@@ -177,3 +177,9 @@ end
 function SWEP:GetZoom()
 	return 1
 end
+
+if CLIENT then
+	function SWEP:GetHUDLines()
+		return
+	end
+end

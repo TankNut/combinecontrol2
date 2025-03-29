@@ -47,13 +47,13 @@ surface.CreateFont("CombineControl.PlayerFont", {
 	weight = 700
 })
 
-surface.CreateFont("CombineControl.HUDAmmo", {
+surface.CreateFont("CombineControl.Ammo", {
 	font = GM.FontFace,
 	size = 50,
 	weight = 500
 })
 
-surface.CreateFont("CombineControl.HUDAmmoSmall", {
+surface.CreateFont("CombineControl.AmmoSmall", {
 	font = GM.FontFace,
 	size = 30,
 	weight = 500
