@@ -3,7 +3,7 @@ local closeMenu = function(self, ply, ...)
 		GUI.Close("PlayerMenu")
 	end
 
-	return ...
+	return true, ...
 end
 
 local openMenu = function(ply)
