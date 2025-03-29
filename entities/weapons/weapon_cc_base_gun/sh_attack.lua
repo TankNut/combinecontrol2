@@ -10,12 +10,12 @@ function SWEP:CanFire()
 			return false
 		end
 
-		if self:ShouldLower() then
+		if self:ShouldLower() or self:IsReloading() then
 			return false
 		end
 	end
 
-	if self.Primary.ClipSize > 0 and self:Clip1() <= 0 then
+	if (self.Primary.ClipSize > 0 and self:Clip1() <= 0) or self:GetFiremode() == FIREMODE_SAFE then
 		if CLIENT then
 			self:EmitSound(self.Sounds.Empty)
 		end
@@ -114,6 +114,8 @@ function SWEP:CycleFiremode()
 end
 
 function SWEP:FireWeapon()
+	self:TakePrimaryAmmo(self:GetAmmoCost())
+
 	self["Fire" .. self.Stats.Type](self, self:GetOwner())
 end
 

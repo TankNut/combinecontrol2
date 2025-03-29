@@ -59,6 +59,8 @@ SWEP.Settings = {
 	ReloadTime = -1, -- -1 = animation time
 	ReloadAmount = -1, -- -1 = everything
 
+	ShotgunReload = false, -- Uses shotgun reload mechanics/animations
+
 	Range = 400, -- Range in units at which the weapon hits the accuracy stat exactly
 	ScopedRange = nil, -- Range when scoped, otherwise Range
 
@@ -124,7 +126,11 @@ include("sh_reload.lua")
 include("sh_stats.lua")
 include("sh_view.lua")
 
-if SERVER then
+AddCSLuaFile("cl_hud.lua")
+
+if CLIENT then
+	include("cl_hud.lua")
+else
 	include("sv_npc.lua")
 end
 
@@ -145,6 +151,7 @@ function SWEP:SetupDataTables()
 
 	self:NetworkVar("Float", "AimState")
 	self:NetworkVar("Float", "AimStart")
+	self:NetworkVar("Float", "FinishReload")
 
 	self:NetworkVar("Angle", "RecoilPunch")
 	self:NetworkVar("Angle", "RecoilVelocity")
@@ -154,6 +161,12 @@ end
 
 function SWEP:Think()
 	BaseClass.Think(self)
+
+	local reload = self:GetFinishReload()
+
+	if reload != 0 and reload <= CurTime() then
+		self:FinishReload()
+	end
 
 	self:DoRecoilDecay()
 	self:SetAimState(math.Approach(self:GetAimState(), self:ShouldAim() and 1 or 0, FrameTime() / self:GetAimTime()))
@@ -179,6 +192,10 @@ if SERVER then
 
 		BaseClass.OwnerChanged(self)
 	end
+end
+
+function SWEP:OnReloaded()
+	self.Primary.ClipSize = self.Settings.ClipSize
 end
 
 function SWEP:SecondaryAttack()
