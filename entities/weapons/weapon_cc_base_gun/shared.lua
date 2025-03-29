@@ -176,7 +176,7 @@ function SWEP:Think()
 	if ply:GetSetting("SmartAim") and ply:KeyReleased(IN_ATTACK2) then
 		if self:GetToggleAim() then
 			self:SetToggleAim(false)
-		elseif CurTime() - self:GetAimStart() < 0.4 then
+		elseif CurTime() - self:GetAimStart() < ply:GetSetting("KeySensitivity") then
 			self:SetToggleAim(true)
 		end
 	end
