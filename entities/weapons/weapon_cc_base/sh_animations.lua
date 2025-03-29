@@ -28,17 +28,20 @@ function SWEP:GetAnimation(name)
 	return index
 end
 
-function SWEP:PlayAnimation(name)
+function SWEP:PlayAnimation(name, rate)
 	local index = self:GetAnimation(name)
 
 	if not index then
 		return
 	end
 
+	rate = rate or 1
+
 	local vm = self:GetViewModel()
-	local duration = vm:SequenceDuration(index)
+	local duration = vm:SequenceDuration(index) / rate
 
 	vm:SendViewModelMatchingSequence(index)
+	vm:SetPlaybackRate(rate)
 
 	self:SetNextIdle(CurTime() + duration)
 
