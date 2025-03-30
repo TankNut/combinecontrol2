@@ -7,13 +7,8 @@ function SWEP:DoRecoilDecay()
 	local ang = self:GetRecoilPunch()
 	local vel = self:GetRecoilVelocity()
 
-	ang.p = math.NormalizeAngle(ang.p)
-	ang.y = math.NormalizeAngle(ang.y)
-	ang.r = math.NormalizeAngle(ang.r)
-
-	vel.p = math.NormalizeAngle(vel.p)
-	vel.y = math.NormalizeAngle(vel.y)
-	vel.r = math.NormalizeAngle(vel.r)
+	ang:NormalizeAngle()
+	vel:NormalizeAngle()
 
 	local frametime = FrameTime()
 

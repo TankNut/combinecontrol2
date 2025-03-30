@@ -58,6 +58,9 @@ function SWEP:PlaySound(name, level, pitch, volume)
 	self:EmitSound(snd, level or 75, pitch or 100, volume or 1)
 end
 
+local mins = Vector(-10, -10, -8)
+local maxs = Vector(10, 10, 8)
+
 function SWEP:GetMeleeTrace(reach)
 	local ply = self:GetOwner()
 
@@ -68,8 +71,8 @@ function SWEP:GetMeleeTrace(reach)
 		endpos = ply:GetShootPos() + self:GetShootDir() * reach,
 		filter = ply,
 		mask = MASK_SHOT_HULL,
-		mins = Vector(-10, -10, -8),
-		maxs = Vector(10, 10, 8)
+		mins = mins,
+		maxs = maxs
 	}
 
 	local tr = util.TraceLine(trace)

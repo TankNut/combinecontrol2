@@ -128,9 +128,10 @@ function SWEP:TryShove()
 
 	if IsValid(ent) then
 		if ent:IsPlayer() then
-			local dir = ent:GetPos() - ply:GetPos()
+			local dir = ent:GetPos()
 
-			dir.z = 0
+			dir:Sub(ply:GetPos())
+			dir:SetZ(0)
 			dir:Normalize()
 
 			ent:SetVelocity(dir * 300)
@@ -139,7 +140,10 @@ function SWEP:TryShove()
 			local phys = ent:GetPhysicsObject()
 
 			if IsValid(phys) then
-				phys:ApplyForceOffset(ply:GetAimVector() * 3000 * scale, tr.HitPos)
+				local force = ply:GetAimVector()
+				force:Mul(scale * 3000)
+
+				phys:ApplyForceOffset(force, tr.HitPos)
 			end
 		end
 

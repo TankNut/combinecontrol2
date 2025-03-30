@@ -68,11 +68,13 @@ function SWEP:DoDrawCrosshair(x, y)
 	local ang = Angle(0, 0, 0)
 
 	local size = 12
+	local mul = gap + size * 0.5
 
 	for i = 0, 359, 360 / 4 do
-		ang.r = i
+		ang:SetRoll(i)
 
-		local up = ang:Up() * (gap + size * 0.5)
+		local up = ang:Up()
+		up:Mul(mul)
 
 		DrawLine(math.Round(x + up.y), math.Round(y + up.z), 270 - ang.r, size, alpha)
 	end

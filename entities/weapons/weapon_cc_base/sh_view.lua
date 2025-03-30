@@ -101,11 +101,11 @@ if CLIENT then
 
 		pos:Add(ang:Forward() * vertical * 0.1)
 		pos:Add(ang:Right() * lateral * 0.8)
-		pos.z = pos.z + vertical * 0.1 * scale
+		pos:AddZ(vertical * 0.1 * scale)
 
-		ang.p = ang.p - vertical * 0.4
-		ang.y = ang.y - lateral * 0.3
-		ang.r = ang.r + vertical * 0.5
+		ang:SubPitch(vertical * 0.4)
+		ang:SubYaw(lateral * 0.3)
+		ang:AddRoll(vertical * 0.5)
 	end
 
 	local timescale = GetConVar("host_timescale")

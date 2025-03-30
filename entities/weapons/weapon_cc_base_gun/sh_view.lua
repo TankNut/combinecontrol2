@@ -29,23 +29,24 @@ if CLIENT then
 			local vOffset = math.ease.InOutSine(math.Remap(pitch, 0, 90, 0, 1))
 			local factor = ply:GetFOV() / self.ViewModelFOV
 
-			pos.z = pos.z - math.abs(vOffset * 3)
+			pos:SubZ(math.abs(vOffset * 3))
 
-			ang.p = math.min(ang.p + vOffset * 30 - (pitch / factor), ang.p)
-			ang.y = ang.y * (1 - vOffset)
+			ang:SetPitch(math.min(ang.p + vOffset * 30 - (pitch / factor), ang.p))
+			ang:MulYaw(1 - vOffset)
 		end
 
 		local vel = ply:GetVelocity()
 		local sidewaysVelocity = vel:GetNormalized():Dot(eye:Right()) * vel:Length()
 
-		ang.r = ang.r + math.ClampedRemap(sidewaysVelocity, -ply:GetRunSpeed(), ply:GetRunSpeed(), -roll, roll)
+		ang:AddRoll(math.ClampedRemap(sidewaysVelocity, -ply:GetRunSpeed(), ply:GetRunSpeed(), -roll, roll))
 
 		local crouch = ply:GetCrouchState()
 
-		pos.x = pos.x - crouch
-		pos.z = pos.z - crouch
-		ang.p = ang.p - crouch
-		ang.r = ang.r - crouch * 5
+		pos:SubX(crouch)
+		pos:SubZ(crouch)
+
+		ang:SubPitch(crouch)
+		ang:SubRoll(crouch * 5)
 	end
 
 	function SWEP:GetStaticViewModelOffset()
