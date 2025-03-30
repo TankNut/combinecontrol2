@@ -127,6 +127,10 @@ local function update(npc, ply, force)
 
 	local disposition, priority = GetDisposition(npc, ply)
 
+	if not disposition then
+		return
+	end
+
 	npc:AddEntityRelationship(ply, disposition, priority)
 end
 
@@ -216,14 +220,21 @@ function OnDamaged(self, dmginfo)
 	local dist = Config.Get("NPCCalloutRadius")
 
 	if dist > 0 then
+		if self:Alive() and self.NextCallout and self.NextCallout < CurTime() then
+			return
+		end
+
 		local pos = self:GetPos()
 
 		self:AddEntityRelationship(attacker, D_HT, 10)
+		self:UpdateEnemyMemory(attacker, attacker:GetPos())
 
 		for npc in pairs(EntityCache.Get("npcs")) do
 			if npc != self and npc:Disposition(self) == D_LI and npc:GetPos():Distance(pos) <= dist then
 				npc:AddEntityRelationship(attacker, D_HT, 0)
 			end
 		end
+
+		self.NextCallout = CurTime() + 0.5
 	end
 end
