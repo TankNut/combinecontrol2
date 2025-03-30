@@ -238,3 +238,6 @@ function OnDamaged(self, dmginfo)
 		self.NextCallout = CurTime() + 0.5
 	end
 end
+
+function GM:ScaleNPCDamage(npc, hitgroup, dmginfo)
+end
