@@ -56,7 +56,7 @@ local function loneWolf() return D_HT, 5 end
 local classifications = {
 	["combine"] = {
 		[CLASSIFY_NEUTRAL]  = D_NU,
-		[CLASSIFY_ARMED]    = D_LI,
+		[CLASSIFY_ARMED]    = D_HT,
 		[CLASSIFY_LONEWOLF] = loneWolf,
 		[CLASSIFY_COMBINE]  = D_LI,
 		[CLASSIFY_ANTLION]  = D_HT,
