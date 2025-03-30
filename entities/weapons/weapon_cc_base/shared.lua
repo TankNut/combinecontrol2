@@ -23,6 +23,8 @@ SWEP.Secondary.Ammo = ""
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = 0
 
+SWEP.Dangerous = false
+
 SWEP.Settings = {
 	LowerHoldType = "passive", -- Holstered/lowered
 	BaseHoldType = "ar2", -- Default

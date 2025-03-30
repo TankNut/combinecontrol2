@@ -21,6 +21,8 @@ function GM:Think()
 		for _, ply in player.Iterator() do
 			ply:UpdatePhysgunColor()
 		end
+
+		Npc.CheckHeldWeapons()
 	end
 end
 

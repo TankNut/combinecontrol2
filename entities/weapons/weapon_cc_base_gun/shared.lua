@@ -14,6 +14,8 @@ Primary + Use: Shove
 Secondary: Aim Down Sights
 Secondary + Scroll: Zoom]]
 
+SWEP.Dangerous = true
+
 SWEP.Stats = {
 	Type = "Bullet", -- Used to determine what swep base function is called
 	Count = 1, -- Amount of bullets to fire

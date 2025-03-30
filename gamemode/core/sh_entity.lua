@@ -1,5 +1,7 @@
 local ENTITY = FindMetaTable("Entity")
 
+EntityCache.Add("npcs", function(ent) return ent:IsNPC() end)
+
 function ENTITY:GetPlayerColor()
 	if self:IsFakePlayer() then
 		return self:GetFakePlayer():GetPlayerColor()
@@ -41,8 +43,7 @@ function GM:OnEntityCreated(ent)
 
 	if SERVER then
 		if ent:IsNPC() then
-			ent:SetKeyValue("spawnflags", bit.band(ent:GetSpawnFlags(), SF_NPC_NO_WEAPON_DROP))
-			ent:SetLagCompensated(true)
+			Npc.OnCreated(ent)
 		elseif ent:IsRagdoll() then
 			ent:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 		end
@@ -105,6 +106,12 @@ if SERVER then
 			RagdollDamage = nil
 
 			return true
+		end
+	end
+
+	function GM:PostEntityTakeDamage(ent, dmginfo, wasTaken)
+		if ent:IsNPC() then
+			Npc.OnDamaged(ent, dmginfo)
 		end
 	end
 

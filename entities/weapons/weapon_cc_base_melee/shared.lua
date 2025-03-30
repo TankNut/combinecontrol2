@@ -15,6 +15,8 @@ SWEP.DrawCrosshair = false
 
 SWEP.Primary.Automatic = true
 
+SWEP.Dangerous = true
+
 SWEP.Stats = {
 	Damage = {8, 12}, -- Damage ramps up between the different hold times
 

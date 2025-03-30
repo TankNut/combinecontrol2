@@ -74,6 +74,7 @@ function GM:PlayerApplyFlag(ply)
 	ply:UpdateAppearance()
 	ply:UpdateLoadout()
 	ply:UpdateMaxWeight()
+	ply:UpdateClassification()
 
 	ply:SetBloodColor(ply:RunCharFlag("BloodColor"))
 end

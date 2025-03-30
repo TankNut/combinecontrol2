@@ -81,6 +81,8 @@ function GM:PlayerSpawn(ply)
 	ply:UpdateLoadout(true)
 
 	ply:SetUsingSpawnCamera(false)
+
+	Npc.HandlePlayerSpawn(ply)
 end
 
 if not PLAYER._SetMaxArmor then

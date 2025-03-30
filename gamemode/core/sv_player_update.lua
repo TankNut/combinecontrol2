@@ -82,3 +82,7 @@ end
 function PLAYER:UpdateMaxWeight()
 	self:SetMaxInventoryWeight(30)
 end
+
+function PLAYER:UpdateClassification(force)
+	Npc.ApplyClassification(self, hook.Run("GetPlayerClassification", self), force)
+end
