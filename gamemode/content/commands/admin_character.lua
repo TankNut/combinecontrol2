@@ -79,7 +79,6 @@ local setName = console.AddCommand("rpa_setcharname", function (ply, target, nam
 	Log.Write("admin_character_set", ply, target, "Name", name)
 
 	target:SetCharacterName(name)
-	target:UpdateVisibleName()
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character name to %s", target, name)
 	console.Feedback(target, "NOTICE", "%s has set your character name to %s", ply, name)
@@ -95,6 +94,36 @@ setName:AddParameter(console.Player({
 }))
 
 setName:AddParameter(console.String(Config.Get("CharacterNameRules")))
+
+local setNameOverride = console.AddCommand("rpa_setcharname_override", function (ply, target, name)
+	name = string.Escape(name)
+
+	Log.Write("admin_character_set", ply, target, "NameOverride", name)
+
+	target:SetCharacterNameOverride(name)
+
+	if #name > 0 then
+		console.Feedback(ply, "NOTICE", "You've set %s's character name override to %s", target, name)
+		console.Feedback(target, "NOTICE", "%s has set your character name override to %s", ply, name)
+	else
+		console.Feedback(ply, "NOTICE", "You've removed %s's character name override", target)
+		console.Feedback(target, "NOTICE", "%s has removed your character name override", ply)
+	end
+end)
+
+setNameOverride:SetCategory("Character Commands")
+setNameOverride:SetDescription("Overrides a player's current character name")
+setNameOverride:SetExecutionContext(console.Server)
+setNameOverride:SetAccess(console.IsAdmin)
+
+setNameOverride:AddParameter(console.Player({
+	SingleTarget = true
+}))
+
+setNameOverride:AddOptional(console.String({
+	validate.String(),
+	validate.Max(64),
+}), "", "none")
 
 local setScale = console.AddCommand("rpa_setcharscale", function (ply, target, scale)
 	Log.Write("admin_character_set", ply, target, "Scale", scale)
