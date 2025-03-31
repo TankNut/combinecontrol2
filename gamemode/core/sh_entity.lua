@@ -51,11 +51,11 @@ function GM:OnEntityCreated(ent)
 end
 
 function GM:EntityRemoved(ent, fullUpdate)
+	EntityCache.OnRemoved(ent)
+
 	if fullUpdate then
 		return
 	end
-
-	EntityCache.OnRemoved(ent)
 
 	if ent:IsPlayer() then
 		Inventory.Clear(ent, true)
