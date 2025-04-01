@@ -85,7 +85,7 @@ function GM:CreateChatFonts()
 	surface.GetFontSize:Clear()
 end
 
-function GM:OnChatFontSettingChanged(ply, old, new)
+function GM:OnChatFontSettingChanged(ply, old, new, loaded)
 	self:CreateChatFonts()
 end
 

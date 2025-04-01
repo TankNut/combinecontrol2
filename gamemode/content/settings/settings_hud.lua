@@ -14,7 +14,7 @@ Settings.Add("Thirdperson", {
 	Panel = "CC_Setting_Bool"
 }, "Hud")
 
-function GM:OnThirdpersonSettingChanged(ply, old, new)
+function GM:OnThirdpersonSettingChanged(ply, old, new, loaded)
 	if new then
 		ctp:Enable()
 	else
