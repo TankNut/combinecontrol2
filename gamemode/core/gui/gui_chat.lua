@@ -12,13 +12,9 @@ function PANEL:Init()
 	self:MakePopup()
 
 	self.Scroll = self:Add("CC_ChatScroll")
-	self.Scroll:Dock(FILL)
-	self.Scroll:DockMargin(10, 5, 10, 5)
 
-	local topBar = self:Add("Panel")
-	topBar:Dock(TOP)
-	topBar:DockMargin(10, 10, 10, 5)
-	topBar:SetTall(20)
+	self.TopBar = self:Add("Panel")
+	self.TopBar:SetTall(20)
 
 	self.Tabs = cookie.GetNumber("cc_chat_tabs", 0)
 	self.Buttons = {}
@@ -33,7 +29,7 @@ function PANEL:Init()
 	}
 
 	for _, v in pairs(tabs) do
-		local button = topBar:Add("DButton")
+		local button = self.TopBar:Add("DButton")
 
 		button:SetFont("CombineControl.LabelSmall")
 		button:SetText(v[1])
@@ -57,11 +53,10 @@ function PANEL:Init()
 	end
 
 	self.Input = self:Add("CC_ChatInput")
-	self.Input:Dock(BOTTOM)
-	self.Input:DockMargin(10, 5, 10, 10)
 	self.Input:SetTall(20)
+	self.Input:SetX(10)
 
-	self.CloseButton = topBar:Add("DButton")
+	self.CloseButton = self.TopBar:Add("DButton")
 	self.CloseButton:SetFont("marlett")
 	self.CloseButton:SetText("r")
 	self.CloseButton:Dock(RIGHT)
@@ -155,10 +150,12 @@ function PANEL:Hide()
 	self:SetKeyboardInputEnabled(false)
 	self:SetMouseInputEnabled(false)
 
-	self.Scroll:Hide()
-
-	self.Input:Hide()
 	self.Input:SetText("")
+	self.Input:SetTall(20)
+	self:InvalidateLayout(true)
+
+	self.Scroll:Hide()
+	self.Input:Hide()
 
 	for _, v in pairs(self.Buttons) do
 		v:Hide()
@@ -193,6 +190,33 @@ function PANEL:ImportBuffer(buffer)
 	self.Input:SetText(buffer[5] or "")
 	self.Input.History = buffer[6]
 	self.Input.HistoryIndex = buffer[7]
+end
+
+function PANEL:PerformLayout(w, h)
+	self.TopBar:AlignLeft(10)
+	self.TopBar:AlignTop(10)
+	self.TopBar:StretchToParent(nil, nil, 10)
+
+	self.Input:AlignLeft(10)
+	self.Input:AlignBottom(10)
+	self.Input:StretchToParent(nil, nil, 10)
+
+	local preScroll = self.Scroll:GetTall()
+
+	self.Scroll:AlignLeft(10)
+	self.Scroll:MoveBelow(self.TopBar, 5)
+	self.Scroll:StretchToParent(nil, nil, 10)
+	self.Scroll:StretchBottomTo(self.Input, 5)
+
+	-- Adjusting the scrollbar to make sure it doesn't shift when the panel height changes
+	local scrollBar = self.Scroll.VBar
+	local diff = self.Scroll:GetTall() - preScroll
+
+	if diff != 0 then
+		self.Scroll:InvalidateLayout(true)
+
+		scrollBar:SetScroll(scrollBar:GetScroll() - diff)
+	end
 end
 
 function PANEL:Paint(w, h)

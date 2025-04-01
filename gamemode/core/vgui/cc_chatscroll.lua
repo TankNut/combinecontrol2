@@ -22,12 +22,12 @@ function PANEL:OnMouseWheeled(delta)
 	return self.VBar:OnMouseWheeled(delta)
 end
 
-function PANEL:PerformLayout()
+function PANEL:PerformLayout(w)
 	if self.IsOpen then
 		self.VBar:SetUp(self:GetTall(), self.BufferSize + 1)
 	end
 
-	local width = self:GetWide() - self.VBar:GetWide() - 5
+	local width = w - self.VBar:GetWide() - 5
 
 	for _, buffer in pairs(self.Buffer) do
 		buffer.Scribe.MaxWidth = width
