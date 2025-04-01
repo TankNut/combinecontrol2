@@ -8,7 +8,7 @@ function PANEL:Init()
 
 	self:SetCloseOnPause(true)
 
-	self:SetSize(600, 300, 1.0)
+	self:ResizeWithScale(1.0)
 	self:MakePopup()
 
 	self.Scroll = self:Add("CC_ChatScroll")
@@ -72,11 +72,11 @@ function PANEL:Init()
 	end
 
 	hook.Add("OnChatScaleSettingChanged", self, function(_, _, old, new)
-		self:SetSize(600, 300, new)
+		self:ResizeWithScale(new)
 	end)
 end
 
-function PANEL:SetSize(width, height, multiplier)
+function PANEL:ResizeWithScale(multiplier)
 	local scaleW, scaleH = 200,	133 -- Magic values from TankNut :smilecat:
 	multiplier = multiplier or 1.0
 
