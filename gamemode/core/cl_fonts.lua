@@ -1,4 +1,4 @@
-GM.FontFace = system.IsOSX() and "ChatFont" or "Tahoma"
+GM.FontFace = system.IsOSX() and "Verdana" or "Tahoma"
 
 scribe.DefaultFont = "CombineControl.LabelMedium"
 scribe.DefaultColor = Color("cc_normal")
