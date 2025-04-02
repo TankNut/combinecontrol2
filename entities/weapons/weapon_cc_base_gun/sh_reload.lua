@@ -63,6 +63,10 @@ function SWEP:FinishReload()
 	else
 		local amount = math.min(settings.ClipSize - self:Clip1(), self:GetReloadAmount())
 
+		if settings.PumpAction and self:Clip1() == 0 then
+			self:SetShouldPump(true)
+		end
+
 		self:SetClip1(self:Clip1() + amount)
 	end
 

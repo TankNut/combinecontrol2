@@ -176,7 +176,7 @@ function SWEP:Think()
 end
 
 function SWEP:PumpThink()
-	if not self:GetShouldPump() or self:Clip1() == 0 then
+	if not self:GetShouldPump() then
 		return
 	end
 
