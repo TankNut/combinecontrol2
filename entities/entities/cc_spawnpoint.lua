@@ -96,7 +96,7 @@ if CLIENT then
 	end
 
 	function ENT:DrawSpawnpoint()
-		render.SetColorModulation(self:GetModelColor():UnpackVector())
+		render.SetColorModulation(self:GetModelColor():UnpackToVector())
 		self:DrawModel()
 		render.SetColorModulation(1, 1, 1)
 	end
