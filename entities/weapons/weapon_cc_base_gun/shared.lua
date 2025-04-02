@@ -52,7 +52,6 @@ SWEP.Settings = {
 
 	AutoBurst = false, -- Automatic cycling between bursts
 	Firemodes = {-1}, -- See enums.lua
-
 	FireRate = 600, -- Rounds per minute, -1 = animation time
 	BurstDelay = 0, -- Delay between bursts, -1 = animation time
 
@@ -61,15 +60,16 @@ SWEP.Settings = {
 	ReloadTime = -1, -- -1 = animation time
 	ReloadAmount = -1, -- -1 = everything
 
+	PumpAction = false, -- Uses shotgun pump animations/mechanics
+	PumpTime = -1, -- How much of a delay pumping adds
 	ShotgunReload = false, -- Uses shotgun reload mechanics/animations
 
 	Range = 400, -- Range in units at which the weapon hits the accuracy stat exactly
 	ScopedRange = nil, -- Range when scoped, otherwise Range
-
-	AimTime = 0.35, -- Seconds
-
 	Zoom = {1.25}, -- Scrollwheel to switch between zoom levels
 	ScopeIndex = nil, -- If set, the index of Zoom at which point you're considered scoped
+
+	AimTime = 0.35, -- Seconds
 
 	UseHolsterAnimations = false, -- Hides the viewmodel when holstered
 
@@ -87,19 +87,20 @@ SWEP.Animations = {
 
 	Primary = ACT_VM_PRIMARYATTACK,
 	Secondary = ACT_VM_SECONDARYATTACK,
+	Pump = ACT_SHOTGUN_PUMP,
 
 	Reload = ACT_VM_RELOAD,
 	ReloadEmpty = ACT_VM_RELOAD,
 
-	ReloadStart = ACT_VM_RELOAD,
-	ReloadSingle = ACT_VM_RELOAD_INSERT,
-	ReloadFinish = ACT_VM_RELOAD_END
+	ReloadStart = ACT_SHOTGUN_RELOAD_START,
+	ReloadFinish = ACT_SHOTGUN_RELOAD_FINISH
 }
 
 SWEP.Sounds = {
 	Empty = Sound("weapons/ar2/ar2_empty.wav"),
 	Primary = Sound("Weapon_AR2.Single"),
-	Reload = nil
+	Reload = nil,
+	Pump = Sound("Weapon_Shotgun.Special1")
 }
 
 SWEP.Offsets = {
@@ -147,6 +148,9 @@ function SWEP:SetupDataTables()
 	BaseClass.SetupDataTables(self)
 
 	self:NetworkVar("Bool", "ToggleAim")
+	self:NetworkVar("Bool", "ShouldPump")
+	self:NetworkVar("Bool", "FirstReload")
+	self:NetworkVar("Bool", "CancelReload")
 
 	self:NetworkVar("Int", "FiremodeIndex")
 	self:NetworkVar("Int", "BurstIndex")
@@ -162,15 +166,34 @@ function SWEP:SetupDataTables()
 end
 
 function SWEP:Think()
+	self:ReloadThink()
+	self:PumpThink()
+
 	BaseClass.Think(self)
 
-	local reload = self:GetFinishReload()
+	self:DoRecoilDecay()
+	self:AimThink()
+end
 
-	if reload != 0 and reload <= CurTime() then
-		self:FinishReload()
+function SWEP:PumpThink()
+	if not self:GetShouldPump() or self:Clip1() == 0 then
+		return
 	end
 
-	self:DoRecoilDecay()
+	local idle = self:GetNextIdle()
+
+	if idle > 0 and idle <= CurTime() then
+		local anim = self:PlayAnimation("Pump")
+		local time = self.Settings.PumpTime
+
+		self:SetNextPrimaryFire(CurTime() + (time == -1 and anim or time))
+		self:PlaySound("Pump")
+
+		self:SetShouldPump(false)
+	end
+end
+
+function SWEP:AimThink()
 	self:SetAimState(math.Approach(self:GetAimState(), self:ShouldAim() and 1 or 0, FrameTime() / self:GetAimTime()))
 
 	local ply = self:GetOwner()

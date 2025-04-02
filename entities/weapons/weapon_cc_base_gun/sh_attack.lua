@@ -10,7 +10,7 @@ function SWEP:CanFire()
 			return false
 		end
 
-		if self:ShouldLower() or self:IsReloading() then
+		if self:ShouldLower() or self:IsReloading() or self:GetShouldPump() then
 			return false
 		end
 	end
@@ -38,7 +38,7 @@ function SWEP:CanFire()
 end
 
 function SWEP:PrimaryAttack()
-	if self:TryShove() or not self:CanFire() then
+	if self:TryShove() or self:TryCancelReload() or not self:CanFire() then
 		return
 	end
 
@@ -64,6 +64,10 @@ function SWEP:PrimaryPlayer()
 	local delay = self:GetDelay()
 
 	self:SetNextPrimaryFire(CurTime() + (delay == -1 and anim or delay))
+
+	if self.Settings.PumpAction then
+		self:SetShouldPump(true)
+	end
 end
 
 function SWEP:PrimaryNPC(npc)

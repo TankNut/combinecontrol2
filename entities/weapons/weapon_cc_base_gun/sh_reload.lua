@@ -25,19 +25,59 @@ function SWEP:StartReload()
 
 	ply:SetAnimation(PLAYER_RELOAD)
 
-	self:SetFinishReload(CurTime() + self:PlayAnimation("Reload"))
+	if self.Settings.ShotgunReload then
+		self:SetFirstReload(true)
+		self:SetFinishReload(CurTime() + self:PlayAnimation("ReloadStart"))
+	else
+		self:PlaySound("Reload")
+		self:SetFinishReload(CurTime() + self:PlayAnimation("Reload"))
+	end
 end
 
 function SWEP:GetReloadAmount()
-	return self.Primary.ClipSize
+	local amount = self.Settings.ReloadAmount
+
+	return amount == -1 and self.Settings.ClipSize or amount
+end
+
+function SWEP:ReloadThink()
+	local reload = self:GetFinishReload()
+
+	if reload != 0 and reload <= CurTime() then
+		self:FinishReload()
+	end
+end
+
+function SWEP:TryCancelReload()
+	if self:IsReloading() and self.Settings.ShotgunReload then
+		self:SetCancelReload(true)
+		self:ForceStopFire()
+	end
 end
 
 function SWEP:FinishReload()
-	local amount = self:GetReloadAmount()
+	local settings = self.Settings
 
-	self:SetClip1(math.min(self:Clip1() + amount, self.Primary.ClipSize))
+	if self:GetFirstReload() then
+		self:SetFirstReload(false)
+	else
+		local amount = math.min(settings.ClipSize - self:Clip1(), self:GetReloadAmount())
 
-	self:SetFinishReload(0)
+		self:SetClip1(self:Clip1() + amount)
+	end
+
+	if settings.ShotgunReload then
+		if self:Clip1() >= settings.ClipSize or self:GetCancelReload() then
+			self:SetCancelReload(false)
+			self:SetFinishReload(0)
+			self:SetNextPrimaryFire(CurTime() + self:PlayAnimation("ReloadFinish"))
+		else
+			self:PlaySound("Reload")
+			self:SetFinishReload(CurTime() + self:PlayAnimation("Reload"))
+		end
+	else
+		self:SetFinishReload(0)
+	end
 end
 
 function SWEP:Reload()
