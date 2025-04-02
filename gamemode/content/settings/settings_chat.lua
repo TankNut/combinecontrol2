@@ -49,3 +49,11 @@ Settings.Add("ChatScale", {
 		Notches = 7
 	}
 }, "Chat")
+
+Settings.Add("ExpandChatInput", {
+	Name = "Multi-line Input Box",
+	ClientOnly = true,
+	Default = true,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool"
+}, "Chat")

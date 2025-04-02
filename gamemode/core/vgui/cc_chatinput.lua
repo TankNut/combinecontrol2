@@ -3,8 +3,8 @@ local PANEL = {}
 function PANEL:Init()
 	self:SetFont("CombineControl.LabelBig")
 	self:SetUpdateOnType(true)
-	self:SetMultiline(true)
 
+	self.MultiLine = false
 	self.m_bLoseFocusOnClickAway = false
 
 	self.History = {}
@@ -36,16 +36,19 @@ function PANEL:CycleChatHistory(code)
 
 	local change = (code == KEY_DOWN) and 1 or -1
 	local index = (self.HistoryIndex + change) % (#self.History + 1)
+	local text
 
 	if index == 0 then
-		self:SetText(self.Backup)
+		text = self.Backup
 		self.Backup = nil
 	else
-		self:SetText(self.History[index])
+		text = self.History[index]
 	end
 
-	self:SetCaretPos(#self:GetText())
-	self:UpdateHeight(self:GetText())
+	self:SetText(text)
+
+	self:SetCaretPos(#text)
+	self:UpdateHeight(text)
 	self.HistoryIndex = index
 end
 
@@ -67,6 +70,22 @@ function PANEL:OnValueChange(str)
 end
 
 function PANEL:UpdateHeight(str)
+	local multi = Settings.Get("ExpandChatInput")
+	local height = self:GetTall()
+
+	if multi != self.MultiLine then
+		self:SetMultiline(multi)
+		self.MultiLine = multi
+	end
+
+	if not multi then
+		if height != 20 then
+			self:SetTall(20)
+		end
+
+		return
+	end
+
 	local font = self:GetFont()
 	local maxWidth = self:GetWide() - 6
 
@@ -85,7 +104,11 @@ function PANEL:UpdateHeight(str)
 		acc = acc + w
 	end
 
-	self:SetTall(math.max(lines * 20, 20))
+	local targetHeight = math.max(lines * 20, 20)
+
+	if height != targetHeight then
+		self:SetTall(targetHeight)
+	end
 end
 
 function PANEL:OnEnter()
