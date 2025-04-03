@@ -52,6 +52,7 @@ SWEP.Settings = {
 
 	AutoBurst = false, -- Automatic cycling between bursts
 	Firemodes = {-1}, -- See enums.lua
+	FiremodeOverride = nil,
 	FireRate = 600, -- Rounds per minute, -1 = animation time
 	BurstDelay = 0, -- Delay between bursts, -1 = animation time
 

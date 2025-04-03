@@ -94,6 +94,11 @@ local firemodes = {
 
 function SWEP:GetFiremodeName()
 	local index = self:GetFiremode()
+	local override = self.Settings.FiremodeOverride
+
+	if #override > 0 and index != FIREMODE_SAFE then
+		return override
+	end
 
 	return firemodes[index] and firemodes[index] or index .. "-Round Burst"
 end

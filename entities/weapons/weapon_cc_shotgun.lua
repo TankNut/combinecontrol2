@@ -41,7 +41,8 @@ SWEP.Settings = {
 	BaseHoldType = "shotgun",
 	AimHoldType = "shotgun_aim",
 
-	Firemodes = {FIREMODE_AUTO},
+	Firemodes = {FIREMODE_SEMI},
+	FiremodeOverride = "Pump-Action",
 
 	FireRate = -1,
 
@@ -49,7 +50,6 @@ SWEP.Settings = {
 	ReloadAmount = 1,
 
 	PumpAction = true,
-	PumpTime = 0.65,
 	ShotgunReload = true,
 
 	Zoom = {1.25},
