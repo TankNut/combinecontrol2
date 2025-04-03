@@ -177,13 +177,11 @@ function SWEP:Think()
 end
 
 function SWEP:PumpThink()
-	if not self:GetShouldPump() then
+	if not self:GetShouldPump() or self:IsReloading() then
 		return
 	end
 
-	local idle = self:GetNextIdle()
-
-	if idle > 0 and idle <= CurTime() then
+	if self:GetNextPrimaryFire() <= CurTime() then
 		local anim = self:PlayAnimation("Pump")
 		local time = self.Settings.PumpTime
 
