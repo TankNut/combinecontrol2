@@ -128,6 +128,7 @@ function SWEP:FireBullet(owner)
 	local damage = self:GetDamage()
 
 	local bullet = {
+		Inflictor = self,
 		Num = self:GetBulletCount(),
 		Src = owner:GetShootPos(),
 		Dir = self:GetShootDir(),
