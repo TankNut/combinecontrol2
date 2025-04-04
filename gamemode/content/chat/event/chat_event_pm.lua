@@ -6,7 +6,7 @@ CLASS.Commands = {"pev"}
 
 CLASS.Tabs = TAB_IC
 CLASS.Log = "ic"
-CLASS.ClientLogs = {"ic"}
+CLASS.LogFiles = {"ic"}
 
 CLASS.Color = Color(225, 205, 130)
 

@@ -12,7 +12,7 @@ CLASS.MuffledRange = 400
 
 CLASS.Tabs = TAB_IC
 CLASS.Log = "ic"
-CLASS.ClientLogs = {"ic"}
+CLASS.LogFiles = {"ic"}
 
 CLASS.Color = Color(255, 50, 50)
 CLASS.LanguageColor = Color(255, 167, 73)

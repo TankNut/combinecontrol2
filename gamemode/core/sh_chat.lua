@@ -31,9 +31,19 @@ function Register(data)
 		end
 	end
 
+	if data.LogFiles then
+		table.insert(data.LogFiles, "all")
+	end
+
 	if data.Log then
 		Log.AddType("chat_" .. data.Log, function(self, ...)
-			return self:WriteLog(...)
+			local str, attr = self:WriteLog(...)
+
+			if data.LogFiles then
+				Log.WriteToFile(str, data.LogFiles)
+			end
+
+			return str, attr
 		end)
 	end
 end
@@ -176,23 +186,9 @@ if CLIENT then
 		if isstring(message) then
 			GUI.Get("Chat"):AddMessage(message, consoleMessage, command.Tabs)
 
-			if command.ClientLogs then
-				WriteLog(consoleMessage and consoleMessage or message, command.ClientLogs)
+			if command.LogFiles then
+				Log.WriteToFile(scribe.Parse(consoleMessage and consoleMessage or message):GetText(), command.LogFiles)
 			end
-		end
-	end
-
-	function WriteLog(message, categories)
-		local date = os.date("%Y-%m-%d")
-		local path = DataFolder .. "logs/" .. date .. "/"
-		local time = os.date("%H:%M:%S")
-
-		message = string.format("[%s] %s\n", time, scribe.Parse(message):GetText())
-
-		file.AppendSafe(path .. "all.txt", message)
-
-		for _, category in pairs(categories) do
-			file.AppendSafe(path .. category .. ".txt", message)
 		end
 	end
 
