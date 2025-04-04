@@ -78,8 +78,6 @@ if SERVER then
 		end
 
 		file.Write(dir .. game.GetMapOverride() .. ".txt", sfs.encode(data))
-
-		deferred.Cancel("permaprops.save")
 	end
 
 	function GM:ReadPermaPropData(data)
