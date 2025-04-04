@@ -8,6 +8,3 @@ if CLIENT then
 		return string.format("<c=%s>Error: %s", self.Color, data.Text), string.format("<c=%s>Error: %s", self.ConsoleColor, data.Text)
 	end
 end
-
-Chat.Register({Base = "ERROR", Name = "IC_ERROR", ClientLog = {"ic"}})
-Chat.Register({Base = "ERROR", Name = "ADMIN_ERROR", ClientLog = {"admin"}})

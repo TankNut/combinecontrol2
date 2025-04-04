@@ -7,6 +7,3 @@ if CLIENT then
 		return string.format("<c=%s>%s", self.Color, data.Text)
 	end
 end
-
-Chat.Register({Base = "NOTICE", Name = "IC_NOTICE", ClientLog = {"ic"}})
-Chat.Register({Base = "NOTICE", Name = "ADMIN_NOTICE", ClientLog = {"admin"}})
