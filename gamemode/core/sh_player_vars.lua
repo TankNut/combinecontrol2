@@ -47,10 +47,12 @@ function Add(name, data)
 		return
 	end
 
-	local get = function(ply)
+	local get = function(ply, raw)
 		local value = cache[ply]
 
-		if value == nil then
+		if raw then
+			return value
+		elseif value == nil then
 			return util.SafeCopy(data.Default)
 		end
 

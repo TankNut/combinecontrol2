@@ -35,10 +35,12 @@ function Add(name, data, metatable)
 	local cache = Store[name]
 	local hookName = "On" .. name .. "Changed"
 
-	local get = function(ent)
+	local get = function(ent, raw)
 		local value = cache[ent]
 
-		if value == nil then
+		if raw then
+			return value
+		elseif value == nil then
 			return util.SafeCopy(data.Default)
 		end
 

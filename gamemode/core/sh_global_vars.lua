@@ -33,10 +33,12 @@ function Add(name, data)
 		Fields[data.Field] = data
 	end
 
-	local get = function()
+	local get = function(_, raw)
 		local value = Store[name]
 
-		if value == nil then
+		if raw then
+			return value
+		elseif value == nil then
 			return util.SafeCopy(data.Default)
 		end
 
