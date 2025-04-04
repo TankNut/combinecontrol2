@@ -120,6 +120,10 @@ function PANEL:AddMessage(message, consoleMessage, tabs)
 			end
 		end
 	end
+
+	if not system.HasFocus() and self:CanSeeTab(tabs) then
+		system.FlashWindow()
+	end
 end
 
 -- We explicitly don't call back to normal show/hide since we don't want to hide everything
