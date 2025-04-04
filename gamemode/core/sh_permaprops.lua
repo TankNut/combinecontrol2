@@ -19,8 +19,6 @@ end)
 if SERVER then
 	local dir = DataFolder .. "permaprops/"
 
-	file.CreateDir(dir)
-
 	function GM:WritePermaPropData(data, ent)
 		data.Class = ent:GetClass()
 
@@ -77,7 +75,7 @@ if SERVER then
 			table.insert(data, entData)
 		end
 
-		file.Write(dir .. game.GetMapOverride() .. ".txt", sfs.encode(data))
+		file.WriteSafe(dir .. game.GetMapOverride() .. ".txt", sfs.encode(data))
 	end
 
 	function GM:ReadPermaPropData(data)

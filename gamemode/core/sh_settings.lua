@@ -199,7 +199,7 @@ if CLIENT then
 	function Save()
 		local path = DataFolder .. "settings.dat"
 
-		file.Write(path, sfs.encode(Cache))
+		file.WriteSafe(path, sfs.encode(Cache))
 
 		logger:Debug("Wrote %s to garrysmod/data/%s", string.lower(string.NiceSize(file.Size(path, "DATA"))), path)
 	end
