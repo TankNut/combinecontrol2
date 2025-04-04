@@ -184,6 +184,14 @@ if CLIENT then
 		local message, consoleMessage = command:OnReceive(data)
 
 		if isstring(message) then
+			if Settings.Get("ChatSounds") then
+				if command.Sound and Settings.Get("ExpandedChatSounds") then
+					surface.PlaySound(command.Sound)
+				else
+					chat.PlaySound()
+				end
+			end
+
 			GUI.Get("Chat"):AddMessage(message, consoleMessage, command.Tabs)
 
 			if command.LogFiles then

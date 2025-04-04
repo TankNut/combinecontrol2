@@ -19,6 +19,8 @@ CLASS.Tabs = nil
 CLASS.Log = nil
 CLASS.LogFiles = nil
 
+CLASS.Sound = nil
+
 if CLIENT then
 	function CLASS:OnReceive(data)
 	end

@@ -10,6 +10,8 @@ CLASS.LogFiles = {"ooc", "pm"}
 
 CLASS.Color = Color(160, 255, 160)
 
+CLASS.Sound = Sound("friends/message.wav")
+
 if CLIENT then
 	function CLASS:OnReceive(data)
 		local format = "<c=%s>[PM %s %s] %s"

@@ -58,3 +58,22 @@ Settings.Add("ExpandChatInput", {
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool"
 }, "Chat")
+
+Settings.Add("ChatSounds", {
+	Name = "Chat Sounds",
+	Hint = "Play a sound whenever you receive a chat message.",
+	ClientOnly = true,
+	Default = false,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool"
+}, "Chat")
+
+Settings.Add("ExpandedChatSounds", {
+	Name = "    Expanded Chat Sounds",
+	Hint = "Plays different sounds based on the type of message.",
+	Dark = true,
+	ClientOnly = true,
+	Default = false,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool"
+}, "Chat")
