@@ -1,6 +1,6 @@
 module("Buttons", package.seeall)
 
-List = List or {}
+All = All or {}
 AccessTypes = AccessTypes or {}
 
 EntityVar.Add("IsMapButton", {Default = false})
@@ -13,6 +13,10 @@ GlobalVar.Add("ButtonData", {
 	Persist = true,
 	MapBased = true
 })
+
+function Iterator()
+	return pairs(All)
+end
 
 function AddAccessType(name, data)
 	local color = Color(data.Color) or util.GetSeededColor(name, 0.5, 1)
@@ -30,7 +34,7 @@ function AddAccessType(name, data)
 end
 
 function GM:OnIsMapButtonChanged(ent)
-	List[ent] = true
+	All[ent] = true
 end
 
 function GetAccessType(ent)
@@ -38,7 +42,7 @@ function GetAccessType(ent)
 end
 
 function OnRemoved(ent)
-	List[ent] = nil
+	All[ent] = nil
 end
 
 if SERVER then
@@ -70,7 +74,7 @@ if SERVER then
 	function Load()
 		local data = GAMEMODE:ButtonData()
 
-		for button in pairs(List) do
+		for button in Iterator() do
 			if not IsValid(button) then
 				continue
 			end
