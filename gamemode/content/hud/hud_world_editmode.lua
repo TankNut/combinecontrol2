@@ -21,7 +21,7 @@ end
 local offset = Vector(0.1, 0.1, 0.1)
 
 function HUD:DrawButtons()
-	for button in pairs(Buttons.List) do
+	for button in Buttons.Iterator() do
 		if not IsValid(button) or button:IsDormant() then
 			continue
 		end
