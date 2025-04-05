@@ -17,6 +17,12 @@ function Get(name)
 	return cache
 end
 
+function Contains(name, ent)
+	local cache = assert(List[name], "No entity cache with name '" .. name .. "' exists")
+
+	return tobool(cache[ent])
+end
+
 function OnCreated(ent)
 	for name, func in pairs(Defines) do
 		if func(ent) then
