@@ -16,10 +16,8 @@ GlobalVar.Add("AIDisabled", {Default = false})
 GlobalVar.Add("AINoTarget", {Default = false})
 
 GlobalVar.Add("AutoMapOverride", {
-	Default = nil,
 	ServerOnly = true,
-	Persist = true,
-	MapBased = false,
+	Persist = true
 })
 
 local immunity = {

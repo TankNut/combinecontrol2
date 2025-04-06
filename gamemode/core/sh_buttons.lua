@@ -11,7 +11,7 @@ GlobalVar.Add("ButtonData", {
 	Default = {},
 	ServerOnly = true,
 	Persist = true,
-	MapBased = true
+	Mode = GLOBALVAR_MAP_NO_OVERRIDE
 })
 
 function Iterator()

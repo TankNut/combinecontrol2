@@ -87,3 +87,7 @@ CHAT_FONT_TACOSCRIPT = 3
 DOOR_SEPARATE = 1 -- Each door can be separately configured
 DOOR_MASTER   = 2 -- Only the master door gets configured
 DOOR_BOTH     = 3 -- Both doors get configured together
+
+GLOBALVAR_ALWAYS          = 1 -- Always load
+GLOBALVAR_MAP             = 2 -- Load based on game.GetMapOverride()
+GLOBALVAR_MAP_NO_OVERRIDE = 3 -- Load based on game.GetMap()

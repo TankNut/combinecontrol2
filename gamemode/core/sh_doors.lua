@@ -20,7 +20,7 @@ GlobalVar.Add("DoorData", {
 	Default = {},
 	ServerOnly = true,
 	Persist = true,
-	MapBased = true
+	Mode = GLOBALVAR_MAP_NO_OVERRIDE
 })
 
 local types = table.Lookup({
