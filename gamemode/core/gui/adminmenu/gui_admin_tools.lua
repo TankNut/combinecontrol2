@@ -4,7 +4,7 @@ function PANEL:CreateLabel(text, wide)
 	local label = self:Add("DLabel")
 
 	label:SetFont("CombineControl.LabelMedium")
-	label:SetWide(wide or 190)
+	label:SetSize(wide or 190, 20)
 	label:SetText(text)
 
 	return label
@@ -44,7 +44,7 @@ function PANEL:Init()
 
 	self.OOCDelayLabel = self:CreateLabel("OOC Delay")
 	self.OOCDelay = self:Add("DTextEntry")
-	self.OOCDelay:SetTall(22)
+	self.OOCDelay:SetTall(20)
 	self.OOCDelay:SetFont("CombineControl.LabelMedium")
 	self.OOCDelay:SetValue(initial == -1 and 0 or initial)
 	self.OOCDelay.OnEnter = function()
@@ -53,7 +53,7 @@ function PANEL:Init()
 
 	self.ApplyOOCDelay = self:Add("DButton")
 	self.ApplyOOCDelay:SetText("Apply")
-	self.ApplyOOCDelay:SetWide(50)
+	self.ApplyOOCDelay:SetSize(50, 20)
 	self.ApplyOOCDelay.DoClick = function()
 		local delay = util.Duration(self.OOCDelay:GetValue()) or 0
 
@@ -62,7 +62,7 @@ function PANEL:Init()
 
 	self.DisableOOC = self:Add("DButton")
 	self.DisableOOC:SetText("Disable")
-	self.DisableOOC:SetWide(80)
+	self.DisableOOC:SetSize(80, 20)
 	self.DisableOOC:SetDisabled(initial == -1)
 	self.DisableOOC.DoClick = function()
 		RunConsoleCommand("rpa_oocdisable")
