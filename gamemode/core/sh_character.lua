@@ -58,6 +58,16 @@ function GM:OnCharIDChanged(ply, old, new, loaded)
 	end
 end
 
+local function getCharacterName(ply)
+	local override = ply:CharacterNameOverride()
+
+	if #override > 0 then
+		return override
+	end
+
+	return ply:CharacterName()
+end
+
 function GM:PostLoadCharacter(ply)
 	if CLIENT then
 		GUI.Close("CharacterCreate")
@@ -65,6 +75,8 @@ function GM:PostLoadCharacter(ply)
 		GUI.Close("CharacterGen")
 
 		Hud.Rebuild()
+
+		Log.WriteHint("Character Loaded: " .. getCharacterName(ply))
 	end
 
 	ply:SetScale(1, true)

@@ -129,6 +129,56 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	end
 end
 
+local function writeDeathLog(log)
+	Log.WriteHint(log)
+	netstream.Broadcast("WriteHint", log)
+	MsgAll(log .. "\n")
+end
+
+function GM:PlayerDeath(ply, inflictor, attacker)
+	-- Don't spawn for at least 2 seconds
+	ply.NextSpawnTime = CurTime() + 2
+	ply.DeathTime = CurTime()
+
+	if not ply:HasCharacter() then
+		return
+	end
+
+	if IsValid(attacker) then
+		if attacker:GetClass() == "trigger_hurt" then
+			attacker = ply
+		end
+
+		if attacker:IsVehicle() and IsValid(attacker:GetDriver()) then
+			attacker = attacker:GetDriver()
+		end
+
+		if not IsValid(inflictor) then
+			inflictor = attacker
+		end
+	end
+
+	if IsValid(inflictor) and inflictor == attacker and inflictor:IsPlayer() then
+		inflictor = inflictor:GetActiveWeapon()
+
+		if not IsValid(inflictor) then
+			inflictor = attacker
+		end
+	end
+
+	if attacker == ply then
+		writeDeathLog(ply:VisibleRPName() .. " suicided!")
+	elseif attacker:IsPlayer() then
+		writeDeathLog(string.format("%s killed %s using %s", attacker:VisibleRPName(), ply:VisibleRPName(), inflictor:GetClass()))
+	else
+		if not IsValid(attacker) then
+			attacker = game.GetWorld()
+		end
+
+		writeDeathLog(string.format("%s was killed by %s", ply:VisibleRPName(), attacker:GetClass()))
+	end
+end
+
 function GM:PlayerSelectSpawn(ply)
 	local overrideSpawns = {}
 	local groupSpawns = {}
