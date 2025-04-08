@@ -1,6 +1,5 @@
 CLASS.Name = "ADMINYELL"
 
-CLASS.Tabs = TAB_ADMIN
 CLASS.LogCategory = "admin"
 CLASS.LogFiles = {"ooc", "admin"}
 
