@@ -9,7 +9,6 @@ CLASS.MuffledRange = 400
 
 CLASS.Tabs = TAB_IC
 CLASS.LogCategory = "ic"
-CLASS.LogFiles = {"ic"}
 
 CLASS.Color = Color(131, 196, 251)
 

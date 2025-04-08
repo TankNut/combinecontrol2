@@ -1,7 +1,6 @@
 CLASS.Name = "ADMINYELL"
 
 CLASS.LogCategory = "admin"
-CLASS.LogFiles = {"ooc", "admin"}
 
 CLASS.Color = Color(232, 20, 20)
 CLASS.ConsoleColor = Color(255, 0, 0)

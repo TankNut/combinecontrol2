@@ -45,9 +45,14 @@ function PANEL:AddMessage(message, consoleMessage, tabs)
 	_G.ScribeCache = data.Scribe
 
 	if consoleMessage then
-		scribe.Parse(consoleMessage):PrintToConsole()
+		local console = scribe.Parse(consoleMessage)
+		console:PrintToConsole()
+
+		Log.WriteChatLog(console:GetText())
 	else
 		data.Scribe:PrintToConsole()
+
+		Log.WriteChatLog(data.Scribe:GetText())
 	end
 
 	table.insert(self.Buffer, data)

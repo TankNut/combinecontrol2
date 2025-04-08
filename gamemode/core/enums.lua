@@ -91,5 +91,3 @@ DOOR_BOTH     = 3 -- Both doors get configured together
 GLOBALVAR_ALWAYS          = 1 -- Always load
 GLOBALVAR_MAP             = 2 -- Load based on game.GetMapOverride()
 GLOBALVAR_MAP_NO_OVERRIDE = 3 -- Load based on game.GetMap()
-
-LOG_ALL_FILES = {"ic", "ooc", "admin", "pm"}

@@ -6,7 +6,6 @@ CLASS.Commands = {"reply"}
 
 CLASS.Tabs = TAB_PM
 CLASS.LogCategory = "ooc"
-CLASS.LogFiles = {"ooc", "pm"}
 
 CLASS.Color = Color(160, 255, 160)
 

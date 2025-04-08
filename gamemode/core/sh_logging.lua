@@ -1,73 +1,59 @@
 module("Log", package.seeall)
 
 Types = Types or {}
-Handles = Handles or {}
 
 function AddType(name, callback)
 	Types[name] = callback
 end
 
-function GetFilePath(name)
-	return string.format("%slogs/%s/%s.txt", DataFolder, os.date("!%Y-%m-%d"), name)
+function GetFilePath()
+	return string.format("%slogs/%s.txt", DataFolder, os.date("!%Y-%m-%d"))
 end
 
-function CreateNewHandle(name)
-	local handle = Handles[name]
-
-	if handle then
-		handle.File:Close()
-		timer.Remove("cc2.logging." .. name)
+function CreateNewHandle()
+	if Handle then
+		Handle.File:Close()
+		timer.Remove("cc2.chatlogs")
 	end
 
-	local path = GetFilePath(name)
+	local path = GetFilePath()
 	local fileHandle = file.OpenSafe(path, "wb")
 
-	Handles[name] = {
+	Handle = {
 		Path = path,
 		File = fileHandle
 	}
 
-	timer.Create("cc2.logging." .. name, 10, 0, function()
+	timer.Create("cc2.chatlogs", 10, 0, function()
 		fileHandle:Flush()
 	end)
 
-	return Handles[name]
+	return Handle.File
 end
 
-function GetHandle(name)
-	local handle = Handles[name]
-
-	if handle then
+function GetHandle()
+	if Handle then
 		-- Check for date rollover
-		if handle.Path != GetFilePath(name) then
-			handle = CreateNewHandle(name)
+		if Handle.Path != GetFilePath() then
+			return CreateNewHandle()
 		end
 
-		return handle.File
+		return Handle.File
 	end
 
-	return CreateNewHandle(name).File
+	return CreateNewHandle()
 end
 
-function WriteToFile(log, files)
-	for _, logFile in ipairs(files) do
-		-- We already write to all down below, don't do double writes kids
-		if logFile == "_all" then
-			continue
-		end
-
-		GetHandle(logFile):Write(log)
-	end
-
-	GetHandle("_all"):Write(log)
+function WriteToFile(log)
+	GetHandle():Write(log)
 end
 
-function WriteChatLog(log, files)
-	WriteToFile(string.format("[%s] %s\n", os.date("!%X"), log), files)
+function WriteChatLog(log)
+	WriteToFile(string.format("[%s] %s\n", os.date("!%X"), log))
 end
 
 function WriteHint(log)
-	WriteToFile(string.format("-- [%s] --\n", string.upper(log)), LOG_ALL_FILES)
+	WriteToFile(string.format("-- [%s] --\n", string.upper(log)))
 end
 
 if CLIENT then

@@ -35,9 +35,7 @@ function Register(data)
 		Log.AddType("chat_" .. data.LogCategory, function(self, ...)
 			local str, attr = self:WriteLog(...)
 
-			if data.LogFiles then
-				Log.WriteChatLog(str, data.LogFiles)
-			end
+			Log.WriteChatLog(str)
 
 			return str, attr
 		end)
@@ -189,13 +187,6 @@ if CLIENT then
 			end
 
 			GUI.Get("Chat"):AddMessage(message, consoleMessage, command.Tabs)
-
-			if command.LogFiles then
-				-- Should be caught by the scribe cache, no need to chain return it all the way back from cc_chatscroll
-				local scribeObject = scribe.Parse(consoleMessage and consoleMessage or message)
-
-				Log.WriteChatLog(scribeObject:GetText(), command.LogFiles)
-			end
 		end
 	end
 

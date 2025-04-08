@@ -1,7 +1,6 @@
 CLASS.Name = "ADMINWARN"
 
 CLASS.LogCategory = "admin"
-CLASS.LogFiles = {"ooc", "admin"}
 
 CLASS.Color = Color(200, 0, 0)
 

@@ -17,7 +17,6 @@ CLASS.MuffledRange = nil
 
 CLASS.Tabs = nil
 CLASS.LogCategory = nil
-CLASS.LogFiles = nil
 
 CLASS.Sound = nil
 

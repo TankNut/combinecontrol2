@@ -6,7 +6,6 @@ CLASS.Commands = {"ev"}
 
 CLASS.Tabs = TAB_IC
 CLASS.LogCategory = "ic"
-CLASS.LogFiles = {"ic"}
 
 CLASS.Color = Color(0, 191, 255)
 

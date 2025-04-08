@@ -75,13 +75,20 @@ function GM:PostLoadCharacter(ply)
 		GUI.Close("CharacterGen")
 
 		Hud.Rebuild()
-
-		Log.WriteHint("Character Loaded: " .. getCharacterName(ply))
 	end
 
 	ply:SetScale(1, true)
 
 	hook.Run("PlayerApplyFlag", ply)
+
+	local name = getCharacterName(ply)
+	local visible = ply:VisibleRPName()
+
+	if name != visible then
+		name = string.format("%s (%s)", name, visible)
+	end
+
+	Log.WriteHint("Character Loaded: " .. name)
 
 	if SERVER then
 		Log.Write("character_load", ply)

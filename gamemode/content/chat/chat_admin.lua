@@ -13,7 +13,6 @@ CLASS.PlayerNameColor = Color(225, 51, 51)
 CLASS.PlayerTextColor = Color(255, 83, 83)
 
 CLASS.LogCategory = "admin"
-CLASS.LogFiles = {"ooc", "admin"}
 
 if CLIENT then
 	function CLASS:OnReceive(data)
