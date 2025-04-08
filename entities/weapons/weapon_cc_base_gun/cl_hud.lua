@@ -96,7 +96,7 @@ function SWEP:GetFiremodeName()
 	local index = self:GetFiremode()
 	local override = self.Settings.FiremodeOverride
 
-	if #override > 0 and index != FIREMODE_SAFE then
+	if override and #override > 0 and index != FIREMODE_SAFE then
 		return override
 	end
 
