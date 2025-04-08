@@ -9,7 +9,7 @@ CLASS.Commands = {"lev"}
 CLASS.Range = 800
 
 CLASS.Tabs = TAB_IC
-CLASS.Log = "ic"
+CLASS.LogCategory = "ic"
 CLASS.LogFiles = {"ic"}
 
 CLASS.Color = Color(255, 117, 48)

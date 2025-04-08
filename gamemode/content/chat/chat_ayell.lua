@@ -1,7 +1,7 @@
 CLASS.Name = "ADMINYELL"
 
 CLASS.Tabs = TAB_ADMIN
-CLASS.Log = "admin"
+CLASS.LogCategory = "admin"
 CLASS.LogFiles = {"ooc", "admin"}
 
 CLASS.Color = Color(232, 20, 20)

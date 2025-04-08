@@ -10,7 +10,7 @@ CLASS.Hearable = true
 CLASS.Range = 150
 
 CLASS.Tabs = TAB_IC
-CLASS.Log = "ic"
+CLASS.LogCategory = "ic"
 CLASS.LogFiles = {"ic"}
 
 CLASS.Color = Color(91, 166, 221)

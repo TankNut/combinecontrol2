@@ -6,7 +6,7 @@ CLASS.Commands = {"ooc"}
 CLASS.Aliases = {"//"}
 
 CLASS.Tabs = TAB_OOC
-CLASS.Log = "ooc"
+CLASS.LogCategory = "ooc"
 CLASS.LogFiles = {"ooc"}
 
 CLASS.Color = Color(200, 0, 0)

@@ -5,7 +5,7 @@ CLASS.Typing = "Typing..."
 CLASS.Commands = {"reply"}
 
 CLASS.Tabs = TAB_PM
-CLASS.Log = "ooc"
+CLASS.LogCategory = "ooc"
 CLASS.LogFiles = {"ooc", "pm"}
 
 CLASS.Color = Color(160, 255, 160)

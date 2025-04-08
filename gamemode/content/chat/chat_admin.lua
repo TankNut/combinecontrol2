@@ -12,7 +12,7 @@ CLASS.AdminTextColor = Color(255, 156, 230)
 CLASS.PlayerNameColor = Color(225, 51, 51)
 CLASS.PlayerTextColor = Color(255, 83, 83)
 
-CLASS.Log = "admin"
+CLASS.LogCategory = "admin"
 CLASS.LogFiles = {"ooc", "admin"}
 
 if CLIENT then

@@ -16,7 +16,7 @@ CLASS.Range = nil
 CLASS.MuffledRange = nil
 
 CLASS.Tabs = nil
-CLASS.Log = nil
+CLASS.LogCategory = nil
 CLASS.LogFiles = nil
 
 CLASS.Sound = nil
@@ -75,8 +75,8 @@ if SERVER then
 
 		data.__Type = self.Name
 
-		if self.Log then
-			Log.Write("chat_" .. self.Log, self, data, ply)
+		if self.LogCategory then
+			Log.Write("chat_" .. self.LogCategory, self, data, ply)
 		end
 
 		netstream.Send(self:GetTargets(ply, data), "SendChat", data)

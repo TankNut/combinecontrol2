@@ -11,7 +11,7 @@ CLASS.Range = 400
 CLASS.MuffledRange = 150
 
 CLASS.Tabs = TAB_IC
-CLASS.Log = "ic"
+CLASS.LogCategory = "ic"
 CLASS.LogFiles = {"ic"}
 
 CLASS.Color = Color(91, 166, 221)
@@ -65,8 +65,8 @@ if SERVER then
 			end
 		end
 
-		if self.Log then
-			Log.Write("chat_" .. self.Log, self, ply, Language.Get(lang).Name, text)
+		if self.LogCategory then
+			Log.Write("chat_" .. self.LogCategory, self, ply, Language.Get(lang).Name, text)
 		end
 
 		-- No reason to check for an empty table since we're always sending the valid version to ourselves

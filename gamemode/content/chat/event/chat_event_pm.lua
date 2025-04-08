@@ -5,7 +5,7 @@ CLASS.Typing = "Eventing..."
 CLASS.Commands = {"pev"}
 
 CLASS.Tabs = TAB_IC
-CLASS.Log = "ic"
+CLASS.LogCategory = "ic"
 CLASS.LogFiles = {"ic"}
 
 CLASS.Color = Color(225, 205, 130)
