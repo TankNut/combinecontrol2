@@ -1,3 +1,24 @@
+Doors.AddAccessType("default", {
+	Name = "Default",
+	Color = Color(100, 100, 100),
+	CanAccess = function(ent, ply)
+		return ent.InitialValues.Usable
+	end
+})
+
+Doors.AddAccessType("public", {
+	Name = "Public",
+	Color = Color("green")
+})
+
+Doors.AddAccessType("disabled", {
+	Name = "Disabled",
+	Color = Color("red"),
+	CanAccess = function(ent, ply)
+		return false
+	end
+})
+
 -- You shouldn't touch these vars, they contain most of the source features doors have and are tracked/updated manually within the doors library itself
 Doors.AddVar("Locked", {
 	Mode = DOOR_MASTER,

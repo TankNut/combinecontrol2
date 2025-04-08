@@ -294,7 +294,7 @@ function GM:AllowPlayerPickup(ply, ent)
 end
 
 function GM:PlayerUse(ply, ent)
-	for _, func in ipairs({Buttons.OnUse}) do
+	for _, func in ipairs({Buttons.OnUse, Doors.OnUse}) do
 		local val = func(ply, ent)
 
 		if val != nil then

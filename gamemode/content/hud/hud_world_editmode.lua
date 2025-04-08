@@ -39,10 +39,71 @@ function HUD:DrawButtons()
 	end
 end
 
+local lineColor = Color(0, 120, 0)
+local groupColor = ColorAlpha(lineColor, 100)
+
+local groupMin = Vector(-5, -5, -5)
+local groupMax = Vector(5, 5, 5)
+
+function HUD:DrawDoors()
+	local groups = {}
+
+	render.SetColorMaterial()
+
+	for door in Doors.Iterator() do
+		local group = door:DoorGroup()
+
+		if #group > 0 then
+			groups[group] = groups[group] or {}
+
+			table.insert(groups[group], door:WorldSpaceCenter())
+		end
+
+		if door:IsDormant() then
+			continue
+		end
+
+		local color = Doors.GetAccessType(door).Color
+
+		local mins = door:OBBMins()
+		local maxs = door:OBBMaxs()
+
+		mins:Sub(offset)
+		maxs:Add(offset)
+
+		render.DrawBox(door:GetPos(), door:GetAngles(), mins, maxs, color, true)
+	end
+
+	for group, positions in pairs(groups) do
+		-- Don't draw groups of 1 door
+		if #positions <= 1 then
+			continue
+		end
+
+		local pos = Vector()
+
+		for _, vec in ipairs(positions) do
+			pos:Add(vec)
+		end
+
+		pos:Div(#positions)
+
+		render.DepthRange(0, 0)
+			for _, vec in ipairs(positions) do
+				render.DrawLine(vec, pos, lineColor, true)
+			end
+
+			render.DrawBox(pos, Angle(), groupMin, groupMax, groupColor, true)
+			render.DrawWorldText(pos + Vector(0, 0, 5), group)
+		render.DepthRange(0, 1)
+	end
+end
+
 function HUD:PostDrawTranslucentRenderables(depth, skybox)
 	if skybox then
 		return
 	end
 
 	self:DrawButtons()
+	self:DrawDoors()
 end
