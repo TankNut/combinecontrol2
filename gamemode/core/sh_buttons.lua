@@ -115,6 +115,10 @@ if SERVER then
 	end
 
 	function OnUse(ply, ent)
+		if not ent:IsMapButton() then
+			return
+		end
+
 		local define = GetAccessType(ent)
 		local allowed, reason = define.CanAccess(ent, ply)
 
