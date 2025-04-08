@@ -7,5 +7,5 @@ Buttons.AddAccessType("default", {
 Buttons.AddAccessType("disabled", {
 	Name = "Disabled",
 	Color = Color("red"),
-	CanAccess = function(ply) return false end
+	CanAccess = function(ent, ply) return false end
 })

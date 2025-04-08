@@ -10,7 +10,7 @@ Doors.AddVar("Usable", {
 	Mode = DOOR_SEPARATE,
 	NoProp = true,
 	Saved = true,
-	Get = function(self) return self._DoorUsable() end,
+	Get = function(self) return self:_DoorUsable() end,
 	Set = function(self, val)
 		val = tobool(val)
 
@@ -28,14 +28,14 @@ Doors.AddVar("Touchable", {
 	Mode = DOOR_SEPARATE,
 	NoProp = true,
 	Saved = true,
-	Get = function(self) return self._DoorTouchable() end,
+	Get = function(self) return self:_DoorTouchable() end,
 	Set = function(self, val)
 		val = tobool(val)
 
 		if val then
-			self:AddSpawnFlags("spawnflags", 1024)
+			self:AddSpawnFlags(1024)
 		else
-			self:RemoveSpawnFlags("spawnflags", 1024)
+			self:RemoveSpawnFlags(1024)
 		end
 
 		self:Set_DoorTouchable(val)
@@ -46,14 +46,14 @@ Doors.AddVar("Toggle", {
 	Mode = DOOR_MASTER,
 	NoProp = true,
 	Saved = true,
-	Get = function(self) return self._DoorToggle() end,
+	Get = function(self) return self:_DoorToggle() end,
 	Set = function(self, val)
 		val = tobool(val)
 
 		if val then
-			self:AddSpawnFlags("spawnflags", self:IsPropDoor() and 8192 or 32)
+			self:AddSpawnFlags(self:IsPropDoor() and 8192 or 32)
 		else
-			self:RemoveSpawnFlags("spawnflags", self:IsPropDoor() and 8192 or 32)
+			self:RemoveSpawnFlags(self:IsPropDoor() and 8192 or 32)
 		end
 
 		self:Set_DoorToggle(val)
@@ -63,7 +63,7 @@ Doors.AddVar("Toggle", {
 Doors.AddVar("AutoClose", {
 	Mode = DOOR_BOTH,
 	Saved = true,
-	Get = function(self) return self._DoorAutoClose() end,
+	Get = function(self) return self:_DoorAutoClose() end,
 	Set = function(self, val)
 		if val == false then
 			val = -1
@@ -77,7 +77,7 @@ Doors.AddVar("AutoClose", {
 Doors.AddVar("Speed", {
 	Mode = DOOR_BOTH,
 	Saved = true,
-	Get = function(self) return self._DoorSpeed() end,
+	Get = function(self) return self:_DoorSpeed() end,
 	Set = function(self, val)
 		self:SetKeyValue("speed", val)
 		self:Set_DoorSpeed(val)
@@ -88,7 +88,7 @@ Doors.AddVar("ForceClose", {
 	Mode = DOOR_MASTER,
 	NoProp = true,
 	Saved = true,
-	Get = function(self) return self._DoorForceClose() end,
+	Get = function(self) return self:_DoorForceClose() end,
 	Set = function(self, val)
 		val = tobool(val)
 
@@ -100,7 +100,7 @@ Doors.AddVar("ForceClose", {
 Doors.AddVar("Damage", {
 	Mode = DOOR_BOTH,
 	Saved = true,
-	Get = function(self) return self._DoorDamage() end,
+	Get = function(self) return self:_DoorDamage() end,
 	Set = function(self, val)
 		self:SetKeyValue("dmg", val)
 		self:Set_DoorDamage(val)
@@ -113,5 +113,14 @@ Doors.AddVar("Group", {
 	Get = function(self) return self:_DoorGroup() end,
 	Set = function(self, val)
 		self:Set_DoorGroup(string.Trim(val))
+	end,
+})
+
+Doors.AddVar("Type", {
+	Mode = DOOR_BOTH,
+	Saved = true,
+	Get = function(self) return self:_DoorType() end,
+	Set = function(self, val)
+		self:Set_DoorType(string.Trim(val))
 	end,
 })
