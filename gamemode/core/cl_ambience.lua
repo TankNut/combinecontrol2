@@ -38,7 +38,7 @@ function CreateChannel(path, cb)
 
 	soundFunction(path, "mono noplay", function(channel, errID, errName)
 		if not IsValid(channel) then
-			print("FAILED TO DO IT! ", errID, errName)
+			Chat.Receive("CONSOLE", string.format("Failed to play: %s (%s)", path, errName))
 
 			return
 		end
