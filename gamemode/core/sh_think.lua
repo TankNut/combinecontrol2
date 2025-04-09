@@ -23,7 +23,7 @@ function GM:Think()
 		end
 
 		Npc.CheckHeldWeapons()
-		Doors.UpdateOpenDoors()
+		Doors.UpdateDoors()
 	end
 end
 

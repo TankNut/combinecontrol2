@@ -21,7 +21,6 @@ Doors.AddAccessType("disabled", {
 
 -- You shouldn't touch these vars, they contain most of the source features doors have and are tracked/updated manually within the doors library itself
 Doors.AddVar("Locked", {
-	Mode = DOOR_MASTER,
 	Saved = true,
 	Get = function(self) return self:_DoorLocked() end,
 	Set = function(self, val)
@@ -31,7 +30,6 @@ Doors.AddVar("Locked", {
 })
 
 Doors.AddVar("Touchable", {
-	Mode = DOOR_SEPARATE,
 	NoProp = true,
 	Saved = true,
 	Get = function(self) return self:_DoorTouchable() end,
@@ -44,7 +42,6 @@ Doors.AddVar("Touchable", {
 })
 
 Doors.AddVar("Toggle", {
-	Mode = DOOR_MASTER,
 	NoProp = true,
 	Saved = true,
 	Get = function(self) return self:_DoorToggle() end,
@@ -57,7 +54,6 @@ Doors.AddVar("Toggle", {
 })
 
 Doors.AddVar("AutoClose", {
-	Mode = DOOR_BOTH,
 	Saved = true,
 	Get = function(self) return self:_DoorAutoClose() end,
 	Set = function(self, val)
@@ -71,7 +67,6 @@ Doors.AddVar("AutoClose", {
 })
 
 Doors.AddVar("Speed", {
-	Mode = DOOR_BOTH,
 	Saved = true,
 	Get = function(self) return self:_DoorSpeed() end,
 	Set = function(self, val)
@@ -81,7 +76,6 @@ Doors.AddVar("Speed", {
 })
 
 Doors.AddVar("ForceClose", {
-	Mode = DOOR_BOTH,
 	NoProp = true,
 	Saved = true,
 	Get = function(self) return self:_DoorForceClose() end,
@@ -94,7 +88,6 @@ Doors.AddVar("ForceClose", {
 })
 
 Doors.AddVar("Damage", {
-	Mode = DOOR_BOTH,
 	Saved = true,
 	Get = function(self) return self:_DoorDamage() end,
 	Set = function(self, val)
@@ -104,7 +97,6 @@ Doors.AddVar("Damage", {
 })
 
 Doors.AddVar("Group", {
-	Mode = DOOR_BOTH,
 	Saved = true,
 	Get = function(self) return self:_DoorGroup() end,
 	Set = function(self, val)
@@ -113,7 +105,6 @@ Doors.AddVar("Group", {
 })
 
 Doors.AddVar("Type", {
-	Mode = DOOR_BOTH,
 	Saved = true,
 	Get = function(self) return self:_DoorType() end,
 	Set = function(self, val)

@@ -6,6 +6,7 @@ AccessTypes = AccessTypes or {}
 TypeList = {}
 
 EntityVar.Add("IsDoorOpen", {Default = false})
+EntityVar.Add("IsDoorLocked", {Default = false})
 
 EntityVar.Add("_DoorLocked", {Default = false})
 EntityVar.Add("_DoorTouchable", {Default = false})
@@ -26,15 +27,9 @@ GlobalVar.Add("DoorData", {
 	Mode = GLOBALVAR_MAP_NO_OVERRIDE
 })
 
-local types = table.Lookup({
-	"prop_door_rotating",
-	"func_door_rotating",
-	"func_door"
-})
-
 local ENTITY = FindMetaTable("Entity")
 
-EntityCache.Add("doors", function(ent) return tobool(types[ent:GetClass()]) end)
+EntityCache.Add("doors", function(ent) return door.Is(ent) end)
 
 function AddAccessType(name, data)
 	local color = Color(data.Color) or util.GetSeededColor(name, 0.5, 1)
@@ -57,14 +52,13 @@ end
 
 function AddVar(name, data)
 	Vars[name] = {
-		Mode = data.Mode,
 		NoProp = tobool(data.NoProp),
 		Saved = tobool(data.Saved)
 	}
 
 	ENTITY["Door" .. name] = function(self)
-		if data.Mode == DOOR_MASTER then
-			return data.Get(self:GetMasterDoor())
+		if door.IsProp(self) then
+			return data.Get(door.GetMaster(self))
 		else
 			return data.Get(self)
 		end
@@ -72,20 +66,12 @@ function AddVar(name, data)
 
 	if SERVER then
 		ENTITY["SetDoor" .. name] = function(self, value, noSave)
-			assert(not data.NoProp or not self:IsPropDoor(), "Attempt to set NoProp var on a prop_door_rotating")
+			assert(not data.NoProp or not door.IsProp(self), "Attempt to set NoProp var on a prop_door_rotating")
 
-			if data.Mode == DOOR_SEPARATE then
-				data.Set(self, value)
-			elseif data.Mode == DOOR_MASTER then
+			if door.IsProp(self) then
 				data.Set(self:GetMasterDoor(), value)
-			elseif data.Mode == DOOR_BOTH then
+			else
 				data.Set(self, value)
-
-				local other = self:GetOtherDoor()
-
-				if IsValid(other) and other != self then
-					data.Set(other, value)
-				end
 			end
 
 			if data.Saved and not noSave then
@@ -103,38 +89,6 @@ function Iterator()
 	return pairs(EntityCache.Get("doors"))
 end
 
-function ENTITY:IsDoor()
-	return EntityCache.Contains("doors", self)
-end
-
-function ENTITY:IsPropDoor()
-	return self:GetClass() == "prop_door_rotating"
-end
-
-function ENTITY:GetMasterDoor()
-	if self:IsPropDoor() then
-		local owner = self:GetOwner()
-
-		return IsValid(owner) and owner or self
-	end
-
-	return self
-end
-
-function ENTITY:GetOtherDoor()
-	if self:IsPropDoor() then
-		local owner = self:GetOwner()
-
-		return IsValid(owner) and owner or self:GetNWEntity("DoorChild", NULL)
-	end
-
-	return self
-end
-
-function ENTITY:DoorAutoCloses()
-	return self:DoorAutoClose() == -1
-end
-
 if SERVER then
 	function ENTITY:DoorGroupCall(func, ...)
 		local group = self:DoorGroup()
@@ -147,24 +101,6 @@ if SERVER then
 			end
 		else
 			func(self, ...)
-		end
-	end
-
-	function ENTITY:ResetDoor(initial)
-		for key, data in pairs(Vars) do
-			if key == "Usable" then
-				continue
-			end
-
-			if door.IsProp(self) and data.NoProp then
-				continue
-			end
-
-			if initial then
-				self["SetDoor" .. key](self, self.InitialValues[key])
-			else
-				self["SetDoor" .. key](self, self["Door" .. key](self), true)
-			end
 		end
 	end
 
@@ -203,7 +139,7 @@ if SERVER then
 
 			ent.InitialValues = initial
 
-			if not ent:IsPropDoor() then
+			if not door.IsProp(ent) then
 				door.SetUsable(ent, false)
 			end
 
@@ -221,20 +157,20 @@ if SERVER then
 				continue
 			end
 
-			local master = door.GetMaster(ent)
+			if door.IsProp(ent) and door.GetMaster(ent) != ent then
+				continue
+			end
 
 			for name, data in pairs(Vars) do
 				if not data.Saved then
 					continue
 				end
 
-				local targetEnt = (data.Mode == DOOR_MASTER or data.Mode == DOOR_BOTH) and master or ent
+				if data.Saved then
+					local get = ent["Door" .. name](ent)
+					local id = ent:MapCreationID()
 
-				if data.Saved and targetEnt:CreatedByMap() then
-					local get = targetEnt["Door" .. name](ent)
-					local id = targetEnt:MapCreationID()
-
-					if get != targetEnt.InitialValues[name] then
+					if get != ent.InitialValues[name] then
 						if not doorData[id] then
 							doorData[id] = {}
 						end
@@ -248,24 +184,24 @@ if SERVER then
 		GAMEMODE:SetDoorData(doorData)
 	end
 
-	local isOpenCallbacks = {
-		["prop_door_rotating"] = function(self) return self:GetInternalVariable("m_eDoorState") != 0 end,
-		["func_door_rotating"] = function(self) return self:GetInternalVariable("m_toggle_state") == 0 end,
-		["func_door"] = function(self) return self:GetInternalVariable("m_toggle_state") == 0 end
-	}
-
-	function UpdateOpenDoors()
+	function UpdateDoors()
 		for ent in Iterator() do
-			local open = isOpenCallbacks[ent:GetClass()](ent)
+			local open = door.IsOpen(ent)
 
 			if ent:IsDoorOpen() != open then
 				ent:SetIsDoorOpen(open)
+			end
+
+			local locked = door.IsLocked(ent)
+
+			if ent:IsDoorLocked() != locked then
+				ent:SetIsDoorLocked(locked)
 			end
 		end
 	end
 
 	function OnUse(ply, ent)
-		if not ent:IsDoor() or ent:IsPropDoor() then
+		if not door.Is(ent) or door.IsProp(ent) then
 			return
 		end
 
@@ -280,7 +216,7 @@ if SERVER then
 			return false
 		end
 
-		if ent:DoorLocked() then
+		if ent:IsDoorLocked() then
 			define.OnDoorLocked(ent, ply)
 
 			return false
@@ -301,7 +237,7 @@ if SERVER then
 	end
 
 	function EntityKeyValue(ent, key, value)
-		if not ent:IsDoor() then
+		if not door.Is(ent) then
 			return
 		end
 
@@ -309,9 +245,9 @@ if SERVER then
 
 		if key == "spawnflags" then
 			ent:Set_DoorLocked(bit.Check(value, DOOR_SF_LOCKED), true)
-			ent:Set_DoorToggle(ent:IsPropDoor() and bit.Check(value, DOOR_SF_TOGGLE_PROP) or bit.Check(value, DOOR_SF_TOGGLE), true)
+			ent:Set_DoorToggle(door.IsProp(ent) and bit.Check(value, DOOR_SF_TOGGLE_PROP) or bit.Check(value, DOOR_SF_TOGGLE), true)
 
-			if not ent:IsPropDoor() then
+			if not door.IsProp(ent) then
 				ent:Set_DoorTouchable(bit.Check(value, DOOR_SF_TOUCHABLE), true)
 			end
 		elseif key == "returndelay" or key == "wait" then
@@ -324,4 +260,12 @@ if SERVER then
 			ent:Set_DoorDamage(tonumber(value), true)
 		end
 	end
+end
+
+function GM:CanLockDoor(ply, ent)
+	if ply:IsAdmin() then
+		return true
+	end
+
+	return GetAccessType(ent).CanLock(ent, ply)
 end
