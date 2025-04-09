@@ -69,7 +69,7 @@ function AddVar(name, data)
 			assert(not data.NoProp or not door.IsProp(self), "Attempt to set NoProp var on a prop_door_rotating")
 
 			if door.IsProp(self) then
-				data.Set(self:GetMasterDoor(), value)
+				data.Set(door.GetMaster(self), value)
 			else
 				data.Set(self, value)
 			end
@@ -137,7 +137,7 @@ if SERVER then
 				end
 			end
 
-			ent.InitialValues = initial
+			ent.InitialDoorValues = initial
 
 			if not door.IsProp(ent) then
 				door.SetUsable(ent, false)
@@ -170,7 +170,7 @@ if SERVER then
 					local get = ent["Door" .. name](ent)
 					local id = ent:MapCreationID()
 
-					if get != ent.InitialValues[name] then
+					if get != ent.InitialDoorValues[name] then
 						if not doorData[id] then
 							doorData[id] = {}
 						end

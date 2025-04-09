@@ -2,7 +2,7 @@ Doors.AddAccessType("default", {
 	Name = "Default",
 	Color = Color(100, 100, 100),
 	CanAccess = function(ent, ply)
-		return ent.InitialValues.Usable
+		return ent.InitialDoorValues.Usable
 	end
 })
 
