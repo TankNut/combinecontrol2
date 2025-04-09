@@ -2,13 +2,13 @@ module("Ambience", package.seeall)
 
 Songs = {}
 
-EffectChannel = EffectChannel or nil
-EffectEndTime = EffectEndTime or nil
-EffectPriority = EffectPriority or AMBIENT_PRIORITY_GLOBAL
-
 MusicChannel = MusicChannel or nil
 MusicEndTime = MusicEndTime or nil
-MusicPriority = MusicPriority or AMBIENT_PRIORITY_GLOBAL
+MusicPriority = MusicPriority or AMBIENCE_GLOBAL
+
+EffectChannel = EffectChannel or nil
+EffectEndTime = EffectEndTime or nil
+EffectPriority = EffectPriority or AMBIENCE_GLOBAL
 
 local logger = log.Create("ambience")
 
@@ -21,7 +21,7 @@ function AddSong(type, name, path)
 	})
 end
 
-function CreateAudioChannel(path, cb)
+function CreateChannel(path, cb)
 	local soundFunction = file.Exists(path, "GAME") and sound.PlayFile or sound.PlayURL
 
 	soundFunction(path, "mono noplay", function(channel, errID, errName)
@@ -35,18 +35,35 @@ function CreateAudioChannel(path, cb)
 	end)
 end
 
-function StopEffect()
-	if not IsValid(EffectChannel) then
+function PlayMusic(priority, source, volume, path)
+	if MusicPriority > priority then
 		return
 	end
 
-	EffectChannel:Stop()
+	-- TODO: Implement fade-out if one track is played over another.
+	StopMusic()
+	CreateChannel(path, function(channel)
+		channel:SetVolume(volume or 0)
+		channel:Play()
 
-	EffectChannel = nil
-	EffectEndTime = nil
-	EffectPriority = AMBIENT_PRIORITY_GLOBAL
+		MusicChannel = channel
+		MusicEndTime = CurTime() + channel:GetLength()
+		MusicPriority = priority
 
-	logger:Debug("Clearing effect channel")
+		print(string.format("%s has played a music (%s), you can stop this with rp_stopmusic", source, path))
+	end)
+end
+
+function StopMusic()
+	logger:Debug("Clearing music channel")
+
+	if IsValid(MusicChannel) then
+		MusicChannel:Stop()
+	end
+
+	MusicChannel = nil
+	MusicEndTime = nil
+	MusicPriority = AMBIENCE_GLOBAL
 end
 
 function PlayEffect(priority, source, volume, path)
@@ -55,7 +72,7 @@ function PlayEffect(priority, source, volume, path)
 	end
 
 	StopEffect()
-	CreateAudioChannel(path, function(channel)
+	CreateChannel(path, function(channel)
 		channel:SetVolume(volume or 0)
 		channel:Play()
 
@@ -67,37 +84,16 @@ function PlayEffect(priority, source, volume, path)
 	end)
 end
 
-function StopMusic()
-	if not IsValid(MusicChannel) then
-		return
+function StopEffect()
+	logger:Debug("Clearing effect channel")
+
+	if IsValid(EffectChannel) then
+		EffectChannel:Stop()
 	end
 
-	MusicChannel:Stop()
-
-	MusicChannel = nil
-	MusicEndTime = nil
-	MusicPriority = AMBIENT_PRIORITY_GLOBAL
-
-	logger:Debug("Clearing music channel")
-end
-
-function PlayMusic(priority, source, volume, path)
-	if MusicPriority > priority then
-		return
-	end
-
-	-- TODO: Implement fade-out if one track is played over another.
-	StopMusic()
-	CreateAudioChannel(path, function(channel)
-		channel:SetVolume(volume or 0)
-		channel:Play()
-
-		MusicChannel = channel
-		MusicEndTime = CurTime() + channel:GetLength()
-		MusicPriority = priority
-
-		print(string.format("%s has played a music (%s), you can stop this with rp_stopmusic", source, path))
-	end)
+	EffectChannel = nil
+	EffectEndTime = nil
+	EffectPriority = AMBIENCE_GLOBAL
 end
 
 function Think()
