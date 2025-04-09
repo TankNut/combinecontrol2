@@ -31,9 +31,9 @@ function LogEvent(hint, source, command)
 	Log.WriteHint(hint)
 
 	Chat.Receive("CONSOLE", table.concat({
-		"<c=white>-- " .. hint .. " --</c>",
-		"\tFrom: " .. source,
-		"\tStop: " .. command
+		"<c=white>" .. hint .. "</c>",
+		"  From: " .. source,
+		"  Stop: " .. command
 	}, "\n"))
 end
 

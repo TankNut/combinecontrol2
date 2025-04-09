@@ -51,6 +51,24 @@ Log.AddType("admin_stopsound", function(ply)
 	}
 end)
 
+Log.AddType("admin_killambience", function(ply)
+	return string.format("%s has stopped ambience for all players", ply:Nick()), {
+		Log.Admin(ply)
+	}
+end)
+
+Log.AddType("admin_playmusic", function(ply, level, path, volume)
+	return string.format("%s has played a %s music track '%s' at volume %s", ply:Nick(), level, path, volume), {
+		Log.Admin(ply)
+	}
+end)
+
+Log.AddType("admin_playeffect", function(ply, level, path, volume)
+	return string.format("%s has played an %s effect '%s' at volume %s", ply:Nick(), level, path, volume), {
+		Log.Admin(ply)
+	}
+end)
+
 Log.AddType("admin_togglesaved", function(ply, model, saved)
 	return string.format("%s has %s a %s", ply:Nick(), saved and "saved" or "unsaved", model), {
 		Log.Admin(ply),

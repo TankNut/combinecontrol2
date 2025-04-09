@@ -117,22 +117,6 @@ oocDisable:SetDescription("Disables global out-of-character chat")
 oocDisable:SetExecutionContext(console.Server)
 oocDisable:SetAccess(console.IsAdmin)
 
-if CLIENT then
-	netstream.Hook("StopSound", function()
-		RunConsoleCommand("stopsound")
-	end)
-end
-
-local stopSound = console.AddCommand("rpa_stopsound", function(ply)
-	Log.Write("admin_stopsound", ply)
-
-	netstream.Broadcast("StopSound")
-end)
-
-stopSound:SetDescription("Forces all clients to run the stopsound command")
-stopSound:SetExecutionContext(console.Server)
-stopSound:SetAccess(console.IsAdmin)
-
 local propInfo = console.AddCommand("rpa_propinfo", function(ply)
 	local ent = ply:GetEyeTrace().Entity
 
