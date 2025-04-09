@@ -48,16 +48,15 @@ Settings.Add("PlayMusicVolume", {
 	Name = "Played Music Volume",
 	Hint = "Modifies the volume of music played by administrators.",
 	ClientOnly = true,
-	Default = 1,
+	Default = 100,
 	Validate = {
 		validate.Min(0),
-		validate.Max(2)
+		validate.Max(200)
 	},
 	Panel = "CC_Setting_Slider",
 	Args = {
 		Min = 0,
-		Max = 2,
-		Decimals = 2,
+		Max = 200,
 		Notches = 20
 	}
 }, "General")
@@ -66,16 +65,15 @@ Settings.Add("PlayEffectVolume", {
 	Name = "Played Effect Volume",
 	Hint = "Modifies the volume of sound effects played by administrators.",
 	ClientOnly = true,
-	Default = 1,
+	Default = 100,
 	Validate = {
 		validate.Min(0),
-		validate.Max(2)
+		validate.Max(200)
 	},
 	Panel = "CC_Setting_Slider",
 	Args = {
 		Min = 0,
-		Max = 2,
-		Decimals = 2,
+		Max = 200,
 		Notches = 20
 	}
 }, "General")

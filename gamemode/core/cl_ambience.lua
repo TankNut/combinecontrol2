@@ -14,6 +14,10 @@ EffectPriority = EffectPriority or AMBIENCE_GLOBAL
 
 local logger = log.Create("ambience")
 
+local function getVolume(key)
+	return math.Remap(Settings.Get(key), 0, 200, 0, 2)
+end
+
 function AddSong(type, name, path)
 	table.insert(Songs, {
 		Type = type,
@@ -55,7 +59,7 @@ function PlayMusic(priority, path, volume, source)
 -- TODO: Implement fade-out if one track is played over another.
 	StopMusic()
 	CreateChannel(path, function(channel)
-		channel:SetVolume((volume or 1) * Settings.Get("PlayMusicVolume"))
+		channel:SetVolume((volume or 1) * getVolume("PlayMusicVolume"))
 		channel:Play()
 
 		MusicChannel = channel
@@ -91,7 +95,7 @@ function PlayEffect(priority, path, volume, source)
 
 	StopEffect()
 	CreateChannel(path, function(channel)
-		channel:SetVolume((volume or 1) * Settings.Get("PlayEffectVolume"))
+		channel:SetVolume((volume or 1) * getVolume("PlayEffectVolume"))
 		channel:Play()
 
 		EffectChannel = channel
@@ -133,18 +137,18 @@ end
 
 function GM:OnPlayMusicVolumeSettingChanged(ply, old, new)
 	if IsValid(MusicChannel) then
-		new = MusicVolume * new
+		local volume = MusicVolume * getVolume("PlayMusicVolume")
 
-		logger:Debug("Updating active music volume: %s", new)
-		MusicChannel:SetVolume(new)
+		logger:Debug("Updating active music volume: %s", volume)
+		MusicChannel:SetVolume(volume)
 	end
 end
 
 function GM:OnPlayEffectVolumeSettingChanged(ply, old, new)
 	if IsValid(EffectChannel) then
-		new = EffectVolume * new
+		local volume = MusicVolume * getVolume("PlayEffectVolume")
 
-		logger:Debug("Updating active effect volume: %s", new)
-		EffectChannel:SetVolume(new)
+		logger:Debug("Updating active effect volume: %s", volume)
+		EffectChannel:SetVolume(volume)
 	end
 end
