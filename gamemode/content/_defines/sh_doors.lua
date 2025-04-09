@@ -113,7 +113,6 @@ Doors.AddVar("Type", {
 })
 
 Doors.AddVar("StartOpen", {
-	Mode = DOOR_BOTH,
 	Saved = true,
 	Get = function(self) return self:_DoorStartOpen() end,
 	Set = function(self, val)

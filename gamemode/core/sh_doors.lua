@@ -142,10 +142,6 @@ if SERVER then
 			if not door.IsProp(ent) then
 				door.SetUsable(ent, false)
 			end
-
-			if ent:DoorStartOpen() then
-				door.LockOpen(ent)
-			end
 		end
 	end
 
