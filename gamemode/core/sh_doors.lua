@@ -70,7 +70,7 @@ function AddVar(name, data)
 
 	if SERVER then
 		ENTITY["SetDoor" .. name] = function(self, val, noSave)
-			assert(not data.NoProp or not door.IsProp(self), "Attempt to set NoProp var on a prop_door_rotating")
+			assert(not data.NoProp or not door.IsProp(self), string.format("Attempt to set NoProp var '%s' on prop_door_rotating", name))
 
 			if door.IsProp(self) then
 				local master = door.GetMaster(self)
