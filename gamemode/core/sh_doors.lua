@@ -8,18 +8,6 @@ TypeList = {}
 EntityVar.Add("IsDoorOpen", {Default = false})
 EntityVar.Add("IsDoorLocked", {Default = false})
 
-EntityVar.Add("_DoorLocked", {Default = false})
-EntityVar.Add("_DoorTouchable", {Default = false})
-EntityVar.Add("_DoorToggle", {Default = false})
-EntityVar.Add("_DoorAutoClose", {Default = -1})
-EntityVar.Add("_DoorSpeed", {Default = 0})
-EntityVar.Add("_DoorForceClose", {Default = false})
-EntityVar.Add("_DoorDamage", {Default = 0})
-
-EntityVar.Add("_DoorGroup", {Default = ""})
-EntityVar.Add("_DoorType", {Default = "default"})
-EntityVar.Add("_DoorStartOpen", {Default = false})
-
 GlobalVar.Add("DoorData", {
 	Default = {},
 	ServerOnly = true,
@@ -56,6 +44,22 @@ function AddVar(name, data)
 		Saved = tobool(data.Saved)
 	}
 
+	local var = "_Door" .. name
+
+	if data.Define then
+		EntityVar.Add(var, {
+			Default = data.Default
+		})
+	end
+
+	if not data.Get then
+		data.Get = function(self) return self[var](self) end
+	end
+
+	if not data.Set then
+		data.Set = function(self, val) end
+	end
+
 	ENTITY["Door" .. name] = function(self)
 		if door.IsProp(self) then
 			return data.Get(door.GetMaster(self))
@@ -65,13 +69,19 @@ function AddVar(name, data)
 	end
 
 	if SERVER then
-		ENTITY["SetDoor" .. name] = function(self, value, noSave)
+		ENTITY["SetDoor" .. name] = function(self, val, noSave)
 			assert(not data.NoProp or not door.IsProp(self), "Attempt to set NoProp var on a prop_door_rotating")
 
 			if door.IsProp(self) then
-				data.Set(door.GetMaster(self), value)
+				local master = door.GetMaster(self)
+
+				if not data.Set(master, val) then
+					master["Set" .. var](self, val)
+				end
 			else
-				data.Set(self, value)
+				if not data.Set(self, val) then
+					self["Set" .. var](self, val)
+				end
 			end
 
 			if data.Saved and not noSave then

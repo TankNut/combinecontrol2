@@ -83,7 +83,6 @@ function SWEP:PrimaryAttack()
 	if self:GetHolstered() then
 		local ent = self:GetOwner():GetUseEntity()
 
-		-- Todo: Door check
 		if IsValid(ent) and door.Is(ent) then
 			self:PlaySound("Knock", 70, math.random(95, 105))
 			self:SetNextPrimaryFire(CurTime() + 0.2)
