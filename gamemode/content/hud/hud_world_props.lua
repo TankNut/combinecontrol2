@@ -12,7 +12,7 @@ function HUD:Think()
 	local ct = CurTime()
 	local ft = FrameTime()
 
-	for ent in pairs(EntityCache.Get("props")) do
+	for ent in EntityCache.Iterator("props") do
 		if not self.Cache[ent] then
 			self.Cache[ent] = {
 				Alpha = 0,

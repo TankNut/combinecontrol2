@@ -61,7 +61,7 @@ Action.Add("QuickTeleport", {
 	SubOptions = function(self)
 		local options = {}
 
-		for ent in pairs(EntityCache.Get("worldents_quickteleports")) do
+		for ent in EntityCache.Iterator("worldents_quickteleports") do
 			if not ent:IsSaved() then
 				continue
 			end
@@ -140,7 +140,7 @@ function ENT:SetupDataTables()
 end
 
 function ENT:CanSave()
-	for ent in pairs(EntityCache.Get("worldents_quickteleports")) do
+	for ent in EntityCache.Iterator("worldents_quickteleports") do
 		if self != ent and self:GetTeleportID() == ent:GetTeleportID() then
 			return false
 		end

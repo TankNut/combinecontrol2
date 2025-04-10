@@ -31,7 +31,7 @@ function HUD:Think()
 	local ct = CurTime()
 	local ft = FrameTime()
 
-	for item in pairs(EntityCache.Get("items")) do
+	for item in EntityCache.Iterator("items") do
 		if not self.Cache[item] then
 			self.Cache[item] = {
 				Alpha = 0,

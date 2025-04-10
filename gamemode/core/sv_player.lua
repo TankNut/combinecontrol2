@@ -185,7 +185,7 @@ function GM:PlayerSelectSpawn(ply)
 	local teamSpawns = {}
 	local fallbackSpawns = {}
 
-	for spawn in pairs(EntityCache.Get("spawns")) do
+	for spawn in EntityCache.Iterator("spawns") do
 		if not spawn:IsSaved() then
 			continue
 		end

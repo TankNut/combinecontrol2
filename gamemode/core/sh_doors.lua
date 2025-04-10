@@ -96,7 +96,7 @@ function GetAccessType(ent)
 end
 
 function Iterator()
-	return pairs(EntityCache.Get("doors"))
+	return EntityCache.Iterator("doors")
 end
 
 if SERVER then

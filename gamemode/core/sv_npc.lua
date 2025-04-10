@@ -149,7 +149,7 @@ end
 function ApplyClassification(ply, class, force)
 	ply.Classification = class
 
-	for npc in pairs(EntityCache.Get("npcs")) do
+	for npc in EntityCache.Iterator("npcs") do
 		UpdateDisposition(npc, ply, force)
 	end
 end
@@ -189,7 +189,7 @@ function HandlePlayerSpawn(ply)
 
 	ply:UpdateClassification(true)
 
-	for npc in pairs(EntityCache.Get("npcs")) do
+	for npc in EntityCache.Iterator("npcs") do
 		npc:ClearEnemyMemory(ply)
 	end
 end
@@ -229,7 +229,7 @@ function OnDamaged(self, dmginfo)
 		self:AddEntityRelationship(attacker, D_HT, 10)
 		self:UpdateEnemyMemory(attacker, attacker:GetPos())
 
-		for npc in pairs(EntityCache.Get("npcs")) do
+		for npc in EntityCache.Iterator("npcs") do
 			if npc != self and npc:Disposition(self) == D_LI and npc:GetPos():Distance(pos) <= dist then
 				npc:AddEntityRelationship(attacker, D_HT, 0)
 			end

@@ -52,7 +52,7 @@ Action.Add("QuickButton", {
 	SubOptions = function(self)
 		local options = {}
 
-		for ent in pairs(EntityCache.Get("worldents_quickbuttons")) do
+		for ent in EntityCache.Iterator("worldents_quickbuttons") do
 			if not ent:IsSaved() then
 				continue
 			end
@@ -111,7 +111,7 @@ function ENT:CanSave()
 		return false
 	end
 
-	for ent in pairs(EntityCache.Get("worldents_quickbuttons")) do
+	for ent in EntityCache.Iterator("worldents_quickbuttons") do
 		if self != ent and self:GetButtonID() == ent:GetButtonID() then
 			return false
 		end

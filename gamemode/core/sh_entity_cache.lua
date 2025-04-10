@@ -17,6 +17,10 @@ function Get(name)
 	return cache
 end
 
+function Iterator(name)
+	return pairs(Get(name))
+end
+
 function Contains(name, ent)
 	local cache = assert(List[name], "No entity cache with name '" .. name .. "' exists")
 

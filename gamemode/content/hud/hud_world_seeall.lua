@@ -130,13 +130,13 @@ function HUD:PaintBackground(w, h)
 	end
 
 	if Settings.Get("SeeAllItems") then
-		for item in pairs(EntityCache.Get("items")) do
+		for item in EntityCache.Iterator("items") do
 			self:DrawItem(item)
 		end
 	end
 
 	if Settings.Get("SeeAllNPCs") then
-		for npc in pairs(EntityCache.Get("npcs")) do
+		for npc in EntityCache.Iterator("npcs") do
 			self:DrawNPC(npc)
 		end
 	end
