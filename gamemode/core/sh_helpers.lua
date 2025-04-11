@@ -64,3 +64,4 @@ ContentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
 DataFolder = "cc2/" .. Config.Get("InternalName") .. "/"
 
 function FILTER_PROPS(class) return tobool(PROP_CLASSES[class]) end
+function FILTER_PLAYER(class) return class == "player" end

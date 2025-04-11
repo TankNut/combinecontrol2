@@ -262,3 +262,20 @@ setFlag:AddParameter(console.Player({
 }))
 
 setFlag:AddParameter(console.CharacterFlag())
+
+local editInventory = console.AddCommand("rpa_editinventory", function(ply, target)
+	local inventory = target:GetInventory()
+
+	inventory:AddListener(ply, LISTENER_ADMIN)
+
+	ply:OpenGUI("InventoryPopup", inventory.ID)
+end)
+
+editInventory:SetCategory("Character Commands")
+editInventory:SetDescription("Opens a character's inventory")
+editInventory:SetExecutionContext(console.Server)
+editInventory:SetAccess(console.IsAdmin)
+
+editInventory:AddParameter(console.Player({
+	SingleTarget = true
+}))

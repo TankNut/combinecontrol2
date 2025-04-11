@@ -57,6 +57,7 @@ GM:Include("sh_triggers.lua")
 GM:Include("sv_database.lua")
 GM:Include("sv_networking.lua")
 
+GM:Include("actions/actions_admin.lua")
 GM:Include("actions/actions_base.lua")
 GM:Include("actions/actions_customization.lua")
 GM:Include("actions/actions_equipment.lua")
