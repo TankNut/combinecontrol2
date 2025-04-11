@@ -1,9 +1,7 @@
 local PANEL = {}
 
-local inventoryWidth = 360
-
 function PANEL:Init()
-	self:SetSize(800, 500)
+	self:SetSize(540, 420)
 	self:DockPadding(10, 10, 10, 10)
 
 	self:SetDraggable(true)
@@ -12,30 +10,8 @@ function PANEL:Init()
 	self:MakePopup()
 	self:Center()
 
-	self.OurInventory = self:Add("CC_ItemList")
-	self.OurInventory:Dock(LEFT)
-	self.OurInventory:SetWide(inventoryWidth)
-
-	self.OurInventory:Receiver("TakeItem", function(_, icons, dropped)
-		if not dropped then
-			return
-		end
-
-		icons[1]:GetItem():RunAction(lp, "Take")
-	end)
-
-	self.OurInventory.OnIconAdded = function(_, icon)
-		icon:Droppable("StoreItem")
-
-		-- Not the cleanest but it works
-		if self.Inventory.StoreType == INV_ITEM and self.Inventory:GetItem() == icon:GetItem() then
-			icon:Remove()
-		end
-	end
-
 	self.TheirInventory = self:Add("CC_ItemList")
-	self.TheirInventory:Dock(RIGHT)
-	self.TheirInventory:SetWide(inventoryWidth)
+	self.TheirInventory:Dock(FILL)
 
 	self.TheirInventory:Receiver("StoreItem", function(pnl, icons, dropped)
 		if not dropped then
@@ -50,13 +26,19 @@ function PANEL:Init()
 	end
 end
 
+function PANEL:OnClose()
+	netstream.Send("ClearInventoryListener", self.Inventory.ID)
+
+	self:Remove()
+end
+
 function PANEL:GetInventoryName()
 	local storeType = self.Inventory.StoreType
 
 	if storeType == INV_PLAYER then
 		local ply = self.Inventory:GetPlayer()
 
-		return string.format("%s (%s credits)", ply:CharacterName(), ply:GetMoney())
+		return string.format("%s (%s credits)", ply:VisibleRPName(), ply:GetMoney())
 	elseif storeType == INV_ITEM then
 		return self.Inventory:GetItem():GetName()
 	end
@@ -66,7 +48,6 @@ end
 
 function PANEL:Setup(inventory)
 	self.Inventory = inventory
-	self.OurInventory:Populate(lp:GetInventory())
 	self.TheirInventory:Populate(inventory)
 	self:SetTopBar("Inventory - " .. self:GetInventoryName())
 end
@@ -74,10 +55,20 @@ end
 derma.DefineControl("GUI_InventoryPopup", "", PANEL, "CC_Frame")
 
 GUI.Register("InventoryPopup", function(id)
+	local playerMenu = GUI.Get("PlayerMenu")
+
+	if not IsValid(playerMenu) then
+		playerMenu = GUI.Open("PlayerMenu")
+	else
+		playerMenu:SelectMenu(2)
+	end
+
 	local panel = vgui.Create("GUI_InventoryPopup")
 	local inventory = Inventory.Get(id)
 
 	panel:Setup(inventory)
+	panel:MoveRightOf(playerMenu, -panel:GetWide() + 40)
+	panel:MoveBelow(playerMenu, -panel:GetTall() + 40)
 
 	return panel
-end, true)
+end)

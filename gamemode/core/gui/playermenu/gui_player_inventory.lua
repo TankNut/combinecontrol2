@@ -11,6 +11,19 @@ function PANEL:Init()
 
 	self.InventoryPanel = self:Add("CC_ItemList")
 	self.InventoryPanel:Dock(FILL)
+
+	self.InventoryPanel:Receiver("TakeItem", function(_, icons, dropped)
+		if not dropped then
+			return
+		end
+
+		icons[1]:GetItem():RunAction(lp, "Take")
+	end)
+
+	self.InventoryPanel.OnIconAdded = function(_, icon)
+		icon:Droppable("StoreItem")
+	end
+
 	self.InventoryPanel:Populate(lp:GetInventory())
 end
 
