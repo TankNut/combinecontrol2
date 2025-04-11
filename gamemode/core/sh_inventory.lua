@@ -87,6 +87,16 @@ if SERVER then
 		ply:SetInventoryID(inv)
 		ply:SetStashID(stash)
 	end
+
+	function Think()
+		for _, inv in pairs(All) do
+			inv:Think()
+		end
+	end
+
+	netstream.Hook("ClearInventoryListener", function(ply, id)
+		Get(id):RemoveListener(ply)
+	end)
 end
 
 function PLAYER:GetInventory()

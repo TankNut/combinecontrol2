@@ -26,6 +26,7 @@ function GM:Think()
 
 		Npc.CheckHeldWeapons()
 		Doors.UpdateDoors()
+		Inventory.Think()
 	end
 end
 

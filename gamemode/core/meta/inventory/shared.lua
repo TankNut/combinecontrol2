@@ -75,10 +75,14 @@ if CLIENT then
 		end
 	end
 else
+	function INVENTORY:Think()
+		self:UpdateListeners()
+	end
+
 	function INVENTORY:Clear()
 		if self:IsTempInventory() then
 			-- Stop sending to the player
-			self:UpdateReceivers()
+			self:ClearListeners()
 		else
 			self:Remove()
 		end
