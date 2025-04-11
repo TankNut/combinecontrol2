@@ -1,5 +1,5 @@
 Action.Add("SetDoorType", {
-	Name = "Set Door Type...",
+	Name = "Configure Door/Set Type...",
 	Priority = 3,
 
 	Access = ACTION_EDITMODE,
@@ -33,7 +33,7 @@ local validation = {
 }
 
 Action.Add("SetDoorGroup", {
-	Name = "Set Door Group...",
+	Name = "Configure Door/Set Group...",
 	Priority = 2,
 
 	Access = ACTION_EDITMODE,
@@ -58,7 +58,7 @@ Action.Add("SetDoorGroup", {
 })
 
 Action.Add("LockDoor", {
-	Name = "Lock",
+	Name = "Lock Door",
 	Priority = 1,
 
 	Target = ACTION_INTERACT,
@@ -73,7 +73,7 @@ Action.Add("LockDoor", {
 })
 
 Action.Add("UnlockDoor", {
-	Name = "Unlock",
+	Name = "Unlock Door",
 	Priority = 1,
 
 	Target = ACTION_INTERACT,
