@@ -101,6 +101,10 @@ local target = {
 	[ACTION_SELF] = function(ent, ply) return ent == ply end,
 	[ACTION_LOOK] = function(ent, ply) return ply:GetContextEntity() == ent end,
 	[ACTION_INTERACT] = function(ent, ply)
+		if not ply:CanAct() then
+			return false
+		end
+
 		local context, interact = ply:GetContextEntity()
 
 		return interact and context == ent

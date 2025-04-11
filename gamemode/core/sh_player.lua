@@ -86,7 +86,7 @@ function PLAYER:CanSee(target, checkSight)
 	end
 
 	local tr = util.TraceLine({
-		start = self:EyePos(),
+		start = startPos,
 		endpos = pos,
 		filter = self,
 		mask = MASK_SOLID
