@@ -84,6 +84,10 @@ if CLIENT then
 
 	function GM:BuildPlayerContext(ply, canInteract, distance)
 		Context.Add("Examine", function() ply:Examine() end, CONTEXT_ENTITY)
+
+		for _, entry in ipairs(ply:GetActionMenuData()) do
+			Context.Add(entry.Name, entry.Callback, CONTEXT_ENTITY)
+		end
 	end
 
 	function GM:BuildEntityContext(ent, canInteract, distance)
