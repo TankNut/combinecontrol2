@@ -68,8 +68,7 @@ local roll = console.AddCommand("rp_roll", function(ply, diceFormat)
 		output = string.format("%s rolled %id%i: (%s) = %i", ply:VisibleRPName(), num, sides, str, total)
 	end
 
-	local targets = Chat.GetTargets(ply:EyePos(), 450, 450, false)
-	Chat.Send("NOTICE", output, targets)
+	ply:VisibleMessage("NOTICE", output)
 end)
 
 roll:SetChatAlias("roll")

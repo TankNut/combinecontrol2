@@ -219,6 +219,10 @@ else
 
 		return ""
 	end
+
+	function PLAYER:VisibleMessage(messageType, text)
+		Chat.Send(messageType, text, GetTargets(self:EyePos(), 450, 450, false))
+	end
 end
 
 function ENTITY:CanHear(pos)
