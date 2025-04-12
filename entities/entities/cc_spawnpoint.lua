@@ -18,11 +18,6 @@ ENT.Model = Model("models/editor/playerstart.mdl")
 ENT.MinBounds = Vector(-16, -16, 0)
 ENT.MaxBounds = Vector(16, 16, 72)
 
-SPAWN_FALLBACK = 0
-SPAWN_TEAM = 1
-SPAWN_GROUP = 2
-SPAWN_OVERRIDE = 3
-
 ENT.Mode = SPAWN_FALLBACK
 ENT.BadColor = Color(255, 0, 0)
 
