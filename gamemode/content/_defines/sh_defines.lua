@@ -56,7 +56,7 @@ end
 
 -- Badges are displayed right to left based on this order
 GM.Badges = {
-	Badge("bot",        "Bot",             "icon16/monkey.png",        function(ply) return canSeeAdminBadge(ply) and ply:IsBot() end),
+	Badge("bot",        "Bot",             "icon16/server.png",        function(ply) return ply:IsBot() end),
 	Badge("developer",  "Developer",       "icon16/tag.png",           function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "developer" end),
 	Badge("superadmin", "Superadmin",      "icon16/shield_add.png",    function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "superadmin" end),
 	Badge("admin",      "Admin",           "icon16/shield.png",        function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "admin" end),
