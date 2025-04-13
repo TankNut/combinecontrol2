@@ -99,7 +99,7 @@ Action.Add("SetDoorGroup", {
 		})
 	end,
 	Callback = function(self, ply, group)
-		self:SetDoorGroup(group)
+		self:SetDoorGroup(string.lower(group))
 	end
 })
 

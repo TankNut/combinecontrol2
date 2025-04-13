@@ -41,11 +41,11 @@ ENT.Actions.SetSpawngroup = {
 		return true, GUI.Open("Input", "string", "Change Spawngroup", {
 			Default = self:GetGroup(),
 			Validate = validation,
-			Name = "Spawn groups"
+			Name = "Spawn group"
 		})
 	end,
 	Callback = function(self, ply, name)
-		self:SetGroup(name)
+		self:SetGroup(string.lower(name))
 	end
 }
 

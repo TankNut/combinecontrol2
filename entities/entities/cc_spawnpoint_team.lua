@@ -75,7 +75,7 @@ if CLIENT then
 			return "*INVALID*"
 		end
 
-		return team.GetName(teamID)
+		return "Team: " .. team.GetName(teamID)
 	end
 else
 	function ENT:GetSaveData()
