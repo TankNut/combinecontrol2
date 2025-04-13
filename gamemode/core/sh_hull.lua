@@ -4,7 +4,7 @@ List = List or {}
 Models = Models or {}
 
 Default = {
-	Standing = {Vector(-10, -10, 0), Vector(10, 10, 72), Vector(0, 0, 64)},
+	Standing = {Vector(-10, -10, 0), Vector(10, 10, 72), Vector(0, 0, 66)},
 	Crouching = {Vector(-10, -10, 0), Vector(10, 10, 36), Vector(0, 0, 38)},
 }
 
