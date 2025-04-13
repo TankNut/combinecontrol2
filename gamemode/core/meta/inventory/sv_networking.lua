@@ -53,7 +53,7 @@ function INVENTORY:UpdateReceivers()
 			})
 		end
 
-		netstream.Send(new, "CreateInventory", self.ID, self.StoreType, self.StoreID, self.Parent, items)
+		netstream.Send(add, "CreateInventory", self.ID, self.StoreType, self.StoreID, self.Parent, items)
 	end
 
 	if #remove > 0 then
