@@ -70,7 +70,7 @@ function PANEL:Init()
 		local duration = string.Trim(self.DurationEntry:GetValue())
 
 		if #duration == 0 then
-			Chat.Receive("ERROR", "Enter a duration in order to submit a normal ban")
+			lp:SendChat("ERROR", "Enter a duration in order to submit a normal ban")
 
 			return -- You know, just click permaban. :smilecat:
 		end
@@ -121,7 +121,7 @@ function PANEL:Init()
 	end)
 
 	self.CopySteamIDButton = self:CreateButton("Copy SteamID", 105, function(ply)
-		Chat.Receive("NOTICE", string.format("Copied %s's Steam ID (%s) to your clipboard", ply:Nick(), ply:SteamID()))
+		lp:SendChat("NOTICE", string.format("Copied %s's Steam ID (%s) to your clipboard", ply:Nick(), ply:SteamID()))
 
 		SetClipboardText(ply:SteamID())
 	end)

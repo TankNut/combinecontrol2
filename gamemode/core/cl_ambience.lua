@@ -30,7 +30,7 @@ end
 function LogEvent(hint, source, command)
 	Log.WriteHint(hint)
 
-	Chat.Receive("CONSOLE", table.concat({
+	lp:SendChat("CONSOLE", table.concat({
 		"<c=white>" .. hint .. "</c>",
 		"  From: " .. source,
 		"  Stop: " .. command
@@ -42,7 +42,7 @@ function CreateChannel(path, cb)
 
 	soundFunction(path, "mono noplay", function(channel, errID, errName)
 		if not IsValid(channel) then
-			Chat.Receive("CONSOLE", string.format("Failed to play: %s (%s)", path, errName))
+			lp:SendChat("CONSOLE", string.format("Failed to play: %s (%s)", path, errName))
 
 			return
 		end
@@ -62,7 +62,7 @@ function PlayPreview(path, volume)
 		MusicEndTime = CurTime() + channel:GetLength()
 		MusicPriority = AMBIENCE_PREVIEW
 
-		Chat.Receive("CONSOLE", table.concat({
+		lp:SendChat("CONSOLE", table.concat({
 			"<c=white>Played Preview: " .. path .. "</c>",
 			"  Stop: rp_stopmusic"
 		}, "\n"))
