@@ -14,7 +14,7 @@ SWEP.ViewModel  = Model("models/weapons/c_crowbar.mdl")
 SWEP.WorldModel = Model("models/weapons/w_crowbar.mdl")
 
 SWEP.Stats = {
-	Damage = {8, 12},
+	Damage = {8, 24},
 	DamageType = DMG_CLUB,
 
 	Reach = 75,

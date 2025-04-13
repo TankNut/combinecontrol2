@@ -126,8 +126,8 @@ function SWEP:Think()
 	BaseClass.Think(self)
 
 	if self:GetSwingStart() != 0 and self:GetSwingPower() > 0 and not self:GetOwner():KeyDown(IN_ATTACK) then
-		self:SetSwingStart(0)
 		self:PerformSwing()
+		self:SetSwingStart(0)
 		self:SetHoldTypeReset(CurTime() + 0.25)
 	end
 end
