@@ -148,7 +148,7 @@ if CLIENT then
 	end
 
 	function GM:OnContextMenuOpen()
-		if lp:HasToolOut() then
+		if lp:IsHoldingWeapon("gmod_tool") then
 			self.BaseClass:OnContextMenuOpen(self)
 
 			return
