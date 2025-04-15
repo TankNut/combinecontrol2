@@ -55,6 +55,27 @@ function Delete(id)
 	end
 end
 
+function Undelete(id)
+	local data = Fetch(id)
+
+	if not data then
+		return
+	end
+
+	PrintTable(data)
+
+	local ply = player.GetBySteamID(data.SteamID)
+
+	local query = GAMEMODE.Database:Update("rp_characters")
+		query:UpdateRaw("Deleted_At", "NULL")
+		query:WhereEqual("id", id)
+	query:Execute()
+
+	if IsValid(ply) then
+		ply:LoadCharacterList()
+	end
+end
+
 function SetOwner(id, steamid)
 	local oldOwner = FindByID(id)
 
