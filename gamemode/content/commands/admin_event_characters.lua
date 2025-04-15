@@ -1,4 +1,4 @@
-local listEventCharacters = console.AddCommand("rpa_listeventcharacters", function(ply)
+local listCharacters = console.AddCommand("rpa_listeventchars", function(ply)
 	local characters = GAMEMODE.Database:Query([[
 SELECT rp_characters.id,
        rp_characters.SteamID,
@@ -31,7 +31,52 @@ WHERE rp_characters.EventCharacter = 1 AND rp_characters.Deleted_At IS NULL AND 
 	console.Feedback(ply, "CONSOLE", table.concat(lines, "\n"))
 end)
 
-listEventCharacters:SetCategory("Event Character Commands")
-listEventCharacters:SetDescription("Lists all event characters")
-listEventCharacters:SetExecutionContext(console.Server)
-listEventCharacters:SetAccess(console.IsAdmin)
+listCharacters:SetCategory("Event Character Commands")
+listCharacters:SetDescription("Lists all event characters")
+listCharacters:SetExecutionContext(console.Server)
+listCharacters:SetAccess(console.IsAdmin)
+
+local setOwner = console.AddCommand("rpa_seteventcharowner", function(ply, id, steamid)
+	local data = Character.Fetch(id)
+
+	if not data or not data.IsEventCharacter then
+		console.Feedback(ply, "ERROR", "That character either doesn't exist or isn't an event character")
+
+		return
+	end
+
+	if data.SteamID == steamid then
+		console.Feedback(ply, "ERROR", "That event character is already owned by that player")
+
+		return
+	end
+
+	-- if Character.GetByID(id) then inform them
+	-- if player.GetBySteamID then also inform
+
+	Character.SetOwner(id, steamid)
+end)
+
+setOwner:SetCategory("Event Character Commands")
+setOwner:SetDescription("Changes ownership of an event character")
+setOwner:SetExecutionContext(console.Server)
+setOwner:SetAccess(console.IsAdmin)
+
+local delete = console.AddCommand("rpa_deleteeventchar", function(ply, id)
+	local data = Character.Fetch(id)
+
+	if not data or not data.IsEventCharacter then
+		console.Feedback(ply, "ERROR", "That character either doesn't exist or isn't an event character")
+
+		return
+	end
+
+	-- if Character.GetByID(id) then inform them
+
+	Character.Delete(id)
+end)
+
+delete:SetCategory("Event Character Commands")
+delete:SetDescription("Deletes an event character")
+delete:SetExecutionContext(console.Server)
+delete:SetAccess(console.IsAdmin)

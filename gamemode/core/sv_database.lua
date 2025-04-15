@@ -23,6 +23,8 @@ function CreateTables(db)
 		query:Create("StoreID", "VARCHAR(64)")
 		query:Create("MapData", "BLOB")
 		query:Create("CustomData", "BLOB")
+		query:Create("Created_At", "INT UNSIGNED NOT NULL")
+		query:Create("Deleted_At", "INT UNSIGNED")
 
 		query:Index("StoreType", "StoreID")
 	query:Execute()
