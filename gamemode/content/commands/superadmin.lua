@@ -220,3 +220,29 @@ noDamage:SetAccess(console.IsSuperAdmin)
 
 noDamage:AddParameter(console.Player())
 noDamage:AddOptional(console.Bool(), false)
+
+local setOwner = console.AddCommand("rpa_setcharowner", function(ply, id, steamid)
+	local data = Character.Fetch(id)
+
+	if not data then
+		console.Feedback(ply, "ERROR", "That character doesn't exist")
+
+		return
+	end
+
+	if data.SteamID == steamid then
+		console.Feedback(ply, "ERROR", "That character is already owned by that player")
+
+		return
+	end
+
+	-- if Character.GetByID(id) then inform them
+	-- if player.GetBySteamID then also inform
+
+	Character.SetOwner(id, steamid)
+end)
+
+setOwner:SetCategory("Superadmin Commands")
+setOwner:SetDescription("Changes ownership of an character")
+setOwner:SetExecutionContext(console.Server)
+setOwner:SetAccess(console.IsSuperAdmin)
