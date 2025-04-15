@@ -74,8 +74,37 @@ ENT.Actions.SetID = {
 	end
 }
 
+ENT.Actions.AdminAccess = {
+	Name = "Admin Actions/Access",
+	Priority = 1,
+
+	Access = ACTION_ADMIN,
+	Target = ACTION_INTERACT,
+
+	CanRun = function(self, ply) return self:IsSaved() and not self:GetOpen() end,
+
+	Callback = function(self, ply)
+		self:ShowInventory(ply)
+	end
+}
+
+ENT.Actions.AdminOpen = {
+	Name = "Admin Actions/Open",
+
+	Access = ACTION_ADMIN,
+	Target = ACTION_INTERACT,
+
+	CanRun = function(self, ply) return self:IsSaved() and not self:GetOpen() end,
+
+	Callback = function(self, ply)
+		self:SetOpen(true)
+		self:Open()
+	end
+}
+
 ENT.Actions.Open = {
 	Name = "Open",
+	Priority = 2,
 
 	Target = ACTION_INTERACT,
 
@@ -93,6 +122,7 @@ ENT.Actions.Open = {
 
 ENT.Actions.Close = {
 	Name = "Close",
+	Priority = 2,
 
 	Target = ACTION_INTERACT,
 
@@ -209,16 +239,20 @@ else
 
 	function ENT:Use(ply)
 		if self:HasAccess(ply) then
-			local inventory = self:GetInventory()
-			inventory:AddListener(ply, LISTENER_ENTITY)
-
-			ply:OpenGUI("InventoryPopup", inventory.ID)
-
-			if not self:GetOpen() then
-				self:Open()
-			end
+			self:ShowInventory(ply)
 		else
 			ply:SendChat("ERROR", "The container doesn't budge")
+		end
+	end
+
+	function ENT:ShowInventory(ply)
+		local inventory = self:GetInventory()
+		inventory:AddListener(ply, LISTENER_ENTITY)
+
+		ply:OpenGUI("InventoryPopup", inventory.ID)
+
+		if not self:GetOpen() then
+			self:Open()
 		end
 	end
 
