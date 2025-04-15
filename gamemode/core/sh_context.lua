@@ -38,13 +38,11 @@ if CLIENT then
 	end
 end
 
-EntityCache.Add("worldents_trace", function(ent) return ent:IsType("cc_worldent") and not ent.Physical end)
-
 function PLAYER:TraceWorldEnts()
-	local traceEnts = EntityCache.Get("worldents_trace")
+	local traceEnts = EntityCache.Get("worldents")
 
 	for ent in pairs(traceEnts) do
-		if not ent:IsSaved() then continue end
+		if not ent:IsSaved() or ent.Physical then continue end
 
 		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	end
@@ -52,7 +50,7 @@ function PLAYER:TraceWorldEnts()
 	local tr = self:GetEyeTrace()
 
 	for ent in pairs(traceEnts) do
-		if not ent:IsSaved() then continue end
+		if not ent:IsSaved() or ent.Physical then continue end
 
 		ent:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
 	end

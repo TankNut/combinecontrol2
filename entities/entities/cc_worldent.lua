@@ -34,6 +34,8 @@ ENT.Actions.DeleteWorldEnt = {
 	end
 }
 
+EntityCache.Add("worldents", function(ent) return ent:IsType("cc_worldent") end)
+
 if SERVER then
 	function ENT:SpawnFunction(ply, tr, class)
 		if not ply:EditMode() then
