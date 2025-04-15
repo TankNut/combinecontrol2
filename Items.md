@@ -48,14 +48,14 @@ UNLOADING INVENTORIES
   - CanInteractWithItem check
   - Checks for whether the item is actually equipped
   - Calls into ITEM:CanUnequip (vort shackles)
-- CanOpenItemContainer
+- CanAccessItemInventory
   - CanInteractWithItem check
   - Calls into ITEM:CanSeachContents (fake rations, locked containers)
 - CanTakeItem
   - If the item's inventory is INV_ITEM
-    - Runs CanOpenItemContainer
+    - Runs CanAccessItemInventory
 - CanStoreItem
   - If the item's inventory is INV_ITEM
     - Checks for whether we're trying to store an item in itself
-    - Runs CanOpenItemContainer
+    - Runs CanAccessItemInventory
   - Calls into ITEM:CanStore (preventing large items being put into small containers?)

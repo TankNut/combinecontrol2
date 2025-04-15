@@ -163,6 +163,16 @@ function PLAYER:HasEquipmentSlot(slot)
 	return table.HasValue(self:RunCharFlag("EquipmentSlots"), slot)
 end
 
+function PLAYER:HasKey(keyType, id)
+	for _, item in pairs(self:GetItems()) do
+		if item.TryKey and item:TryKey(keyType, id) then
+			return true
+		end
+	end
+
+	return false
+end
+
 function GM:CanSpawnItem(ply, itemClass)
 	if itemClass.Rarity == RARITY_DEVELOPER and not ply:IsDeveloper() then
 		return false

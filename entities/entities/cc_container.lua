@@ -74,6 +74,35 @@ ENT.Actions.SetID = {
 	end
 }
 
+ENT.Actions.Open = {
+	Name = "Open",
+
+	Target = ACTION_INTERACT,
+
+	CanRun = function(self, ply) return self:IsSaved() and not self:GetOpen() end,
+
+	Callback = function(self, ply)
+		if self:HasAccess(ply) then
+			self:SetOpen(true)
+			self:Open()
+		else
+			ply:SendChat("ERROR", "The container doesn't budge")
+		end
+	end
+}
+
+ENT.Actions.Close = {
+	Name = "Close",
+
+	Target = ACTION_INTERACT,
+
+	CanRun = function(self, ply) return self:IsSaved() and self:GetOpen() end,
+
+	Callback = function(self, ply, lock)
+		self:SetOpen(false)
+	end
+}
+
 EntityCache.Add("containers", function(ent) return ent:IsType("cc_container") end)
 
 function ENT:Initialize()
@@ -83,6 +112,8 @@ function ENT:Initialize()
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:ResetSequence("close")
 		self:SetCycle(1)
+
+		self:SetUseType(SIMPLE_USE)
 	end
 end
 
@@ -94,11 +125,24 @@ function ENT:SetupDataTables()
 	self:NetworkVar("Int", "InventoryID")
 	self:NetworkVar("Int", "LockType")
 
+	self:NetworkVar("Float", "OpenTime")
+
 	self:NetworkVar("Bool", "Open")
 end
 
 function ENT:Think()
 	self:NextThink(CurTime())
+
+	if SERVER then
+		local openTime = self:GetOpenTime()
+
+		if openTime != 0 and openTime <= CurTime() and not self:GetOpen() then
+			self:EmitSound("AmmoCrate.Close")
+
+			self:ResetSequence("close")
+			self:SetOpenTime(0)
+		end
+	end
 
 	return true
 end
@@ -109,6 +153,18 @@ end
 
 function ENT:CanSave()
 	return #self:GetContainerID() > 0
+end
+
+function ENT:CanAccessInventory(ply)
+	if self:GetOpen() then
+		return true
+	end
+
+	if CLIENT then
+		return Inventory.Get(self:GetInventoryID())
+	else
+		return self:GetInventory().Listeners[ply]
+	end
 end
 
 if CLIENT then
@@ -133,6 +189,46 @@ if CLIENT then
 		render.DrawWorldText(self:LocalToWorld(Vector(0, 0, 20)), "Lock Type: " .. map[self:GetLockType()])
 	end
 else
+	function ENT:HasAccess(ply)
+		if self:GetOpen() then
+			return true
+		end
+
+		local lockType = self:GetLockType()
+
+		if lockType == CONTAINER_PUBLIC then
+			return true
+		elseif lockType == CONTAINER_KEY then
+			return ply:HasKey(KEY_CONTAINER, self:GetContainerID())
+		elseif lockType == CONTAINER_ADMIN then
+			return ply:IsAdmin()
+		end
+
+		return false
+	end
+
+	function ENT:Use(ply)
+		if self:HasAccess(ply) then
+			local inventory = self:GetInventory()
+			inventory:AddListener(ply, LISTENER_ENTITY)
+
+			ply:OpenGUI("InventoryPopup", inventory.ID)
+
+			if not self:GetOpen() then
+				self:Open()
+			end
+		else
+			ply:SendChat("ERROR", "The container doesn't budge")
+		end
+	end
+
+	function ENT:Open()
+		self:EmitSound("AmmoCrate.Open")
+
+		self:ResetSequence("open")
+		self:SetOpenTime(CurTime() + self:SequenceDuration() + 0.5)
+	end
+
 	function ENT:GetSaveData()
 		return {
 			ID = self:GetContainerID(),
@@ -148,7 +244,7 @@ else
 	function ENT:PostInitData()
 		BaseClass.PostInitData(self)
 
-		local inventory = Inventory.Create(nil, INV_CONTAINER, self:GetContainerID(), self:EntIndex())
+		local inventory = Inventory.Create(nil, INV_ENTITY, self:GetContainerID(), self:EntIndex())
 
 		self:SetInventoryID(inventory.ID)
 	end
