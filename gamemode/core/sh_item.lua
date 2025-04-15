@@ -259,32 +259,22 @@ function GM:CanUnequipItem(ply, item)
 	return item:CanUnequip(ply)
 end
 
-function GM:CanAccessItemInventory(ply, item)
-	local ok, err = hook.Run("CanInteractWithItem", ply, item)
-
-	if not ok then
-		return false, err
-	end
-
-	return item:CanSearchContents(ply)
-end
-
 function GM:CanTakeItem(ply, item)
-	local storeType = item:GetStoreType()
+	local inventory = item:GetInventory()
 
-	if storeType == INV_ITEM then
-		return hook.Run("CanAccessItemInventory", ply, item:GetItem())
-	elseif storeType == INV_ENTITY then
-		return hook.Run("CanAccessEntityInventory", ply, item:GetEntity())
+	if inventory then
+		return hook.Run("CanAccessInventory", ply, inventory)
 	end
 
 	return false, "You cannot take this item!"
 end
 
 function GM:CanStoreItem(ply, item, inventory)
-	if inventory.StoreType == INV_PLAYER or inventory.StoreType == INV_STASH then
-		return inventory:GetPlayer() == ply, "You cannot store things in other people's inventories!"
-	elseif inventory.StoreType == INV_ITEM then
+	if not hook.Run("CanAccessInventory", ply, inventory) then
+		return false, "You don't have access to this inventory!"
+	end
+
+	if inventory.StoreType == INV_ITEM then
 		local container = inventory:GetItem()
 
 		if container == item then
@@ -293,12 +283,6 @@ function GM:CanStoreItem(ply, item, inventory)
 
 		if container:IsTemporaryItem() and not item:IsTemporaryItem() then
 			return false, "You cannot store non-temporary items in this!"
-		end
-
-		local ok, err = hook.Run("CanAccessItemInventory", ply, container)
-
-		if not ok then
-			return false, err
 		end
 	end
 

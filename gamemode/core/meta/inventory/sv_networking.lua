@@ -100,14 +100,13 @@ function INVENTORY:CheckListener(ply)
 		return false
 	end
 
+	-- Not using CanAccessInventory for players and stashes because we're dealing with patdowns here and that hook is used for 'full' interactions
 	if self.StoreType == INV_PLAYER then
 		return ply:WithinInteractRange(self:GetPlayer())
 	elseif self.StoreType == INV_STASH then
-		return false -- Can't check another player's stash
-	elseif self.StoreType == INV_ITEM then
-		return hook.Run("CanAccessItemInventory", ply, self:GetItem())
-	elseif self.StoreType == INV_ENTITY then
-		return hook.Run("CanAccessEntityInventory", ply, self:GetEntity())
+		return ply:WithinInteractRange(self:GetPlayer())
+	else
+		return hook.Run("CanAccessInventory", ply, self)
 	end
 end
 

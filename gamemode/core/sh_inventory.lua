@@ -139,10 +139,27 @@ function GM:OnMaxInventoryWeightChanged(ply, old, new, loaded)
 	end
 end
 
-function GM:CanAccessEntityInventory(ply, ent)
-	if not IsValid(ent) then
+function GM:CanAccessInventory(ply, inventory)
+	-- Sanity check
+	if not inventory then
 		return false
 	end
 
-	return ply:WithinInteractRange(ent) and ent:CanAccessInventory(ply)
+	local storeType = inventory.StoreType
+
+	if storeType == INV_PLAYER then
+		return ply == inventory:GetPlayer()
+	elseif storeType == INV_STASH then
+		return ply == inventory:GetPlayer() --and ply:CanAccessStash()
+	elseif storeType == INV_ITEM then
+		local item = inventory:GetItem()
+
+		return hook.Run("CanInteractWithItem", ply, item) and item:CanAccessInventory(ply)
+	elseif storeType == INV_ENTITY then
+		local ent = inventory:GetEntity()
+
+		return ply:WithinInteractRange(ent) and ent:CanAccessInventory(ply)
+	end
+
+	return false
 end
