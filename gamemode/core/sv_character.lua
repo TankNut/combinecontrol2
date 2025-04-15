@@ -62,8 +62,6 @@ function Undelete(id)
 		return
 	end
 
-	PrintTable(data)
-
 	local ply = player.GetBySteamID(data.SteamID)
 
 	local query = GAMEMODE.Database:Update("rp_characters")
