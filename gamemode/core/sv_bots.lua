@@ -9,9 +9,3 @@ hook.Add("PlayerSpawn", "bot", function(_, ply)
 		async.Start(CharacterGen.Run, ply, Config.Get("BotGenerator"), true)
 	end
 end, POST_HOOK)
-
-hook.Add("PlayerDisconnected", "bot", function(ply)
-	if ply:IsBot() and ply:HasCharacter() then
-		async.Start(Character.Delete, ply:CharID())
-	end
-end)

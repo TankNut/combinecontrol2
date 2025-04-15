@@ -122,6 +122,8 @@ function GM:LoadDatabase()
 
 		CreateTables(self.Database)
 
+		self.Database:Query("DELETE FROM rp_characters WHERE SteamID = 'BOT'")
+
 		Access.LoadBans()
 		Item.LoadWorld()
 		GlobalVar.Load()
