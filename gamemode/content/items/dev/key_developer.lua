@@ -5,6 +5,6 @@ ITEM.Description = "A key that somehow fits every lock"
 
 ITEM.Rarity = RARITY_DEVELOPER
 
-
-ITEM.KeyType = KEY_BOTH
-ITEM.KeyID   = "*"
+function ITEM:TryKey(keyType, id)
+	return true
+end
