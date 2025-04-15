@@ -24,7 +24,5 @@ function ITEM:TryKey(keyType, id)
 
 	local key = "^" .. string.Replace(self:GetKeyID(), "*", ".*") .. "$"
 
-	print(key)
-
 	return tobool(string.find(id, key))
 end
