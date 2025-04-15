@@ -75,7 +75,7 @@ function Undelete(id)
 end
 
 function SetOwner(id, steamid)
-	local oldOwner = FindByID(id)
+	local oldOwner = GetByID(id)
 
 	if IsValid(oldOwner) then
 		oldOwner:UnloadCharacter()
@@ -153,7 +153,7 @@ function GM:PreLoadCharacter(ply, id)
 end
 
 function PLAYER:LoadCharacter(id)
-	local ply = FindByID(id)
+	local ply = GetByID(id)
 
 	if ply then
 		ply:UnloadCharacter()

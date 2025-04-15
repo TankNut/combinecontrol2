@@ -26,7 +26,7 @@ CharacterVar.Add("Spawngroup", {Default = "", Private = true, DataType = VARCHAR
 
 local PLAYER = FindMetaTable("Player")
 
-function FindByID(id)
+function GetByID(id)
 	for _, ply in player.Iterator() do
 		if ply:CharID() == id then
 			return ply
