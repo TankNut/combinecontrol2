@@ -18,6 +18,14 @@ function ITEM:GetItem()
 	end
 end
 
+function ITEM:GetEntity()
+	local inventory = self:GetInventory()
+
+	if inventory then
+		return inventory:GetEntity()
+	end
+end
+
 function ITEM:GetStoreType()
 	local inventory = self:GetInventory()
 

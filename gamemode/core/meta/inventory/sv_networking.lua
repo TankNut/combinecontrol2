@@ -100,16 +100,14 @@ function INVENTORY:CheckListener(ply)
 		return false
 	end
 
-	if self.StoreType == INV_WORLD then
-		error("CheckListener on INV_WORLD inventory?")
-	elseif self.StoreType == INV_PLAYER then
+	if self.StoreType == INV_PLAYER then
 		return ply:WithinInteractRange(self:GetPlayer())
 	elseif self.StoreType == INV_STASH then
 		return false -- Can't check another player's stash
 	elseif self.StoreType == INV_ITEM then
-		return hook.Run("CanOpenItemContainer", ply, self:GetItem())
-		return ply:WithinInteractRange(self:GetEntity())
+		return hook.Run("CanAccessItemInventory", ply, self:GetItem())
 	elseif self.StoreType == INV_ENTITY then
+		return hook.Run("CanAccessEntityInventory", ply, self:GetEntity())
 	end
 end
 

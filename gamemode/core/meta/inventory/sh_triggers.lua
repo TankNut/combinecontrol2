@@ -6,10 +6,12 @@ function INVENTORY:OnRemove()
 	end
 
 	if CLIENT then
-		local panel = GUI.Get("InventoryPopup")
+		local panels = GUI.Get("InventoryPopup")
 
-		if IsValid(panel) and panel.Inventory == self then
-			panel:Remove()
+		for _, panel in pairs(panels) do
+			if IsValid(panel) and panel.Inventory == self then
+				panel:Remove()
+			end
 		end
 	else
 		netstream.Send(self.Receivers, "RemoveInventory", self.ID)

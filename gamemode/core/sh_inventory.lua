@@ -138,3 +138,11 @@ function GM:OnMaxInventoryWeightChanged(ply, old, new, loaded)
 		end
 	end
 end
+
+function GM:CanAccessEntityInventory(ply, ent)
+	if not IsValid(ent) then
+		return false
+	end
+
+	return ply:WithinInteractRange(ent) and ent:CanAccessInventory(ply)
+end

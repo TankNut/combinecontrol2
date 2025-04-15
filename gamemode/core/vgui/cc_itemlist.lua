@@ -48,7 +48,7 @@ function PANEL:UpdateWeight()
 	local max = self.Inventory:GetMaxWeight()
 
 	if max == 0 then
-		self.Weight:SetProgress(1)
+		self.Weight:SetProgress(0)
 		self.Weight:SetProgressText("Weight: " .. weight)
 	else
 		self.Weight:SetProgress(weight / max)

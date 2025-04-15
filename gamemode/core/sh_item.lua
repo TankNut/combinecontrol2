@@ -249,7 +249,7 @@ function GM:CanUnequipItem(ply, item)
 	return item:CanUnequip(ply)
 end
 
-function GM:CanOpenItemContainer(ply, item)
+function GM:CanAccessItemInventory(ply, item)
 	local ok, err = hook.Run("CanInteractWithItem", ply, item)
 
 	if not ok then
@@ -263,7 +263,9 @@ function GM:CanTakeItem(ply, item)
 	local storeType = item:GetStoreType()
 
 	if storeType == INV_ITEM then
-		return hook.Run("CanOpenItemContainer", ply, item:GetItem())
+		return hook.Run("CanAccessItemInventory", ply, item:GetItem())
+	elseif storeType == INV_ENTITY then
+		return hook.Run("CanAccessEntityInventory", ply, item:GetEntity())
 	end
 
 	return false, "You cannot take this item!"
@@ -283,7 +285,7 @@ function GM:CanStoreItem(ply, item, inventory)
 			return false, "You cannot store non-temporary items in this!"
 		end
 
-		local ok, err = hook.Run("CanOpenItemContainer", ply, container)
+		local ok, err = hook.Run("CanAccessItemInventory", ply, container)
 
 		if not ok then
 			return false, err

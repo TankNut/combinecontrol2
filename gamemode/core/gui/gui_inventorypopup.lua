@@ -27,7 +27,9 @@ function PANEL:Init()
 end
 
 function PANEL:OnClose()
-	netstream.Send("ClearInventoryListener", self.Inventory.ID)
+	if self.Inventory then
+		netstream.Send("ClearInventoryListener", self.Inventory.ID)
+	end
 
 	self:Remove()
 end
