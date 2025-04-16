@@ -35,14 +35,19 @@ function PANEL:OnClose()
 end
 
 function PANEL:GetInventoryName()
-	local storeType = self.Inventory.StoreType
+	local inv = self.Inventory
+	local storeType = inv.StoreType
 
 	if storeType == INV_PLAYER then
 		local ply = self.Inventory:GetPlayer()
 
 		return string.format("%s (%s credits)", ply:VisibleRPName(), ply:GetMoney())
+	elseif storeType == INV_STASH then
+		return string.format("Stash (%s)", inv:GetPlayer():VisibleRPName())
 	elseif storeType == INV_ITEM then
-		return self.Inventory:GetItem():GetName()
+		return inv:GetItem():GetName()
+	elseif storeType == INV_ENTITY then
+		return inv:GetEntity().PrintName
 	end
 
 	return "Unknown"
