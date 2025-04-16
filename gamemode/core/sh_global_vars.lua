@@ -118,7 +118,7 @@ else
 			local map = ""
 
 			if var.Mode == GLOBALVAR_MAP then
-				map = game.GetMapoverride()
+				map = game.GetMapOverride()
 			elseif var.Mode == GLOBALVAR_MAP_NO_OVERRIDE then
 				map = game.GetMap()
 			end
