@@ -48,6 +48,10 @@ function Item(item)
 	}
 end
 
+function Nick(ply)
+	return IsValid(ply) and ply:Nick() or "CONSOLE"
+end
+
 function Read(name, data, offset, fromTime, toTime)
 	local db = GAMEMODE.Database
 	local where = {}

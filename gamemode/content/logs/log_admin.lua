@@ -1,12 +1,12 @@
 Log.AddType("admin_item_create", function(ply, item)
-	return string.format("%s has created a %s", ply:Nick(), item.ClassName), {
+	return string.format("%s has created a %s", Log.Nick(ply), item.ClassName), {
 		Log.Admin(ply),
 		Log.Item(item)
 	}
 end)
 
 Log.AddType("admin_item_give", function(ply, item, target)
-	return string.format("%s has given a %s to %s", ply:Nick(), item.ClassName, target:Nick()), {
+	return string.format("%s has given a %s to %s", Log.Nick(ply), item.ClassName, target:Nick()), {
 		Log.Admin(ply),
 		Log.Item(item),
 		Log.Character(target)
@@ -14,19 +14,21 @@ Log.AddType("admin_item_give", function(ply, item, target)
 end)
 
 Log.AddType("admin_restart", function(ply)
-	return string.format("%s has restarted the server", ply:Nick()), {
+	return string.format("%s has restarted the server", Log.Nick(ply)), {
 		Log.Admin(ply)
 	}
 end)
 
 Log.AddType("admin_changelevel", function(ply, map)
-	return string.format("%s has changed the server's map to %s", ply:Nick(), map), {
-		Log.Admin(ply)
+	return string.format("%s has changed the server's map to %s", Log.Nick(ply), map), {
+		Log.Admin(ply),
+		From = game.GetMap(),
+		To = map
 	}
 end)
 
 Log.AddType("admin_variable_set", function(ply, variable, value)
-	return string.format("%s has set the %s variable to %s", ply:Nick(), variable, value), {
+	return string.format("%s has set the %s variable to %s", Log.Nick(ply), variable, value), {
 		Log.Admin(ply),
 		VariableName = variable,
 		VariableValue = value
@@ -34,64 +36,64 @@ Log.AddType("admin_variable_set", function(ply, variable, value)
 end)
 
 Log.AddType("admin_hideteam", function(ply, enum, hidden)
-	return string.format("%s has %s the %s team from the scoreboard", ply:Nick(), hidden and "hidden" or "unhidden", Team.Get(enum).Name), {
+	return string.format("%s has %s the %s team from the scoreboard", Log.Nick(ply), hidden and "hidden" or "unhidden", Team.Get(enum).Name), {
 		Log.Admin(ply)
 	}
 end)
 
 Log.AddType("admin_yell", function(ply, message)
-	return string.format("%s has broadcasted the following message: %s", ply:Nick(), message), {
+	return string.format("%s has broadcasted the following message: %s", Log.Nick(ply), message), {
 		Log.Admin(ply)
 	}
 end)
 
 Log.AddType("admin_stopsound", function(ply)
-	return string.format("%s has stopped sounds for all players", ply:Nick()), {
+	return string.format("%s has stopped sounds for all players", Log.Nick(ply)), {
 		Log.Admin(ply)
 	}
 end)
 
 Log.AddType("admin_killambience", function(ply)
-	return string.format("%s has stopped ambience for all players", ply:Nick()), {
+	return string.format("%s has stopped ambience for all players", Log.Nick(ply)), {
 		Log.Admin(ply)
 	}
 end)
 
 Log.AddType("admin_playmusic", function(ply, level, path, volume)
-	return string.format("%s has played a %s music track '%s' at volume %s", ply:Nick(), level, path, volume), {
+	return string.format("%s has played a %s music track '%s' at volume %s", Log.Nick(ply), level, path, volume), {
 		Log.Admin(ply)
 	}
 end)
 
 Log.AddType("admin_playeffect", function(ply, level, path, volume)
-	return string.format("%s has played an %s effect '%s' at volume %s", ply:Nick(), level, path, volume), {
+	return string.format("%s has played an %s effect '%s' at volume %s", Log.Nick(ply), level, path, volume), {
 		Log.Admin(ply)
 	}
 end)
 
 Log.AddType("admin_togglesaved", function(ply, model, saved)
-	return string.format("%s has %s a %s", ply:Nick(), saved and "saved" or "unsaved", model), {
+	return string.format("%s has %s a %s", Log.Nick(ply), saved and "saved" or "unsaved", model), {
 		Log.Admin(ply),
 		Saved = saved and 1 or 0
 	}
 end)
 
 Log.AddType("admin_teleport_goto", function(ply, target)
-	return string.format("%s has teleported to %s", ply:Nick(), target:Nick()), {
+	return string.format("%s has teleported to %s", Log.Nick(ply), target:Nick()), {
 		Log.Admin(ply),
 		Log.Player(target)
 	}
 end)
 
 Log.AddType("admin_teleport_bring", function(ply, target)
-	return string.format("%s has brought %s to themself", ply:Nick(), target:Nick()), {
+	return string.format("%s has brought %s to themself", Log.Nick(ply), target:Nick()), {
 		Log.Admin(ply),
 		Log.Player(target)
 	}
 end)
 
 Log.AddType("admin_teleport_send", function(ply, from, to)
-	return string.format("%s has sent %s to %s", ply:Nick(), from:Nick(), to:Nick()), {
+	return string.format("%s has sent %s to %s", Log.Nick(ply), from:Nick(), to:Nick()), {
 		Log.Admin(ply),
 		Log.Player(from),
 		Log.Player(to)
@@ -99,7 +101,7 @@ Log.AddType("admin_teleport_send", function(ply, from, to)
 end)
 
 Log.AddType("admin_character_set", function(ply, target, variable, value)
-	return string.format("%s has updated %s's %s to %s", ply:Nick(), target:VisibleRPName(), variable, value), {
+	return string.format("%s has updated %s's %s to %s", Log.Nick(ply), target:VisibleRPName(), variable, value), {
 		Log.Admin(ply),
 		Log.Character(target),
 		VariableName = variable,
