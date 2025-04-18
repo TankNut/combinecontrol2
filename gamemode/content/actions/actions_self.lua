@@ -1,6 +1,6 @@
 Action.Add("Voicelines", {
 	Name = "Voicelines",
-	Priority = 1,
+	Priority = 2,
 
 	Target = ACTION_SELF,
 	Context = "Self",
