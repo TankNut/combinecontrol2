@@ -14,6 +14,7 @@ function CreateTables(db)
 		query:Create("Deleted_At", "INT UNSIGNED")
 
 		query:Index("SteamID")
+		query:Index("Deleted_At")
 	query:Execute()
 
 	query = db:Create("rp_items")
@@ -27,6 +28,7 @@ function CreateTables(db)
 		query:Create("Deleted_At", "INT UNSIGNED")
 
 		query:Index("StoreType", "StoreID")
+		query:Index("Deleted_At")
 	query:Execute()
 
 	query = db:Create("rp_globals")
