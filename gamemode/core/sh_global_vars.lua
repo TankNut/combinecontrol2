@@ -66,7 +66,7 @@ if SERVER then
 		end)
 	end
 
-	function Load(ply)
+	function Load()
 		local query = GAMEMODE.Database:Select("rp_globals")
 
 		query:WhereIn("Map", {game.GetMap(), game.GetMapOverride(), ""})
@@ -80,5 +80,12 @@ if SERVER then
 
 			GAMEMODE["Set" .. var.Name](GAMEMODE, sfs.decode(data.Value), true)
 		end
+
+		hook.Run("OnGlobalVarsLoaded")
+	end
+
+	function GM:OnGlobalVarsLoaded()
+		Buttons.Load()
+		Doors.Load()
 	end
 end

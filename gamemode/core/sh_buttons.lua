@@ -94,16 +94,6 @@ if SERVER then
 				end
 			end
 		end
-
-		deferred.Cancel("buttons.save")
-	end
-
-	function GM:OnButtonDataChanged(old, new, loaded)
-		if not loaded then
-			return -- We only care about this when GlobalVars are loading in.
-		end
-
-		Load()
 	end
 
 	function OnCreated(ent)

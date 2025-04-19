@@ -127,14 +127,6 @@ if SERVER then
 		end
 	end
 
-	function GM:OnDoorDataChanged(old, new, loaded)
-		if not loaded then
-			return -- We only care about this when GlobalVars are loading in.
-		end
-
-		Load()
-	end
-
 	function Load()
 		local doorData = GAMEMODE:DoorData()
 
