@@ -78,7 +78,7 @@ function HUD:DrawLimits(w, h, baseOffset, rightOffset, margin)
 
 	local x, y = w - baseOffset - limitBoxW, h - baseOffset - rightOffset
 
-	self:DrawAlignedRect(x, y, limitBoxW, limitBoxH, Color("cc_fill_dark", 200), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+	self:DrawAlignedRect(x, y, limitBoxW, limitBoxH, self.BoxColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 
 	for _, limitScribe in ipairs(limitLines) do
 		limitScribe:Draw(x + limitBoxW - margin, y - limitBoxH + margin - limitOffset, 1, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
