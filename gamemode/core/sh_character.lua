@@ -15,9 +15,9 @@ CharacterVar.Add("CharacterNameOverride", {Default = "", Private = true, Field =
 CharacterVar.Add("CharacterDescription", {Default = "", Private = true, Field = "Description", DataType = TEXT()})
 CharacterVar.Add("CharacterNotes", {Default = "", Private = true, Field = "Notes", DataType = TEXT()})
 
-CharacterVar.Add("CharacterModel", {Default = "models/player/skeleton.mdl", ServerOnly = true, Field = "Model", DataType = VARCHAR(128)})
-CharacterVar.Add("CharacterModelOverride", {Default = "", ServerOnly = true, Field = "ModelOverride", DataType = VARCHAR(128)})
-CharacterVar.Add("CharacterSkin", {Default = 0, ServerOnly = true, Field = "Skin", DataType = TINYINT()})
+CharacterVar.Add("CharacterModel", {Default = "models/player/skeleton.mdl", Field = "Model", DataType = VARCHAR(128)})
+CharacterVar.Add("CharacterModelOverride", {Default = "", Field = "ModelOverride", DataType = VARCHAR(128)})
+CharacterVar.Add("CharacterSkin", {Default = 0, Field = "Skin", DataType = TINYINT()})
 
 CharacterVar.Add("CharacterHidden", {Default = 0, Field = "Hidden", DataType = TINYINT()})
 CharacterVar.Add("CharacterLastSeen", {Default = 0, ServerOnly = true, DataType = UINT()})
