@@ -3,7 +3,7 @@
 AddCSLuaFile()
 DeriveGamemode("sandbox")
 
-GM.Name = "CombineControl 2"
+GM.Name = "CC2: Project Testbed"
 GM.Author = "Taco N Banana"
 GM.Website = "http://taconbanana.com"
 GM.Email = "gangleider@taconbanana.com"
