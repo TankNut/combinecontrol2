@@ -4,12 +4,14 @@ CLASS.SortOrder = 1
 CLASS.Models = Config.Get("BaseModels")
 
 CLASS.OptionalLanguages = {
-	"rus"
+	"rus", "spa", "chi",
+	"hin", "por", "rus",
+	"ger", "jpn", "fra",
+	"kor", "hun", "swa"
 }
 
 CLASS.Fields = {
-	Languages = Language.GetDefaultLanguages(),
-	CharacterSkin = 0
+	Languages = Language.GetDefaultLanguages()
 }
 
 CLASS.Pages = {

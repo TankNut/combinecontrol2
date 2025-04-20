@@ -4,7 +4,7 @@ FLAG.Team = TEAM_UNSC
 FLAG.Loadout = {"weapon_cc_hands"}
 
 FLAG.EquipmentSlots = {
-	"test"
+	"unsc_undersuit"
 }
 
 FLAG.Clothing = CLOTHING_FULL

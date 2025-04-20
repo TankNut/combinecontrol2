@@ -2,7 +2,7 @@ GM.DefaultFlag = "unsc"
 GM.DefaultAnimationController = "gmod_player"
 
 GM.EquipmentNames = {
-	test = "Test Slot"
+	unsc_undersuit = "Undersuit"
 }
 
 TEAM_UNSC = Team.Add("unsc", "UNSC", Color(0, 120, 0))
@@ -19,13 +19,17 @@ end
 
 GM.Languages = {
 	Lang("eng", "English", nil, true),
-	Lang("rus", "Russian"),
-	Lang("chi", "Chinese"),
-	Lang("jpn", "Japanese"),
 	Lang("spa", "Spanish"),
-	Lang("fre", "French"),
+	Lang("chi", "Chinese"),
+	Lang("hin", "Hindi"),
+	Lang("por", "Portugese"),
+	Lang("rus", "Russian"),
 	Lang("ger", "German"),
-	Lang("ita", "Italian")
+	Lang("jpn", "Japanese"),
+	Lang("fra", "French"),
+	Lang("kor", "Korean"),
+	Lang("hun", "Hungarian"),
+	Lang("swa", "Swahili")
 }
 
 local function Badge(id, name, material, callback)
