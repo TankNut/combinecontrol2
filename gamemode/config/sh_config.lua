@@ -1,6 +1,6 @@
 -- General config
-GM.Config.InternalName = "development" -- Used for figuring out what folder within data/combinecontrol we want to put our stuff
-GM.Config.ServerName = "CombineControl: Development Server"
+GM.Config.InternalName = "project-testbed" -- Used for figuring out what folder within data/combinecontrol we want to put our stuff
+GM.Config.ServerName = "Project Testbed"
 
 GM.Config.CommunityLinks = {
 	{"Community Forums", "https://taconbanana.com"}
