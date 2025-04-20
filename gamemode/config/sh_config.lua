@@ -43,22 +43,33 @@ GM.Config.StashRange = 128
 
 -- Characters
 GM.Config.BaseModels = {
-	Model("models/tnb/heads/trp/male_01.mdl"),
-	Model("models/tnb/heads/trp/male_02.mdl"),
-	Model("models/tnb/heads/trp/male_03.mdl"),
-	Model("models/tnb/heads/trp/male_04.mdl"),
-	Model("models/tnb/heads/trp/male_05.mdl"),
-	Model("models/tnb/heads/trp/male_06.mdl"),
-	Model("models/tnb/heads/trp/male_07.mdl"),
-	Model("models/tnb/heads/trp/male_08.mdl"),
-	Model("models/tnb/heads/trp/male_09.mdl"),
-	Model("models/tnb/heads/trp/female_01.mdl"),
-	Model("models/tnb/heads/trp/female_02.mdl"),
-	Model("models/tnb/heads/trp/female_03.mdl"),
-	Model("models/tnb/heads/trp/female_04.mdl"),
-	Model("models/tnb/heads/trp/female_05.mdl"),
-	Model("models/tnb/heads/trp/female_38.mdl"),
-	Model("models/tnb/heads/trp/female_53.mdl")
+	-- Male
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_alfie.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_carl.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_donnie.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_fabrice.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_gilberto.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_islambek.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_john.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_jose.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_michael.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_ray.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_rob.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_yasser.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_g_yohannes.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_heretic.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/male/offduty_snippy.mdl"),
+	-- Female
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_faridah.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_hank.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_katya.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_linda.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_ltd.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_miia.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_neca.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_reid.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_tequila.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_wallaby.mdl")
 }
 
 GM.Config.CharacterNameRules = {

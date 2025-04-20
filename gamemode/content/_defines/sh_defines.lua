@@ -1,11 +1,11 @@
-GM.DefaultFlag = "citizen"
+GM.DefaultFlag = "unsc"
 GM.DefaultAnimationController = "gmod_player"
 
 GM.EquipmentNames = {
 	test = "Test Slot"
 }
 
-TEAM_CITIZEN = Team.Add("citizens", "Citizens", Color(0, 120, 0))
+TEAM_UNSC = Team.Add("unsc", "UNSC", Color(0, 120, 0))
 
 local function Lang(command, name, unknown, default, override)
 	return {

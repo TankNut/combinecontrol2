@@ -1,4 +1,4 @@
-CLASS.Name = "Citizen"
+CLASS.Name = "UNSC Enlisted"
 CLASS.SortOrder = 1
 
 CLASS.Models = Config.Get("BaseModels")
@@ -8,12 +8,13 @@ CLASS.OptionalLanguages = {
 }
 
 CLASS.Fields = {
-	Languages = Language.GetDefaultLanguages()
+	Languages = Language.GetDefaultLanguages(),
+	CharacterSkin = 0
 }
 
 CLASS.Pages = {
 	{Name = "Basic Information", Options = {"Name", "Description"}},
-	{Name = "Appearance", Options = {"Model", "Skin", "Height"}},
+	{Name = "Appearance", Options = {"Model", "Height"}},
 	{Name = "Options", Options = {"Language"}}
 }
 
@@ -36,11 +37,6 @@ CLASS.Options = {
 		Name = "Model", Panel = "CC_CharCreate_Model",
 		Field = "CharacterModel",
 		Args = CLASS.Models
-	},
-	Skin = {
-		Name = "Skin", Panel = "CC_CharCreate_Skin",
-		Field = "CharacterSkin",
-		Args = "Model"
 	},
 	Height = {
 		Name = "Height", Panel = "CC_CharCreate_Slider",
@@ -79,14 +75,6 @@ CLASS.Validate = {
 		validate.String(),
 		validate.InList(CLASS.Models)
 	},
-	Skin = {
-		validate.Required(),
-		validate.Number(),
-		validate.Min(0),
-		validate.Callback(function(val)
-			return val < util.GetModelSkins(validate.Cache.Model), "Skin index out of bounds"
-		end)
-	},
 	Height = {
 		validate.Required(),
 		validate.Number(),
@@ -100,28 +88,16 @@ CLASS.Validate = {
 }
 
 if CLIENT then
-	local updateFields = table.Lookup({
-		"Model", "Skin"
-	})
+	local updateFields = table.Lookup({"Model"})
 
 	function CLASS:GetAppearance(options, key)
 		if key and not updateFields[key] then
 			return
 		end
 
-		local base = {
-			Model = options.Model or self.Models[1],
-			Skin = options.Skin or 0
-		}
-
-		local body = {
-			Model = string.format("models/tnb/clothing/trp/body/%s_survivor.mdl", util.GetModelGender(base.Model))
-		}
-
-		return {
-			_base = base,
-			Body = body
-		}
+		return {_base = {
+			Model = options.Model or self.Models[1]
+		}}
 	end
 else
 	function CLASS:PreCreateCharacter(ply, fields, options)
