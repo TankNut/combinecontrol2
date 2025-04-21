@@ -13,7 +13,7 @@ ItemCustomization(ITEM_ACTION_CUSTOMIZE - 1, "Set Collar Style", "Collar", {
 	{Name = "Normal", Value = 0},
 	{Name = "Shawl", Value = 1},
 	{Name = "Open Shawl", Value = 2},
-	{Name = "Heavy Shawl", Value = 3},
+	{Name = "A/X Shawl", Value = 3},
 	{Name = "Assault Armor", Value = 4},
 })
 
@@ -28,7 +28,7 @@ ItemCustomization(ITEM_ACTION_CUSTOMIZE - 3, "Set Shoulder Pads", "ShoulderPads"
 	{Name = "Armored", Value = 1},
 	{Name = "Heavy", Value = 2},
 	{Name = "Recon", Value = 3},
-	{Name = "Security", Value = 4},
+	{Name = "A/X Security", Value = 4},
 	{Name = "ODST", Value = 5},
 	{Name = "Assault", Value = 6}
 })

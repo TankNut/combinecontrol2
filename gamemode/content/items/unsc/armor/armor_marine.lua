@@ -11,17 +11,17 @@ ITEM.Actions = {}
 
 ItemCustomization(ITEM_ACTION_CUSTOMIZE - 1, "Set Collar Style", "Collar", {
 	{Name = "Normal", Value = 0},
-	{Name = "Padded", Value = 1},
-	{Name = "Heavy", Value = 2}
+	{Name = "Hoodie", Value = 1},
+	{Name = "A%X", Value = 2}
 })
 
 ItemCustomization(ITEM_ACTION_CUSTOMIZE - 2, "Set Shoulder Pads", "ShoulderPads", {
 	{Name = "None", Value = 0},
-	{Name = "Soft", Value = 1},
+	{Name = "Light", Value = 1},
 	{Name = "Armored", Value = 2},
 	{Name = "Heavy", Value = 3},
 	{Name = "Recon", Value = 4},
-	{Name = "Security", Value = 5}
+	{Name = "A%X Security", Value = 5}
 })
 
 ItemCustomization(ITEM_ACTION_CUSTOMIZE - 3, "Set Chest Packs", "ChestPacks", {
