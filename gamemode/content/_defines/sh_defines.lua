@@ -2,7 +2,8 @@ GM.DefaultFlag = "unsc"
 GM.DefaultAnimationController = "gmod_player"
 
 GM.EquipmentNames = {
-	unsc_undersuit = "Undersuit"
+	unsc_armor = "armor",
+	unsc_undersuit = "undersuit"
 }
 
 TEAM_UNSC = Team.Add("unsc", "UNSC", Color(0, 120, 0))

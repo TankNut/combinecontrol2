@@ -1,24 +1,24 @@
 local BaseClass = inherit.Get("item", "base")
 
-ITEM.Internal = true
+ITEM.Internal       = true
 
-ITEM.Rarity = RARITY_COMMON
-ITEM.Category = "Undersuit"
+ITEM.Rarity         = RARITY_COMMON
+ITEM.Category       = "Undersuit"
 
-ITEM.Model = Model("models/valk/h3/unsc/props/crates/case.mdl")
+ITEM.Model          = Model("models/valk/h3/unsc/props/crates/case.mdl")
 
-ITEM.Weight = 3
+ITEM.Weight         = 3
 
-ITEM.IconAngle = Angle(30, 0, 0)
-ITEM.IconFOV = 25
+ITEM.IconAngle      = Angle(30, 0, 0)
+ITEM.IconFOV        = 25
 
 ITEM.EquipmentSlots = {
 	"unsc_undersuit"
 }
 
-ITEM.ModelPattern = ""
-ITEM.ModelSkin    = 0
-ITEM.ModelGroup   = ""
+ITEM.ModelPattern   = ""
+ITEM.ModelSkin      = 0
+ITEM.ModelGroup     = ""
 
 function ITEM:GetDescription()
 	local description = BaseClass.GetDescription(self)
@@ -66,7 +66,7 @@ function ITEM:CanUnequip(ply)
 end
 
 if SERVER then
-	function ITEM:GetModelData(ply)
+	function ITEM:GetModelData(ply, clothing)
 		if not self:IsEquipped() then
 			return
 		end
