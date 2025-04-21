@@ -21,9 +21,6 @@ function ITEM:OnRemove()
 end
 
 function ITEM:OnReloaded()
-	if CLIENT then
-		self.Tooltip = nil
-	end
 end
 
 if SERVER then

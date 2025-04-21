@@ -21,7 +21,6 @@ function ITEM:SetData(key, val)
 	end
 
 	if CLIENT then
-		self.Tooltip = nil
 		self:TriggerPanelUpdate()
 	else
 		async.Start(self.SaveData, self)
