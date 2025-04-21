@@ -39,6 +39,12 @@ CONTEXT_SELF      = 50 -- Self actions e.g. gestures, animations
 CONTEXT_MISC      = 60 -- Default
 CONTEXT_ADMIN     = 70 -- Admin-only stuff
 
+ITEM_ACTION_EXAMINE   = 100
+ITEM_ACTION_EQUIP     = 90
+ITEM_ACTION_CUSTOMIZE = 80
+ITEM_ACTION_DROP      = 2
+ITEM_ACTION_DESTROY   = 1
+
 PROP_CLASSES = table.Lookup({
 	"prop_physics",
 	"prop_effect"

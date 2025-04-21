@@ -13,7 +13,7 @@ local openMenu = function(ply)
 end
 
 ITEM.Actions.Equip = {
-	Priority = 10,
+	Priority = ITEM_ACTION_EQUIP,
 
 	Context = table.Lookup({
 		"RightClick", "Examine"
@@ -40,7 +40,7 @@ ITEM.Actions.Equip = {
 
 ITEM.Actions.EquipSlot = {
 	Name = "Equip...",
-	Priority = 10,
+	Priority = ITEM_ACTION_EQUIP,
 
 	Context = table.Lookup({
 		"RightClick", "Examine"
@@ -85,7 +85,7 @@ ITEM.Actions.EquipSlot = {
 }
 
 ITEM.Actions.Unequip = {
-	Priority = 10,
+	Priority = ITEM_ACTION_EQUIP,
 
 	Context = table.Lookup({
 		"RightClick", "Examine"

@@ -13,7 +13,7 @@ ITEM.Actions.Pickup = {
 
 ITEM.Actions.Examine = {
 	ClientOnly = true,
-	Priority = 100,
+	Priority = ITEM_ACTION_EXAMINE,
 
 	Context = table.Lookup({
 		"RightClick"

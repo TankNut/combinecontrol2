@@ -8,7 +8,7 @@ local validateChangeDescription = {
 
 ITEM.Actions.CustomizeName = {
 	Name = "Customization/Change Name",
-	Priority = 90,
+	Priority = ITEM_ACTION_CUSTOMIZE + 1,
 
 	Context = table.Lookup({
 		"Examine"
@@ -38,7 +38,7 @@ ITEM.Actions.CustomizeName = {
 
 ITEM.Actions.CustomizeDescription = {
 	Name = "Customization/Change Description",
-	Priority = 80,
+	Priority = ITEM_ACTION_CUSTOMIZE,
 
 	Context = table.Lookup({
 		"Examine"
