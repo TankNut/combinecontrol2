@@ -58,7 +58,7 @@ function FLOAT()
 end
 
 function EquipmentSlot(slot)
-	return GAMEMODE.EquipmentNames[slot]
+	return GAMEMODE.EquipmentNames[slot] or slot
 end
 
 local elevated = table.Lookup({
