@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_undersuit"
 
 ITEM.Name         = "Marine Undersuit (Navy)"
-ITEM.Description  = "A standard UNSC marine undersuit with matching armor set."
+ITEM.Description  = "A standard UNSC marine undersuit with matching armor set"
 
 ITEM.Rarity       = RARITY_RARE
 ITEM.Tags         = {"Marine"}

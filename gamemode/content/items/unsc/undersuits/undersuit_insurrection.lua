@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_undersuit"
 
 ITEM.Name         = "Insurrectionist Undersuit"
-ITEM.Description  = "A UNSC marine kit that's been modified by the URF."
+ITEM.Description  = "A UNSC marine kit that's been modified by the URF"
 
 ITEM.Rarity       = RARITY_EPIC
 ITEM.Tags         = {"Insurrectionists"}

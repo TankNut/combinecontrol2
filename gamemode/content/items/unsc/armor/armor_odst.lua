@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_armor"
 
 ITEM.Name        = "ODST Armor"
-ITEM.Description = "A customizable set of ODST combat gear."
+ITEM.Description = "A customizable set of ODST combat gear"
 
 ITEM.Tags        = {"ODST"}
 

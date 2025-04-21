@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_armor"
 
 ITEM.Name        = "Armor Vest (Heavy)"
-ITEM.Description = "A set of armor and other protective gear to be worn over plain clothes."
+ITEM.Description = "A set of armor and other protective gear to be worn over plain clothes"
 
 ITEM.Tags        = {"Marine"}
 

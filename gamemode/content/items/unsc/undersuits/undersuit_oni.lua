@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_undersuit"
 
 ITEM.Name         = "Off-Duty Uniform (ONI)"
-ITEM.Description  = "An off-duty uniform belonging to the Office of Naval Intelligence."
+ITEM.Description  = "An off-duty uniform belonging to the Office of Naval Intelligence"
 
 ITEM.Rarity       = RARITY_UNCOMMON
 ITEM.Tags         = {"ONI"}

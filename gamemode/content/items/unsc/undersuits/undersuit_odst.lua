@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_undersuit"
 
 ITEM.Name         = "ODST Undersuit"
-ITEM.Description  = "An ODST undersuit and matching armor set."
+ITEM.Description  = "An ODST undersuit and matching armor set"
 
 ITEM.Rarity       = RARITY_EPIC
 ITEM.Tags         = {"ODST"}
