@@ -39,7 +39,6 @@ Action.Add("ScoreboardHidden", {
 	end
 })
 
-
 Action.Add("ScoreboardMuted", {
 	Name = "Toggle Muted",
 	ClientOnly = true,

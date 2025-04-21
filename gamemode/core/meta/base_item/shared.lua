@@ -3,44 +3,44 @@ ITEM = {}
 local logger = log.Create("items")
 
 -- Internal data
-ITEM.Base = nil
-ITEM.Internal = true
+ITEM.Base                = nil
+ITEM.Internal            = true
 
 -- General info
-ITEM.Name = nil
-ITEM.Description = "Whoever made this item forgot to add a description!"
+ITEM.Name                = nil
+ITEM.Description         = "Whoever made this item forgot to add a description!"
 
-ITEM.Rarity = RARITY_COMMON
-ITEM.Category = "Misc"
-ITEM.Tags = {}
+ITEM.Rarity              = RARITY_COMMON
+ITEM.Category            = "Misc"
+ITEM.Tags                = {}
 
-ITEM.Unique = false -- Don't collapse duplicate entries for item actions
-ITEM.Customizable = true -- Allow players with ItemCustomization access to edit this item
+ITEM.Unique              = false -- Don't collapse duplicate entries for item actions
+ITEM.Customizable        = true -- Allow players with ItemCustomization access to edit this item
 
 -- Appearance
-ITEM.Model = Model("models/props_lab/cactus.mdl")
-ITEM.Skin = 0
+ITEM.Model               = Model("models/props_lab/cactus.mdl")
+ITEM.Skin                = 0
 
-ITEM.Color = color_white
-ITEM.Scale = 1
+ITEM.Color               = color_white
+ITEM.Scale               = 1
 
 -- Inventory data
-ITEM.Weight = 1
-ITEM.WeightMultiplier = 0.2
+ITEM.Weight              = 1
+ITEM.WeightMultiplier    = 0.2
 
 -- Equipment data
-ITEM.EquipmentSlots = {}
+ITEM.EquipmentSlots      = {}
 ITEM.IgnoreModelOverride = false
 
-ITEM.EquipTime = 1
-ITEM.UnequipTime = 1
+ITEM.EquipTime           = 1
+ITEM.UnequipTime         = 1
 
-ITEM.Armor = 0
-ITEM.Buffs = {}
+ITEM.Armor               = 0
+ITEM.Buffs               = {}
 
 -- Icon data
-ITEM.IconAngle = Angle()
-ITEM.IconFOV = 14
+ITEM.IconAngle           = Angle()
+ITEM.IconFOV             = 14
 
 GM:Include("cl_networking.lua")
 GM:Include("cl_ui.lua")

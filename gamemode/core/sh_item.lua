@@ -9,12 +9,12 @@ All = All or {}
 ActionCache = {}
 
 Rarities = {
-	[RARITY_COMMON] = {Name = "Common", Color = Color(200, 200, 200):Register({"rarity_common", "rarity_1"})},
-	[RARITY_UNCOMMON] = {Name = "Uncommon", Color = Color(30, 255, 0):Register({"rarity_uncommon", "rarity_2"})},
-	[RARITY_RARE] = {Name = "Rare", Color = Color(0, 112, 221):Register({"rarity_rare", "rarity_3"})},
-	[RARITY_EPIC] = {Name = "Epic", Color = Color(163, 53, 238):Register({"rarity_epic", "rarity_4"})},
+	[RARITY_COMMON]    = {Name = "Common",    Color = Color(200, 200, 200):Register({"rarity_common", "rarity_1"})},
+	[RARITY_UNCOMMON]  = {Name = "Uncommon",  Color = Color(30, 255, 0):Register({"rarity_uncommon", "rarity_2"})},
+	[RARITY_RARE]      = {Name = "Rare",      Color = Color(0, 112, 221):Register({"rarity_rare", "rarity_3"})},
+	[RARITY_EPIC]      = {Name = "Epic",      Color = Color(163, 53, 238):Register({"rarity_epic", "rarity_4"})},
 	[RARITY_LEGENDARY] = {Name = "Legendary", Color = Color(255, 128, 0):Register({"rarity_legendary", "rarity_5"})},
-	[RARITY_ARTIFACT] = {Name = "Artifact", Color = Color(255, 50, 50):Register({"rarity_artifact", "rarity_6"})},
+	[RARITY_ARTIFACT]  = {Name = "Artifact",  Color = Color(255, 50, 50):Register({"rarity_artifact", "rarity_6"})},
 	[RARITY_DEVELOPER] = {Name = "Developer", Color = Color(0, 204, 255):Register({"rarity_developer", "rarity_7"})}
 }
 
