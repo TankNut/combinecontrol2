@@ -13,7 +13,7 @@ GM:Include("sh_triggers.lua")
 
 ITEM.Actions = {}
 ITEM.Actions.Open = {
-	Priority = 20,
+	Priority = ITEM_ACTION_OPEN,
 
 	Context = table.Lookup({
 		"RightClick", "Examine"
