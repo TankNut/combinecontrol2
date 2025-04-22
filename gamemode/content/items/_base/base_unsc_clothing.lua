@@ -33,13 +33,3 @@ end
 function ITEM:CanEquip(ply)
 	return self:IsCompatible(ply)
 end
-
-function ITEM:CheckEquipment()
-	if not self:IsCompatible(self:GetPlayer()) then
-		self:SetEquipmentSlot(nil)
-
-		return
-	end
-
-	return BaseClass.CheckEquipment(self)
-end
