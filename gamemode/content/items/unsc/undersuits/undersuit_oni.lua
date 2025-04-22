@@ -6,6 +6,8 @@ ITEM.Description  = "An off-duty uniform belonging to the Office of Naval Intell
 ITEM.Rarity       = RARITY_UNCOMMON
 ITEM.Tags         = {"ONI"}
 
+ITEM.Weight       = 1
+
 ITEM.ModelPattern = "models/ishi/halo_rebirth/player/offduty/%s/offduty_%s.mdl"
 ITEM.ModelGroup   = "Off-Duty"
 

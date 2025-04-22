@@ -63,6 +63,7 @@ if SERVER then
 			_base = {
 				Bodygroups = {
 					Collar = self:GetCollar(),
+					Cuffs = self:GetCuffs(),
 					Shoulderpads = self:GetShoulderPads(),
 					Chest_Packs = self:GetChestPacks(),
 					Thighpads = self:GetThighPads(),

@@ -16,7 +16,7 @@ if SERVER then
 		return {
 			_base = {
 				Bodygroups = {
-					["Helmet&Hair"] = self.HelmetIndex,
+					["Helmet&Hair"] = self:GetHelmet() and 0 or self.HelmetIndex,
 					Face = self:GetBalaclava() and 1 or 0,
 					Helmet_Visor = self:GetGoggles() and 1 or 0,
 					Helmet_Attatchment = 1

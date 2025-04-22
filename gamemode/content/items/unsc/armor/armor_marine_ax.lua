@@ -1,6 +1,6 @@
 ITEM.Base = "base_unsc_armor"
 
-ITEM.Name        = "A/X Marine Armor"
+ITEM.Name        = "Marine Armor (A/X)"
 ITEM.Description = [[A customizable set of UNSC combat gear
 
 Atmospheric/Exoatmospheric: Sealed against environmental hazards and rated for use during extra-vehicular activity]]

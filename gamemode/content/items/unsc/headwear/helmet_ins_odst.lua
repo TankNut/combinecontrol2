@@ -1,14 +1,16 @@
 ITEM.Base = "base_unsc_headwear"
 
-ITEM.Name        = "ECH252 Helmet"
-ITEM.Description = "A variation of the standard CH252 combat helmet that can be fully enclosed and enviromentally sealed when combined with an A/X BDU. Comes packaged with a balaclava"
+ITEM.Name        = "ODST Helmet (URF)"
+ITEM.Description = "A standard ODST helmet that's been modified by the URF. Comes packaged with a balaclava"
 
-ITEM.Rarity      = RARITY_UNCOMMON
-ITEM.Tags        = {"Marine"}
+ITEM.Rarity      = RARITY_RARE
+ITEM.Tags        = {"Insurrectionists"}
 
-ITEM.ModelGroups = {"Marine"}
+ITEM.ModelGroups = {"Insurrection"}
 
-ITEM.HelmetIndex = 3
+-- ITEM.Buffs = {"visr"}
+
+ITEM.HelmetIndex = 4
 
 ITEM.Actions = {}
 
@@ -29,14 +31,21 @@ if SERVER then
 			return
 		end
 
-		return {
+		local data = {
 			_base = {
 				Bodygroups = {
 					["Helmet&Hair"] = self:GetHelmet() and 0 or self.HelmetIndex,
-					Face = self:GetBalaclava() and 1 or 0,
-					Helmet_Visor = self:GetHelmet() and 0 or (self:GetVisor() and 5 or 3)
+					Face = self:GetBalaclava() and 1 or 0
 				}
 			}
 		}
+
+		if self:GetVisor() then
+			data._base.Materials = {
+				["models/ishis_garage/halo_rebirth/marines/innie/odst_helmets_visor"] = "models/props_combine/citadel_cable_b"
+			}
+		end
+
+		return data
 	end
 end
