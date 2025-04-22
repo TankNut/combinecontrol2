@@ -56,6 +56,12 @@ end
 function GM:OnCharacterFlagChanged(ply, old, new, loaded)
 	if not loaded then
 		hook.Run("PlayerApplyFlag", ply)
+
+		if SERVER then
+			for _, item in pairs(ply:GetEquipment()) do
+				item:CheckEquipmentSlot()
+			end
+		end
 	end
 end
 

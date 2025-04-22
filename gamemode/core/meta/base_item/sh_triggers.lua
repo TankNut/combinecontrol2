@@ -1,6 +1,16 @@
+function ITEM:Load()
+	if self:IsEquipped() then
+		Inventory.Equipment[self:GetPlayer()][self:GetEquipmentSlot()] = self
+
+		if SERVER then
+			self:AddBuffs()
+		end
+	end
+end
+
 function ITEM:OnLoaded()
-	if self:IsEquipped() and self:CheckEquipment() and SERVER then
-		self:AddBuffs()
+	if SERVER and self:IsEquipped() then
+		self:CheckEquipmentSlot()
 	end
 end
 
@@ -59,7 +69,7 @@ function ITEM:OnEquipped(ply, slot)
 end
 
 function ITEM:OnUnequipped(ply)
-	if SERVER and self.Loaded then
+	if SERVER then
 		if self.GetModelData or self.PostModelData then
 			ply:UpdateAppearance()
 		end

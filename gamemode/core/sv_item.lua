@@ -14,10 +14,7 @@ function Create(class, data)
 		time = os.time()
 	})
 
-	local instance = Item.Instance(class, id, data)
-	instance.Loaded = true
-
-	return instance
+	return Item.Instance(class, id, data)
 end
 
 function CreateTemp(class, data)
@@ -25,10 +22,7 @@ function CreateTemp(class, data)
 
 	TempIndex = TempIndex - 1
 
-	local instance = Item.Instance(class, TempIndex, data)
-	instance.Loaded = true
-
-	return instance
+	return Item.Instance(class, TempIndex, data)
 end
 
 function CreateEphemeral(class, data, pos, ang, time, limit, group)
@@ -78,8 +72,8 @@ function LoadWorld()
 		i = i + 1
 
 		item:SetWorldItem(mapData.Pos, mapData.Ang, mapData.Frozen)
+		item:Load()
 		item:OnLoaded()
-		item.Loaded = true
 	end
 
 	logger:Info("Loaded %s world items", i)

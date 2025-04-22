@@ -27,15 +27,18 @@ end
 
 if CLIENT then
 	function INVENTORY:LoadItems(items)
-		for _, item in ipairs(items) do
-			self:AddItem(Item.Instance(item[1], item[2], item[3]))
+		for _, data in ipairs(items) do
+			local item = Item.Instance(data[1], data[2], data[3])
+
+			self:AddItem(item)
+
+			item:Load()
 		end
 
 		self:ItemsChanged()
 
 		for _, item in pairs(self.Items) do
 			item:OnLoaded()
-			item.Loaded = true
 		end
 	end
 else
@@ -57,7 +60,6 @@ else
 
 		for _, item in pairs(self.Items) do
 			item:OnLoaded()
-			item.Loaded = true
 		end
 	end
 end
