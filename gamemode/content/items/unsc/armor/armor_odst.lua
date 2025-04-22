@@ -1,7 +1,9 @@
 ITEM.Base = "base_unsc_armor"
 
 ITEM.Name        = "ODST Armor"
-ITEM.Description = "A customizable set of ODST combat gear"
+ITEM.Description = [[A customizable set of ODST combat gear
+
+Atmospheric/Exoatmospheric: Sealed against environmental hazards and rated for use during extra-vehicular activity]]
 
 ITEM.Rarity      = RARITY_RARE
 ITEM.Tags        = {"ODST"}
@@ -27,9 +29,9 @@ ItemCustomization(ITEM_ACTION_CUSTOMIZE - 3, "Set Thigh Pads", "ThighPads", {
 })
 
 ItemCustomization(ITEM_ACTION_CUSTOMIZE - 4, "Set Legs", "Legs", {
-	{Name = "Kneepads", Value = 0},
-	{Name = "Combat", Value = 1},
-	{Name = "UA%Combat", Value = 2}
+	{Name = "Medium", Value = 0},
+	{Name = "Heavy", Value = 1},
+	{Name = "Security", Value = 2}
 })
 
 if SERVER then

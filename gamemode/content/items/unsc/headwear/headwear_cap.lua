@@ -7,6 +7,8 @@ ITEM.Model       = Model("models/props_junk/cardboard_box004a.mdl")
 
 ITEM.Weight      = 0.2
 
+ITEM.Armor       = 0
+
 ITEM.IconAngle   = Angle(80, 90, 0)
 ITEM.IconFOV     = 12
 

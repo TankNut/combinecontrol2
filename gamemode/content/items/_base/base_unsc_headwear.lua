@@ -6,3 +6,5 @@ ITEM.Category       = "UNSC Headwear"
 ITEM.Weight         = 1.2
 
 ITEM.EquipmentSlots = {"unsc_headwear"}
+
+ITEM.Armor          = 20

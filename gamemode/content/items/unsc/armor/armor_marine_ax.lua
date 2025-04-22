@@ -1,7 +1,9 @@
 ITEM.Base = "base_unsc_armor"
 
-ITEM.Name        = "Marine Armor"
-ITEM.Description = "A customizable set of UNSC combat gear"
+ITEM.Name        = "A/X Marine Armor"
+ITEM.Description = [[A customizable set of UNSC combat gear
+
+Atmospheric/Exoatmospheric: Sealed against environmental hazards and rated for use during extra-vehicular activity]]
 
 ITEM.Rarity      = RARITY_UNCOMMON
 ITEM.Tags        = {"Marine"}
@@ -12,10 +14,7 @@ ITEM.Actions = {}
 
 ItemCustomization(ITEM_ACTION_CUSTOMIZE - 1, "Set Shoulder Pads", "ShoulderPads", {
 	{Name = "None", Value = 0},
-	{Name = "Light", Value = 1},
-	{Name = "Armored", Value = 2},
-	{Name = "Heavy", Value = 3},
-	{Name = "Recon", Value = 4}
+	{Name = "Combat", Value = 5}
 })
 
 ItemCustomization(ITEM_ACTION_CUSTOMIZE - 2, "Set Chest Packs", "ChestPacks", {
@@ -32,9 +31,8 @@ ItemCustomization(ITEM_ACTION_CUSTOMIZE - 3, "Set Thigh Pads", "ThighPads", {
 })
 
 ItemCustomization(ITEM_ACTION_CUSTOMIZE - 4, "Set Legs", "Legs", {
-	{Name = "Light", Value = 0},
-	{Name = "Medium", Value = 1},
-	{Name = "Heavy", Value = 2}
+	{Name = "Light", Value = 1},
+	{Name = "Combat", Value = 3}
 })
 
 if SERVER then
@@ -46,6 +44,7 @@ if SERVER then
 		return {
 			_base = {
 				Bodygroups = {
+					Collar = 2,
 					Shoulderpads = self:GetShoulderPads(),
 					Chest_Packs = self:GetChestPacks(),
 					Thighpads = self:GetThighPads(),
