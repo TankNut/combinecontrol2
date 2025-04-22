@@ -33,7 +33,7 @@ function ITEM:Initialize()
 	BaseClass.Initialize(self)
 
 	if SERVER then
-		self.Contents = Inventory.Create(nil, INV_ITEM, self.ID, self.ID)
+		Inventory.Create(nil, INV_ITEM, self.ID, self.ID)
 	end
 end
 

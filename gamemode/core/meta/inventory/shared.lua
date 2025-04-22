@@ -13,16 +13,9 @@ function INVENTORY:Initialize()
 
 	if CLIENT then
 		self.Panels = {}
-
-		if self.StoreType == INV_ITEM then
-			self:GetItem().Contents = self
-		end
 	else
 		self.Listeners = {}
 		self.Receivers = {}
-
-		self:LoadItems()
-		self:UpdateReceivers()
 	end
 end
 

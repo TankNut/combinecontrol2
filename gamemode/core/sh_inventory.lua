@@ -12,7 +12,7 @@ PlayerVar.Add("StashID", {Default = 0})
 local INVENTORY = CustomMetaTable("Inventory")
 local PLAYER = FindMetaTable("Player")
 
-function Create(id, storeType, storeID, parent)
+function Create(id, storeType, storeID, parent, items)
 	if not id then
 		id = #All + 1
 	end
@@ -29,6 +29,22 @@ function Create(id, storeType, storeID, parent)
 	All[id] = instance
 
 	instance:Initialize()
+
+	if storeType == INV_PLAYER then
+		instance:GetPlayer():SetInventoryID(id)
+	elseif storeType == INV_STASH then
+		instance:GetPlayer():SetStashID(id)
+	elseif storeType == INV_ITEM then
+		instance:GetItem().Contents = instance
+	elseif storeType == INV_ENTITY then
+		instance:GetEntity():SetInventoryID(id)
+	end
+
+	instance:LoadItems(items)
+
+	if SERVER then
+		instance:UpdateReceivers()
+	end
 
 	return instance
 end
@@ -63,29 +79,8 @@ if SERVER then
 	function Load(ply)
 		Clear(ply)
 
-		ply:SetInventoryID(Create(nil, INV_PLAYER, ply:CharID(), ply:EntIndex()).ID)
-		ply:SetStashID(Create(nil, INV_STASH, ply:CharID(), ply:EntIndex()).ID)
-	end
-
-	function LoadTemp(ply)
-		Clear(ply)
-
-		local data = Character.TempData[-ply:CharID()]
-		local inv, stash
-
-		if data.Inventory then
-			inv = data.Inventory; Get(inv):UpdateReceivers()
-			stash = data.Stash; Get(stash):UpdateReceivers()
-		else
-			inv = Create(nil, INV_PLAYER, ply:CharID(), ply:EntIndex()).ID
-			stash = Create(nil, INV_STASH, ply:CharID(), ply:EntIndex()).ID
-		end
-
-		data.Inventory = inv
-		data.Stash = stash
-
-		ply:SetInventoryID(inv)
-		ply:SetStashID(stash)
+		Create(nil, INV_PLAYER, ply:CharID(), ply:EntIndex())
+		Create(nil, INV_STASH, ply:CharID(), ply:EntIndex())
 	end
 
 	function Think()

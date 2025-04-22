@@ -278,9 +278,7 @@ else
 	function ENT:PostInitData()
 		BaseClass.PostInitData(self)
 
-		local inventory = Inventory.Create(nil, INV_ENTITY, self:GetContainerID(), self:EntIndex())
-
-		self:SetInventoryID(inventory.ID)
+		Inventory.Create(nil, INV_ENTITY, self:GetContainerID(), self:EntIndex())
 	end
 
 	function ENT:OnRemove()
