@@ -10,8 +10,8 @@ ITEM.IconFOV     = 25
 ITEM.Model       = Model("models/valk/h3/unsc/props/crates/case.mdl")
 ITEM.ModelGroups = {}
 
-function ITEM:IsCompatible(ply)
-	return table.HasValue(self.ModelGroups, self:GetModelGroup(ply))
+function ITEM:IsCompatible(ply, group)
+	return table.HasValue(self.ModelGroups, group or self:GetModelGroup(ply))
 end
 
 function ITEM:GetDescription()
@@ -32,4 +32,14 @@ end
 
 function ITEM:CanEquip(ply)
 	return self:IsCompatible(ply)
+end
+
+function ITEM:CheckEquipment()
+	if not self:IsCompatible(self:GetPlayer()) then
+		self:SetEquipmentSlot(nil)
+
+		return
+	end
+
+	return BaseClass.CheckEquipment(self)
 end
