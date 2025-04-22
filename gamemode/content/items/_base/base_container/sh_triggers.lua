@@ -8,14 +8,6 @@ function ITEM:OnRemove()
 	BaseClass.OnRemove(self)
 end
 
-if SERVER then
-	function ITEM:OnDelete()
-		for _, item in pairs(self.Contents.Items) do
-			item:Delete()
-		end
-	end
-end
-
 function ITEM:OnDropped()
 	BaseClass.OnDropped(self)
 
