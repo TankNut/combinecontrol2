@@ -105,7 +105,7 @@ if CLIENT then
 				for _, entry in ipairs(item:GetActionMenuData("EquipmentContext")) do
 					local name = item.Unique and string.format("%s\a%s", item:GetName(), item.ID) or item:GetName()
 
-					Context.Add(string.format("Equipment\0%s\0%s", name, entry.Name), entry.Callback, CONTEXT_EQUIPMENT)
+					Context.Add(string.format("Equipment\t%s\t%s", name, entry.Name), entry.Callback, CONTEXT_EQUIPMENT)
 				end
 			end
 		end
@@ -114,7 +114,7 @@ if CLIENT then
 			for _, entry in ipairs(item:GetActionMenuData("InventoryContext")) do
 				local name = item.Unique and string.format("%s\a%s", item:GetName(), item.ID) or item:GetName()
 
-				Context.Add(string.format("Inventory\0%s\0%s", name, entry.Name), entry.Callback, CONTEXT_INVENTORY)
+				Context.Add(string.format("Inventory\t%s\t%s", name, entry.Name), entry.Callback, CONTEXT_INVENTORY)
 			end
 		end
 

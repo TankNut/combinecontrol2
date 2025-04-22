@@ -87,7 +87,7 @@ end
 
 function ItemCustomization(priority, name, var, options)
 	local action = {
-		Name = "Customize\0" .. name,
+		Name = "Customize\t" .. name,
 		Priority = priority,
 
 		Context = table.Lookup({"RightClick", "Examine"}),

@@ -1,5 +1,5 @@
 Action.Add("SeeAll", {
-	Name = "Admin Utilities\0Toggle SeeAll",
+	Name = "Admin Utilities\tToggle SeeAll",
 	ClientOnly = true,
 	Priority = 10,
 
@@ -20,7 +20,7 @@ local settings = {
 
 for k, setting in ipairs(settings) do
 	Action.Add(setting[1], {
-		Name = "Admin Utilities\0Toggle SeeAll\0" .. setting[2],
+		Name = "Admin Utilities\tToggle SeeAll\t" .. setting[2],
 		ClientOnly = true,
 		Priority = #settings - k,
 

@@ -201,7 +201,7 @@ if CLIENT then
 
 				for _, sub in ipairs(options) do
 					table.insert(menuData, {
-						Name = string.format("%s\0%s", action.Name, sub.Name),
+						Name = string.format("%s\t%s", action.Name, sub.Name),
 						Callback = function()
 							if IsValid(self) then
 								self:RunAction(lp, action.ID, sub.Value)
