@@ -19,7 +19,7 @@ ItemCustomization(ITEM_ACTION_CUSTOMIZE - 2, "Set Chest Packs", "ChestPacks", {
 	{Name = "Gunner", Value = 1},
 	{Name = "Assault", Value = 2},
 	{Name = "Grenadier", Value = 3},
-	{Name = "Recon", Value = 4}
+	{Name = "Infantry", Value = 4}
 })
 
 ItemCustomization(ITEM_ACTION_CUSTOMIZE - 3, "Set Thigh Pads", "ThighPads", {

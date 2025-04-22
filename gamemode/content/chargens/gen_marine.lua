@@ -1,4 +1,4 @@
-GENERATOR.Name = "Citizen"
+GENERATOR.Name = "UNSC/Marine"
 
 local models = Config.Get("BaseModels")
 
@@ -24,5 +24,16 @@ function GENERATOR:GetFields(ply)
 	}
 end
 
-function GENERATOR:PostCreateCharacter(ply, temp)
+function GENERATOR:PostCreateCharacter(ply)
+	ply:GiveItem("undersuit_marine_brown"):SetEquipmentSlot("unsc_undersuit")
+
+	local armor = ply:GiveItem("armor_marine")
+	armor:SetData("ShoulderPads", 2)
+	armor:SetData("ChestPacks", 2)
+	armor:SetData("Legs", 1)
+	armor:SetEquipmentSlot("unsc_armor")
+
+	local helmet = ply:GiveItem("helmet_marine")
+	helmet:SetData("Balaclava", true)
+	helmet:SetEquipmentSlot("unsc_headwear")
 end
