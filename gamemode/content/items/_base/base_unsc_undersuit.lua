@@ -5,13 +5,13 @@ ITEM.Internal       = true
 ITEM.Rarity         = RARITY_COMMON
 ITEM.Category       = "UNSC Undersuit"
 
-ITEM.Model          = Model("models/valk/h3/unsc/props/crates/case.mdl")
+ITEM.Model          = Model("models/valk/h4/unsc/props/sandbags/sandbags_single.mdl")
 
 ITEM.Weight         = 3
 
 ITEM.EquipmentSlots = {"unsc_undersuit"}
 
-ITEM.IconAngle      = Angle(30, 0, 0)
+ITEM.IconAngle      = Angle(50, 90, 0)
 ITEM.IconFOV        = 25
 
 ITEM.EquipTime      = 3
