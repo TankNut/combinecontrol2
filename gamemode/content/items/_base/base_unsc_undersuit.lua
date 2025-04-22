@@ -9,12 +9,10 @@ ITEM.Model          = Model("models/valk/h3/unsc/props/crates/case.mdl")
 
 ITEM.Weight         = 3
 
+ITEM.EquipmentSlots = {"unsc_undersuit"}
+
 ITEM.IconAngle      = Angle(30, 0, 0)
 ITEM.IconFOV        = 25
-
-ITEM.EquipmentSlots = {
-	"unsc_undersuit"
-}
 
 ITEM.EquipTime      = 3
 ITEM.UnequipTime    = 3
@@ -38,7 +36,7 @@ function ITEM:IsCompatible(ply)
 end
 
 function ITEM:GetModelGroup(ply)
-	return string.match(ply:CharacterModel(), "^.+/[^_]+_(.+).mdl")
+	return string.match(ply:CharacterModel(), "^.+/[^_]+_g?_?(.+).mdl")
 end
 
 function ITEM:GetPlayerModel(ply)
