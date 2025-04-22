@@ -52,7 +52,7 @@ ENT.Actions.SetTeleport = {
 }
 
 Action.Add("QuickTeleport", {
-	Name = "Admin Utilities/Quick Teleports",
+	Name = "Admin Utilities\tQuick Teleports",
 
 	Self = true,
 	Context = "Admin",

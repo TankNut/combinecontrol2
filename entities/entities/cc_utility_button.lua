@@ -43,7 +43,7 @@ ENT.Actions.SetButton = {
 }
 
 Action.Add("QuickButton", {
-	Name = "Admin Utilities/Quick Buttons",
+	Name = "Admin Utilities\tQuick Buttons",
 
 	Self = true,
 	Context = "Admin",
