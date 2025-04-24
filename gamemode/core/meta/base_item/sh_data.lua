@@ -5,7 +5,7 @@ function ITEM:GetData(key, fallback)
 		return self.Data[key]
 	end
 
-	return fallback
+	return util.SafeCopy(fallback)
 end
 
 function ITEM:SetData(key, val)
