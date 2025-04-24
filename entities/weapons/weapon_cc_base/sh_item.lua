@@ -1,3 +1,5 @@
+AddCSLuaFile()
+
 function SWEP:GetItem()
 	local id = self:GetItemID()
 
