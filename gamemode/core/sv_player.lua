@@ -83,6 +83,8 @@ function GM:PlayerSpawn(ply)
 	ply:SetUsingSpawnCamera(false)
 
 	Npc.HandlePlayerSpawn(ply)
+
+	ply:RunItemHooks("PlayerSpawned")
 end
 
 if not PLAYER._SetMaxArmor then
@@ -113,6 +115,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	end
 
 	ply:RunCharFlag("OnDeath")
+	ply:RunItemHooks("OnPlayerDeath")
 
 	if IsValid(attacker) and attacker:IsPlayer() and attacker != ply then
 		local weapon = dmg:GetInflictor()

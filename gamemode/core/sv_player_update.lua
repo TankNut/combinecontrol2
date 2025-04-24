@@ -54,7 +54,7 @@ function PLAYER:UpdateLoadout(spawned)
 
 	table.Add(loadout, hook.Run("GetPlayerLoadout", self))
 
-	-- Inventory weapons
+	self:RunItemHooks("GetLoadout", loadout, spawned)
 
 	local lookup = table.Lookup(loadout)
 

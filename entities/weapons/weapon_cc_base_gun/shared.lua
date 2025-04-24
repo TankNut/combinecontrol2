@@ -241,3 +241,27 @@ function SWEP:SetupMove(ply, mv, cmd)
 
 	mv:LimitSpeed(Lerp(self:GetAimState(), ply:GetWalkSpeed(), ply:GetWalkSpeed() * 0.75))
 end
+
+if SERVER then
+	function SWEP:LoadItemState(data)
+		self:SetFiremodeIndex(math.Clamp(data.Firemode, 1, #self.Settings.Firemodes))
+
+		if data.Clip then
+			self:SetClip1(math.Clamp(data.Clip, 0, self.Primary.ClipSize))
+		end
+	end
+
+	function SWEP:SaveItemState()
+		local data = {
+			Firemode = self:GetFiremodeIndex()
+		}
+
+		local clip = self:Clip1()
+
+		if clip > -1 then
+			data.Clip = clip
+		end
+
+		return data
+	end
+end

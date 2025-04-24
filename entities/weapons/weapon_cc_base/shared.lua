@@ -71,6 +71,7 @@ SWEP.Offsets = {
 
 include("sh_animations.lua")
 include("sh_holdtype.lua")
+include("sh_item.lua")
 include("sh_utils.lua")
 include("sh_view.lua")
 
@@ -93,11 +94,25 @@ function SWEP:Deploy()
 	return true
 end
 
+function SWEP:Holster()
+	if SERVER then
+		local item = self:GetItem()
+
+		if item then
+			item:SaveWeaponState()
+		end
+	end
+
+	return true
+end
+
 function SWEP:SetupDataTables()
 	self:NetworkVar("Bool", "Holstered")
 	self:NetworkVar("Bool", "Deployed")
 
 	self:NetworkVar("Float", "NextIdle")
+
+	self:NetworkVar("Int", "ItemID")
 end
 
 function SWEP:Think()

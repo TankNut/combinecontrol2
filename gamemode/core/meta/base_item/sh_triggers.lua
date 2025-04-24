@@ -125,7 +125,4 @@ if SERVER then
 			ply:AddBuff(buff)
 		end
 	end
-
-	function ITEM:OnPlayerDeath(ply)
-	end
 end
