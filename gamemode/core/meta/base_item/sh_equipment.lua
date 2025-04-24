@@ -24,7 +24,7 @@ function ITEM:IsEquipped()
 end
 
 function ITEM:CheckEquipmentSlot()
-	if not table.HasValue(self:GetCompatibleSlots(), self:GetEquipmentSlot()) then
+	if self:IsEquipped() and not table.HasValue(self:GetCompatibleSlots(), self:GetEquipmentSlot()) then
 		self:SetEquipmentSlot(nil)
 	end
 end

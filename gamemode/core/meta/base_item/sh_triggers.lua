@@ -1,16 +1,12 @@
 function ITEM:Load()
 	if self:IsEquipped() then
 		Inventory.Equipment[self:GetPlayer()][self:GetEquipmentSlot()] = self
-
-		if SERVER then
-			self:AddBuffs()
-		end
 	end
 end
 
 function ITEM:OnLoaded()
-	if SERVER and self:IsEquipped() then
-		self:CheckEquipmentSlot()
+	if SERVER then
+		self:AddBuffs()
 	end
 end
 
@@ -128,5 +124,8 @@ if SERVER then
 		for _, buff in ipairs(new) do
 			ply:AddBuff(buff)
 		end
+	end
+
+	function ITEM:OnPlayerDeath(ply)
 	end
 end

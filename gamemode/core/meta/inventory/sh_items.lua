@@ -59,6 +59,7 @@ else
 		self:ItemsChanged()
 
 		for _, item in pairs(self.Items) do
+			item:CheckEquipmentSlot()
 			item:OnLoaded()
 		end
 	end
