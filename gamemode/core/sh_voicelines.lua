@@ -1,32 +1,32 @@
 module("Voicelines", package.seeall)
 
-Categories = {}
+Groups = {}
 
 local PLAYER = FindMetaTable("Player")
 
-function Add(category, data)
-	Categories[category] = {
-		ID = category,
+function Add(name, data)
+	Groups[name] = {
+		ID = name,
 		Name = data.Name,
 		CanAccess = data.CanAccess or function(ply) return true end,
 		Options = data.Options
 	}
 end
 
-function Get(category)
-	return Categories[category]
+function Get(name)
+	return Groups[name]
 end
 
-function PLAYER:CanPlayVoicelines(category)
-	return hook.Run("CanPlayVoicelines", self, category)
+function PLAYER:CanPlayVoicelines(name)
+	return hook.Run("CanPlayVoicelines", self, name)
 end
 
-function GM:CanPlayVoicelines(ply, category)
+function GM:CanPlayVoicelines(ply, name)
 	if not ply:CanAct() or not ply:Alive() then
 		return false
 	end
 
-	if category and not Get(category).CanAccess(ply) then
+	if name and not Get(name).CanAccess(ply) then
 		return false
 	end
 
@@ -38,33 +38,36 @@ function GM:CanPlayVoicelines(ply, category)
 end
 
 if SERVER then
-	function PLAYER:PlayVoiceline(category, index, db)
-		hook.Run("PlayVoiceline", self, category, index, db)
+	function PLAYER:PlayVoiceline(name, index, db)
+		hook.Run("PlayVoiceline", self, name, index, db)
 	end
 
-	function GM:PlayVoiceline(ply, category, index, db)
+	function GM:PlayVoiceline(ply, name, index, db)
 		if not db then
 			db = 75
 		end
 
-		local voiceline = Get(category).Options[index]
+		local voiceline = Get(name).Options[index]
 
 		if not voiceline then
 			return
 		end
 
-		local text = voiceline.Text
-		local line = voiceline.Line
+		local sound = voiceline.Sound
 
 		-- TODO: "tables" -> Old CC1 sound tables.
-		if isstring(line) and string.match(line, ".-%.wav") then
-			ply:EmitSound(line, db)
+		if isstring(sound) and string.match(sound, ".-%.wav") then
+			ply:EmitSound(sound, db)
 		else
-			EmitSentence(line, ply:GetPos(), ply:EntIndex(), CHAN_AUTO, 1, db, 0, 100)
+			EmitSentence(sound, ply:GetPos(), ply:EntIndex(), CHAN_AUTO, 1, db, 0, 100)
+		end
+
+		Chat.Send("CONSOLE", ply:VisibleRPName() .. " played voiceline: \"" .. voiceline.Name .. "\"", Chat.GetTargets(ply:EyePos(), 300, 300, false))
+
+		if voiceline.Chat then
+			Chat.Parse(ply, isstring(voiceline.Chat) and voiceline.Chat or voiceline.Name)
 		end
 
 		ply.NextVoicelineTime = CurTime() + Config.Get("VoicelineDelay")
-
-		Chat.Send("CONSOLE", ply:VisibleRPName() .. " played voiceline: \"" .. text .. "\"", Chat.GetTargets(ply:EyePos(), 300, 300, false))
 	end
 end

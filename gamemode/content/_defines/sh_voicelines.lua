@@ -7,16 +7,17 @@ Voicelines.Add("MaleCitizenAmmo", {
 	end,
 	Options = {
 		{
-			Text = "Freeman, ammo!",
-			Line = "vo/npc/male01/ammo01.wav"
+			Name = "Freeman, ammo!",
+			Sound = "vo/npc/male01/ammo01.wav"
 		},
 		{
-			Text = "Here, ammo!",
-			Line = "vo/npc/male01/ammo03.wav"
+			Name = "Here, ammo!",
+			Sound = "vo/npc/male01/ammo03.wav"
 		},
 		{
-			Text = "Take some ammo!",
-			Line = "vo/npc/male01/ammo05.wav"
+			Name = "Take some ammo!",
+			Chat = true,
+			Sound = "vo/npc/male01/ammo05.wav"
 		}
 	}
 })
@@ -28,16 +29,17 @@ Voicelines.Add("MaleCitizenAngry", {
 	end,
 	Options = {
 		{
-			Text = "Spray 'em!",
-			Line = "vo/npc/male02/reb2_antlions05.wav"
+			Name = "Spray 'em!",
+			Sound = "vo/npc/male02/reb2_antlions05.wav"
 		},
 		{
-			Text = "I hate bugs!",
-			Line = "vo/npc/male02/reb2_antlions07.wav"
+			Name = "I hate bugs!",
+			Sound = "vo/npc/male02/reb2_antlions07.wav"
 		},
 		{
-			Text = "Damn these things!",
-			Line = "vo/npc/male02/reb2_antlions12.wav"
+			Name = "Damn these things!",
+			Chat = "/y Damn these things!",
+			Sound = "vo/npc/male02/reb2_antlions12.wav"
 		}
 	}
 })
@@ -49,16 +51,16 @@ Voicelines.Add("FemaleCitizenAmmo", {
 	end,
 	Options = {
 		{
-			Text = "Freeman, ammo!",
-			Line = "vo/npc/female01/ammo01.wav"
+			Name = "Freeman, ammo!",
+			Sound = "vo/npc/female01/ammo01.wav"
 		},
 		{
-			Text = "Here, ammo!",
-			Line = "vo/npc/female01/ammo03.wav"
+			Name = "Here, ammo!",
+			Sound = "vo/npc/female01/ammo03.wav"
 		},
 		{
-			Text = "Take some ammo!",
-			Line = "vo/npc/female01/ammo05.wav"
+			Name = "Take some ammo!",
+			Sound = "vo/npc/female01/ammo05.wav"
 		}
 	}
 })

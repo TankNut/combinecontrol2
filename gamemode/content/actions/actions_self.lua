@@ -11,26 +11,26 @@ Action.Add("Voicelines", {
 
 	SubOptions = function(self)
 		local options = {}
-		local categories = {}
+		local groups = {}
 
-		for id, category in SortedPairsByMemberValue(Voicelines.Categories, "Name") do
-			if not category.CanAccess(self) then
+		for id, group in SortedPairsByMemberValue(Voicelines.Groups, "Name") do
+			if not group.CanAccess(self) then
 				continue
 			end
 
-			table.insert(categories, category)
+			table.insert(groups, group)
 		end
 
-		local plural = #categories > 1
+		local plural = #groups > 1
 
-		for _, category in pairs(categories) do
-			local baseName = plural and category.Name .. "\t" or ""
+		for _, group in pairs(groups) do
+			local baseName = plural and group.Name .. "\t" or ""
 
-			for id, voiceline in pairs(category.Options) do
+			for id, voiceline in pairs(group.Options) do
 				table.insert(options, {
-					Name = baseName .. voiceline.Text,
+					Name = baseName .. voiceline.Name,
 					Value = {
-						Category = category.ID,
+						Group = group.ID,
 						Index = id
 					}
 				})
@@ -41,11 +41,11 @@ Action.Add("Voicelines", {
 	end,
 
 	Validate = function(self, ply, voiceline)
-		return ply:CanPlayVoicelines(voiceline.Category)
+		return ply:CanPlayVoicelines(voiceline.Group)
 	end,
 
 	Callback = function(self, ply, voiceline)
-		ply:PlayVoiceline(voiceline.Category, voiceline.Index)
+		ply:PlayVoiceline(voiceline.Group, voiceline.Index)
 	end
 })
 
