@@ -158,7 +158,9 @@ else
 	end
 
 	function GM:ShowSpare1(ply)
-		ply:OpenGUI("PlayerMenu")
+		if ply:HasCharacter() then
+			ply:OpenGUI("PlayerMenu")
+		end
 	end
 
 	function GM:ShowSpare2(ply)
