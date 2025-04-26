@@ -36,8 +36,6 @@ if SERVER then
 		elseif map == game.GetMap() then
 			GAMEMODE:SetMapLua(code)
 		else
-			local query
-
 			if code == "" then
 				GAMEMODE.Database:Query("DELETE FROM `rp_globals` WHERE `Map` = :map AND `Key` = 'MapLua'", {
 					map = map
@@ -48,8 +46,6 @@ if SERVER then
 					value = sfs.encode(code)
 				})
 			end
-
-			query:Execute()
 		end
 	end)
 end
