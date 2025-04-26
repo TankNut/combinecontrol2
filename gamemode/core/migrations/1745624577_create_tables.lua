@@ -1,10 +1,10 @@
 return function(db)
-	db:Query([[CREATE TABLE `rp_players` (
+	db:Query([[CREATE TABLE IF NOT EXISTS `rp_players` (
 		`SteamID` VARCHAR(32) NOT NULL,
 		PRIMARY KEY (`SteamID`)
 	)]])
 
-	db:Query([[CREATE TABLE `rp_characters` (
+	db:Query([[CREATE TABLE IF NOT EXISTS `rp_characters` (
 		`id` INT NOT NULL AUTO_INCREMENT,
 		`SteamID` VARCHAR(32) NOT NULL,
 		`Created_At` INT UNSIGNED NOT NULL,
@@ -14,7 +14,7 @@ return function(db)
 		INDEX(`Deleted_At`)
 	)]])
 
-	db:Query([[CREATE TABLE `rp_items` (
+	db:Query([[CREATE TABLE IF NOT EXISTS `rp_items` (
 		`id` INT NOT NULL AUTO_INCREMENT,
 		`Class` VARCHAR(64) NOT NULL,
 		`StoreType` INT,
@@ -28,7 +28,7 @@ return function(db)
 		INDEX(`Deleted_At`)
 	)]])
 
-	db:Query([[CREATE TABLE `rp_globals` (
+	db:Query([[CREATE TABLE IF NOT EXISTS `rp_globals` (
 		`Map` VARCHAR(32) NOT NULL,
 		`Key` VARCHAR(64) NOT NULL,
 		`Value` BLOB NOT NULL,
@@ -40,7 +40,7 @@ return function(db)
 		PRIMARY KEY(`Map`, `Key`)
 	)]])
 
-	db:Query([[CREATE TABLE `rp_bans` (
+	db:Query([[CREATE TABLE IF NOT EXISTS `rp_bans` (
 		`SteamID` VARCHAR(32) NOT NULL,
 		`Admin` VARCHAR(32) NOT NULL,
 		`Timestamp` INT UNSIGNED NOT NULL,
@@ -49,7 +49,7 @@ return function(db)
 		PRIMARY KEY(`SteamID`)
 	)]])
 
-	db:Query([[CREATE TABLE `rp_logs` (
+	db:Query([[CREATE TABLE IF NOT EXISTS `rp_logs` (
 		`id` INT NOT NULL AUTO_INCREMENT,
 		`Name` VARCHAR(64) NOT NULL,
 		`Log` TEXT NOT NULL,
@@ -60,7 +60,7 @@ return function(db)
 		INDEX(`Timestamp`)
 	)]])
 
-	db:Query([[CREATE TABLE `rp_log_data` (
+	db:Query([[CREATE TABLE IF NOT EXISTS `rp_log_data` (
 		`id` INT NOT NULL,
 		`Key` VARCHAR(64) NOT NULL,
 		`Value` VARCHAR(512) NOT NULL,
@@ -69,7 +69,7 @@ return function(db)
 
 	db:Query("ALTER TABLE `rp_log_data` ADD CONSTRAINT FOREIGN KEY (`id`) REFERENCES `rp_logs` (`id`) ON DELETE CASCADE")
 
-	db:Query([[CREATE TABLE `rp_worldents` (
+	db:Query([[CREATE TABLE IF NOT EXISTS `rp_worldents` (
 		`id` INT NOT NULL AUTO_INCREMENT,
 		`Class` VARCHAR(64) NOT NULL,
 		`Map` VARCHAR(32) NOT NULL,
