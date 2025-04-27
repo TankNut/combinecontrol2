@@ -137,8 +137,8 @@ function PLAYER:CreateCharacter(fields)
 
 	local _, id = GAMEMODE.Database:Query(string.format("INSERT INTO `rp_characters` (%s) VALUES (%s)", table.concat(keys, ", "), table.concat(values, ", ")), data)
 
-	self:LoadCharacterList()
 	self:LoadCharacter(id)
+	self:LoadCharacterList()
 
 	return id
 end
