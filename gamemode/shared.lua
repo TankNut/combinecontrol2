@@ -19,6 +19,9 @@ local function client(path) if CLIENT then return include(path) else AddCSLuaFil
 local function server(path) if SERVER then return include(path) end end
 local function shared(path) AddCSLuaFile(path) return include(path) end
 
+hook.Remove("PlayerTick", "TickWidgets")
+hook.Remove("PostDrawEffects", "RenderWidgets")
+
 GM.Config = {}
 
 shared("core/enums.lua")
