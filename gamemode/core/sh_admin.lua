@@ -110,7 +110,11 @@ function GM:OnUserGroupChanged(ply, old, new, loaded)
 	end
 end
 
-if SERVER then
+if CLIENT then
+	hook.Add("ShouldDrawZones", "CombineControl", function()
+		return lp:EditMode()
+	end)
+else
 	hook.Remove("PlayerInitialSpawn", "PlayerAuthSpawn")
 
 	GM:SetAIDisabled(GetConVar("ai_disabled"):GetBool(), true)
