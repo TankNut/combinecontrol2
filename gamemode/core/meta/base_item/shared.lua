@@ -24,6 +24,8 @@ ITEM.Skin                = 0
 ITEM.Color               = color_white
 ITEM.Scale               = 1
 
+ITEM.Material            = ""
+
 -- Inventory data
 ITEM.Weight              = 1
 ITEM.WeightMultiplier    = 0.2
