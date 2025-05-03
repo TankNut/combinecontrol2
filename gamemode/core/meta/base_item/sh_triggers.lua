@@ -44,8 +44,18 @@ function ITEM:InventoryRemoved(inventory)
 	end
 end
 
+-- Removed from an inventory, called after it happens
+function ITEM:PostInventoryRemoved(inventory)
+	if SERVER and inventory.StoreType == INV_PLAYER and (self.GetModelData or self.PostModelData) then
+		inventory:GetPlayer():UpdateAppearance()
+	end
+end
+
 -- Added to an inventory, called after it happens
 function ITEM:InventoryAdded(inventory)
+	if SERVER and inventory.StoreType == INV_PLAYER and (self.GetModelData or self.PostModelData) then
+		inventory:GetPlayer():UpdateAppearance()
+	end
 end
 
 function ITEM:OnEquipped(ply, slot)

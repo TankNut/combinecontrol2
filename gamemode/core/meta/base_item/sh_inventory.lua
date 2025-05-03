@@ -12,6 +12,8 @@ function ITEM:ClearInventory()
 
 		inventory:RemoveItem(self)
 		inventory:ItemsChanged()
+
+		self:PostInventoryRemoved(inventory)
 	end
 end
 
