@@ -34,3 +34,16 @@ end
 function ITEM:CanEquip(ply)
 	return self:IsCompatible(ply)
 end
+
+function ITEM:CheckEquipmentSlot()
+	local ply = self:GetPlayer()
+	local group = self:GetModelGroup(ply)
+
+	if not self:IsCompatible(ply, group) then
+		self:SetEquipmentSlot(nil)
+
+		return
+	end
+
+	BaseClass.CheckEquipmentSlot()
+end
