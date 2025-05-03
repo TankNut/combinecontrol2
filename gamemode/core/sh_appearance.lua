@@ -60,6 +60,8 @@ if SERVER then
 	function PLAYER:UpdateAppearance()
 		local appearance, hasOverride = hook.Run("GetBaseAppearance", self)
 
+		appearance._base.Color = team.GetColor(self:Team())
+
 		if self:HasCharacter() then
 			local clothing = self:RunCharFlag("Clothing")
 			local items = self:GetItems()
