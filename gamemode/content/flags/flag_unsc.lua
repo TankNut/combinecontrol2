@@ -7,7 +7,12 @@ FLAG.EquipmentSlots = {
 	"unsc_headwear",
 	"unsc_back",
 	"unsc_armor",
-	"unsc_undersuit"
+	"unsc_undersuit",
+
+	"primary",
+	"secondary",
+	"sidearm",
+	"melee"
 }
 
 FLAG.Clothing = CLOTHING_FULL
