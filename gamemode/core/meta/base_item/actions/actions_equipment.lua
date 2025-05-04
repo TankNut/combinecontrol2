@@ -39,7 +39,7 @@ ITEM.Actions.Equip = {
 }
 
 ITEM.Actions.EquipSlot = {
-	Name = "Equip...",
+	Name = "Equip as",
 	Priority = ITEM_ACTION_EQUIP,
 
 	Context = table.Lookup({
@@ -54,7 +54,7 @@ ITEM.Actions.EquipSlot = {
 
 		for _, slot in ipairs(self:GetCompatibleSlots()) do
 			table.insert(options, {
-				Name = "Equip as: " .. EquipmentSlot(slot),
+				Name = string.FirstToUpper(EquipmentSlot(slot)),
 				Value = slot
 			})
 		end
@@ -71,7 +71,7 @@ ITEM.Actions.EquipSlot = {
 	end,
 	Validate = function(self, ply, slot)
 		if not slot then
-			return false, "You need to specify an equipment slot!"
+			return false, "You have to specify an equipment slot!"
 		end
 
 		return hook.Run("CanUseEquipmentSlot", ply, self, slot)
