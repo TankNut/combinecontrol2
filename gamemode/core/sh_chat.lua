@@ -104,7 +104,7 @@ function GetTargets(pos, range, muffledRange, withEntities)
 			if dist < maxRange * maxRange then
 				table.insert(targets, ent)
 			end
-		elseif dist <= muffledRange then
+		elseif dist <= muffledRange * muffledRange then
 			table.insert(targets, ent)
 		end
 	end
