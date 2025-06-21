@@ -24,7 +24,7 @@ ITEM.ModelGroup     = ""
 function ITEM:GetDescription()
 	local description = BaseClass.GetDescription(self)
 
-	if CLIENT and #self:GetEquipmentSlots() > 0 and not self:IsCompatible(lp) then
+	if CLIENT and #self:GetCompatibleSlots() > 0 and not self:IsCompatible(lp) then
 		description = description .. "\n\n<c=red>This undersuit isn't compatible with your model!</c>"
 	end
 
