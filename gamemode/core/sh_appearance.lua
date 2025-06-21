@@ -60,8 +60,6 @@ if SERVER then
 	function PLAYER:UpdateAppearance()
 		local appearance, hasOverride = hook.Run("GetBaseAppearance", self)
 
-		appearance._base.Color = team.GetColor(self:Team())
-
 		if self:HasCharacter() then
 			local clothing = self:RunCharFlag("Clothing")
 			local items = self:GetItems()
@@ -92,6 +90,10 @@ if SERVER then
 		end
 
 		assert(appearance._base, "UpdateAppearance somehow ended up without _base model data!")
+
+		if not appearance._base.Color then
+			appearance._base.Color = team.GetColor(self:Team())
+		end
 
 		self:SetAppearance(appearance)
 	end

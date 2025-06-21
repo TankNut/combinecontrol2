@@ -62,6 +62,7 @@ if SERVER then
 			Name = target:VisibleRPName(),
 			Text = text
 		})
+
 		netstream.Send(target, "SendChat", {
 			__Type = self.Name,
 			Name = ply:VisibleRPName(),
