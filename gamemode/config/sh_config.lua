@@ -90,7 +90,7 @@ GM.Config.CharacterDescriptionRules = {
 GM.Config.MaxCharacters = 15
 GM.Config.ShortDescLength = 64
 
-GM.Config.BotGenerator = "citizen"
+GM.Config.BotGenerator = "marine"
 
 -- Admin stuff
 GM.Config.LogLines = 200
