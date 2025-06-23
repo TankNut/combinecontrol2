@@ -1,7 +1,12 @@
-ITEM.Name           = "MJOLNIR Powered Assault Armor/Mark V[B]"
+ITEM.Name           = "MJOLNIR Powered Assault Armor"
 
 ITEM.Rarity         = RARITY_LEGENDARY
-ITEM.Category       = "SPARTAN-III"
+ITEM.Category       = "Spartan"
+
+ITEM.Model       	= Model("models/rena_haloreach/crate_packing.mdl")
+
+ITEM.IconAngle   	= Angle(30, 27, 0)
+ITEM.IconFOV     	= 35
 
 ITEM.Weight         = 12
 
@@ -9,7 +14,7 @@ ITEM.EquipmentSlots = {"spartan"}
 
 ITEM.Actions = {}
 
-ItemCustomization(ITEM_ACTION_CUSTOMIZE - 1, "Set Armor Color", "ArmorColor", {
+local colorOptions = {
 	{Name = "Steel", Value = Color(74, 74, 74)},
 	{Name = "Silver", Value = Color(136, 136, 136)},
 	{Name = "White", Value = Color(207, 207, 207)},
@@ -49,9 +54,9 @@ ItemCustomization(ITEM_ACTION_CUSTOMIZE - 1, "Set Armor Color", "ArmorColor", {
 	{Name = "Gold", Value = Color(141, 95, 19)},
 	{Name = "Yellow", Value = Color(190, 161, 45)},
 	{Name = "Pale", Value = Color(209, 203, 87)}
-})
+}
 
-ItemCustomization(ITEM_ACTION_CUSTOMIZE - 2, "Set Helmet", "PlayerModel", {
+local modelOptions = {
 	{Name = "Mark V [B]", Value = Model("models/models/valk/haloreach/unsc/spartan/spartan_vb.mdl")},
 	{Name = "CQC", Value = Model("models/models/valk/haloreach/unsc/spartan/spartan_cqc.mdl")},
 	{Name = "ODST", Value = Model("models/models/valk/haloreach/unsc/spartan/spartan_odst.mdl")},
@@ -71,23 +76,23 @@ ItemCustomization(ITEM_ACTION_CUSTOMIZE - 2, "Set Helmet", "PlayerModel", {
 	{Name = "GUNGNIR", Value = Model("models/models/valk/haloreach/unsc/spartan/spartan_gungnir.mdl")},
 	{Name = "Security", Value = Model("models/models/valk/haloreach/unsc/spartan/spartan_security.mdl")},
 	{Name = "Military Police", Value = Model("models/models/valk/haloreach/unsc/spartan/spartan_mp.mdl")}
-})
+}
 
-ItemCustomization(ITEM_ACTION_CUSTOMIZE - 3, "Set Helmet Attachments", "Attachment", {
+local attachmentOptions = {
 	{Name = "Default", Value = 0},
 	{Name = "Variant #1", Value = 1},
 	{Name = "Variant #2", Value = 2}
-})
+}
 
-ItemCustomization(ITEM_ACTION_CUSTOMIZE - 4, "Set Visor", "Visor", {
+local visorOptions = {
 	{Name = "Default", Value = 0},
 	{Name = "Silver", Value = 1},
 	{Name = "Blue", Value = 2},
 	{Name = "Black", Value = 3},
-	{Name = "Gold", Value = 4},
-})
+	{Name = "Gold", Value = 4}
+}
 
-local shoulders = {
+local shoulderOptions = {
 	{Name = "Default", Value = 0},
 	{Name = "FJ/PARA", Value = 1},
 	{Name = "HAZOP/PARA", Value = 2},
@@ -106,10 +111,7 @@ local shoulders = {
 	{Name = "Security", Value = 15}
 }
 
-ItemCustomization(ITEM_ACTION_CUSTOMIZE - 5, "Set Left Shoulder", "LeftShoulder", shoulders)
-ItemCustomization(ITEM_ACTION_CUSTOMIZE - 6, "Set Right Shoulder", "RightShoulder", shoulders)
-
-ItemCustomization(ITEM_ACTION_CUSTOMIZE - 7, "Set Chest", "Chest", {
+local chestOptions = {
 	{Name = "Default", Value = 0},
 	{Name = "HP/HALO", Value = 1},
 	{Name = "UA/Counterassault", Value = 2},
@@ -125,32 +127,71 @@ ItemCustomization(ITEM_ACTION_CUSTOMIZE - 7, "Set Chest", "Chest", {
 	{Name = "Collar/Grenadier [UA]", Value = 12},
 	{Name = "UA/Multi-Threat", Value = 13},
 	{Name = "UA/Base Security", Value = 14}
-})
+}
 
-ItemCustomization(ITEM_ACTION_CUSTOMIZE - 8, "Set Wrist", "Wrist", {
+local wristOptions = {
 	{Name = "Default", Value = 0},
 	{Name = "UA/Buckler", Value = 1},
 	{Name = "UA/Bracer", Value = 2},
 	{Name = "Tactical/TACPAD", Value = 3},
 	{Name = "Tactical/UGPS", Value = 4},
 	{Name = "Assault/Breacher", Value = 5}
-})
+}
 
-ItemCustomization(ITEM_ACTION_CUSTOMIZE - 9, "Set Utility", "Utility", {
+local utilityOptions = {
 	{Name = "Default", Value = 0},
 	{Name = "UA/CHOBHAM", Value = 1},
 	{Name = "Tactical/Hard Case", Value = 2},
 	{Name = "UA/NxRA", Value = 3},
 	{Name = "Tactical/Trauma Kit", Value = 4},
 	{Name = "Tactical/Soft Case", Value = 5}
-})
+}
 
-ItemCustomization(ITEM_ACTION_CUSTOMIZE - 10, "Set Knees", "Knees", {
+local kneeOptions = {
 	{Name = "Default", Value = 0},
 	{Name = "FJ/PARA", Value = 1},
 	{Name = "GUNGNIR", Value = 2},
 	{Name = "Grenadier", Value = 3}
-})
+}
+
+ITEM.Actions.Randomize = {
+	Name = "Customize\tRandomize",
+	Priority = ITEM_ACTION_CUSTOMIZE - 11,
+
+	Context = table.Lookup({"RightClick", "Examine"}),
+
+	CanRun = function(self, ply)
+		return self:IsEquipped() and hook.Run("CanInteractWithItem", ply, self)
+	end,
+	Callback = function(self, ply)
+		self:Randomize()
+		ply:UpdateAppearance()
+	end
+}
+
+ItemCustomization(ITEM_ACTION_CUSTOMIZE - 1, "Set Armor Color", "ArmorColor", colorOptions)
+ItemCustomization(ITEM_ACTION_CUSTOMIZE - 2, "Set Helmet", "PlayerModel", modelOptions)
+ItemCustomization(ITEM_ACTION_CUSTOMIZE - 3, "Set Helmet Attachments", "Attachment", attachmentOptions)
+ItemCustomization(ITEM_ACTION_CUSTOMIZE - 4, "Set Visor", "Visor", visorOptions)
+ItemCustomization(ITEM_ACTION_CUSTOMIZE - 5, "Set Left Shoulder", "LeftShoulder", shoulderOptions)
+ItemCustomization(ITEM_ACTION_CUSTOMIZE - 6, "Set Right Shoulder", "RightShoulder", shoulderOptions)
+ItemCustomization(ITEM_ACTION_CUSTOMIZE - 7, "Set Chest", "Chest", chestOptions)
+ItemCustomization(ITEM_ACTION_CUSTOMIZE - 8, "Set Wrist", "Wrist", wristOptions)
+ItemCustomization(ITEM_ACTION_CUSTOMIZE - 9, "Set Utility", "Utility", utilityOptions)
+ItemCustomization(ITEM_ACTION_CUSTOMIZE - 10, "Set Knees", "Knees", kneeOptions)
+
+function ITEM:Randomize()
+	self:SetData("ArmorColor", table.Random(colorOptions).Value)
+	self:SetData("PlayerModel", table.Random(modelOptions).Value)
+	self:SetData("Attachment", table.Random(attachmentOptions).Value)
+	self:SetData("Visor", table.Random(visorOptions).Value)
+	self:SetData("LeftShoulder", table.Random(shoulderOptions).Value)
+	self:SetData("RightShoulder", table.Random(shoulderOptions).Value)
+	self:SetData("Chest", table.Random(chestOptions).Value)
+	self:SetData("Wrist", table.Random(wristOptions).Value)
+	self:SetData("Utility", table.Random(utilityOptions).Value)
+	self:SetData("Knees", table.Random(kneeOptions).Value)
+end
 
 if SERVER then
 	function ITEM:GetModelData(ply, clothing)
