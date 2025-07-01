@@ -104,8 +104,15 @@ function SWEP:GetFiremodeName()
 end
 
 function SWEP:GetHUDLines()
-	local ammo = string.format("<f=CombineControl.Ammo><ol><c=cc_normal>%s/%s", self:Clip1(), self.Primary.ClipSize)
-	local firemode = "<f=CombineControl.AmmoSmall><ol><c=cc_normal>" .. self:GetFiremodeName()
+	local lines = {}
 
-	return {ammo, firemode}
+	if self.Primary.ClipSize > 0 then
+		table.insert(lines, string.format("<f=CombineControl.Ammo><ol><c=cc_normal>%s/%s", self:Clip1(), self.Primary.ClipSize))
+	end
+
+	if #self.Settings.Firemodes > 1 then
+		table.insert(lines, "<f=CombineControl.AmmoSmall><ol><c=cc_normal>" .. self:GetFiremodeName())
+	end
+
+	return lines
 end
