@@ -1,5 +1,9 @@
 module("shield", package.seeall)
 
+function Get(ent)
+	return ent:GetNWEntity("ShieldEntity")
+end
+
 if SERVER then
 	function Enable(ent, class)
 		SafeRemoveEntity(ent.ShieldEntity)
@@ -10,7 +14,7 @@ if SERVER then
 		shield:Spawn()
 		shield:Activate()
 
-		ent.ShieldEntity = shield
+		ent:SetNWEntity("ShieldEntity", shield)
 	end
 
 	function Disable(ent)

@@ -7,26 +7,38 @@ ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.Spawnable = false
 ENT.AdminSpawnable = false
 
-ENT.BaseShieldScale = 1.05
 ENT.Material = "models/effects/shield"
 
 ENT.BaseShield = 100
 ENT.RechargeDelay = 5
 ENT.RechargeTime = 4
 
+ENT.RechargeSound = Sound("cc2.ShieldRecharge.Spartan")
+ENT.LowAlertSound = Sound("taconbanana/halo/shield/alert_low_spartan.wav")
+ENT.BreakAlertSound = Sound("taconbanana/halo/shield/alert_break_spartan.wav")
+
 function ENT:Initialize()
+	local parent = self:GetParent()
+
 	self:SetAutomaticFrameAdvance(true)
 	self:SetLocalPos(vector_origin)
 	self:DrawShadow(false)
-	self:SetModel(self:GetParent():GetModel())
+	self:SetModel(parent:GetModel())
+
+	if CLIENT and parent == lp then
+		self.LowAlertSoundPatch = CreateSound(self, self.LowAlertSound)
+		self.BreakAlertSoundPatch = CreateSound(self, self.BreakAlertSound)
+	elseif SERVER then
+		self.CanPlayRechargeSound = true
+	end
 end
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Float", "Shield")
 	self:NetworkVar("Float", "LastPing")
 
-	self:SetShield(self.BaseShield)
-	self:SetLastPing(CurTime())
+	self:SetShield(0)
+	self:SetLastPing(CurTime() - self.RechargeDelay)
 end
 
 function ENT:TimeSinceLastHit()
@@ -49,7 +61,7 @@ function ENT:GetShieldValue()
 		if time >= rechargeTimer then
 			return self.BaseShield
 		else
-			return math.Remap(time, 0, rechargeTimer, shield, self.BaseShield)
+			return math.Remap(time, 0, rechargeTimer, shield, self.BaseShield), true
 		end
 	end
 end
@@ -67,6 +79,11 @@ if SERVER then
 		if self:GetModel() != parent:GetModel() then
 			self:SetModel(parent:GetModel())
 		end
+
+		if self:TimeSinceLastHit() >= self.RechargeDelay and self.CanPlayRechargeSound then
+			self.CanPlayRechargeSound = false
+			self:EmitSound(self.RechargeSound)
+		end
 	end
 
 	function ENT:TakeShieldDamage(dmg)
@@ -74,26 +91,80 @@ if SERVER then
 			return
 		end
 
+		self.CanPlayRechargeSound = true
+		self:StopSound(self.RechargeSound)
+
 		self:SetShield(math.max(self:GetShieldValue() - dmg:GetDamage(), 0))
 		self:SetLastPing(CurTime())
+
+		if self:GetShield() == 0 then
+			self:EmitSound("cc2.ShieldBreak")
+		else
+			local damage = dmg:GetDamage()
+			local snd = "cc2.ShieldImpact.Light"
+
+			if damage >= 25 then
+				snd = "cc2.ShieldImpact.Heavy"
+			elseif damage >= 10 then
+				snd = "cc2.ShieldImpact.Medium"
+			end
+
+			self:EmitSound(snd)
+		end
 
 		return true
 	end
 end
 
 if CLIENT then
+	function ENT:Think()
+		if self:GetParent() != lp then
+			return
+		end
+
+		local shieldFraction = self:GetShieldValue() / self.BaseShield
+
+		local breakSound = shieldFraction == 0
+		local lowSound = not breakSound and shieldFraction <= 0.2
+
+		if breakSound != self.BreakAlertSoundPatch:IsPlaying() then
+			self.BreakAlertSoundPatch[breakSound and "Play" or "Stop"](self.BreakAlertSoundPatch)
+		end
+
+		if lowSound != self.LowAlertSoundPatch:IsPlaying() then
+			self.LowAlertSoundPatch[lowSound and "Play" or "Stop"](self.LowAlertSoundPatch)
+		end
+	end
+
 	function ENT:GetShieldColor()
 		return Vector(1, 0.75, 0)
 	end
 
+	function ENT:GetShieldScale()
+		return math.Remap(self:GetShieldValue(), 0, self.BaseShield, 1.2, 1.05)
+	end
+
 	function ENT:GetShieldVisibility()
-		local shield = self:GetShieldValue()
+		local shield, recharging = self:GetShieldValue()
 
 		if shield == 0 then
 			return 0
 		end
 
-		return 1 - (shield / self.BaseShield)
+		if recharging then
+			return math.Remap(shield, 0, self.BaseShield, 1, 0)
+		end
+
+		local maxAlpha = math.Remap(shield, 0, self.BaseShield, 1, 0.2)
+		local time = self:TimeSinceLastHit() - 0.5
+
+		if time <= 0 then
+			return maxAlpha
+		end
+
+		local fade = math.Remap(shield, 0, self.BaseShield, 1, 0.5)
+
+		return math.ClampedRemap(time, 0, fade, maxAlpha, 0)
 	end
 
 	function ENT:Draw()
@@ -115,7 +186,7 @@ if CLIENT then
 		self:SetupBones()
 
 		local scale = Vector(1, 1, 1)
-		scale:Mul(self.BaseShieldScale * parent:GetModelScale())
+		scale:Mul(self:GetShieldScale() * parent:GetModelScale())
 
 		for i = 0, self:GetBoneCount() - 1 do
 			local matrix = parent:GetBoneMatrix(i)
@@ -138,3 +209,71 @@ if CLIENT then
 		render.SetBlend(1)
 	end
 end
+
+sound.Add({
+	name = "cc2.ShieldImpact.Light",
+	channel = CHAN_AUTO,
+	volume = 1,
+	level = 80,
+	sound = {
+		")taconbanana/halo/shield/hit_light1.wav",
+		")taconbanana/halo/shield/hit_light2.wav",
+		")taconbanana/halo/shield/hit_light3.wav",
+		")taconbanana/halo/shield/hit_light4.wav",
+		")taconbanana/halo/shield/hit_light5.wav",
+		")taconbanana/halo/shield/hit_light6.wav",
+		")taconbanana/halo/shield/hit_light7.wav"
+	}
+})
+
+sound.Add({
+	name = "cc2.ShieldImpact.Medium",
+	channel = CHAN_AUTO,
+	volume = 1,
+	level = 80,
+	sound = {
+		")taconbanana/halo/shield/hit_medium1.wav",
+		")taconbanana/halo/shield/hit_medium2.wav",
+		")taconbanana/halo/shield/hit_medium3.wav",
+		")taconbanana/halo/shield/hit_medium4.wav",
+		")taconbanana/halo/shield/hit_medium5.wav",
+		")taconbanana/halo/shield/hit_medium6.wav",
+		")taconbanana/halo/shield/hit_medium7.wav"
+	}
+})
+
+sound.Add({
+	name = "cc2.ShieldImpact.Heavy",
+	channel = CHAN_AUTO,
+	volume = 1,
+	level = 80,
+	sound = {
+		")taconbanana/halo/shield/hit_heavy1.wav",
+		")taconbanana/halo/shield/hit_heavy2.wav",
+		")taconbanana/halo/shield/hit_heavy3.wav",
+		")taconbanana/halo/shield/hit_heavy4.wav",
+		")taconbanana/halo/shield/hit_heavy5.wav",
+		")taconbanana/halo/shield/hit_heavy6.wav",
+		")taconbanana/halo/shield/hit_heavy7.wav"
+	}
+})
+
+sound.Add({
+	name = "cc2.ShieldBreak",
+	channel = CHAN_AUTO,
+	volume = 1,
+	level = 90,
+	sound = {
+		")taconbanana/halo/shield/break1.wav",
+		")taconbanana/halo/shield/break2.wav",
+		")taconbanana/halo/shield/break3.wav"
+	}
+})
+
+sound.Add({
+	name = "cc2.ShieldRecharge.Spartan",
+	channel = CHAN_AUTO,
+	volume = 1,
+	level = 80,
+	sound = ")taconbanana/halo/shield/recharge_spartan.wav"
+})
