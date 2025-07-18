@@ -86,6 +86,13 @@ if SERVER then
 		end
 	end
 
+	function ENT:OnRemove()
+		self:StopSound(self.RechargeSound)
+
+		self.BreakAlertSoundPatch:Stop()
+		self.LowAlertSoundPatch:Stop()
+	end
+
 	function ENT:TakeShieldDamage(dmg)
 		if self:GetShieldValue() <= 0 then
 			return
