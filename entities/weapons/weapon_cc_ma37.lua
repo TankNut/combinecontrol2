@@ -88,6 +88,16 @@ if CLIENT then
 	local fill = Color(37, 141, 170)
 	local outline = Color(16, 60, 80)
 
+	function SWEP:GetVisibleAmmo()
+		local ammo = self:Clip1()
+
+		if ammo == -1 then
+			ammo = self.Settings.ClipSize
+		end
+
+		return ammo < 10 and "0" .. ammo or ammo
+	end
+
 	function SWEP:PostDrawViewModel(vm)
 		local matrix = vm:GetBoneMatrix(vm:LookupBone("b_gun"))
 
@@ -95,13 +105,7 @@ if CLIENT then
 		matrix:Rotate(Angle(180, 90, -116.362))
 
 		cam.Start3D2D(matrix:GetTranslation(), matrix:GetAngles(), 0.005)
-			local ammo = self:Clip1()
-
-			if ammo < 10 then
-				ammo = "0" .. ammo
-			end
-
-			draw.SimpleTextOutlined(ammo, "reach_ammocounter", 0, 12.5, fill, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, outline)
+			draw.SimpleTextOutlined(self:GetVisibleAmmo(), "reach_ammocounter", 0, 12.5, fill, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, outline)
 		cam.End3D2D()
 	end
 
@@ -122,13 +126,7 @@ if CLIENT then
 		matrix:Scale(Vector(scale, scale, scale))
 
 		cam.Start3D2D(matrix:GetTranslation(), matrix:GetAngles(), 0.005)
-			local ammo = self:Clip1()
-
-			if ammo < 10 then
-				ammo = "0" .. ammo
-			end
-
-			draw.SimpleTextOutlined(ammo, "reach_ammocounter", 0, 12.5, fill, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 1, outline)
+			draw.SimpleTextOutlined(self:GetVisibleAmmo(), "reach_ammocounter", 0, 12.5, fill, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 1, outline)
 		cam.End3D2D()
 	end
 end
