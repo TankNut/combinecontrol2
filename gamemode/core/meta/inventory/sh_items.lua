@@ -53,7 +53,11 @@ else
 				continue
 			end
 
-			self:AddItem(Item.Instance(data.Class, data.id, data.CustomData and sfs.decode(data.CustomData) or nil))
+			local item = Item.Instance(data.Class, data.id, data.CustomData and sfs.decode(data.CustomData) or nil)
+
+			self:AddItem(item)
+
+			item:Load()
 		end
 
 		self:ItemsChanged()
