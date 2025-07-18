@@ -5,7 +5,7 @@ function ITEM:Load()
 end
 
 function ITEM:OnLoaded()
-	if SERVER then
+	if SERVER and self:IsEquipped() then
 		self:AddBuffs()
 	end
 end
