@@ -143,3 +143,19 @@ sound.Add({
 		")vuthakral/halo/weapons/aie/fire2.wav"
 	}
 })
+
+if CLIENT then
+	matproxy.Add({
+		name = "drc_FunctionA",
+		init = function(self, mat, values)
+			self.ResultTo = values.resultvar
+			self.Input = values.input
+			self.Min = values.min
+		end,
+		bind = function(self, mat, ent)
+			if self.Input == "heat" then
+				mat:SetFloat(self.ResultTo, self.Min)
+			end
+		end
+	})
+end
