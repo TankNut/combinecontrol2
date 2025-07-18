@@ -46,11 +46,7 @@ end
 function GM:RunCharFlag(ply, name, ...)
 	local flag = ply:GetCharFlag()
 
-	if isfunction(flag[name]) then
-		return flag[name](flag, ply, ...)
-	else
-		return util.SafeCopy(flag[name])
-	end
+	return flag:Run(ply, name, ...)
 end
 
 function GM:OnCharacterFlagChanged(ply, old, new, loaded)

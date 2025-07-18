@@ -30,6 +30,14 @@ FLAG.CanChangeDescription = true
 
 FLAG.AllowSpawngroups = true
 
+function FLAG:Run(ply, name, ...)
+	if isfunction(self[name]) then
+		return self[name](self, ply, ...)
+	else
+		return util.SafeCopy(self[name])
+	end
+end
+
 function FLAG:GetSpeeds(ply)
 	return self.SlowWalkSpeed, self.WalkSpeed, self.RunSpeed, self.JumpPower, self.CrouchSpeed
 end
