@@ -10,6 +10,8 @@ FLAG.Armor = 0
 
 FLAG.Scale = 1
 
+FLAG.IStatSpeed = 5
+
 -- First weapon on the list is selected on spawn
 FLAG.Loadout = {}
 FLAG.EquipmentSlots = {}
@@ -17,8 +19,6 @@ FLAG.EquipmentSlots = {}
 FLAG.Clothing = CLOTHING_NONE
 
 FLAG.BloodColor = BLOOD_COLOR_RED
-
-FLAG.IStatSpeed = 5
 
 -- Min speed can be changed to <= 90 after my footstep plugin is ported over from helix
 FLAG.SlowWalkSpeed = 91

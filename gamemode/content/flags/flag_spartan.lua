@@ -5,6 +5,8 @@ FLAG.Armor = 100
 
 FLAG.Scale = 1.15
 
+FLAG.IStatSpeed = 7
+
 FLAG.Loadout = {"weapon_cc_hands"}
 
 FLAG.EquipmentSlots = {
