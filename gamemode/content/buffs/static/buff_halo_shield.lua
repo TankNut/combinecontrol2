@@ -1,5 +1,6 @@
-local BaseClass = inherit.Get("buff", "base")
+local BaseClass = inherit.Get("buff", "base_static")
 
+BUFF.Base = "base_static"
 BUFF.ShieldClass = "cc_shield"
 
 if SERVER then

@@ -1,5 +1,3 @@
-local BaseClass = inherit.Get("item", "base")
-
 ITEM.Name           = "MJOLNIR Powered Assault Armor"
 
 ITEM.Rarity         = RARITY_LEGENDARY
