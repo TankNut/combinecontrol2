@@ -191,6 +191,10 @@ if CLIENT then
 		for i = 0, self:GetBoneCount() - 1 do
 			local matrix = parent:GetBoneMatrix(i)
 
+			if self:GetBoneName(i) == "__INVALIDBONE__" then
+				continue
+			end
+
 			if matrix then
 				matrix:SetScale(scale)
 				self:SetBoneMatrix(i, matrix)
