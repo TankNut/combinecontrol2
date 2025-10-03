@@ -3,7 +3,7 @@ local func = function()
 
 	-- The Basics
 	str = str .. "<giant><b>Character Chat:</b></giant>"
-	str = str .. "\nEntering anything into your chatbox will make you speak using in-character text, which is limited by range and can be blocked by world geometry. Additional commands exist to help facilitate additional interaction, functionality, and the use of unique character languages."
+	str = str .. "\n	Entering anything into your chatbox will make you speak using in-character text, which is limited by range and can be blocked by world geometry. Additional commands exist to help facilitate additional interaction, functionality, and the use of unique character languages."
 
 	-- Chat Commands (Minus Set Language)
 	str = str .. "\n\n<big><b>Chat Commands:</b></big>"
@@ -37,7 +37,7 @@ local func = function()
 
 	-- Language Command Syntax
 	str = str .. "\n\n<big><b>Using Language Commands:</b></big>"
-	str = str .. "\nOn top of using language commands to speak directly or set your default language, you can preface chat commands with the language you want to use. Using <dark>/rus.y</dark>, for example, will cause you to yell in Russian, but won't change your current language."
+	str = str .. "\n	On top of using language commands to speak directly or set your default language, you can preface chat commands with the language you want to use. Using <dark>/rus.y</dark>, for example, will cause you to yell in Russian, but won't change your current language."
 	str = str .. "\n\n\t/[lang] - <dark>Sets a default speaking language (/eng will set you back to default).</dark>"
 	str = str .. "\n\t/[lang].[cmd] [text] - <dark>Uses a command with the given language.</dark>"
 

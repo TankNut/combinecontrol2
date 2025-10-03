@@ -7,12 +7,14 @@ local func = function(ply)
 		if not string.StartsWith(name, "rp_") or not console.IsVisible(command) or not command:CanAccess(lp) then
 			continue
 		end
+
 		playerCommands[name] = command
 	end
 
 	-- Menu Commands
 	local function addMenuCommand(name, binding)
 		local lookup = input.LookupBinding(binding, true)
+
 		str = str .. string.format("\n\t%s - %s <dark>(or use %s)</dark>", lookup and string.upper(lookup) or "Unbound", name, binding)
 	end
 
