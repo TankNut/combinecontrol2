@@ -8,7 +8,7 @@ Settings.Add("Newbie", {
 Settings.Add("UITransparency", {
 	Name = "UI Transparency",
 	ClientOnly = true,
-	Default = 60,
+	Default = 20,
 	Validate = {
 		validate.Min(0),
 		validate.Max(100)
