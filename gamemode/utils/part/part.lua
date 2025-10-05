@@ -79,11 +79,11 @@ function Call(name, ...)
 	end
 end
 
-hook.Add("Think", "tacolib.part", function()
+hook.Add("Think", "part", function()
 	Call("Think")
 end)
 
-hook.Add("EntityRemoved", "tacolib.part", function(ent)
+hook.Add("EntityRemoved", "part", function(ent)
 	jank(function()
 		if not IsValid(ent) then
 			Clear(ent)
@@ -91,8 +91,8 @@ hook.Add("EntityRemoved", "tacolib.part", function(ent)
 	end)
 end)
 
-hook.Add("CreateClientsideRagdoll", "tacolib.part", Copy)
+hook.Add("CreateClientsideRagdoll", "part", Copy)
 
-hook.Add("PostDrawTranslucentRenderables", "tacolib.part", function()
+hook.Add("PostDrawTranslucentRenderables", "part", function()
 	Call("Draw", "translucent")
 end)

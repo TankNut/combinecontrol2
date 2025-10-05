@@ -198,7 +198,7 @@ if CLIENT then
 		end
 	end)
 
-	hook.Add("NetworkEntityCreated", "tacolib.vars", function(ent)
+	hook.Add("NetworkEntityCreated", "vars", function(ent)
 		local vars = Vars[ent:EntIndex()]
 
 		if vars then
@@ -265,6 +265,6 @@ else
 		})
 	end
 
-	hook.Add("PlayerInitialSpawn", "tacolib.vars", Sync)
-	hook.Add("EntityRemoved", "tacolib.vars", Clear)
+	hook.Add("PlayerInitialSpawn", "vars", Sync)
+	hook.Add("EntityRemoved", "vars", Clear)
 end

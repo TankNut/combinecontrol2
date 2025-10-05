@@ -13,7 +13,7 @@ function CustomMetaTable(name)
 end
 
 if CLIENT then
-	hook.Add("InitPostEntity", "tacolib", function()
+	hook.Add("InitPostEntity", "globals", function()
 		_G.lp = LocalPlayer()
 	end)
 end
@@ -25,6 +25,6 @@ function jank(callback)
 	timer.Simple(0, callback)
 end
 
-hook.Add("ShutDown", "tacolib", function()
+hook.Add("ShutDown", "globals", function()
 	IsShuttingDown = true
 end)

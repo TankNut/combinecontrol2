@@ -1,7 +1,7 @@
 local PLAYER = FindMetaTable("Player")
 local ENTITY = FindMetaTable("Entity")
 
-local material = CreateMaterial("tacolib_cloak", "vertexlitgeneric", {
+local material = CreateMaterial("cloak", "vertexlitgeneric", {
 	["$basetexture"] = "null",
 	["$translucent"] = "1",
 	["$cloakpassenabled"] = "1",
@@ -27,7 +27,7 @@ end
 
 local renderingCloak = false
 
-hook.Add("PrePlayerDraw", "tacolib.cloak", function(ply)
+hook.Add("PrePlayerDraw", "cloak", function(ply)
 	if ply:IsCloaked() and not renderingCloak then
 		return true
 	end
@@ -45,7 +45,7 @@ local function updateShadow(ent, cloaked)
 	end
 end
 
-hook.Add("Think", "tacolib.cloak", function()
+hook.Add("Think", "cloak", function()
 	for _, ply in player.Iterator() do
 		local cloaked = ply:IsCloaked()
 
@@ -65,7 +65,7 @@ local function drawPlayer(ply)
 	end
 end
 
-hook.Add("PostDrawTranslucentRenderables", "tacolib.cloak", function(depth, skybox)
+hook.Add("PostDrawTranslucentRenderables", "cloak", function(depth, skybox)
 	if skybox then return end
 
 	renderingCloak = true

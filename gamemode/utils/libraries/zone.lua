@@ -39,7 +39,7 @@ if SERVER then
 	end
 end
 
-hook.Add("Think", "tacolib.zone", function()
+hook.Add("Think", "zone", function()
 	for _, ply in player.Iterator() do
 		if not PlayerData[ply] then
 			PlayerData[ply] = {
@@ -157,7 +157,7 @@ hook.Add("Think", "tacolib.zone", function()
 end)
 
 if CLIENT then
-	hook.Add("PostDrawTranslucentRenderables", "tacolib.zone", function(depth, skybox)
+	hook.Add("PostDrawTranslucentRenderables", "zone", function(depth, skybox)
 		if skybox then
 			return
 		end

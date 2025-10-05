@@ -342,5 +342,5 @@ local listCommand = AddCommand("commands", function(ply)
 	end
 end)
 
-listCommand:SetDescription("Lists out all console commands created through tacolib")
+listCommand:SetDescription("Lists out all available console commands")
 listCommand:SetExecutionContext(Shared)

@@ -12,7 +12,7 @@ function ENTITY:GetCreator()
 	elseif val == nil then -- No owner
 		return nil
 	else -- Offline/missing player
-		val = player.GetBySteamID(self:OwnerID()) -- Tacolib optimizes this it's fiiiiine
+		val = player.GetBySteamID(self:OwnerID()) -- We optimize this it's fiiiiine
 
 		if val then
 			self.m_PlayerCreator = val

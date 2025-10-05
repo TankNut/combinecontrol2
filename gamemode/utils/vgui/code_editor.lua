@@ -42,7 +42,7 @@ local keywords = table.Lookup({
 local numbers = table.Lookup(string.Explode("", "1234567890"))
 local letters = table.Lookup(string.Explode("", "abcdefghijklmnopqrstuvwxyz1234567890_"))
 
-surface.CreateFont("tacolib.CodeEditor", {
+surface.CreateFont("CC_CodeEditor", {
 	font = "Lucida Console",
 	size = 14,
 	weight = 400
@@ -63,7 +63,7 @@ function PANEL:Init()
 
 	self:SetCursor("Beam")
 
-	self.FontWidth, self.FontHeight = surface.GetFontSize("tacolib.CodeEditor", " ")
+	self.FontWidth, self.FontHeight = surface.GetFontSize("CC_CodeEditor", " ")
 
 	self.Style = theme
 
@@ -84,7 +84,7 @@ function PANEL:Init()
 	self.ScrollBar:SetUp(1, 1)
 
 	self.TextEntry = self:Add("TextEntry")
-	self.TextEntry:SetFontInternal("tacolib.CodeEditor")
+	self.TextEntry:SetFontInternal("CC_CodeEditor")
 	self.TextEntry:SetMultiline(true)
 	self.TextEntry:SetAllowNonAsciiCharacters(true)
 	self.TextEntry:SetSize(0, 0)
@@ -421,7 +421,7 @@ function PANEL:PaintLine(row)
 		end
 	end
 
-	draw.SimpleText(row, "tacolib.CodeEditor", width * 3, y, self.Style.LineNumber, TEXT_ALIGN_RIGHT)
+	draw.SimpleText(row, "CC_CodeEditor", width * 3, y, self.Style.LineNumber, TEXT_ALIGN_RIGHT)
 
 	local offset = -self.Scroll[2] + 1
 
@@ -431,12 +431,12 @@ function PANEL:PaintLine(row)
 				local line = string.sub(cell[1], -offset + 1)
 				offset = #line
 
-				draw.SimpleText(cell[1], "tacolib.CodeEditor", lineOffset + offset * width, y, cell[2])
+				draw.SimpleText(cell[1], "CC_CodeEditor", lineOffset + offset * width, y, cell[2])
 			else
 				offset = offset + #cell[1]
 			end
 		else
-			draw.SimpleText(cell[1], "tacolib.CodeEditor", lineOffset + offset * width, y, cell[2])
+			draw.SimpleText(cell[1], "CC_CodeEditor", lineOffset + offset * width, y, cell[2])
 
 			offset = offset + #cell[1]
 		end

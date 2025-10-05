@@ -1,7 +1,5 @@
 -- A bit archaic with how things are included, that's because we don't use the cl/sh/sv prefix method here
 
--- Normally including it this late 
-
 -- Libraries used elsewhere
 shared("libraries/async.lua")
 shared("libraries/log.lua")

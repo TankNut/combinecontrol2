@@ -52,5 +52,5 @@ function Force()
 	Timers = {}
 end
 
-hook.Add("ShutDown", "tacolib.deferred", Force)
-hook.Add("PreCleanupMap", "tacolib.deferred", Force)
+hook.Add("ShutDown", "deferred", Force)
+hook.Add("PreCleanupMap", "deferred", Force)

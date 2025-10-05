@@ -17,7 +17,7 @@ else
 
 	net.Ready = net.Ready or {}
 
-	hook.Add("OnRequestFullUpdate", "tacolib.player_ready", function(data)
+	hook.Add("OnRequestFullUpdate", "player_ready", function(data)
 		local ply = Player(data.userid)
 
 		if net.Ready[ply] then
