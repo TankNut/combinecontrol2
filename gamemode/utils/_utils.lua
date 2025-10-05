@@ -20,6 +20,7 @@ shared("libraries/console_parsers.lua")
 client("extensions/draw.lua")
 client("extensions/render.lua")
 client("extensions/surface.lua")
+client("extensions/panel.lua")
 
 shared("extensions/angle.lua")
 shared("extensions/bit.lua")

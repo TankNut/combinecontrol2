@@ -36,7 +36,6 @@ GM:Include("cl_fonts.lua")
 
 GM:Include("cl_ambience.lua")
 GM:Include("cl_spawnmenu.lua")
-GM:Include("cl_vgui.lua")
 GM:Include("cl_view.lua")
 GM:Include("cl_weaponselect.lua")
 GM:Include("sh_actions.lua")
