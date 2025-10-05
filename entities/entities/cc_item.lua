@@ -104,7 +104,7 @@ function ENT:OnRemove()
 	local item = self.Item
 
 	-- self.Item gets nulled out first if the item is being removed by other means, e.g. unloading or being picked up
-	if item and not GAMEMODE.IsShuttingDown then
+	if item and not IsShuttingDown then
 		item:Delete()
 	end
 end
