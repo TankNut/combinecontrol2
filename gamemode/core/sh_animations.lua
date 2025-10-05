@@ -23,7 +23,7 @@ function RegisterFolder(dir)
 
 		_G.CONTROLLER = {}
 
-		GM:IncludeShared(path)
+		shared(path)
 
 		Register(string.gsub(name, "^anim_", ""), CONTROLLER)
 

@@ -8,7 +8,7 @@ function PANEL:Init()
 	self:SetDraggable(true)
 	self:SetCloseOnPause()
 
-	self.Editor = self:Add("tacolib_CodeEditor")
+	self.Editor = self:Add("CC_CodeEditor")
 	self.Editor:Dock(FILL)
 
 	self.Editor.RunSaveCommand = function(pnl)

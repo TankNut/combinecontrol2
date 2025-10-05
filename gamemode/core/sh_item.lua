@@ -52,7 +52,7 @@ function RegisterFolder(dir)
 
 		_G.ITEM = {}
 
-		GM:IncludeShared(path)
+		shared(path)
 
 		Register(string.gsub(name, "^item_", ""), ITEM)
 

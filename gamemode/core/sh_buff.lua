@@ -3,7 +3,7 @@ module("buff", package.seeall)
 function RegisterFile(path)
 	_G.BUFF = {}
 
-	GM:IncludeShared(path)
+	shared(path)
 
 	Register(string.gsub(string.FileName(path), "^buff_", ""), BUFF)
 
@@ -20,7 +20,7 @@ function RegisterFolder(dir)
 
 		_G.BUFF = {}
 
-		GM:IncludeShared(path)
+		shared(path)
 
 		Register(string.gsub(name, "^buff_", ""), BUFF)
 

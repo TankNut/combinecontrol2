@@ -20,7 +20,7 @@ function RegisterFolder(dir)
 
 		_G.GENERATOR = {}
 
-		GM:IncludeShared(path)
+		shared(path)
 
 		Register(string.gsub(name, "^gen_", ""), GENERATOR)
 

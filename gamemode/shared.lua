@@ -11,14 +11,16 @@ GM.Email = "gangleider@taconbanana.com"
 gameevent.Listen("player_disconnect")
 gameevent.Listen("player_changename")
 
-local function client(path) if CLIENT then return include(path) else AddCSLuaFile(path) end end
-local function server(path) if SERVER then return include(path) end end
-local function shared(path) AddCSLuaFile(path) return include(path) end
+function client(path) if CLIENT then return include(path) else AddCSLuaFile(path) end end
+function server(path) if SERVER then return include(path) end end
+function shared(path) AddCSLuaFile(path) return include(path) end
 
 hook.Remove("PlayerTick", "TickWidgets")
 hook.Remove("PostDrawEffects", "RenderWidgets")
 
 GM.Config = {}
+
+shared("utils/_utils.lua")
 
 shared("core/enums.lua")
 shared("core/sh_config.lua")

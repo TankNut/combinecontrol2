@@ -1,48 +1,21 @@
 local prefixes = {
-	["cl_"] = "client",
-	["cc_"] = "client",
-	["gui_"] = "client",
-	["sv_"] = "server"
+	["sh_"] = shared,
+	["cl_"] = client,
+	["cc_"] = client,
+	["gui_"] = client,
+	["sv_"] = server
 }
 
 function GM:Include(path)
 	local filename = string.FileName(path)
-	local includeRealm = "shared"
 
-	for prefix, realm in pairs(prefixes) do
+	for prefix, func in pairs(prefixes) do
 		if string.sub(filename, 1, #prefix) == prefix then
-			includeRealm = realm
-
-			break
+			return func(path)
 		end
 	end
 
-	if includeRealm == "client" then
-		return self:IncludeClient(path)
-	elseif includeRealm == "server" then
-		return self:IncludeServer(path)
-	end
-
-	return self:IncludeShared(path)
-end
-
-function GM:IncludeClient(path)
-	if CLIENT then
-		return include(path)
-	else
-		AddCSLuaFile(path)
-	end
-end
-
-function GM:IncludeShared(path)
-	AddCSLuaFile(path)
-	return include(path)
-end
-
-function GM:IncludeServer(path)
-	if SERVER then
-		return include(path)
-	end
+	return shared(path)
 end
 
 function GM:LoadFolder(dir, subFile)

@@ -27,7 +27,7 @@ function RegisterFolder(dir)
 
 		_G.FLAG = {}
 
-		GM:IncludeShared(path)
+		shared(path)
 
 		Register(string.gsub(name, "^flag_", ""), FLAG)
 

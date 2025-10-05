@@ -19,7 +19,7 @@ function RegisterFolder(dir)
 
 		_G.CLASS = {}
 
-		GM:IncludeShared(path)
+		shared(path)
 
 		Register(string.gsub(name, "^chartype_", ""), CLASS)
 
