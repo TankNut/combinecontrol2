@@ -18,7 +18,7 @@ function HUD:Paint(w, h)
 	local scribeW = math.max(nameScribe:GetWide(), teamScribe:GetWide())
 	local scribeH = nameScribe:GetTall() + teamScribe:GetTall()
 
-	local boxW = math.max(scribeW + margin * 2, 220)
+	local boxW = math.max(scribeW + margin * 2, ui.Scale(220))
 	local boxH = scribeH + margin * 2
 
 	self:DrawAlignedRect(x, y, boxW, boxH, self.BoxColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
