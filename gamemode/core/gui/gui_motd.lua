@@ -1,9 +1,11 @@
 local PANEL = {}
 
 function PANEL:Init()
+	local padding = ui.Scale(10)
+
 	self:SetDraggable(true)
-	self:SetSize(500, 600)
-	self:DockPadding(10, 10, 10, 10)
+	self:SetSize(ui.Scale(500), ui.Scale(600))
+	self:DockPadding(padding, padding, padding, padding)
 
 	self:SetCloseOnPause()
 	self:SetTopBar("MOTD")

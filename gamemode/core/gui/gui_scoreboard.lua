@@ -194,7 +194,7 @@ local internalTeams = table.Lookup({
 })
 
 function PANEL:Init()
-	self:SetSize(ui.Scale(620), ScreenScale(200))
+	self:SetSize(ui.Scale(620), ui.Scale(800))
 	self:DockPadding(0, 50, 0, 0)
 
 	self:MakePopup()

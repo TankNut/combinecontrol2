@@ -4,7 +4,7 @@ function PANEL:CreateLabel(text, wide)
 	local label = self:Add("DLabel")
 
 	label:SetFont("CombineControl.LabelMedium")
-	label:SetSize(wide or 190, 20)
+	label:SetSize(wide or ui.Scale(190), ui.Scale(20))
 	label:SetText(text)
 
 	return label
@@ -13,13 +13,14 @@ end
 function PANEL:Init()
 	self.Restart = self:Add("DButton")
 	self.Restart:SetText("Restart Server")
-	self.Restart:SetWide(100)
+	self.Restart:SetSize(ui.Scale(100), ui.Scale(22))
 	self.Restart.DoClick = function()
 		RunConsoleCommand("rpa_restart")
 	end
 
 	self.DisableAILabel = self:CreateLabel("Disable AI")
 	self.DisableAI = self:Add("DCheckBox")
+	self.DisableAI:SetSize(ui.Scale(15), ui.Scale(15))
 	self.DisableAI:SetChecked(GAMEMODE:AIDisabled())
 	self.DisableAI.OnChange = function(_, val)
 		RunConsoleCommand("rpa_ai_disable", val and "1" or "0")
@@ -31,6 +32,7 @@ function PANEL:Init()
 
 	self.IgnoreAILabel = self:CreateLabel("NPC's Ignore Players")
 	self.IgnoreAI = self:Add("DCheckBox")
+	self.IgnoreAI:SetSize(ui.Scale(15), ui.Scale(15))
 	self.IgnoreAI:SetChecked(GAMEMODE:AINoTarget())
 	self.IgnoreAI.OnChange = function(_, val)
 		RunConsoleCommand("rpa_ai_notarget", val and "1" or "0")
@@ -44,7 +46,7 @@ function PANEL:Init()
 
 	self.OOCDelayLabel = self:CreateLabel("OOC Delay")
 	self.OOCDelay = self:Add("DTextEntry")
-	self.OOCDelay:SetTall(20)
+	self.OOCDelay:SetTall(ui.Scale(20))
 	self.OOCDelay:SetFont("CombineControl.LabelMedium")
 	self.OOCDelay:SetValue(initial == -1 and 0 or initial)
 	self.OOCDelay.OnEnter = function()
@@ -53,7 +55,7 @@ function PANEL:Init()
 
 	self.ApplyOOCDelay = self:Add("DButton")
 	self.ApplyOOCDelay:SetText("Apply")
-	self.ApplyOOCDelay:SetSize(50, 20)
+	self.ApplyOOCDelay:SetSize(ui.Scale(50), ui.Scale(20))
 	self.ApplyOOCDelay.DoClick = function()
 		local delay = util.Duration(self.OOCDelay:GetValue()) or 0
 
@@ -62,7 +64,7 @@ function PANEL:Init()
 
 	self.DisableOOC = self:Add("DButton")
 	self.DisableOOC:SetText("Disable")
-	self.DisableOOC:SetSize(80, 20)
+	self.DisableOOC:SetSize(ui.Scale(80), ui.Scale(20))
 	self.DisableOOC:SetDisabled(initial == -1)
 	self.DisableOOC.DoClick = function()
 		RunConsoleCommand("rpa_oocdisable")

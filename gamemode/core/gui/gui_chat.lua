@@ -14,7 +14,7 @@ function PANEL:Init()
 	self.Scroll = self:Add("CC_ChatScroll")
 
 	self.TopBar = self:Add("Panel")
-	self.TopBar:SetTall(20)
+	self.TopBar:SetTall(ui.Scale(22))
 
 	self.Tabs = cookie.GetNumber("cc_chat_tabs", 0)
 	self.Buttons = {}
@@ -53,14 +53,14 @@ function PANEL:Init()
 	end
 
 	self.Input = self:Add("CC_ChatInput")
-	self.Input:SetTall(20)
+	self.Input:SetTall(ui.Scale(20))
 	self.Input:SetX(10)
 
 	self.CloseButton = self.TopBar:Add("DButton")
 	self.CloseButton:SetFont("marlett")
 	self.CloseButton:SetText("r")
 	self.CloseButton:Dock(RIGHT)
-	self.CloseButton:SetWide(20)
+	self.CloseButton:SetWide(ui.Scale(20))
 
 	self.CloseButton.DoClick = function(pnl)
 		self:Close()
@@ -155,7 +155,7 @@ function PANEL:Hide()
 	self:SetMouseInputEnabled(false)
 
 	self.Input:SetText("")
-	self.Input:SetTall(20)
+	self.Input:SetTall(ui.Scale(20))
 	self:InvalidateLayout(true)
 
 	self.Scroll:Hide()

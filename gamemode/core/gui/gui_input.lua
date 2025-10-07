@@ -21,12 +21,14 @@ function PANEL:Init()
 	end
 
 	self.ErrorText = self:Add("DLabel")
+	self.ErrorText:SetFont("CombineControl.LabelTiny")
 	self.ErrorText:SetTextColor(Color("cc_bad"))
 	self.ErrorText:SetContentAlignment(4)
 	self.ErrorText:SetTextInset(ui.Scale(2), 0)
 	self.ErrorText:SetWrap(true)
 
 	self.Submit = self:Add("DButton")
+	self.Submit:SetTall(ui.Scale(22))
 	self.Submit:SetText("Submit")
 
 	self.Submit.DoClick = function()
@@ -101,9 +103,9 @@ vgui.Register("GUI_Input_Number", PANEL, "GUI_Input_Text")
 PANEL = {}
 
 function PANEL:Init()
-	self:SetSize(500, 280)
+	self:SetSize(ui.Scale(500), ui.Scale(280))
 
-	self.Input:SetTall(220)
+	self.Input:SetTall(ui.Scale(220))
 	self.Input:SetFont("CombineControl.LabelSmall")
 	self.Input:SetMultiline(true)
 end

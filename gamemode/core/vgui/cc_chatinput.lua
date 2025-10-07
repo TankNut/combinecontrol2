@@ -72,6 +72,7 @@ end
 function PANEL:UpdateHeight(str)
 	local multi = Settings.Get("ExpandChatInput")
 	local height = self:GetTall()
+	local target = ui.Scale(20)
 
 	if multi != self.MultiLine then
 		self:SetMultiline(multi)
@@ -79,8 +80,8 @@ function PANEL:UpdateHeight(str)
 	end
 
 	if not multi then
-		if height != 20 then
-			self:SetTall(20)
+		if height != target then
+			self:SetTall(target)
 		end
 
 		return
@@ -104,7 +105,7 @@ function PANEL:UpdateHeight(str)
 		acc = acc + w
 	end
 
-	local targetHeight = math.max(lines * 20, 20)
+	local targetHeight = math.max(lines * target, target)
 
 	if height != targetHeight then
 		self:SetTall(targetHeight)
