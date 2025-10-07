@@ -23,7 +23,7 @@ end
 function PANEL:PerformLayout(w, h)
 	BaseClass.PerformLayout(self, w, h)
 
-	self.Entry:SetTall(150)
+	self.Entry:SetTall(ui.Scale(150))
 	self.Entry:StretchToParent(nil, nil, 0, nil)
 end
 

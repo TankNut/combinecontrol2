@@ -16,7 +16,7 @@ function PANEL:Setup(names, val)
 		self.RandomButton = self.Canvas:Add("DButton")
 
 		self.RandomButton:SetText("Random Names")
-		self.RandomButton:SizeToContentsX(20)
+		self.RandomButton:SizeToContentsX(ui.Scale(20))
 
 		-- Override func to prevent the menu from closing when clicked
 		local func = function(pnl, mousecode)
@@ -77,7 +77,7 @@ function PANEL:PerformLayout(w, h)
 	self.Entry:StretchToParent(nil, nil, 0, nil)
 
 	if self.RandomButton then
-		self.RandomButton:MoveBelow(self.Entry, 5)
+		self.RandomButton:MoveBelow(self.Entry, ui.Scale(5))
 	end
 end
 

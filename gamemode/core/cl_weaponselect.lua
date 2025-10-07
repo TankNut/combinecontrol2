@@ -241,6 +241,11 @@ function Draw()
 		alpha = math.Remap(time, HangTime, HangTime + FadeTime, 1, 0)
 	end
 
+	local width = ui.Scale(Width)
+	local height = ui.Scale(Height)
+
+	local spacing = ui.Scale(Spacing)
+
 	local scrW = ScrW()
 
 	local cSlot = ColorAlpha(BaseColor, 100 * alpha)
@@ -252,19 +257,19 @@ function Draw()
 	local cTextActive = ColorAlpha(TextColor, 255 * alpha)
 	local cTextActiveShadow = Color("black", 200 * alpha)
 
-	local totalWidth = (#Slots * Width) + ((#Slots - 1) * Spacing)
+	local totalWidth = (#Slots * width) + ((#Slots - 1) * spacing)
 	local startX = (scrW * 0.5) - totalWidth * 0.5
 
 	for slot, name in ipairs(Slots) do
 		local i = slot - 1
 		local active = Slot == slot
 
-		local x = startX + (i * Width) + (i * Spacing)
+		local x = startX + (i * width) + (i * spacing)
 
-		draw.RoundedBox(0, x, Spacing, Width, Height, active and cSlotActive or cSlot)
+		draw.RoundedBox(0, x, spacing, width, height, active and cSlotActive or cSlot)
 
-		local textX = x + Width * 0.5
-		local textY = Spacing + Height * 0.5
+		local textX = x + width * 0.5
+		local textY = spacing + height * 0.5
 
 		draw.SimpleText(name, "CombineControl.WepSelectHeader",
 			textX + 1, textY + 1,
@@ -280,12 +285,15 @@ function Draw()
 	local cWeapon = ColorAlpha(BaseColor, 200 * alpha)
 	local cWeaponActive = ColorAlpha(ActiveColor, 200 * alpha)
 
-	local y = Height + Spacing * 2
+	local y = height + spacing * 2
+
+	local textInset = ui.Scale(TextInset)
+	local weaponSpacing = ui.Scale(WeaponSpacing)
 
 	for index, weapon in ipairs(GetWeapons(Slot)) do
 		local name = GetName(weapon)
 		local nameW, nameH = surface.GetFontSize("CombineControl.WepSelectWep", name)
-		local h = nameH + TextInset * 2
+		local h = nameH + textInset * 2
 
 		local active = SlotIndex == index
 		local infoText
@@ -293,18 +301,18 @@ function Draw()
 		if active and weapon.InfoText then
 			infoText = string.Explode("\n", weapon.InfoText)
 
-			h = math.max(h, #infoText * InfoHeight + (TextInset * 2))
+			h = math.max(h, #infoText * InfoHeight + (textInset * 2))
 		end
 
 		draw.RoundedBox(0, startX, y, totalWidth, h, active and cWeaponActive or cWeapon)
-		draw.DrawTextShadow(name, "CombineControl.WepSelectWep", startX + TextInset, y + TextInset, cText, cTextShadow)
+		draw.DrawTextShadow(name, "CombineControl.WepSelectWep", startX + textInset, y + textInset, cText, cTextShadow)
 
 		if infoText then
 			for k, v in ipairs(infoText) do
-				draw.DrawTextShadow(v, "CombineControl.WepSelectInfo", startX + nameW + TextInset * 2, y + TextInset + (k * InfoHeight) - InfoHeight, cText, cTextShadow)
+				draw.DrawTextShadow(v, "CombineControl.WepSelectInfo", startX + nameW + textInset * 2, y + textInset + (k * InfoHeight) - InfoHeight, cText, cTextShadow)
 			end
 		end
 
-		y = y + h + WeaponSpacing
+		y = y + h + weaponSpacing
 	end
 end

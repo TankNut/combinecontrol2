@@ -6,7 +6,7 @@ function PANEL:Init()
 	self.TranslatedLabel = self.Canvas:Add("DLabel")
 
 	self.Slider = self.Canvas:Add("DNumSlider")
-	self.Slider:SetWide(250)
+	self.Slider:SetWide(ui.Scale(250))
 
 	self.Slider.OnValueChanged = function(_, val)
 		val = math.Round(self.Slider:GetValue(), self.Slider:GetDecimals())
@@ -41,8 +41,8 @@ end
 function PANEL:PerformLayout(w, h)
 	BaseClass.PerformLayout(self, w, h)
 
-	self.TranslatedLabel:MoveRightOf(self.Slider, 5)
-	self.TranslatedLabel:StretchToParent(nil, 5, 0, nil)
+	self.TranslatedLabel:MoveRightOf(self.Slider, ui.Scale(5))
+	self.TranslatedLabel:StretchToParent(nil, ui.Scale(5), 0, nil)
 end
 
 vgui.Register("CC_CharCreate_Slider", PANEL, "CC_CharCreate")

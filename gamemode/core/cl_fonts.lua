@@ -52,7 +52,7 @@ function GM:CreateFonts()
 
 	surface.CreateFont("CombineControl.PlayerFont", {
 		font = self.FontFace,
-		size = 17,
+		size = ui.Scale(17),
 		weight = 700
 	})
 
@@ -70,19 +70,19 @@ function GM:CreateFonts()
 
 	surface.CreateFont("CombineControl.WepSelectHeader", {
 		font = self.FontFace,
-		size = 20,
+		size = ui.Scale(20),
 		weight = 700
 	})
 
 	surface.CreateFont("CombineControl.WepSelectWep", {
 		font = self.FontFace,
-		size = 18,
+		size = ui.Scale(18),
 		weight = 500
 	})
 
 	surface.CreateFont("CombineControl.WepSelectInfo", {
 		font = self.FontFace,
-		size = 16,
+		size = ui.Scale(16),
 		weight = 500
 	})
 

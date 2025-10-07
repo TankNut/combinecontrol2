@@ -3,13 +3,18 @@ DEFINE_BASECLASS("CC_Frame")
 local PANEL = {}
 
 function PANEL:Init()
+	local padding = ui.Scale(10)
+	local margin = ui.Scale(5)
+
+	local button = ui.Scale(50)
+
 	self:SetSize(ui.Scale(700), ui.Scale(400))
-	self:DockPadding(10, 10, 10, 10)
+	self:DockPadding(padding, padding, padding, padding)
 
 	self:SetCloseOnPause()
 
 	self.Left = self:Add("Panel")
-	self.Left:DockMargin(0, 0, 5, 0)
+	self.Left:DockMargin(0, 0, margin, 0)
 	self.Left:Dock(LEFT)
 	self.Left:SetWide(480)
 
@@ -17,13 +22,13 @@ function PANEL:Init()
 	self.Content:Dock(FILL)
 
 	self.Buttons = self.Left:Add("Panel")
-	self.Buttons:DockMargin(0, 5, 0, 0)
+	self.Buttons:DockMargin(0, margin, 0, 0)
 	self.Buttons:Dock(BOTTOM)
-	self.Buttons:SetTall(22)
+	self.Buttons:SetTall(ui.Scale(22))
 
 	self.Next = self.Buttons:Add("DButton")
 	self.Next:Dock(RIGHT)
-	self.Next:SetWide(50)
+	self.Next:SetWide(button)
 
 	self.Next:SetDisabled(true)
 
@@ -34,7 +39,7 @@ function PANEL:Init()
 	self.Back = self.Buttons:Add("DButton")
 	self.Back:DockMargin(0, 0, 0, 0)
 	self.Back:Dock(LEFT)
-	self.Back:SetWide(50)
+	self.Back:SetWide(button)
 
 	self.Back.DoClick = function(pnl)
 		self:GoBack()

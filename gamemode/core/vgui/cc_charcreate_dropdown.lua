@@ -2,7 +2,7 @@ local PANEL = {}
 
 function PANEL:Init()
 	self.Dropdown = self.Canvas:Add("DComboBox")
-	self.Dropdown:SetWide(150)
+	self.Dropdown:SetWide(ui.Scale(150))
 
 	self.Dropdown.OnSelect = function(_, _, _, data)
 		self:SetOption(data)

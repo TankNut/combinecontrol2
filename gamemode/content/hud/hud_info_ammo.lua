@@ -21,8 +21,8 @@ function HUD:ShouldDraw()
 end
 
 function HUD:Paint(w, h)
-	local offset = 20
-	local margin = 2
+	local offset = ui.Scale(20)
+	local margin = ui.Scale(2)
 
 	local x, y = w - offset, h - offset
 
