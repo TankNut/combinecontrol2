@@ -50,22 +50,12 @@ function AddBan(steamid, admin, length, reason)
 	end
 end
 
-local permaFormat = [[
-Permanently banned by %s:
-
-%s]]
-
-local normalFormat = [[
-Banned by %s for %s:
-
-%s
+local permaFormat = [[Permanently banned by %s: %s]]
+local normalFormat = [[Banned by %s for %s: %s
 
 This ban will expire in %s]]
 
-local kickFormat = [[
-Kicked by %s:
-
-%s]]
+local kickFormat = [[Kicked by %s: %s]]
 
 function GetBanMessage(ban)
 	if ban.Length == 0 then
