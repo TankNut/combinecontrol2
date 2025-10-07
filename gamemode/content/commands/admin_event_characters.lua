@@ -80,3 +80,5 @@ delete:SetCategory("Event Character Commands")
 delete:SetDescription("Deletes an event character")
 delete:SetExecutionContext(console.Server)
 delete:SetAccess(console.IsAdmin)
+
+delete:AddParameter(console.Number())
