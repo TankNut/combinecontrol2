@@ -17,11 +17,11 @@ function Get(name)
 	return Groups[name]
 end
 
-function PLAYER:CanPlayVoicelines(name)
-	return hook.Run("CanPlayVoicelines", self, name)
+function PLAYER:CanPlayVoiceline(name)
+	return hook.Run("CanPlayVoiceline", self, name)
 end
 
-function GM:CanPlayVoicelines(ply, name)
+function GM:CanPlayVoiceline(ply, name)
 	if not ply:CanAct() or not ply:Alive() then
 		return false
 	end
@@ -53,13 +53,13 @@ if SERVER then
 			return
 		end
 
-		local sound = voiceline.Sound
+		local snd = voiceline.Sound
 
 		-- TODO: "tables" -> Old CC1 sound tables.
-		if isstring(sound) and string.match(sound, ".-%.wav") then
-			ply:EmitSound(sound, db)
+		if isstring(snd) and string.match(snd, ".-%.wav") then
+			ply:EmitSound(snd, db)
 		else
-			EmitSentence(sound, ply:GetPos(), ply:EntIndex(), CHAN_AUTO, 1, db, 0, 100)
+			EmitSentence(snd, ply:GetPos(), ply:EntIndex(), CHAN_AUTO, 1, db, 0, 100)
 		end
 
 		Chat.Send("CONSOLE", ply:VisibleRPName() .. " played voiceline: \"" .. voiceline.Name .. "\"", Chat.GetTargets(ply:EyePos(), 300, 300, false))

@@ -5,8 +5,8 @@ Action.Add("Voicelines", {
 	Target = ACTION_SELF,
 	Context = "Self",
 
-	CanRun = function(self)
-		return self:CanPlayVoicelines()
+	CanRun = function(self, ply)
+		return ply:CanPlayVoiceline()
 	end,
 
 	SubOptions = function(self)
@@ -41,7 +41,7 @@ Action.Add("Voicelines", {
 	end,
 
 	Validate = function(self, ply, voiceline)
-		return ply:CanPlayVoicelines(voiceline.Group)
+		return ply:CanPlayVoiceline(voiceline.Group)
 	end,
 
 	Callback = function(self, ply, voiceline)
