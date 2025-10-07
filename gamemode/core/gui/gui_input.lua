@@ -72,7 +72,7 @@ function PANEL:PerformLayout(w, h)
 	local offsetRight = offset * 0.5
 
 	self.Input:AlignLeft(offset)
-	self.Input:AlignTop(ui.Scale(34))
+	self.Input:AlignTop(24 + ui.Scale(10))
 	self.Input:StretchToParent(nil, nil, offset, nil)
 
 	self.Submit:AlignBottom(offset)
