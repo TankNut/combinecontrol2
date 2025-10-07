@@ -3,11 +3,11 @@ DEFINE_BASECLASS("CC_Frame")
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetSize(300, 90)
+	self:SetSize(ui.Scale(300), ui.Scale(90))
 	self:SetDraggable(true)
 
 	self.Input = self:Add("DTextEntry")
-	self.Input:SetTall(30)
+	self.Input:SetTall(ui.Scale(30))
 	self.Input:SetFont("CombineControl.LabelBig")
 
 	self.Input:SetUpdateOnType(true)
@@ -23,7 +23,7 @@ function PANEL:Init()
 	self.ErrorText = self:Add("DLabel")
 	self.ErrorText:SetTextColor(Color("cc_bad"))
 	self.ErrorText:SetContentAlignment(4)
-	self.ErrorText:SetTextInset(2, 0)
+	self.ErrorText:SetTextInset(ui.Scale(2), 0)
 	self.ErrorText:SetWrap(true)
 
 	self.Submit = self:Add("DButton")
@@ -68,17 +68,20 @@ end
 function PANEL:PerformLayout(w, h)
 	BaseClass.PerformLayout(self, w, h)
 
-	self.Input:AlignLeft(10)
-	self.Input:AlignTop(34)
-	self.Input:StretchToParent(nil, nil, 10, nil)
+	local offset = ui.Scale(10)
+	local offsetRight = offset * 0.5
 
-	self.Submit:AlignBottom(10)
-	self.Submit:AlignRight(10)
+	self.Input:AlignLeft(offset)
+	self.Input:AlignTop(ui.Scale(34))
+	self.Input:StretchToParent(nil, nil, offset, nil)
 
-	self.ErrorText:AlignLeft(10)
-	self.ErrorText:MoveBelow(self.Input, 5)
-	self.ErrorText:StretchRightTo(self.Submit, 5)
-	self.ErrorText:StretchToParent(nil, nil, nil, 10)
+	self.Submit:AlignBottom(offset)
+	self.Submit:AlignRight(offset)
+
+	self.ErrorText:AlignLeft(offset)
+	self.ErrorText:MoveBelow(self.Input, offsetRight)
+	self.ErrorText:StretchRightTo(self.Submit, offsetRight)
+	self.ErrorText:StretchToParent(nil, nil, nil, offset)
 end
 
 vgui.Register("GUI_Input_Text", PANEL, "CC_Frame")

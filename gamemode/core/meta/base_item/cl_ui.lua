@@ -51,17 +51,22 @@ function ITEM:GetTooltip()
 end
 
 function ITEM:DrawTooltip()
-	local tooltip = scribe.Parse(self:GetTooltip(), 256)
-	local x, y = gui.MouseX() + 15 , gui.MouseY() + 5
+	local maxWidth = ui.Scale(256)
+
+	local border = ui.Scale(5)
+	local border2 = border * 2
+
+	local tooltip = scribe.Parse(self:GetTooltip(), maxWidth)
+	local x, y = gui.MouseX() + ui.Scale(15), gui.MouseY() + border
 	local w, h = tooltip:GetSize()
 
-	w = math.max(w, 256)
+	w = math.max(w, maxWidth)
 
 	surface.SetDrawColor(30, 30, 30, 230)
-	surface.DrawRect(x - 5, y - 5, w + 10, h + 10)
+	surface.DrawRect(x - border, y - border, w + border2, h + border2)
 
 	surface.SetDrawColor(20, 20, 20, 230)
-	surface.DrawOutlinedRect(x - 5, y - 5, w + 10, h + 10)
+	surface.DrawOutlinedRect(x - border, y - border, w + border2, h + border2)
 
 	tooltip:Draw(x, y)
 end

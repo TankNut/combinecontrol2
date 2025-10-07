@@ -1,27 +1,28 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetSize(800, 500)
-	self:DockPadding(10, 10, 10, 10)
+	local padding = ui.Scale(10)
+
+	self:SetSize(ui.Scale(800), ui.Scale(500))
+	self:DockPadding(padding, padding, padding, padding)
 
 	self:SetCloseOnPause()
 	self:SetDraggable(true)
 
 	self.Preview = self:Add("CC_CharacterModel")
-	self.Preview:DockMargin(0, 0, 20, 0)
+	self.Preview:DockMargin(0, 0, ui.Scale(20), 0)
 	self.Preview:Dock(LEFT)
-	self.Preview:SetWide(200)
+	self.Preview:SetWide(ui.Scale(200))
 	self.Preview:SetBaseYaw(20)
 	self.Preview:SetAllowManipulation(true)
 
 	self.CharacterName = self:Add("DLabel")
-	self.CharacterName:DockMargin(0, 0, 0, 5)
+	self.CharacterName:DockMargin(0, 0, 0, ui.Scale(5))
 	self.CharacterName:Dock(TOP)
-	self.CharacterName:SetTall(22)
+	self.CharacterName:SetTall(ui.Scale(22))
 	self.CharacterName:SetFont("CombineControl.LabelGiant")
 
 	self.Scroll = self:Add("DScrollPanel")
-	self.Scroll:DockMargin(0, 0, 0, 0)
 	self.Scroll:Dock(FILL)
 	self.Scroll:InvalidateParent(true)
 

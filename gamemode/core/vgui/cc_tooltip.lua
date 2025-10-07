@@ -11,7 +11,7 @@ function PANEL:Close()
 end
 
 function PANEL:SetText(text)
-	self:SetWide(400)
+	self:SetWide(ui.Scale(400))
 
 	BaseClass.SetText(self, text)
 
@@ -32,12 +32,9 @@ function PANEL:PositionTooltip()
 
 	local _, ly = self.TargetPanel:LocalToScreen(0, 0)
 
-	y = y - 50
-	y = math.min(y, ly - h - 10)
-
-	if y < 2 then
-		y = 2
-	end
+	y = y - ui.Scale(50)
+	y = math.min(y, ly - h - ui.Scale(10))
+	y = math.max(y, ui.Scale(2))
 
 	-- Fixes being able to be drawn off screen
 	self:SetPos(math.Clamp(x - w * 0.5, 0, ScrW() - self:GetWide()), math.Clamp(y, 0, ScrH() - self:GetTall()))
@@ -50,11 +47,14 @@ function PANEL:Paint(w, h)
 
 	local colors = self:GetSkin().Colors
 
+	local border = ui.Scale(4)
+	local border2 = border * 2
+
 	surface.SetDrawColor(colors.FillDark.r, colors.FillDark.g, colors.FillDark.b)
-	surface.DrawRect(-4, -4, w + 8, h + 8)
+	surface.DrawRect(-border, -border, w + border2, h + border2)
 
 	surface.SetDrawColor(colors.Border)
-	surface.DrawOutlinedRect(-4, -4, w + 8, h + 8)
+	surface.DrawOutlinedRect(-border, -border, w + border2, h + border2)
 
 	DisableClipping(dis)
 

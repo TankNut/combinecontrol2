@@ -1,20 +1,22 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:DockMargin(0, 0, 0, 15)
+	local width = ui.Scale(115)
+
+	self:DockMargin(0, 0, 0, ui.Scale(15))
 	self:Dock(TOP)
 
 	self.Left = self:Add("Panel")
-	self.Left:SetWide(115)
+	self.Left:SetWide(width)
 
 	self.Label = self.Left:Add("DLabel")
-	self.Label:SetWide(115)
+	self.Label:SetWide(width)
 	self.Label:SetFont("CombineControl.LabelGiant")
 	self.Label:SetWrap(true)
 	self.Label:SetAutoStretchVertical(true)
 
 	self.Tooltip = self.Left:Add("DLabel")
-	self.Tooltip:SetWide(115)
+	self.Tooltip:SetWide(width)
 	self.Tooltip:SetFont("CombineControl.LabelTiny")
 	self.Tooltip:SetTextColor(Color("cc_disabled"))
 	self.Tooltip:SetWrap(true)
@@ -51,9 +53,9 @@ function PANEL:PerformSetup(args, val, options)
 end
 
 function PANEL:PerformLayout(w, h)
-	self.Tooltip:MoveBelow(self.Label, 5)
+	self.Tooltip:MoveBelow(self.Label, ui.Scale(5))
 
-	self.Canvas:MoveRightOf(self.Left, 10)
+	self.Canvas:MoveRightOf(self.Left, ui.Scale(10))
 	self.Canvas:StretchToParent(nil, nil, 0, nil)
 
 	self.Left:SizeToChildren(false, true)

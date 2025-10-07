@@ -49,7 +49,7 @@ function HUD:DrawWarning(w, h, baseOffset, rightOffset, margin)
 	toolScribe:Draw(x + warningBoxW - margin, y - warningBoxH + margin, 1, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
 	oocScribe:Draw(x + warningBoxW - margin, y - margin, 1, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
 
-	return warningBoxH + 10
+	return warningBoxH + ui.Scale(10)
 end
 
 function HUD:DrawLimits(w, h, baseOffset, rightOffset, margin)
@@ -90,9 +90,9 @@ function HUD:DrawLimits(w, h, baseOffset, rightOffset, margin)
 end
 
 function HUD:Paint(w, h)
-	local baseOffset = 20
-	local rightOffset = 0
-	local margin = 2
+	local baseOffset = ui.Scale(20)
+	local rightOffset = self:GetCache("ROffset", 0)
+	local margin = ui.Scale(2)
 
 	if self:GetExtraSetting("ShowWarning") then
 		rightOffset = self:DrawWarning(w, h, baseOffset, rightOffset, margin)

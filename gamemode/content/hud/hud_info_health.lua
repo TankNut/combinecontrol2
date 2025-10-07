@@ -24,37 +24,41 @@ function HUD:Think()
 end
 
 function HUD:Paint(w, h)
+	local x = ui.Scale(20)
 	local y = self:GetCache("LOffset", 0)
 
 	if y == 0 then
-		y = h - 20
+		y = h - ui.Scale(20)
 	else
-		y = y - 10
+		y = y - ui.Scale(10)
 	end
+
+	local width = ui.Scale(self.Width)
+	local height = ui.Scale(self.Height)
+
+	local border = ui.Scale(2)
 
 	do
 		local ratio = math.min(self.HP / lp:GetMaxHealth(), 1)
 
-		self:DrawAlignedRect(20, y, self.Width, self.Height, self.BackgroundColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-		self:DrawAlignedRect(22, y - 2, (self.Width - 4) * ratio, self.Height - 4, self.HealthColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		self:DrawBar(ratio, x, y, width, height, border, self.BackgroundColor, self.HealthColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 
-		y = y - self.Height - 2
+		y = y - height - border
 	end
 
 	if self.Armor >= 0.5 then
 		local baseRatio = math.min(self.Armor / 100, 1)
 
-		self:DrawAlignedRect(20, y, self.Width, self.Height, self.BackgroundColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-		self:DrawAlignedRect(22, y - 2, (self.Width - 4) * baseRatio, self.Height - 4, self.ArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		self:DrawBar(baseRatio, x, y, width, height, border, self.BackgroundColor, self.ArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 
 		if self.Armor > 100 then
 			local extraRatio = math.min((self.Armor - 100) / 100, 1)
 
-			self:DrawAlignedRect(22, y - 2, (self.Width - 4) * extraRatio, self.Height - 4, self.OverArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+			self:DrawBar(extraRatio, x, y, width, height, border, nil, self.ArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 		end
 
-		y = y - self.Height - 2
+		y = y - self.Height - border
 	end
 
-	self:SetCache("LOffset", y + 2) -- Compensate for the -2 margin
+	self:SetCache("LOffset", y + border) -- Compensate for the margin
 end

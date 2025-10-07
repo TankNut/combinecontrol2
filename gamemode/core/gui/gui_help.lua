@@ -1,16 +1,18 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetSize(800, 500)
+	self:SetSize(ui.Scale(800), ui.Scale(500))
 
 	self:SetToggleKey("gm_showhelp")
 	self:SetDraggable(true)
 	self:SetCloseOnPause()
 	self:SetTopBar("Help Menu")
 
+	local padding = ui.Scale(10)
+
 	self.LeftBar = self:Add("Panel")
-	self.LeftBar:DockPadding(10, 10, 10, 10)
-	self.LeftBar:SetWidth(150)
+	self.LeftBar:DockPadding(padding, padding, padding, padding)
+	self.LeftBar:SetWidth(ui.Scale(150))
 	self.LeftBar:Dock(LEFT)
 
 	self.LeftBar.Paint = function(_, w, h)
@@ -26,7 +28,7 @@ function PANEL:Init()
 	self.SelectedMenu = 0
 
 	self.Content = self:Add("Panel")
-	self.Content:DockPadding(10, 10, 10, 10)
+	self.Content:DockPadding(padding, padding, padding, padding)
 	self.Content:Dock(FILL)
 
 	self:MakePopup()
@@ -45,10 +47,14 @@ function PANEL:AddMenu(order, name, content)
 end
 
 function PANEL:Populate()
+	local margin = ui.Scale(5)
+	local w, h = ui.Scale(64), ui.Scale(22)
+
 	for index, option in SortedPairs(self.MenuButtons) do
 		local button = self.LeftBar:Add("DButton")
 
-		button:DockMargin(0, 0, 0, 5)
+		button:SetSize(w, h)
+		button:DockMargin(0, 0, 0, margin)
 		button:Dock(TOP)
 		button:SetText(option.Name)
 

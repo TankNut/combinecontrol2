@@ -1,8 +1,10 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetSize(540, 420)
-	self:DockPadding(10, 10, 10, 10)
+	local padding = ui.Scale(10)
+
+	self:SetSize(ui.Scale(540), ui.Scale(420))
+	self:DockPadding(padding, padding, padding, padding)
 
 	self:SetDraggable(true)
 	self:SetCloseOnPause()

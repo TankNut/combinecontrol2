@@ -7,8 +7,8 @@ HUD.DrawOrder = 0
 HUD.BoxColor = Color("cc_fill_dark", 200)
 
 function HUD:Paint(w, h)
-	local offset = 20
-	local margin = 2
+	local offset = ui.Scale(20)
+	local margin = ui.Scale(2)
 
 	local x, y = offset, h - offset
 

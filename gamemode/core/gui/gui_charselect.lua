@@ -1,8 +1,10 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetWide(200)
-	self:DockPadding(10, 10, 10, 10)
+	local padding = ui.Scale(10)
+
+	self:SetWide(ui.Scale(200))
+	self:DockPadding(padding, padding, padding, padding)
 
 	if lp:HasCharacter() then
 		self:SetToggleKey("gm_showteam")
@@ -30,10 +32,14 @@ function PANEL:Populate()
 		end
 	end
 
+	local margin = ui.Scale(5)
+	local w, h = ui.Scale(64), ui.Scale(22)
+
 	for id, name in SortedPairs(characters) do
 		local button = self:Add("DButton")
 
-		button:DockMargin(0, 0, 0, 5)
+		button:SetSize(w, h)
+		button:DockMargin(0, 0, 0, margin)
 		button:Dock(TOP)
 		button:SetText(name)
 
@@ -62,7 +68,8 @@ function PANEL:Populate()
 	if numCharacters < max then
 		local button = self:Add("DButton")
 
-		button:DockMargin(0, 0, 0, 5)
+		button:SetSize(w, h)
+		button:DockMargin(0, 0, 0, margin)
 		button:Dock(TOP)
 		button:SetText("Empty slot")
 		button:SetDisabled(true)
@@ -71,7 +78,8 @@ function PANEL:Populate()
 	for id, name in SortedPairs(temp) do
 		local button = self:Add("DButton")
 
-		button:DockMargin(0, 0, 0, 5)
+		button:SetSize(w, h)
+		button:DockMargin(0, 0, 0, margin)
 		button:Dock(TOP)
 		button:SetText("[" .. name .. "]")
 
@@ -95,7 +103,8 @@ function PANEL:Populate()
 	end
 
 	self.CreateNew = self:Add("DButton")
-	self.CreateNew:DockMargin(0, 15, 0, 0)
+	self.CreateNew:SetSize(w, h)
+	self.CreateNew:DockMargin(0, ui.Scale(15), 0, 0)
 	self.CreateNew:Dock(TOP)
 	self.CreateNew:SetText("Create character")
 
@@ -110,7 +119,8 @@ function PANEL:Populate()
 
 	if #lp:GetCharacterGenerators() > 0 then
 		self.GenCharacter = self:Add("DButton")
-		self.GenCharacter:DockMargin(0, 5, 0, 0)
+		self.GenCharacter:SetSize(w, h)
+		self.GenCharacter:DockMargin(0, margin, 0, 0)
 		self.GenCharacter:Dock(TOP)
 		self.GenCharacter:SetText("Create event character")
 
@@ -121,7 +131,8 @@ function PANEL:Populate()
 	end
 
 	self.Delete = self:Add("DButton")
-	self.Delete:DockMargin(0, 5, 0, 0)
+	self.Delete:SetSize(w, h)
+	self.Delete:DockMargin(0, margin, 0, 0)
 	self.Delete:Dock(TOP)
 	self.Delete:SetText("Delete")
 

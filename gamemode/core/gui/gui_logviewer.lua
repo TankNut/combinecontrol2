@@ -1,8 +1,10 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetSize(800, 500)
-	self:DockPadding(10, 10, 10, 10)
+	local padding = ui.Scale(10)
+
+	self:SetSize(ui.Scale(800), ui.Scale(500))
+	self:DockPadding(padding, padding, padding, padding)
 
 	self:SetDraggable(true)
 	self:SetCloseOnPause()
@@ -13,17 +15,17 @@ function PANEL:Init()
 	self:Center()
 
 	self.Bottom = self:Add("Panel")
-	self.Bottom:DockMargin(0, 10, 0, 0)
+	self.Bottom:DockMargin(0, padding, 0, 0)
 	self.Bottom:Dock(BOTTOM)
 	self.Bottom:SetTall(22)
 
 	self.Logs = self:Add("DListView")
-	self.Logs:DockMargin(0, 0, 10, 0)
+	self.Logs:DockMargin(0, 0, padding, 0)
 	self.Logs:Dock(LEFT)
-	self.Logs:SetWide(560)
-	self.Logs:AddColumn("Timestamp"):SetFixedWidth(120)
+	self.Logs:SetWide(ui.Scale(560))
+	self.Logs:AddColumn("Timestamp"):SetFixedWidth(ui.Scale(120))
 	self.Logs:AddColumn("Log")
-	self.Logs:AddColumn("Type"):SetFixedWidth(100)
+	self.Logs:AddColumn("Type"):SetFixedWidth(ui.Scale(100))
 
 	self.Logs.DoDoubleClick = function(_, _, line)
 		self:PrintToConsole(line)
@@ -79,7 +81,7 @@ function PANEL:Init()
 
 	self.Previous = self.Bottom:Add("DButton")
 	self.Previous:Dock(LEFT)
-	self.Previous:SetWide(150)
+	self.Previous:SetWide(ui.Scale(150))
 	self.Previous:SetText("Previous Page")
 	self.Previous:SetDisabled(true)
 	self.Previous:SetZPos(1)
@@ -89,8 +91,10 @@ function PANEL:Init()
 		self:SendRequest()
 	end
 
+	local margin = ui.Scale(5)
+
 	self.Entry = self.Bottom:Add("DTextEntry")
-	self.Entry:DockMargin(5, 0, 5, 0)
+	self.Entry:DockMargin(margin, 0, margin, 0)
 	self.Entry:Dock(LEFT)
 	self.Entry:SetText("0")
 	self.Entry:SetZPos(2)
@@ -103,7 +107,7 @@ function PANEL:Init()
 	end
 
 	self.Refresh = self.Bottom:Add("DButton")
-	self.Refresh:DockMargin(0, 0, 5, 0)
+	self.Refresh:DockMargin(0, 0, margin, 0)
 	self.Refresh:Dock(LEFT)
 	self.Refresh:SetWide(100)
 	self.Refresh:SetText("Refresh")

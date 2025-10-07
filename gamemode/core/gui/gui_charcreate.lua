@@ -3,7 +3,7 @@ DEFINE_BASECLASS("CC_Frame")
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetSize(700, 400)
+	self:SetSize(ui.Scale(700), ui.Scale(400))
 	self:DockPadding(10, 10, 10, 10)
 
 	self:SetCloseOnPause()

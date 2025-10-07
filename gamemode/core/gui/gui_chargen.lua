@@ -1,8 +1,10 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetWide(200)
-	self:DockPadding(10, 10, 10, 10)
+	local padding = ui.Scale(10)
+
+	self:SetWide(ui.Scale(200))
+	self:DockPadding(padding, padding, padding, padding)
 
 	if lp:HasCharacter() then
 		self:SetCloseOnPause()
@@ -44,6 +46,9 @@ function PANEL:BuildTree()
 end
 
 function PANEL:Populate(node)
+	local margin = ui.Scale(5)
+	local w, h = ui.Scale(64), ui.Scale(22)
+
 	for _, v in pairs(self.Buttons) do
 		v:Remove()
 	end
@@ -55,7 +60,8 @@ function PANEL:Populate(node)
 
 		local button = self:Add("DButton")
 
-		button:DockMargin(0, 0, 0, 5)
+		button:SetSize(w, h)
+		button:DockMargin(0, 0, 0, margin)
 		button:Dock(TOP)
 		button:SetText(key)
 
@@ -75,7 +81,8 @@ function PANEL:Populate(node)
 	end
 
 	self.Cancel = self:Add("DButton")
-	self.Cancel:DockMargin(0, 15, 0, 0)
+	self.Cancel:SetSize(w, h)
+	self.Cancel:DockMargin(0, ui.Scale(15), 0, 0)
 	self.Cancel:Dock(TOP)
 	self.Cancel:SetText("Cancel")
 

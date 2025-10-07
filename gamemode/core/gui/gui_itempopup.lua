@@ -2,27 +2,30 @@ local PANEL = {}
 DEFINE_BASECLASS("CC_Frame")
 
 function PANEL:Init()
-	self:SetSize(400, 450)
-	self:DockPadding(10, 10, 10, 10)
+	local padding = ui.Scale(10)
+	local margin = ui.Scale(5)
+
+	self:SetSize(ui.Scale(400), ui.Scale(450))
+	self:DockPadding(padding, padding, padding, padding)
 
 	self:SetDraggable(true)
 	self:SetCloseOnPause()
 
 	self.ModelPanel = self:Add("CC_ItemModelPanel")
 	self.ModelPanel:Dock(TOP)
-	self.ModelPanel:SetTall(200)
+	self.ModelPanel:SetTall(ui.Scale(200))
 
 	self.Buttons = self:Add("Panel")
-	self.Buttons:DockMargin(0, 5, 0, 0)
+	self.Buttons:DockMargin(0, margin, 0, 0)
 	self.Buttons:Dock(BOTTOM)
-	self.Buttons:SetTall(22 * 3 + 15)
+	self.Buttons:SetTall(ui.Scale(22 * 3 + 15))
 
 	self.Right = self.Buttons:Add("Panel")
 	self.Right:Dock(RIGHT)
 	self.Right:SetWide(100)
 
 	self.DestroyButton = self.Right:Add("DButton")
-	self.DestroyButton:DockMargin(0, 5, 0, 0)
+	self.DestroyButton:DockMargin(0, margin, 0, 0)
 	self.DestroyButton:Dock(BOTTOM)
 	self.DestroyButton:SetText("Destroy")
 	self.DestroyButton.DoClick = function()
@@ -31,7 +34,7 @@ function PANEL:Init()
 
 	self.DropButton = self.Right:Add("DButton")
 	self.DropButton:Dock(BOTTOM)
-	self.DropButton:DockMargin(0, 5, 0, 0)
+	self.DropButton:DockMargin(0, margin, 0, 0)
 	self.DropButton:SetText("Drop")
 	self.DropButton.DoClick = function()
 		self.Item:RunAction(lp, "Drop")
@@ -39,14 +42,14 @@ function PANEL:Init()
 
 	self.ActionButton = self.Right:Add("DButton")
 	self.ActionButton:Dock(BOTTOM)
-	self.ActionButton:DockMargin(0, 5, 0, 0)
+	self.ActionButton:DockMargin(0, margin, 0, 0)
 	self.ActionButton:SetText("Actions")
 	self.ActionButton.DoClick = function()
 		self.Item:OpenActionMenu("Examine")
 	end
 
 	self.TitleLabel = self:Add("ScribeLabel")
-	self.TitleLabel:DockMargin(0, 5, 0, 0)
+	self.TitleLabel:DockMargin(0, margin, 0, 0)
 	self.TitleLabel:Dock(TOP)
 
 	self.Scroll = self:Add("DScrollPanel")
@@ -57,6 +60,7 @@ function PANEL:Init()
 	self.DataLabel = self.Buttons:Add("DLabel")
 	self.DataLabel:Dock(FILL)
 	self.DataLabel:SetContentAlignment(1)
+	self.DataLabel:SetFont("CombineControl.LabelTiny")
 	self.DataLabel:SetTextColor(self:GetSkin().Text.Disabled)
 
 	self:MakePopup()
@@ -87,7 +91,7 @@ function PANEL:ItemUpdated()
 	self.TitleLabel:SetText(title)
 	self.TitleLabel:SizeToContentsY()
 
-	self.DescriptionLabel:SetWide(self.Scroll:GetWide() - 15)
+	self.DescriptionLabel:SetWide(self.Scroll:GetWide() - ui.Scale(15))
 	self.DescriptionLabel:SetText("<font=CombineControl.LabelMedium>\n" .. item:GetDescription())
 	self.DescriptionLabel:SizeToContentsY()
 
