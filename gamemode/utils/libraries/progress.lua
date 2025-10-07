@@ -70,7 +70,7 @@ function Update(data, time)
 	end
 end
 
-hook.Add("Think", "progress", function()
+hook.Add("Think", "cc2.UpdateProgress", function()
 	local time = CurTime()
 	local index = 1
 

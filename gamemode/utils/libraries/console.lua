@@ -47,8 +47,8 @@ function Rebuild()
 	end
 end
 
-hook.Add("InitPostEntity", "console", Rebuild)
-hook.Add("OnReloaded", "console", Rebuild)
+hook.Add("InitPostEntity", "cc2.ConsoleRebuild", Rebuild)
+hook.Add("OnReloaded", "cc2.ConsoleRebuild", Rebuild)
 
 function ReadArg(args, last)
 	local str = last and table.concat(args, " ") or table.remove(args, 1)

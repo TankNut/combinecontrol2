@@ -18,7 +18,7 @@ if CLIENT then
 	language.Add("tool.unbreakable.left", "Select an object to make unbreakable")
 	language.Add("tool.unbreakable.right", "Restore the previous settings of an object")
 else
-	hook.Add("InitPostEntity", "unbreakable", function()
+	hook.Add("InitPostEntity", "cc2.Unbreakable", function()
 		local filter = ents.Create("filter_activator_name")
 
 		filter:SetKeyValue("TargetName", "CCFilterDamage")

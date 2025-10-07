@@ -98,7 +98,7 @@ else
 		async.Handle(cr, unpack(payload.Data))
 	end)
 
-	hook.Add("PlayerDisconnected", "request", function(ply)
+	hook.Add("PlayerDisconnected", "cc2.ClearRequests", function(ply)
 		Pending[ply] = nil
 	end)
 end

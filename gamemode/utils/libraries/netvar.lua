@@ -198,7 +198,7 @@ if CLIENT then
 		end
 	end)
 
-	hook.Add("NetworkEntityCreated", "vars", function(ent)
+	hook.Add("NetworkEntityCreated", "cc2.Netvars", function(ent)
 		local vars = Vars[ent:EntIndex()]
 
 		if vars then
@@ -265,6 +265,6 @@ else
 		})
 	end
 
-	hook.Add("PlayerInitialSpawn", "vars", Sync)
-	hook.Add("EntityRemoved", "vars", Clear)
+	hook.Add("PlayerInitialSpawn", "cc2.Netvars", Sync)
+	hook.Add("EntityRemoved", "cc2.Netvars", Clear)
 end

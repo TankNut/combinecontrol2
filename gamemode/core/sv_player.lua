@@ -314,7 +314,7 @@ function GM:PlayerSetHandsModel(ply, ent)
 	ent:SetBodyGroups("11")
 end
 
-hook.Add("player_changename", "core/player", function(data)
+hook.Add("player_changename", "cc2.LastNick", function(data)
 	Player(data.userid):SetLastNick(data.newname)
 end)
 

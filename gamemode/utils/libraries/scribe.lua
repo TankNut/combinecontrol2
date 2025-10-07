@@ -58,7 +58,7 @@ function Parse(str, maxWidth)
 	return instance
 end
 
-hook.Add("Think", "scribe", function()
+hook.Add("Think", "cc2.ScribeCache", function()
 	for crc, cache in pairs(Cache) do
 		if CurTime() - cache.LastUsed > Timeout then
 			Cache[crc] = nil

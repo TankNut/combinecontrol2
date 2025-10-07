@@ -30,7 +30,7 @@ local function active()
 	return true
 end
 
-hook.Add("CalcView", "freelook", function(ply, origin, angles, fov)
+hook.Add("CalcView", "cc2.Freelook", function(ply, origin, angles, fov)
 	if active() then
 		freeAng = Angle(lookY, -lookX, 0)
 	else
@@ -55,7 +55,7 @@ hook.Add("CalcView", "freelook", function(ply, origin, angles, fov)
 	angles.y = angles.y + freeAng.y
 end)
 
-hook.Add("CalcViewModelView", "freelook", function(wep, vm, oPos, oAng, pos, ang)
+hook.Add("CalcViewModelView", "cc2.Freelook", function(wep, vm, oPos, oAng, pos, ang)
 	local view = render.GetViewSetup()
 	local ratio = view.aspect + (view.fov_unscaled / view.fovviewmodel_unscaled)
 
@@ -63,7 +63,7 @@ hook.Add("CalcViewModelView", "freelook", function(wep, vm, oPos, oAng, pos, ang
 	ang.y = ang.y + freeAng.y / ratio
 end)
 
-hook.Add("InputMouseApply", "freelook", function(cmd, x, y, ang)
+hook.Add("InputMouseApply", "cc2.Freelook", function(cmd, x, y, ang)
 	if not active() then
 		return
 	end
@@ -86,7 +86,7 @@ hook.Add("InputMouseApply", "freelook", function(cmd, x, y, ang)
 	return true
 end)
 
-hook.Add("StartCommand", "freelook", function(ply, cmd)
+hook.Add("StartCommand", "cc2.Freelook", function(ply, cmd)
 	if not ply:Alive() or not active() then return end
 
 	if ply:KeyDown(IN_WALK) then

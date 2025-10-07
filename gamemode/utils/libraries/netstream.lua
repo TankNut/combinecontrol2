@@ -263,7 +263,7 @@ else
 		async.Start(callback, ply)
 	end)
 
-	hook.Add("OnPlayerReady", "netstream", function(ply)
+	hook.Add("OnPlayerReady", "cc2.Netstream", function(ply)
 		Ready[ply] = true
 
 		if Queue[ply] then
@@ -279,7 +279,7 @@ else
 		end
 	end)
 
-	hook.Add("Think", "netstream", function()
+	hook.Add("Think", "cc2.Netstream", function()
 		for ply, queue in pairs(Queue) do
 			if not IsValid(ply) then
 				Queue[ply] = nil

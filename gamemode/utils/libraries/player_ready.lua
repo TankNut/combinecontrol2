@@ -17,7 +17,7 @@ else
 
 	net.Ready = net.Ready or {}
 
-	hook.Add("OnRequestFullUpdate", "player_ready", function(data)
+	hook.Add("OnRequestFullUpdate", "cc2.PlayerReady", function(data)
 		local ply = Player(data.userid)
 
 		if net.Ready[ply] then

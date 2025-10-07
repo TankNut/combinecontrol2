@@ -203,7 +203,7 @@ if SERVER then
 	GM.PlayerSpawnSENT = checkToolTrust("EntitySpawning")
 	GM.PlayerSpawnVehicle = checkToolTrust("VehicleSpawning")
 
-	hook.Add("PlayerSpawnedProp", "sandbox", function(ply, model, ent)
+	hook.Add("PlayerSpawnedProp", "cc2.Sandbox", function(ply, model, ent)
 		if ply:GetToolTrust() < Config.Get("ToolTrust").SolidProps then
 			ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 		end
@@ -211,7 +211,7 @@ if SERVER then
 		Log.Write("sandbox_spawn_prop", ply, model)
 	end)
 
-	hook.Add("PlayerSpawnedEffect", "sandbox", function(ply, model, ent)
+	hook.Add("PlayerSpawnedEffect", "cc2.Sandbox", function(ply, model, ent)
 		if ply:GetToolTrust() < Config.Get("ToolTrust").SolidProps then
 			ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 		end
@@ -219,7 +219,7 @@ if SERVER then
 		Log.Write("sandbox_spawn_prop", ply, model)
 	end)
 
-	hook.Add("PlayerSpawnedRagdoll", "sandbox", function(ply, model, ent)
+	hook.Add("PlayerSpawnedRagdoll", "cc2.Sandbox", function(ply, model, ent)
 		-- Eternity does this by default? Should we undo that?
 		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 
@@ -232,10 +232,10 @@ if SERVER then
 		end
 	end
 
-	hook.Add("PlayerSpawnedSWEP", "sandbox", logEntitySpawn("weapon"))
-	hook.Add("PlayerSpawnedNPC", "sandbox", logEntitySpawn("npc"))
-	hook.Add("PlayerSpawnedVehicle", "sandbox", logEntitySpawn("vehicle"))
-	hook.Add("PlayerSpawnedSENT", "sandbox", logEntitySpawn("entity"))
+	hook.Add("PlayerSpawnedSWEP", "cc2.Sandbox", logEntitySpawn("weapon"))
+	hook.Add("PlayerSpawnedNPC", "cc2.Sandbox", logEntitySpawn("npc"))
+	hook.Add("PlayerSpawnedVehicle", "cc2.Sandbox", logEntitySpawn("vehicle"))
+	hook.Add("PlayerSpawnedSENT", "cc2.Sandbox", logEntitySpawn("entity"))
 end
 
 function GM:CanArmDupe(ply)

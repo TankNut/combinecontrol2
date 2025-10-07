@@ -13,7 +13,7 @@ function CustomMetaTable(name)
 end
 
 if CLIENT then
-	hook.Add("InitPostEntity", "globals", function()
+	hook.Add("InitPostEntity", "cc2.LocalPlayer", function()
 		_G.lp = LocalPlayer()
 	end)
 end
@@ -25,6 +25,6 @@ function jank(callback)
 	timer.Simple(0, callback)
 end
 
-hook.Add("ShutDown", "globals", function()
+hook.Add("ShutDown", "cc2.IsShuttingDown", function()
 	IsShuttingDown = true
 end)

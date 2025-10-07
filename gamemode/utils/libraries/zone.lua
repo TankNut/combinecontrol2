@@ -39,7 +39,7 @@ if SERVER then
 	end
 end
 
-hook.Add("Think", "zone", function()
+hook.Add("Think", "cc2.Zones", function()
 	for _, ply in player.Iterator() do
 		if not PlayerData[ply] then
 			PlayerData[ply] = {
@@ -157,12 +157,12 @@ hook.Add("Think", "zone", function()
 end)
 
 if CLIENT then
-	hook.Add("PostDrawTranslucentRenderables", "zone", function(depth, skybox)
+	hook.Add("PostDrawTranslucentRenderables", "cc2.Zones", function(depth, skybox)
 		if skybox then
 			return
 		end
 
-		if hook.Run("ShouldDrawZones", lp) == false then
+		if not lp:EditMode() then
 			return
 		end
 

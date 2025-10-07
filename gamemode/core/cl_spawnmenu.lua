@@ -291,7 +291,7 @@ function PANEL:UpdateToolDisabledStatus()
 end
 
 -- NPC weapon category
-hook.Add("PopulateMenuBar", "CombineControl", function(_, menuBar)
+hook.Add("PopulateMenuBar", "cc2.SpawnMenu", function(_, menuBar)
 	local npcMenu = menuBar:AddOrGetMenu("#menubar.npcs")
 	local weaponMenu = npcMenu:AddSubMenu("CombineControl Weapons")
 	weaponMenu:SetDeleteSelf(false)

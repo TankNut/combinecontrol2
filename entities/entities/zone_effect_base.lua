@@ -59,7 +59,7 @@ function ENT:RemoveShape(shape)
 end
 
 if CLIENT then
-	hook.Add("OnZoneShapesChanged", "zone", function(ent, old, new, loaded)
+	hook.Add("OnZoneShapesChanged", "cc2.ZoneEffect", function(ent, old, new, loaded)
 		if not ent:IsType("zone_effect_base") then
 			return
 		end

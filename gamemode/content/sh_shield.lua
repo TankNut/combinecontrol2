@@ -27,7 +27,7 @@ if SERVER then
 		SafeRemoveEntity(Get(ent))
 	end
 
-	hook.Add("EntityTakeDamage", "shield", function(ent, dmg)
+	hook.Add("EntityTakeDamage", "cc2.Shield", function(ent, dmg)
 		local shield = Get(ent)
 
 		if IsValid(shield) and shield:TakeShieldDamage(dmg) then
@@ -35,7 +35,7 @@ if SERVER then
 		end
 	end)
 
-	hook.Add("ScalePlayerDamage", "shield", function(ply, hitgroup, dmg)
+	hook.Add("ScalePlayerDamage", "cc2.Shield", function(ply, hitgroup, dmg)
 		local shield = Get(ply)
 
 		if IsValid(shield) and shield:TakeShieldDamage(dmg) then
@@ -46,7 +46,7 @@ end
 
 if CLIENT then
 	matproxy.Add({
-		name = "CC2Shield",
+		name = "cc2_shield",
 		init = function(self, mat, values) end,
 		bind = function(self, mat, ent)
 			mat:SetVector("$emissiveBlendTint", ent:GetShieldColor())

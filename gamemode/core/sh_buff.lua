@@ -29,7 +29,7 @@ function RegisterFolder(dir)
 end
 
 if SERVER then
-	hook.Add("PlayerDeath", "buff", function(ply)
+	hook.Add("PlayerDeath", "cc2.Buffs", function(ply)
 		PlayerHook(ply, "OnDeath")
 
 		for name, buff in pairs(ply:GetBuffs()) do
@@ -39,7 +39,7 @@ if SERVER then
 		end
 	end)
 
-	hook.Add("BlockFallDamage", "buff", function(ply)
+	hook.Add("BlockFallDamage", "cc2.Buffs", function(ply)
 		return PlayerHook(ply, "BlockFallDamage")
 	end)
 end

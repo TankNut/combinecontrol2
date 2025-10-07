@@ -201,7 +201,7 @@ if SERVER then
 		OldAutoClose[ent] = nil
 	end
 
-	hook.Add("OnEntityCreated", "door", function(ent)
+	hook.Add("OnEntityCreated", "cc2.InitDoors", function(ent)
 		if not IsProp(ent) then
 			return
 		end

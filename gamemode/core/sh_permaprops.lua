@@ -10,7 +10,7 @@ Whitelist = {
 	["prop_effect"] = true
 }
 
-hook.Add("IsProtectedEntity", "permaprops", function(ent)
+hook.Add("IsProtectedEntity", "cc2.PermaProps", function(ent)
 	if ent:PermaProp() then
 		return true
 	end
@@ -179,7 +179,7 @@ if SERVER then
 		deferred.Call("permaprops.save", 60, Save)
 	end
 
-	hook.Add("GetPropInfo", "permaprops", function(args, ply, ent)
+	hook.Add("GetPropInfo", "cc2.PermaProps", function(args, ply, ent)
 		local data = args[2]
 		local info = ent:PermaPropInfo()
 
@@ -190,18 +190,18 @@ if SERVER then
 		end
 	end, POST_HOOK_RETURN)
 
-	hook.Add("EntityTakeDamage", "permaprops", function(ent)
+	hook.Add("EntityTakeDamage", "cc2.PermaProps", function(ent)
 		if List[ent] then
 			return true
 		end
 	end)
 
-	hook.Add("EntityRemoved", "permaprops", function(ent)
+	hook.Add("EntityRemoved", "cc2.PermaProps", function(ent)
 		if List[ent] then
 			List[ent] = nil
 		end
 	end)
 
-	hook.Add("PostCleanupMap", "permaprops", Load)
-	hook.Add("InitPostEntity", "permaprops", Load)
+	hook.Add("PostCleanupMap", "cc2.PermaProps", Load)
+	hook.Add("InitPostEntity", "cc2.PermaProps", Load)
 end

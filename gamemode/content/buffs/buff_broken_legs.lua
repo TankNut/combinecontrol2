@@ -43,13 +43,13 @@ function BUFF:Move(mv)
 end
 
 -- if SERVER then
--- 	hook.Add("OnTakeFallDamage", "broken_legs", function(ply, damage)
+-- 	hook.Add("OnTakeFallDamage", "cc2.BrokenLegs", function(ply, damage)
 -- 		ply:AddBuff("broken_legs", {
 -- 			Duration = math.min(damage, 20)
 -- 		})
 -- 	end)
 
--- 	hook.Add("PostEntityTakeDamage", "broken_legs", function(ply, dmg, took)
+-- 	hook.Add("PostEntityTakeDamage", "cc2.BrokenLegs", function(ply, dmg, took)
 -- 		if not ply:IsPlayer() or not took or not bit.Check(dmg:GetDamageType(), DMG_BULLET) then
 -- 			return
 -- 		end

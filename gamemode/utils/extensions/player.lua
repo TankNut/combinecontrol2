@@ -37,7 +37,7 @@ function PLAYER:SteamID64()
 end
 
 if SERVER then
-	hook.Add("PlayerDisconnected", "player", function(ply)
+	hook.Add("PlayerDisconnected", "cc2.SteamCache", function(ply)
 		steamCache[ply] = nil
 		steam64Cache[ply] = nil
 	end)
@@ -153,7 +153,7 @@ do
 		fill(ply)
 	end
 
-	hook.Add("OnEntityCreated", "player", function(ent)
+	hook.Add("OnEntityCreated", "cc2.SteamCache", function(ent)
 		if IsValid(ent) and ent:IsPlayer() then
 			fill(ent)
 		end

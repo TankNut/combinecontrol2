@@ -27,7 +27,7 @@ end
 
 local renderingCloak = false
 
-hook.Add("PrePlayerDraw", "cloak", function(ply)
+hook.Add("PrePlayerDraw", "cc2.Cloak", function(ply)
 	if ply:IsCloaked() and not renderingCloak then
 		return true
 	end
@@ -45,7 +45,7 @@ local function updateShadow(ent, cloaked)
 	end
 end
 
-hook.Add("Think", "cloak", function()
+hook.Add("Think", "cc2.Cloak", function()
 	for _, ply in player.Iterator() do
 		local cloaked = ply:IsCloaked()
 
@@ -65,7 +65,7 @@ local function drawPlayer(ply)
 	end
 end
 
-hook.Add("PostDrawTranslucentRenderables", "cloak", function(depth, skybox)
+hook.Add("PostDrawTranslucentRenderables", "cc2.Cloak", function(depth, skybox)
 	if skybox then return end
 
 	renderingCloak = true

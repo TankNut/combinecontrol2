@@ -49,7 +49,7 @@ function Add(name, data, category)
 		})
 
 		if SERVER then
-			hook.Add("On" .. data.VarName .. "Changed", "Settings", function(ply, old, new, loaded)
+			hook.Add("On" .. data.VarName .. "Changed", "cc2.Settings", function(ply, old, new, loaded)
 				if loaded then
 					return
 				end

@@ -79,11 +79,11 @@ function Call(name, ...)
 	end
 end
 
-hook.Add("Think", "part", function()
+hook.Add("Think", "cc2.Part", function()
 	Call("Think")
 end)
 
-hook.Add("EntityRemoved", "part", function(ent)
+hook.Add("EntityRemoved", "cc2.Part", function(ent)
 	jank(function()
 		if not IsValid(ent) then
 			Clear(ent)
@@ -91,8 +91,8 @@ hook.Add("EntityRemoved", "part", function(ent)
 	end)
 end)
 
-hook.Add("CreateClientsideRagdoll", "part", Copy)
+hook.Add("CreateClientsideRagdoll", "cc2.Part", Copy)
 
-hook.Add("PostDrawTranslucentRenderables", "part", function()
+hook.Add("PostDrawTranslucentRenderables", "cc2.Part", function()
 	Call("Draw", "translucent")
 end)

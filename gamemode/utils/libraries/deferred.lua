@@ -52,5 +52,5 @@ function Force()
 	Timers = {}
 end
 
-hook.Add("ShutDown", "deferred", Force)
-hook.Add("PreCleanupMap", "deferred", Force)
+hook.Add("ShutDown", "cc2.ForceDeferred", Force)
+hook.Add("PreCleanupMap", "cc2.ForceDeferred", Force)

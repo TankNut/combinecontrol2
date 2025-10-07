@@ -78,7 +78,7 @@ if CLIENT then
 		Close(name)
 	end)
 
-	hook.Add("OnScreenSizeChanged", "ui", function(_, _, _, height)
+	hook.Add("OnScreenSizeChanged", "ui.Scale", function(_, _, _, height)
 		ref = height
 	end)
 else

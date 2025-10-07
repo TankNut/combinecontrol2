@@ -125,7 +125,7 @@ if CLIENT then
 	end)
 end
 
-hook.Add("OnEntityCreated", "buff", function(ent)
+hook.Add("OnEntityCreated", "cc2.Buffs", function(ent)
 	if not IsValid(ent) or not ent:IsPlayer() then
 		return
 	end
@@ -133,7 +133,7 @@ hook.Add("OnEntityCreated", "buff", function(ent)
 	All[ent] = {}
 end)
 
-hook.Add("EntityRemoved", "buff", function(ent, fullUpdate)
+hook.Add("EntityRemoved", "cc2.Buffs", function(ent, fullUpdate)
 	if fullUpdate or not ent:IsPlayer() then
 		return
 	end
@@ -143,4 +143,4 @@ hook.Add("EntityRemoved", "buff", function(ent, fullUpdate)
 	All[ent] = nil
 end)
 
-hook.Add("Think", "buff", function() Hook("Think") end)
+hook.Add("Think", "cc2.Buffs", function() Hook("Think") end)

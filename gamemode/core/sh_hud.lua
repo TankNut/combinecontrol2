@@ -20,7 +20,7 @@ function Register(name, hud)
 		}, "Hud")
 
 		if CLIENT then
-			hook.Add("OnHud" .. hud.Setting .. "SettingChanged", "hud", Rebuild)
+			hook.Add("OnHud" .. hud.Setting .. "SettingChanged", "cc2.Hud", Rebuild)
 		end
 	end
 
