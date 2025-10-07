@@ -10,6 +10,8 @@ GM:IncludeFolder(ContentFolder .. "commands/")
 GM:IncludeFolder(ContentFolder .. "logs/")
 GM:IncludeFolder(ContentFolder .. "actions/")
 
+GM:IncludeFolder(ContentFolder .. "patches/")
+
 Badge.Load()
 Language.Load()
 
