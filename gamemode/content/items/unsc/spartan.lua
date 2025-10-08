@@ -12,7 +12,7 @@ ITEM.Weight         = 12
 
 ITEM.EquipmentSlots = {"spartan"}
 
-ITEM.Buffs          = {"halo_shield"}
+ITEM.Buffs          = {"spartan_shield"}
 
 ITEM.Actions = {}
 
