@@ -20,7 +20,6 @@ ENT.BreakAlertSound = Sound("taconbanana/halo/shield/alert_break_spartan.wav")
 function ENT:Initialize()
 	local parent = self:GetParent()
 
-	self:SetAutomaticFrameAdvance(true)
 	self:SetLocalPos(vector_origin)
 	self:DrawShadow(false)
 	self:SetModel(parent:GetModel())
