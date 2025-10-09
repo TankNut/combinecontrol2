@@ -12,9 +12,11 @@ function Add(name, func)
 end
 
 function Get(name)
-	local cache = assert(List[name], "No entity cache with name '" .. name .. "' exists")
+	return assert(List[name], "No entity cache with name '" .. name .. "' exists")
+end
 
-	return cache
+function Copy(name)
+	return table.GetKeys(Get(name))
 end
 
 function Iterator(name)
@@ -22,9 +24,7 @@ function Iterator(name)
 end
 
 function Contains(name, ent)
-	local cache = assert(List[name], "No entity cache with name '" .. name .. "' exists")
-
-	return tobool(cache[ent])
+	return tobool(Get(name)[ent])
 end
 
 function OnCreated(ent)
