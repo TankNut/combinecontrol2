@@ -1,5 +1,7 @@
 local CLASS = {}
 
+CLASS.Default = false
+
 CLASS.SortOrder = 0
 
 -- All fields use the character var 'name', e.g. CharacterModel which will be translated by ply:CreateCharacter into db fields

@@ -2,6 +2,8 @@ module("CharacterGen", package.seeall)
 
 List = List or {}
 
+PlayerVar.Add("CharGenWhitelist", {Default = {}, Persist = true, DataType = BLOB()})
+
 local PLAYER = FindMetaTable("Player")
 
 function Register(name, gen)
@@ -58,7 +60,17 @@ if SERVER then
 end
 
 function PLAYER:CanUseCharacterGenerator(id)
-	return tobool(Get(id))
+	local define = Get(id)
+
+	if not define then
+		return
+	end
+
+	if self:IsAdmin() or self:CharGenWhitelist()[id] then
+		return true
+	end
+
+	return tobool(define.Default)
 end
 
 function PLAYER:GetCharacterGenerators()
