@@ -6,7 +6,7 @@ Action.Add("ScoreboardGoto", {
 	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
-	--CanRun = function(self, ply) return self != ply end,
+	CanRun = function(self, ply) return self != ply end,
 	Client = function(self, ply)
 		RunConsoleCommand("rpa_goto", self:SteamID())
 	end
@@ -20,7 +20,7 @@ Action.Add("ScoreboardBring", {
 	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
-	--CanRun = function(self, ply) return self != ply end,
+	CanRun = function(self, ply) return self != ply end,
 	Client = function(self, ply)
 		RunConsoleCommand("rpa_bring", self:SteamID())
 	end
@@ -40,7 +40,7 @@ Action.Add("ScoreboardHidden", {
 })
 
 Action.Add("ScoreboardMuted", {
-	Name = "Toggle Muted",
+	Name = "Toggle OOC Mute",
 	ClientOnly = true,
 	Priority = 70,
 
