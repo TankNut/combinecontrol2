@@ -148,65 +148,6 @@ setScale:AddParameter(console.Number({
 	validate.Max(10),
 }))
 
-local giveLanguage = console.AddCommand("rpa_givelanguage", function(ply, target, lang, speak)
-	local languageName = Language.Get(lang).Name
-	local accessType = speak and "speak" or "understand"
-	if (speak and target:CanSpeakLanguage(lang)) or (not speak and target:CanUnderstandLanguage(lang)) then
-		console.Feedback(ply, "ERROR", "%s can already %s %s", target:VisibleRPName(), accessType, languageName)
-
-		return
-	end
-
-	target:GiveLanguage(lang, speak)
-
-	console.Feedback(ply, "NOTICE", "You've given %s the ability to %s %s", target:VisibleRPName(), accessType, languageName)
-	console.Feedback(target, "NOTICE", "%s has given you the ability to %s %s", ply, accessType, languageName)
-
-	Log.Write("admin_character_givelang", ply, target, languageName, speak)
-end)
-
-giveLanguage:SetCategory("Character Commands")
-giveLanguage:SetDescription("Gives a spoken or understood language to a player's character")
-giveLanguage:SetExecutionContext(console.Server)
-giveLanguage:SetAccess(console.IsAdmin)
-
-giveLanguage:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
-giveLanguage:AddParameter(console.Language())
-giveLanguage:AddOptional(console.Bool(nil, "speaking"), true)
-
-local takeLanguage = console.AddCommand("rpa_takelanguage", function(ply, target, lang)
-	local languageName = Language.Get(lang).Name
-	local canSpeak = target:CanSpeakLanguage(lang)
-	local accessType = canSpeak and "speak" or "understand"
-
-	if not target:CanUnderstandLanguage(lang) then
-		console.Feedback(ply, "ERROR", "%s does not %s %s", target:VisibleRPName(), accessType, languageName)
-
-		return
-	end
-
-	target:TakeLanguage(lang)
-
-	console.Feedback(ply, "NOTICE", "You've taken %s's ability to %s %s", target:VisibleRPName(), accessType, languageName)
-	console.Feedback(target, "NOTICE", "%s has taken your the ability to %s %s", ply, accessType, languageName)
-
-	Log.Write("admin_character_takelang", ply, target, languageName, canSpeak)
-end)
-
-takeLanguage:SetCategory("Character Commands")
-takeLanguage:SetDescription("Takes a spoken or understood language from a player's character")
-takeLanguage:SetExecutionContext(console.Server)
-takeLanguage:SetAccess(console.IsAdmin)
-
-takeLanguage:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
-takeLanguage:AddParameter(console.Language())
-
 local setHidden = console.AddCommand("rpa_setcharhidden", function(ply, targets, bool)
 	local targetCount = table.Count(targets)
 

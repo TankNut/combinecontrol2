@@ -1,4 +1,4 @@
-local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, steamID, usergroup)
+local setUserGroup = console.AddCommand("rpa_usergroup_set", function(ply, steamID, usergroup)
 	if IsValid(ply) and IsElevatedUserGroup(usergroup) then
 		console.Feedback(ply, "ERROR", "Elevated access can only be changed from the server console")
 
@@ -46,33 +46,7 @@ setUserGroup:AddParameter(console.String({
 	validate.InList({"user", "admin", "superadmin", "developer"})
 }))
 
-local setUserAlias = console.AddCommand("rpa_setuseralias", function(ply, steamID, alias)
-	local target = player.GetBySteamID(steamID)
-	local name = target and target:Nick() or steamID
-
-	PlayerVar.SetOffline(steamID, "Alias", alias)
-
-	if alias == "" then
-		console.Feedback(ply, "NOTICE", "You've removed %s's alias", name)
-	else
-		console.Feedback(ply, "NOTICE", "You've set %s's alias to %s", name, alias)
-	end
-end)
-
-setUserAlias:SetCategory("Superadmin Commands")
-setUserAlias:SetDescription("Updates a player's alias on the admin roster")
-setUserAlias:SetExecutionContext(console.Server)
-setUserAlias:SetAccess(console.IsSuperAdmin)
-
-setUserAlias:AddParameter(console.SteamID({
-	StrictImmunity = true
-}))
-
-setUserAlias:AddParameter(console.String({
-	validate.Max(32),
-}))
-
-local giveBadge = console.AddCommand("rpa_givebadge", function(ply, target, badge)
+local giveBadge = console.AddCommand("rpa_badge_give", function(ply, target, badge)
 	if target:HasBadge(badge) then
 		console.Feedback(ply, "ERROR", "%s already has this badge", target)
 
@@ -97,7 +71,7 @@ giveBadge:AddParameter(console.Player({
 
 giveBadge:AddParameter(console.Badge())
 
-local takeBadge = console.AddCommand("rpa_takebadge", function(ply, target, badge)
+local takeBadge = console.AddCommand("rpa_badge_take", function(ply, target, badge)
 	if not target:HasBadge(badge) then
 		console.Feedback(ply, "ERROR", "%s does not have this badge", target)
 

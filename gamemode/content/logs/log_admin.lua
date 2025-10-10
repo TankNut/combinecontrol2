@@ -125,20 +125,6 @@ Log.AddType("admin_character_set", function(ply, target, variable, value)
 	}
 end)
 
-Log.AddType("admin_character_givelang", function(ply, target, lang, speak)
-	return string.format("%s gave %s the ability to %s %s", ply:Nick(), target:VisibleRPName(), speak and "speak" or "understand", lang), {
-		Log.Admin(ply),
-		Log.Character(target)
-	}
-end)
-
-Log.AddType("admin_character_takelang", function(ply, target, lang, speak)
-	return string.format("%s took %s's ability to %s %s", ply:Nick(), target:VisibleRPName(), speak and "speak" or "understand", lang), {
-		Log.Admin(ply),
-		Log.Character(target)
-	}
-end)
-
 Log.AddType("admin_player_set", function(ply, target, variable, value)
 	return string.format("%s has set %s's %s to %s", ply:Nick(), target:Nick(), variable, value), {
 		Log.Admin(ply),
@@ -172,5 +158,19 @@ end)
 Log.AddType("admin_stash_clear", function(ply)
 	return string.format("%s has cleared all stashes on the map", Log.Nick(ply)), {
 		Log.Admin(ply)
+	}
+end)
+
+Log.AddType("admin_language_give", function(ply, target, lang, speak)
+	return string.format("%s gave %s the ability to %s %s", ply:Nick(), target:VisibleRPName(), speak and "speak" or "understand", lang), {
+		Log.Admin(ply),
+		Log.Character(target)
+	}
+end)
+
+Log.AddType("admin_language_take", function(ply, target, lang, speak)
+	return string.format("%s took %s's ability to %s %s", ply:Nick(), target:VisibleRPName(), speak and "speak" or "understand", lang), {
+		Log.Admin(ply),
+		Log.Character(target)
 	}
 end)

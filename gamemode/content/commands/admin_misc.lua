@@ -87,36 +87,6 @@ yell:SetAccess(console.IsAdmin)
 
 yell:AddParameter(console.String())
 
-local oocDelay = console.AddCommand("rpa_oocdelay", function(ply, delay)
-	GAMEMODE:SetOOCDelay(delay)
-
-	Log.Write("admin_variable_set", ply, "OOCDelay", delay)
-
-	Chat.Send("NOTICE", ply:Nick() .. " has set the OOC delay to " .. string.NiceTime(delay) .. ".")
-end)
-
-oocDelay:SetCategory("Server Commands")
-oocDelay:SetDescription("Sets the global out-of-character chat delay")
-oocDelay:SetExecutionContext(console.Server)
-oocDelay:SetAccess(console.IsAdmin)
-
-oocDelay:AddParameter(console.Duration({
-	Max = "1 Hour"
-}))
-
-local oocDisable = console.AddCommand("rpa_oocdisable", function(ply)
-	GAMEMODE:SetOOCDelay(-1)
-
-	Log.Write("admin_variable_set", ply, "OOCDelay", -1)
-
-	Chat.Send("NOTICE", ply:Nick() .. " has disabled OOC chat.")
-end)
-
-oocDisable:SetCategory("Server Commands")
-oocDisable:SetDescription("Disables global out-of-character chat")
-oocDisable:SetExecutionContext(console.Server)
-oocDisable:SetAccess(console.IsAdmin)
-
 local propInfo = console.AddCommand("rpa_propinfo", function(ply)
 	local ent = ply:GetEyeTrace().Entity
 

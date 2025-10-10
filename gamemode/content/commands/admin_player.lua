@@ -31,34 +31,6 @@ setToolTrust:AddParameter(console.String({
 	validate.InList(table.GetKeys(toolTrustMapping))
 }))
 
-local oocMute = console.AddCommand("rpa_oocmute", function (ply, target, bool)
-	local new = 1 - target:OOCMuted()
-
-	if bool != nil then
-		new = bool and 1 or 0
-	end
-
-	target:SetOOCMuted(new)
-
-	console.Feedback(ply, "NOTICE", "You %s %s from OOC chat", new == 1 and "muted" or "unmuted", target)
-	console.Feedback(target, "NOTICE", "%s has %s you from OOC chat", ply, new == 1 and "muted" or "unmuted")
-
-	Log.Write("admin_player_set", ply, target, "OOCMuted", new)
-end)
-
-oocMute:SetCategory("Player Commands")
-oocMute:SetChatAlias("mute")
-oocMute:SetDescription("Mute or unmutes a player from OOC chat")
-oocMute:SetExecutionContext(console.Server)
-oocMute:SetAccess(console.IsAdmin)
-
-oocMute:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = true
-}))
-
-oocMute:AddOptional(console.Bool())
-
 local heal = console.AddCommand("rpa_heal", function(ply, targets)
 	for _, target in ipairs(targets) do
 		-- Don't reset the health of rpa_sethealth'ed players
