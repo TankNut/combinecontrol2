@@ -19,7 +19,7 @@ CharacterVar.Add("CharacterModel", {Default = "models/player/skeleton.mdl", Fiel
 CharacterVar.Add("CharacterModelOverride", {Default = "", Field = "ModelOverride", DataType = VARCHAR(128)})
 CharacterVar.Add("CharacterSkin", {Default = 0, Field = "Skin", DataType = TINYINT()})
 
-CharacterVar.Add("CharacterHidden", {Default = 0, Field = "Hidden", DataType = TINYINT()})
+CharacterVar.Add("CharacterHidden", {Default = 0, Field = "Hidden", DataType = BOOL()})
 CharacterVar.Add("CharacterLastSeen", {Default = 0, ServerOnly = true, DataType = UINT()})
 
 CharacterVar.Add("Spawngroup", {Default = "", Private = true, DataType = VARCHAR(32)})
@@ -135,7 +135,7 @@ if CLIENT then
 			return flag
 		end
 
-		local characterHidden = ply:CharacterHidden() == 1
+		local characterHidden = ply:CharacterHidden()
 		local teamHidden = Team.IsHidden(ply:Team())
 
 		if not characterHidden and not teamHidden then

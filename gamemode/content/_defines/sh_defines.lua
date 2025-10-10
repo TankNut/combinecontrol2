@@ -75,8 +75,8 @@ GM.Badges = {
 
 	Badge("bannedtt",   "Banned Tooltrust",   "icon16/key_delete.png",    function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end),
 	Badge("advancedtt", "Advanced Tooltrust", "icon16/key_add.png",       function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end),
-	Badge("oocmuted",   "OOC Muted",          "icon16/keyboard_mute.png", function(ply) return canSeePrivateBadge(ply) and ply:OOCMuted() == 1 end),
-	Badge("hidden",     "Manually Hidden",    "icon16/contrast_low.png",  function(ply) return canSeePrivateBadge(ply) and ply:CharacterHidden() == 1 end),
+	Badge("oocmuted",   "OOC Muted",          "icon16/keyboard_mute.png", function(ply) return canSeePrivateBadge(ply) and ply:OOCMuted() end),
+	Badge("hidden",     "Manually Hidden",    "icon16/contrast_low.png",  function(ply) return canSeePrivateBadge(ply) and ply:CharacterHidden() end),
 
 	Badge("betatest",   "Beta Tester", "icon16/controller.png"),
 	Badge("bughunter",  "Bug Hunter",  "icon16/bug.png"),

@@ -217,17 +217,19 @@ local setHidden = console.AddCommand("rpa_setcharhidden", function(ply, targets,
 	end
 
 	for _, target in pairs(targets) do
-		local new = 1 - target:CharacterHidden()
+		local new
 
-		if bool != nil then
-			new = bool and 1 or 0
+		if bool == nil then
+			new = not target:CharacterHidden()
+		else
+			new = bool
 		end
 
 		Log.Write("admin_character_set", ply, target, "Hidden", new)
 
 		target:SetCharacterHidden(new)
 
-		console.Feedback(target, "NOTICE", "%s has %s you from the scoreboard", ply, new == 1 and "hidden" or "unhidden")
+		console.Feedback(target, "NOTICE", "%s has %s you from the scoreboard", ply, new and "hidden" or "unhidden")
 	end
 
 	console.Feedback(ply, "NOTICE", "You've updated scoreboard visibility for %s", targetCount == 1 and targets[1] or (targetCount .. " players"))

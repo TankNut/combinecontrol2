@@ -35,7 +35,7 @@ Action.Add("ScoreboardHidden", {
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
-		RunConsoleCommand("rpa_setcharhidden", self:SteamID(), tostring(1 - self:CharacterHidden()))
+		RunConsoleCommand("rpa_setcharhidden", self:SteamID(), not self:CharacterHidden())
 	end
 })
 
@@ -48,7 +48,7 @@ Action.Add("ScoreboardMuted", {
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
-		RunConsoleCommand("rpa_oocmute", self:SteamID(), tostring(1 - self:OOCMuted()))
+		RunConsoleCommand("rpa_oocmute", self:SteamID(), not self:OOCMuted())
 	end
 })
 

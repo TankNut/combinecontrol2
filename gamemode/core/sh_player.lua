@@ -7,7 +7,7 @@ PlayerVar.Add("DonatorActive", {Default = false})
 
 PlayerVar.Add("NoDamage", {Default = false, Private = true})
 
-PlayerVar.Add("OOCMuted", {Default = 0, Persist = true, DataType = TINYINT()})
+PlayerVar.Add("OOCMuted", {Default = 0, Persist = true, DataType = BOOL()})
 
 PlayerVar.Add("Alias", {
 	Default = "",
