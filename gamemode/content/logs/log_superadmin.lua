@@ -1,12 +1,14 @@
-Log.AddType("superadmin_givetempadmin", function(ply, target)
-	return string.format("%s has given %s temporary admin", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), {
-		Log.Admin(ply),
-		Log.Player(target)
-	}
-end)
+Log.AddType("superadmin_tempadmin", function(ply, target, bool)
+	local name = IsValid(ply) and ply:Nick() or "CONSOLE"
+	local str
 
-Log.AddType("superadmin_taketempadmin", function(ply, target)
-	return string.format("%s has taken %s's temporary admin", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), {
+	if bool then
+		str = string.format("%s has given temporary admin to %s", name, target:Nick())
+	else
+		str = string.format("%s has taken temporary admin from %s", name, target:Nick())
+	end
+
+	return str, {
 		Log.Admin(ply),
 		Log.Player(target)
 	}

@@ -118,51 +118,33 @@ explode:AddParameter(console.Player({
 	SingleTarget = true
 }))
 
-local giveTempAdmin = console.AddCommand("rpa_givetempadmin", function(ply, target)
-	if target:IsAdmin() then
-		console.Feedback(ply, "ERROR", "%s already has administrator access", target)
+
+
+
+
+local tempAdmin = console.AddCommand("rpa_admin_temp", function(ply, target)
+	if target:IsAdmin(true) then
+		console.Feedback(ply, "ERROR", "%s already has administrator access!", target)
 
 		return
 	end
 
-	Log.Write("superadmin_givetempadmin", ply, target)
+	local bool = not target:TempAdmin()
 
-	target:SetTempAdmin(true)
+	Log.Write("superadmin_tempadmin", ply, target, bool)
 
-	Chat.Send("NOTICE", string.format("%s has given temporary admin to %s.", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), player.GetAdmins())
+	target:SetTempAdmin(bool)
+
+	console.Feedback(target, "NOTICE", bool and "%s has given you temporary admin status" or "%s has taken your temporary admin status", ply)
+	Chat.Send("NOTICE", console.FormatMessage(bool and "%s has given temporary admin to %s" or "%s has taken temporary admin from %s", ply, target), player.GetAdmins())
 end)
 
-giveTempAdmin:SetCategory("Superadmin Commands")
-giveTempAdmin:SetDescription("Gives a player temporary admin access")
-giveTempAdmin:SetExecutionContext(console.Server)
-giveTempAdmin:SetAccess(console.IsSuperAdmin)
+tempAdmin:SetCategory("Superadmin Commands")
+tempAdmin:SetDescription("Gives or takes away a player's temporary admin access")
+tempAdmin:SetExecutionContext(console.Server)
+tempAdmin:SetAccess(console.IsSuperAdmin)
 
-giveTempAdmin:AddParameter(console.Player({
-	SingleTarget = true,
-	StrictImmunity = true,
-	NoSelfTarget = true
-}))
-
-local takeTempAdmin = console.AddCommand("rpa_taketempadmin", function(ply, target)
-	if not target:TempAdmin() then
-		console.Feedback(ply, "ERROR", "%s is not a temporary administrator", target)
-
-		return
-	end
-
-	Log.Write("superadmin_taketempadmin", ply, target)
-
-	target:SetTempAdmin(false)
-
-	Chat.Send("NOTICE", string.format("%s has taken temporary admin from %s.", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), player.GetAdmins())
-end)
-
-takeTempAdmin:SetCategory("Superadmin Commands")
-takeTempAdmin:SetDescription("Revokes a player's temporary admin access")
-takeTempAdmin:SetExecutionContext(console.Server)
-takeTempAdmin:SetAccess(console.IsSuperAdmin)
-
-takeTempAdmin:AddParameter(console.Player({
+tempAdmin:AddParameter(console.Player({
 	SingleTarget = true,
 	StrictImmunity = true,
 	NoSelfTarget = true
