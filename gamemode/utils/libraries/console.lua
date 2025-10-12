@@ -330,15 +330,28 @@ function COMMAND:SetNoConsole()
 	self.NoConsole = true
 end
 
+local color = Color(200, 200, 200)
+
 local listCommand = AddCommand("commands", function(ply)
-	PrintMessage(ply, "Available commands:")
+	MsgC(color_white, "Available commands:\n")
+
+	local maxWidth = 0
+	local commands = {}
 
 	for name, command in SortedPairs(Commands) do
 		if not IsVisible(command) then
 			continue
 		end
 
-		PrintMessage(ply, "%s - %s", name, command.Description)
+		maxWidth = math.max(maxWidth, #name + 1)
+
+		table.insert(commands, {name, command.Description})
+	end
+
+	for _, command in ipairs(commands) do
+		local name = command[1]
+
+		MsgC(color_white, name, string.rep(" ", maxWidth - #name), "- ", color, command[2], "\n")
 	end
 end)
 
