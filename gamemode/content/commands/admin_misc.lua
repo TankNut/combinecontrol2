@@ -13,6 +13,10 @@ restart:SetDescription("Restarts the server on the current map")
 restart:SetExecutionContext(console.Server)
 restart:SetAccess(console.IsAdmin)
 
+
+
+
+
 local changeLevel = console.AddCommand("rpa_changelevel", function(ply, map)
 	local maps = game.GetMapList()
 	if not table.HasValue(maps, map) then
@@ -45,6 +49,10 @@ changeLevel:SetAccess(console.IsAdmin)
 
 changeLevel:AddOptional(console.String())
 
+
+
+
+
 local disableAI = console.AddCommand("rpa_ai_disable", function (ply, bool)
 	Chat.Send("NOTICE", console.FormatMessage("%s has %s AI thinking", ply, bool and "disabled" or "enabled"), player.GetAdmins())
 
@@ -59,6 +67,10 @@ disableAI:SetExecutionContext(console.Server)
 disableAI:SetAccess(console.IsAdmin)
 
 disableAI:AddParameter(console.Bool())
+
+
+
+
 
 local ignoreAI = console.AddCommand("rpa_ai_notarget", function (ply, bool)
 	Chat.Send("NOTICE", console.FormatMessage("%s has turned %s NPC's ignoring players", ply, bool and "on" or "off"), player.GetAdmins())
@@ -75,6 +87,10 @@ ignoreAI:SetAccess(console.IsAdmin)
 
 ignoreAI:AddParameter(console.Bool())
 
+
+
+
+
 local yell = console.AddCommand("rpa_yell", function(ply, message)
 	Log.Write("admin_yell", ply, message)
 
@@ -86,6 +102,10 @@ yell:SetExecutionContext(console.Server)
 yell:SetAccess(console.IsAdmin)
 
 yell:AddParameter(console.String())
+
+
+
+
 
 local propInfo = console.AddCommand("rpa_propinfo", function(ply)
 	local ent = ply:GetEyeTrace().Entity
@@ -103,6 +123,10 @@ propInfo:SetDescription("Get information about whatever prop you're looking at")
 propInfo:SetExecutionContext(console.Server)
 propInfo:SetAccess(console.IsAdmin)
 propInfo:SetNoConsole()
+
+
+
+
 
 local toggleSaved = console.AddCommand("rpa_togglesaved", function(ply)
 	local ent = ply:GetEyeTrace().Entity
@@ -128,6 +152,10 @@ toggleSaved:SetExecutionContext(console.Server)
 toggleSaved:SetAccess(console.IsAdmin)
 toggleSaved:SetNoConsole()
 
+
+
+
+
 local seeAll = console.AddCommand("rpa_seeall", function(ply)
 	Settings.Set("SeeAll", not Settings.Get("SeeAll"))
 end)
@@ -136,7 +164,11 @@ seeAll:SetDescription("Toggles SeeAll on or off")
 seeAll:SetExecutionContext(console.ClientOnly)
 seeAll:SetAccess(console.IsAdmin)
 
-local teamHidden = console.AddCommand("rpa_setteamhidden", function(ply, enum, hidden)
+
+
+
+
+local teamHidden = console.AddCommand("rpa_team_hide", function(ply, enum, hidden)
 	Chat.Send("NOTICE", console.FormatMessage("%s has %s the %s team from the scoreboard", ply, hidden and "hidden" or "unhidden", Team.Get(enum).Name), player.GetAdmins())
 
 	Team.SetHidden(enum, hidden)
@@ -150,5 +182,4 @@ teamHidden:SetExecutionContext(console.Server)
 teamHidden:SetAccess(console.IsAdmin)
 
 teamHidden:AddParameter(console.Team())
-
 teamHidden:AddParameter(console.Bool())

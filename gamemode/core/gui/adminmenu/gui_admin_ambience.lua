@@ -109,19 +109,19 @@ function PANEL:Init()
 		end):SetIcon("icon16/ipod_cast.png")
 
 		dmenu:AddOption("Play Global Music", function()
-			RunConsoleCommand("rpa_playmusic", "global", path)
+			RunConsoleCommand("rpa_music_play", "global", path)
 		end):SetIcon("icon16/control_fastforward_blue.png")
 
 		dmenu:AddOption("Play Local Music", function()
-			RunConsoleCommand("rpa_playmusic", "local", path)
+			RunConsoleCommand("rpa_music_play", "local", path)
 		end):SetIcon("icon16/control_play_blue.png")
 
 		dmenu:AddOption("Play Global Effect", function()
-			RunConsoleCommand("rpa_playeffect", "global", path)
+			RunConsoleCommand("rpa_effect_play", "global", path)
 		end):SetIcon("icon16/control_fastforward.png")
 
 		dmenu:AddOption("Play Local Effect", function()
-			RunConsoleCommand("rpa_playeffect", "local", path)
+			RunConsoleCommand("rpa_effect_play", "local", path)
 		end):SetIcon("icon16/control_play.png")
 
 		dmenu:SetSkin("CombineControl")
@@ -183,19 +183,19 @@ function PANEL:Init()
 
 	self.PlayMusic = self:CreateLabel("Play Music", false, 75)
 	self.PlayMusicButtons = {}
-	self:SetupCommandButtons("rpa_playmusic", self.PlayMusicButtons, true)
+	self:SetupCommandButtons("rpa_music_play", self.PlayMusicButtons, true)
 
 	self.StopMusic = self:CreateLabel("Stop Music", false, 75)
 	self.StopMusicButtons = {}
-	self:SetupCommandButtons("rpa_stopmusic", self.StopMusicButtons, false)
+	self:SetupCommandButtons("rpa_music_stop", self.StopMusicButtons, false)
 
 	self.PlayEffect = self:CreateLabel("Play Effect", false, 75)
 	self.PlayEffectButtons = {}
-	self:SetupCommandButtons("rpa_playeffect", self.PlayEffectButtons, true)
+	self:SetupCommandButtons("rpa_effect_play", self.PlayEffectButtons, true)
 
 	self.StopEffect = self:CreateLabel("Stop Effect", false, 75)
 	self.StopEffectButtons = {}
-	self:SetupCommandButtons("rpa_stopeffect", self.StopEffectButtons, false)
+	self:SetupCommandButtons("rpa_effect_stop", self.StopEffectButtons, false)
 end
 
 function PANEL:PerformLayout(w, h)

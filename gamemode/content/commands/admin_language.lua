@@ -1,10 +1,8 @@
--- rpa_language_give
-
 local give = console.AddCommand("rpa_language_give", function(ply, target, lang, speak)
 	local languageName = Language.Get(lang).Name
 	local accessType = speak and "speak" or "understand"
 	if (speak and target:CanSpeakLanguage(lang)) or (not speak and target:CanUnderstandLanguage(lang)) then
-		console.Feedback(ply, "ERROR", "%s can already %s %s", target:VisibleRPName(), accessType, languageName)
+		console.Feedback(ply, "ERROR", "%s can already %s %s!", target:VisibleRPName(), accessType, languageName)
 
 		return
 	end
@@ -29,7 +27,9 @@ give:AddParameter(console.Player({
 give:AddParameter(console.Language())
 give:AddOptional(console.Bool(nil, "speaking"), true)
 
--- rpa_language_take
+
+
+
 
 local take = console.AddCommand("rpa_language_take", function(ply, target, lang)
 	local languageName = Language.Get(lang).Name
@@ -37,7 +37,7 @@ local take = console.AddCommand("rpa_language_take", function(ply, target, lang)
 	local accessType = canSpeak and "speak" or "understand"
 
 	if not target:CanUnderstandLanguage(lang) then
-		console.Feedback(ply, "ERROR", "%s does not %s %s", target:VisibleRPName(), accessType, languageName)
+		console.Feedback(ply, "ERROR", "%s does not %s %s!", target:VisibleRPName(), accessType, languageName)
 
 		return
 	end

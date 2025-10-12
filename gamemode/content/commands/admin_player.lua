@@ -5,7 +5,11 @@ local toolTrustMapping = {
 	advanced = TOOLTRUST_ADVANCED
 }
 
-local setToolTrust = console.AddCommand("rpa_settooltrust", function (ply, target, trust)
+
+
+
+
+local setToolTrust = console.AddCommand("rpa_player_tooltrust", function (ply, target, trust)
 	local toolTrustLevel = toolTrustMapping[trust]
 
 	target:SetToolTrust(toolTrustLevel)
@@ -30,6 +34,10 @@ setToolTrust:AddParameter(console.Player({
 setToolTrust:AddParameter(console.String({
 	validate.InList(table.GetKeys(toolTrustMapping))
 }))
+
+
+
+
 
 local heal = console.AddCommand("rpa_heal", function(ply, targets)
 	for _, target in ipairs(targets) do
@@ -62,7 +70,11 @@ heal:SetAccess(console.IsAdmin)
 
 heal:AddParameter(console.Player())
 
-local setHealth = console.AddCommand("rpa_sethealth", function(ply, targets, health)
+
+
+
+
+local setHealth = console.AddCommand("rpa_player_health", function(ply, targets, health)
 	for _, target in ipairs(targets) do
 		target:SetHealth(health)
 
@@ -86,7 +98,11 @@ setHealth:SetAccess(console.IsAdmin)
 setHealth:AddParameter(console.Player())
 setHealth:AddParameter(console.Number())
 
-local setArmor = console.AddCommand("rpa_setarmor", function(ply, targets, armor)
+
+
+
+
+local setArmor = console.AddCommand("rpa_player_armor", function(ply, targets, armor)
 	for _, target in ipairs(targets) do
 		target:SetArmor(armor)
 
@@ -110,6 +126,10 @@ setArmor:SetAccess(console.IsAdmin)
 setArmor:AddParameter(console.Player())
 setArmor:AddParameter(console.Number())
 
+
+
+
+
 local kill = console.AddCommand("rpa_kill", function(ply, target)
 	target:Kill()
 
@@ -128,6 +148,10 @@ kill:AddParameter(console.Player({
 	SingleTarget = true,
 	CheckImmunity = true
 }))
+
+
+
+
 
 local slap = console.AddCommand("rpa_slap", function(ply, target)
 	target:SetVelocity(Vector(math.random(-200, 200), math.random(-200, 200), 0))
@@ -150,54 +174,13 @@ slap:AddParameter(console.Player({
 	CheckImmunity = true
 }))
 
-local listCharacters = console.AddCommand("rpa_listcharacters", function(ply, steamid)
-	local target = player.GetBySteamID(steamid)
-	local name = target and string.format("%s (%s)", target:Nick(), steamid) or steamid
-	local characters = GAMEMODE.Database:Query("SELECT `id`, COALESCE(`NameOverride`, `Name`) AS `Name`, `Flag`, `EventCharacter` FROM rp_characters WHERE `SteamID` = :steamId AND `Deleted_At` IS NULL", {
-		steamId = steamid
-	})
 
-	if #characters < 1 then
-		console.Feedback(ply, "ERROR", "No characters exist for %s", name)
 
-		return
-	end
 
-	local defaultFlag = CharacterFlag.Get(GAMEMODE.DefaultFlag).Name
-	local lines = {string.format("<c=white>-- Character list for: %s (%d character%s) --</c>", name, #characters, #characters > 1 and "s" or "")}
 
-	for _, character in pairs(characters) do
-		local flag = defaultFlag
-
-		if character.Flag then
-			flag = CharacterFlag.Get(character.Flag).Name or character.Flag
-		end
-
-		table.insert(lines, string.format("  CharID %d: %s%s - %s%s",
-			character.id,
-			character.Name,
-			character.NameOverride and " (" .. character.NameOverride .. ")" or "",
-			flag,
-			character.EventCharacter and " (EVENT CHARACTER)" or ""
-		))
-	end
-
-	console.Feedback(ply, "NOTICE", "Sent %s's character list to your console", name)
-	console.Feedback(ply, "CONSOLE", table.concat(lines, "\n"))
-end)
-
-listCharacters:SetCategory("Player Commands")
-listCharacters:SetDescription("Lists all characters created by a player")
-listCharacters:SetExecutionContext(console.Server)
-listCharacters:SetAccess(console.IsAdmin)
-
-listCharacters:AddParameter(console.SteamID({
-	SingleTarget = true
-}))
-
-local setAlias = console.AddCommand("rpa_setalias", function(ply, steamId, alias)
-	local target = player.GetBySteamID(steamId)
-	local name = target and target:Nick() or steamId
+local setAlias = console.AddCommand("rpa_player_alias", function(ply, steamID, alias)
+	local target = player.GetBySteamID(steamID)
+	local name = target and target:Nick() or steamID
 
 	if target then
 		target:SetAlias(alias)
@@ -231,7 +214,11 @@ setAlias:AddParameter(console.String({
 	validate.Max(32),
 }))
 
-local setScale = console.AddCommand("rpa_setscale", function (ply, target, scale)
+
+
+
+
+local setScale = console.AddCommand("rpa_player_scale", function (ply, target, scale)
 	Log.Write("admin_player_set", ply, target, "Scale", scale)
 
 	target:SetScale(scale)

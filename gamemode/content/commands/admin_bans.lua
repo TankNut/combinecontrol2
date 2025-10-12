@@ -19,18 +19,26 @@ ban:AddParameter(console.Duration({
 
 ban:AddOptional(console.String({
 	Max = 256
-}), nil, "No reason specified")
+}, "reason"), nil, "No reason specified")
+
+
+
+
 
 local unban = console.AddCommand("rpa_unban", function(ply, steamID)
 	Access.LiftBan(steamID, ply)
 end)
 
 unban:SetCategory("Bans")
-unban:SetDescription("Unbans a player, does nothing if they're not")
+unban:SetDescription("Unbans a player, if they're banned")
 unban:SetExecutionContext(console.Server)
 unban:SetAccess(console.IsAdmin)
 
 unban:AddParameter(console.SteamID())
+
+
+
+
 
 local kick = console.AddCommand("rpa_kick", function(ply, target, reason)
 	Access.Kick(ply, target, reason)
@@ -49,4 +57,4 @@ kick:AddParameter(console.Player({
 
 kick:AddOptional(console.String({
 	Max = 256
-}), nil, "No reason specified")
+}, "reason"), nil, "No reason specified")

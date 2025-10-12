@@ -15,18 +15,26 @@ setDelay:AddParameter(console.Duration({
 	Max = "1 Hour"
 }))
 
+
+
+
+
 local disable = console.AddCommand("rpa_ooc_disable", function(ply)
 	GAMEMODE:SetOOCDelay(-1)
 
 	Log.Write("admin_variable_set", ply, "OOCDelay", -1)
 
-	Chat.Send("NOTICE", ply:Nick() .. " has disabled OOC chat.")
+	Chat.Send("NOTICE", ply:Nick() .. " has disabled OOC chat")
 end)
 
 disable:SetCategory("OOC Commands")
 disable:SetDescription("Disables global out-of-character chat")
 disable:SetExecutionContext(console.Server)
 disable:SetAccess(console.IsAdmin)
+
+
+
+
 
 local oocMute = console.AddCommand("rpa_ooc_mute", function (ply, target, bool)
 	local new

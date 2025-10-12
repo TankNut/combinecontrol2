@@ -1,5 +1,5 @@
 -- Database stuff
-local createMigration = console.AddCommand("database_migration", function(ply, str)
+local createMigration = console.AddCommand("dev_database_migration", function(ply, str)
 	local name = os.time() .. "_" .. str .. ".lua"
 
 	console.PrintMessage(ply, name)

@@ -46,6 +46,10 @@ setUserGroup:AddParameter(console.String({
 	validate.InList({"user", "admin", "superadmin", "developer"})
 }))
 
+
+
+
+
 local giveBadge = console.AddCommand("rpa_badge_give", function(ply, target, badge)
 	if target:HasBadge(badge) then
 		console.Feedback(ply, "ERROR", "%s already has this badge", target)
@@ -71,6 +75,10 @@ giveBadge:AddParameter(console.Player({
 
 giveBadge:AddParameter(console.Badge())
 
+
+
+
+
 local takeBadge = console.AddCommand("rpa_badge_take", function(ply, target, badge)
 	if not target:HasBadge(badge) then
 		console.Feedback(ply, "ERROR", "%s does not have this badge", target)
@@ -95,6 +103,10 @@ takeBadge:AddParameter(console.Player({
 }))
 
 takeBadge:AddParameter(console.Badge())
+
+
+
+
 
 local explode = console.AddCommand("rpa_explode", function(ply, target)
 	target:Kill()
@@ -150,6 +162,10 @@ tempAdmin:AddParameter(console.Player({
 	NoSelfTarget = true
 }))
 
+
+
+
+
 local noDamage = console.AddCommand("rpa_nodamage", function(ply, targets, bool)
 	local action = bool and "given you godmode" or "taken your godmode"
 	local feedback = bool and "given godmode to" or "taken godmode from"
@@ -175,9 +191,13 @@ noDamage:SetExecutionContext(console.Server)
 noDamage:SetAccess(console.IsSuperAdmin)
 
 noDamage:AddParameter(console.Player())
-noDamage:AddOptional(console.Bool(), false)
+noDamage:AddParameter(console.Bool())
 
-local setOwner = console.AddCommand("rpa_setcharowner", function(ply, id, steamid)
+
+
+
+
+local setOwner = console.AddCommand("rpa_character_owner", function(ply, id, steamid)
 	local data = Character.Fetch(id)
 
 	if not data then

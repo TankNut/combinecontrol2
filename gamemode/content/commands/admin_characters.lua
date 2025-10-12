@@ -1,6 +1,55 @@
-local setModel = console.AddCommand("rpa_setcharmodel", function (ply, target, mdl)
+local listCharacters = console.AddCommand("rpa_character_list", function(ply, steamid)
+	local target = player.GetBySteamID(steamid)
+	local name = target and string.format("%s (%s)", target:Nick(), steamid) or steamid
+	local characters = GAMEMODE.Database:Query("SELECT `id`, COALESCE(`NameOverride`, `Name`) AS `Name`, `Flag`, `EventCharacter` FROM rp_characters WHERE `SteamID` = :steamId AND `Deleted_At` IS NULL", {
+		steamId = steamid
+	})
+
+	if #characters < 1 then
+		console.Feedback(ply, "ERROR", "No characters exist for %s!", name)
+
+		return
+	end
+
+	local defaultFlag = CharacterFlag.Get(GAMEMODE.DefaultFlag).Name
+	local lines = {string.format("<c=white>-- Character list for: %s (%d character%s) --</c>", name, #characters, #characters > 1 and "s" or "")}
+
+	for _, character in pairs(characters) do
+		local flag = defaultFlag
+
+		if character.Flag then
+			flag = CharacterFlag.Get(character.Flag).Name or character.Flag
+		end
+
+		table.insert(lines, string.format("  CharID %d: %s%s - %s%s",
+			character.id,
+			character.Name,
+			character.NameOverride and " (" .. character.NameOverride .. ")" or "",
+			flag,
+			character.EventCharacter and " (EVENT CHARACTER)" or ""
+		))
+	end
+
+	console.Feedback(ply, "NOTICE", "Sent %s's character list to your console", name)
+	console.Feedback(ply, "CONSOLE", table.concat(lines, "\n"))
+end)
+
+listCharacters:SetCategory("Player Commands")
+listCharacters:SetDescription("Lists all characters created by a player")
+listCharacters:SetExecutionContext(console.Server)
+listCharacters:SetAccess(console.IsAdmin)
+
+listCharacters:AddParameter(console.SteamID({
+	SingleTarget = true
+}))
+
+
+
+
+
+local setModel = console.AddCommand("rpa_character_model", function (ply, target, mdl)
 	if not util.IsValidModel(mdl) then
-		console.Feedback(ply, "ERROR", "The given model is not mounted on the server", target)
+		console.Feedback(ply, "ERROR", "That model is not mounted on the server!")
 
 		return
 	end
@@ -24,9 +73,13 @@ setModel:AddParameter(console.Player({
 
 setModel:AddParameter(console.String())
 
-local setModelOverride = console.AddCommand("rpa_setcharmodel_override", function (ply, target, mdl)
+
+
+
+
+local setModelOverride = console.AddCommand("rpa_character_model_override", function (ply, target, mdl)
 	if #mdl > 0 and not util.IsValidModel(mdl) then
-		console.Feedback(ply, "ERROR", "The given model is not mounted on the server", target)
+		console.Feedback(ply, "ERROR", "That model is not mounted on the server!", target)
 
 		return
 	end
@@ -55,7 +108,11 @@ setModelOverride:AddParameter(console.Player({
 
 setModelOverride:AddOptional(console.String(), "", "none")
 
-local setSkin = console.AddCommand("rpa_setcharskin", function (ply, target, num)
+
+
+
+
+local setSkin = console.AddCommand("rpa_character_skin", function (ply, target, num)
 	Log.Write("admin_character_set", ply, target, "Skin", num)
 
 	target:SetCharacterSkin(num)
@@ -75,7 +132,11 @@ setSkin:AddParameter(console.Player({
 
 setSkin:AddParameter(console.Number())
 
-local setName = console.AddCommand("rpa_setcharname", function (ply, target, name)
+
+
+
+
+local setName = console.AddCommand("rpa_character_name", function (ply, target, name)
 	Log.Write("admin_character_set", ply, target, "Name", name)
 
 	target:SetCharacterName(name)
@@ -95,7 +156,11 @@ setName:AddParameter(console.Player({
 
 setName:AddParameter(console.String(Config.Get("CharacterNameRules")))
 
-local setNameOverride = console.AddCommand("rpa_setcharname_override", function (ply, target, name)
+
+
+
+
+local setNameOverride = console.AddCommand("rpa_character_name_override", function (ply, target, name)
 	name = string.Escape(name)
 
 	Log.Write("admin_character_set", ply, target, "NameOverride", name)
@@ -125,7 +190,11 @@ setNameOverride:AddOptional(console.String({
 	validate.Max(64),
 }), "", "none")
 
-local setScale = console.AddCommand("rpa_setcharscale", function (ply, target, scale)
+
+
+
+
+local setScale = console.AddCommand("rpa_character_scale", function (ply, target, scale)
 	Log.Write("admin_character_set", ply, target, "Scale", scale)
 
 	target:SetCharacterScale(scale)
@@ -135,7 +204,7 @@ local setScale = console.AddCommand("rpa_setcharscale", function (ply, target, s
 end)
 
 setScale:SetCategory("Character Commands")
-setScale:SetDescription("Updates a player's permanent character size, a size of 0 resets to flag default")
+setScale:SetDescription("Updates a player's permanent character size, use 0 to reset back to default")
 setScale:SetExecutionContext(console.Server)
 setScale:SetAccess(console.IsAdmin)
 
@@ -148,32 +217,25 @@ setScale:AddParameter(console.Number({
 	validate.Max(10),
 }))
 
-local setHidden = console.AddCommand("rpa_setcharhidden", function(ply, targets, bool)
-	local targetCount = table.Count(targets)
 
-	if targetCount > 1 and bool == nil then
-		console.Feedback(ply, "ERROR", "Multiple matches found when attempting to flip hidden status")
 
-		return
+
+
+local setHidden = console.AddCommand("rpa_character_hide", function(ply, target, bool)
+	local new = bool
+
+	if bool == nil then
+		new = not target:CharacterHidden()
 	end
 
-	for _, target in pairs(targets) do
-		local new
+	local str = bool and "hidden" or "unhidden"
 
-		if bool == nil then
-			new = not target:CharacterHidden()
-		else
-			new = bool
-		end
+	Log.Write("admin_character_set", ply, target, "Hidden", new)
 
-		Log.Write("admin_character_set", ply, target, "Hidden", new)
+	target:SetCharacterHidden(new)
 
-		target:SetCharacterHidden(new)
-
-		console.Feedback(target, "NOTICE", "%s has %s you from the scoreboard", ply, new and "hidden" or "unhidden")
-	end
-
-	console.Feedback(ply, "NOTICE", "You've updated scoreboard visibility for %s", targetCount == 1 and targets[1] or (targetCount .. " players"))
+	console.Feedback(target, "NOTICE", "%s has %s you from the scoreboard", ply, str)
+	console.Feedback(ply, "NOTICE", "You've %s %s from the scoreboard", str, target)
 end)
 
 setHidden:SetCategory("Character Commands")
@@ -181,10 +243,16 @@ setHidden:SetDescription("Toggles a character's hidden status on the scoreboard"
 setHidden:SetExecutionContext(console.Server)
 setHidden:SetAccess(console.IsAdmin)
 
-setHidden:AddParameter(console.Player())
-setHidden:AddOptional(console.Bool())
+setHidden:AddParameter(console.Player({
+	SingleTarget = true
+}))
+setHidden:AddOptional(console.Bool(), nil, "flip")
 
-local setFlag = console.AddCommand("rpa_setcharflag", function(ply, target, flag)
+
+
+
+
+local setFlag = console.AddCommand("rpa_character_flag", function(ply, target, flag)
 	Log.Write("admin_character_set", ply, target, "Flag", flag)
 
 	target:SetCharacterFlag(flag)
@@ -206,7 +274,11 @@ setFlag:AddParameter(console.Player({
 
 setFlag:AddParameter(console.CharacterFlag())
 
-local editInventory = console.AddCommand("rpa_editinventory", function(ply, target)
+
+
+
+
+local editInventory = console.AddCommand("rpa_character_inventory", function(ply, target)
 	local inventory = target:GetInventory()
 
 	inventory:AddListener(ply, LISTENER_ADMIN)

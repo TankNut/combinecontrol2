@@ -1,4 +1,4 @@
-local listCharacters = console.AddCommand("rpa_listeventcharacters", function(ply)
+local listCharacters = console.AddCommand("rpa_eventcharacter_list", function(ply)
 	local characters = GAMEMODE.Database:Query([[
 SELECT rp_characters.id,
        rp_characters.SteamID,
@@ -10,7 +10,7 @@ FROM rp_characters
 WHERE rp_characters.EventCharacter = 1 AND rp_characters.Deleted_At IS NULL AND rp_characters.SteamID != 'BOT']])
 
 	if #characters < 1 then
-		console.Feedback(ply, "ERROR", "No event characters exist")
+		console.Feedback(ply, "ERROR", "No event characters exist!")
 
 		return
 	end
@@ -36,17 +36,21 @@ listCharacters:SetDescription("Lists all event characters")
 listCharacters:SetExecutionContext(console.Server)
 listCharacters:SetAccess(console.IsAdmin)
 
-local setOwner = console.AddCommand("rpa_seteventcharowner", function(ply, id, steamid)
+
+
+
+
+local setOwner = console.AddCommand("rpa_eventcharacter_owner", function(ply, id, steamid)
 	local data = Character.Fetch(id)
 
 	if not data or not data.IsEventCharacter then
-		console.Feedback(ply, "ERROR", "That character either doesn't exist or isn't an event character")
+		console.Feedback(ply, "ERROR", "That character either doesn't exist or isn't an event character!")
 
 		return
 	end
 
 	if data.SteamID == steamid then
-		console.Feedback(ply, "ERROR", "That event character is already owned by that player")
+		console.Feedback(ply, "ERROR", "That event character is already owned by that player!")
 
 		return
 	end
@@ -62,11 +66,18 @@ setOwner:SetDescription("Changes ownership of an event character")
 setOwner:SetExecutionContext(console.Server)
 setOwner:SetAccess(console.IsAdmin)
 
-local delete = console.AddCommand("rpa_deleteeventcharacter", function(ply, id)
+setOwner:AddParameter(console.Number(nil, "character id"))
+setOwner:AddParameter(console.SteamID(nil, "new owner"))
+
+
+
+
+
+local delete = console.AddCommand("rpa_eventcharacter_delete", function(ply, id)
 	local data = Character.Fetch(id)
 
 	if not data or not data.IsEventCharacter then
-		console.Feedback(ply, "ERROR", "That character either doesn't exist or isn't an event character")
+		console.Feedback(ply, "ERROR", "That character either doesn't exist or isn't an event character!")
 
 		return
 	end

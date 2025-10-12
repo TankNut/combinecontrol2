@@ -5,6 +5,10 @@ end)
 uptime:SetDescription("Tells you how long the server has been running the current map for")
 uptime:SetExecutionContext(console.Shared)
 
+
+
+
+
 local what = console.AddCommand("whatisthis", function(ply)
 	local ent = ply:GetEyeTrace().Entity
 
@@ -20,6 +24,10 @@ end)
 what:SetDescription("Tells you the path of the current model you're looking at")
 what:SetExecutionContext(console.ClientOnly)
 
+
+
+
+
 local toggleHUD = console.AddCommand("rp_togglehud", function()
 	Settings.Set("Hud", not Settings.Get("Hud"))
 end)
@@ -27,12 +35,20 @@ end)
 toggleHUD:SetDescription("Toggles your HUD between active and disabled")
 toggleHUD:SetExecutionContext(console.ClientOnly)
 
+
+
+
+
 local toggleThirdperson = console.AddCommand("rp_thirdperson", function(ply)
 	Settings.Set("Thirdperson", not Settings.Get("Thirdperson"))
 end)
 
 toggleThirdperson:SetDescription("Toggles your thirdperson between active and disabled")
 toggleThirdperson:SetExecutionContext(console.ClientOnly)
+
+
+
+
 
 local roll = console.AddCommand("rp_roll", function(ply, diceFormat)
 	local num, sides, sign, mod
@@ -72,20 +88,28 @@ local roll = console.AddCommand("rp_roll", function(ply, diceFormat)
 end)
 
 roll:SetChatAlias("roll")
-roll:SetDescription("Rolls dice, command format is 'NdX+m'\n\t\tN = # of dice, X = # of sides on dice, m = optional modifier\n\t\te.g. rp_roll 2d20-4 will roll two d20's with a -4 modifier applied")
+roll:SetDescription("Rolls dice, command format is 'NdX+m' where N = # of dice, X = # of sides on dice and m = optional modifier. e.g. rp_roll 2d20-4 will roll two d20's with a -4 modifier applied")
 roll:SetExecutionContext(console.Server)
 roll:SetNoConsole()
 
 roll:AddParameter(console.String())
 
-local stopEffect = console.AddCommand("rp_stopeffect", function()
+
+
+
+
+local stopEffect = console.AddCommand("rp_effect_stop", function()
 	Ambience.StopEffect()
 end)
 
 stopEffect:SetDescription("Halts playback of the current ambient-effect file.")
 stopEffect:SetExecutionContext(console.ClientOnly)
 
-local stopMusic = console.AddCommand("rp_stopmusic", function()
+
+
+
+
+local stopMusic = console.AddCommand("rp_music_stop", function()
 	Ambience.StopMusic()
 end)
 

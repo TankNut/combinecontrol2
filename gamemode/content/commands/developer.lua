@@ -1,4 +1,4 @@
-local editGlobal = console.AddCommand("dev_edit_global", function(ply)
+local editGlobal = console.AddCommand("dev_maplua_global", function(ply)
 	local lua = GAMEMODE:GlobalLua()
 
 	if lua == "" then
@@ -14,7 +14,11 @@ editGlobal:SetExecutionContext(console.Server)
 editGlobal:SetAccess(console.IsDeveloper)
 editGlobal:SetNoConsole()
 
-local editMap = console.AddCommand("dev_edit_map", function(ply, map)
+
+
+
+
+local editMap = console.AddCommand("dev_maplua", function(ply, map)
 	if not map or map == "" then
 		map = game.GetMap()
 

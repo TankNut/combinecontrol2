@@ -19,6 +19,10 @@ create:AddParameter(console.Item({
 	Force = true
 }))
 
+
+
+
+
 local createTemp = console.AddCommand("rpa_item_create_temp", function(ply, item)
 	if item == nil then
 		return
@@ -39,6 +43,10 @@ createTemp:SetNoConsole()
 createTemp:AddParameter(console.Item({
 	Force = true
 }))
+
+
+
+
 
 local give = console.AddCommand("rpa_item_give", function(ply, targets, item)
 	if item == nil then
@@ -64,6 +72,10 @@ give:AddParameter(console.Item({
 	Force = true
 }))
 
+
+
+
+
 local giveTemp = console.AddCommand("rpa_item_give_temp", function(ply, targets, item)
 	if item == nil then
 		return
@@ -87,6 +99,10 @@ giveTemp:AddParameter(console.Player())
 giveTemp:AddParameter(console.Item({
 	Force = true
 }))
+
+
+
+
 
 local clearStashes = console.AddCommand("rpa_stash_clear", function(ply)
 	Log.Write("admin_stash_clear", ply)

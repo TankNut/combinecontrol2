@@ -7,6 +7,10 @@ cSay:SetExecutionContext(console.ServerConsole)
 
 cSay:AddParameter(console.String())
 
+
+
+
+
 local aSay = console.AddCommand("asay", function(_, message)
 	Chat.Send("Admin", {Name = "CONSOLE", Text = message}, player.GetAdmins())
 end)

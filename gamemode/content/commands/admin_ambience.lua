@@ -12,13 +12,13 @@ end
 
 local areaMapping = {
 	["global"] = {
-		area = AMBIENCE_GLOBAL,
+		Area = AMBIENCE_GLOBAL,
 		GetTargets = function()
 			return player.GetAll()
 		end
 	},
 	["local"] = {
-		area = AMBIENCE_LOCAL,
+		Area = AMBIENCE_LOCAL,
 		GetTargets = function(ply)
 			local targets = {ply}
 
@@ -34,6 +34,11 @@ local areaMapping = {
 	}
 }
 
+
+
+
+
+
 local stopSound = console.AddCommand("rpa_stopsound", function(ply)
 	Log.Write("admin_stopsound", ply)
 
@@ -41,16 +46,20 @@ local stopSound = console.AddCommand("rpa_stopsound", function(ply)
 end)
 
 stopSound:SetCategory("Ambience")
-stopSound:SetDescription("Forces all clients to run the stopsound command")
+stopSound:SetDescription("Stops any sounds that are playing on the server")
 stopSound:SetExecutionContext(console.Server)
 stopSound:SetAccess(console.IsAdmin)
 
-local playMusic = console.AddCommand("rpa_playmusic", function(ply, level, path, volume)
+
+
+
+
+local playMusic = console.AddCommand("rpa_music_play", function(ply, level, path, volume)
 	Log.Write("admin_playmusic", ply, level, path, volume)
 
-	local config = areaMapping[level]
+	local mapping = areaMapping[level]
 
-	netstream.Send(config.GetTargets(ply), "PlayMusic", config.area, path, volume, ply:Nick())
+	netstream.Send(mapping.GetTargets(ply), "PlayMusic", mapping.Area, path, volume, ply:Nick())
 end)
 
 playMusic:SetCategory("Ambience")
@@ -70,10 +79,14 @@ playMusic:AddOptional(console.Number({
 	validate.Max(2)
 }, "volume"), 1)
 
-local stopMusic = console.AddCommand("rpa_stopmusic", function(ply, level)
-	local config = areaMapping[level]
 
-	netstream.Send(config.GetTargets(ply), "StopMusic", config.area)
+
+
+
+local stopMusic = console.AddCommand("rpa_music_stop", function(ply, level)
+	local mapping = areaMapping[level]
+
+	netstream.Send(mapping.GetTargets(ply), "StopMusic", mapping.Area)
 end)
 
 stopMusic:SetCategory("Ambience")
@@ -85,12 +98,16 @@ stopMusic:AddParameter(console.String({
 	validate.InList(table.GetKeys(areaMapping))
 }, "area"))
 
-local playEffect = console.AddCommand("rpa_playeffect", function(ply, level, path, volume)
+
+
+
+
+local playEffect = console.AddCommand("rpa_effect_play", function(ply, level, path, volume)
 	Log.Write("admin_playeffect", ply, level, path, volume)
 
 	local config = areaMapping[level]
 
-	netstream.Send(config.GetTargets(ply), "PlayEffect", config.area, path, volume, ply:Nick())
+	netstream.Send(config.GetTargets(ply), "PlayEffect", config.Area, path, volume, ply:Nick())
 end)
 
 playEffect:SetCategory("Ambience")
@@ -110,10 +127,14 @@ playEffect:AddOptional(console.Number({
 	validate.Max(2)
 }, "volume"), 1)
 
-local stopEffect = console.AddCommand("rpa_stopeffect", function(ply, level)
+
+
+
+
+local stopEffect = console.AddCommand("rpa_effect_stop", function(ply, level)
 	local config = areaMapping[level]
 
-	netstream.Send(config.GetTargets(ply), "StopEffect", config.area)
+	netstream.Send(config.GetTargets(ply), "StopEffect", config.Area)
 end)
 
 stopEffect:SetCategory("Ambience")
