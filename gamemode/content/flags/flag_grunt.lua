@@ -9,7 +9,8 @@ FLAG.EquipmentSlots = {
 	"primary",
 	"secondary",
 	"sidearm",
-	"melee"
+	"melee",
+	"radio"
 }
 
 FLAG.SlowWalkSpeed = 80
