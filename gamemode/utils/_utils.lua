@@ -14,7 +14,6 @@ shared("constants.lua")
 shared("globals.lua")
 
 shared("libraries/console.lua")
-shared("libraries/console_parsers.lua")
 
 -- Extensions
 client("extensions/draw.lua")

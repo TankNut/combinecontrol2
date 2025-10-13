@@ -222,6 +222,8 @@ function AutoComplete(name, args)
 	return table.Add({name .. args}, command:AutoComplete())
 end
 
+shared("console_parsers.lua")
+
 function COMMAND:Invoke(ply, args)
 	local processedArgs = {}
 
