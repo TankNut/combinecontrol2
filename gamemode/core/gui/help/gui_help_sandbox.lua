@@ -14,10 +14,11 @@ local func = function()
 	end
 
 	str = str .. "\n\n<big><b>Trust Levels:</b></big>"
-	addTooltrustLevel("banned", "Restricted access to prevent sandbox interactions.")
-	addTooltrustLevel("untrusted", "Default access with minimal tools, decreased entity counts, and non-solid props.")
-	addTooltrustLevel("trusted", "Standard access with standard tools, standard entity counts, and solid props.")
-	addTooltrustLevel("advanced", "Applied-for access with advanced tools, increased entity counts, and solid props.")
+
+	addTooltrustLevel("banned", "No access at all.")
+	addTooltrustLevel("untrusted", "The default access with the bare minimum of tools, restrictive entity limits, and non-solid props.")
+	addTooltrustLevel("trusted", "Standard access with access to standard tools, and solid props.")
+	addTooltrustLevel("advanced", "Extended access with advanced tools and increased entity limits.")
 
 	return str
 end
