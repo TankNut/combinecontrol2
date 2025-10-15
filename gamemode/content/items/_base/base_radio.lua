@@ -18,13 +18,12 @@ ITEM.CanSetFrequency = false -- Determines whether a radio is restricted to pres
 ITEM.CanEncrypt      = false -- Determines whether an encrpytion can be set
 
 ITEM.RadioPresets = {} -- Organization radio channels like CCA_MAIN, NYPD, UNSC, etc
-ITEM.RadioGroups  = {} -- Overarching radio groups; determines who receives a dispatch message
 
-ITEM.RadioSettings = {} -- Channel-specific settings like frequency, enabled, etc
+ITEM.RadioGroups     = {} --  Set during configuration; determines who receives a dispatch message
+ITEM.ChannelSettings = {} -- Set during configuration; channel-specific settings indexed by frequency
 
-ITEM.Locked     = nil -- Set by player; determines whether the radio's configuration can be changed
-ITEM.Encryption = nil -- Set by player; facilitated encrpyted traffic between radios
-ITEM.Channel    = 1   -- Set by player; active index in RadioSettings
+ITEM.Encryption = false -- Set during configuration; facilitated encrpyted traffic between radios
+ITEM.Channel    = 1     -- Set during configuration; active index in ChannelSettings
 
 ITEM.Actions.OpenGUI = {
 	Name       = "Configure Radio",
@@ -32,7 +31,7 @@ ITEM.Actions.OpenGUI = {
 	Priority   = ITEM_ACTION_OPTION - 1,
 
 	CanRun = function(self, ply) return not self:IsLocked() end,
-	Client = function(self, ply) ui.Open("Radio") end -- TODO: Add this GUI
+	Client = function(self, ply) end -- TODO: Call ui.Open("Radio")
 }
 
 ITEM.Actions.ToggleLocked = {
@@ -40,7 +39,6 @@ ITEM.Actions.ToggleLocked = {
 	Priority = ITEM_ACTION_OPTION - 2,
 
 	CanRun   = function(self, ply) return ply:IsAdmin() end,
-	Client   = function(self, ply) self:ToggleLocked(ply) end,
 	Callback = function(self, ply) self:ToggleLocked(ply) end
 }
 
@@ -55,13 +53,13 @@ function ITEM:GetDescription()
 end
 
 function ITEM:IsLocked()
-	return self.Locked or false
+	return self:GetData("Locked", false)
 end
 
 function ITEM:ToggleLocked(ply)
 	local locked = not self:IsLocked()
 
-	self.Locked = locked
+	self:SetData("Locked", locked)
 
 	ply:SendChat("NOTICE", string.format("This radio has been %s!", locked and "locked" or "unlocked"))
 end
