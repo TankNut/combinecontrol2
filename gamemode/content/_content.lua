@@ -2,6 +2,7 @@
 GM:Include("sh_corpsefade.lua")
 GM:Include("sh_money.lua")
 GM:Include("sh_player_remover.lua")
+GM:Include("sh_radio.lua")
 GM:Include("sh_shield.lua")
 
 GM:IncludeFolder(ContentFolder .. "_defines/")

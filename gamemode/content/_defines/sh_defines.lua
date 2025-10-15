@@ -84,3 +84,12 @@ GM.Badges = {
 	Badge("event",      "Event Character",          "icon16/vcard.png", function(ply) return ply:IsEventCharacter() end),
 	Badge("newbie",     "Inexperienced Roleplayer", "icon16/new.png",   function(ply) return ply:GetSetting("Newbie") end)
 }
+
+-- RADIO_PRESET = Radio.AddPreset("radiogroup", "presetname")
+
+COVENANT_MAIN = Radio.AddPreset("covenant", "COVENANT-MAIN")
+COVENANT_TAC1 = Radio.AddPreset("covenant", "COVENANT-TAC1")
+COVENANT_TAC2 = Radio.AddPreset("covenant", "COVENANT-TAC2")
+
+UNSC_SATCOM = Radio.AddPreset("unsc", "UNSC-SATCOM")
+UNSC_TACCOM = Radio.AddPreset("unsc", "UNSC-TACCOM")
