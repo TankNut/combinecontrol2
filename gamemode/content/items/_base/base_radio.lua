@@ -20,7 +20,7 @@ ITEM.CanEncrypt      = false -- Determines whether an encrpytion can be set
 ITEM.RadioPresets = {} -- Organization radio channels like CCA_MAIN, NYPD, UNSC, etc
 
 ITEM.RadioGroups     = {} --  Set during configuration; determines who receives a dispatch message
-ITEM.ChannelSettings = {} -- Set during configuration; channel-specific settings indexed by frequency
+ITEM.ChannelSettings = {} -- Set during configuration; channel-specific settings
 
 ITEM.Encryption = false -- Set during configuration; facilitated encrpyted traffic between radios
 ITEM.Channel    = 1     -- Set during configuration; active index in ChannelSettings
