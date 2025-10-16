@@ -3,7 +3,7 @@ module("CharacterCreate", package.seeall)
 List = List or {}
 Names = Names or {}
 
-PlayerVar.Add("CharTypeWhitelist", {Default = {}, Persist = true, DataType = BLOB()})
+PlayerVar.Add("CharacterWhitelist", {Default = {}, Persist = true, DataType = BLOB()})
 
 local PLAYER = FindMetaTable("Player")
 
@@ -113,7 +113,7 @@ function PLAYER:CanUseCharacterType(id)
 		return
 	end
 
-	if self:IsAdmin() or self:CharTypeWhitelist()[id] then
+	if self:IsAdmin() or self:CharacterWhitelist()[id] then
 		return true
 	end
 

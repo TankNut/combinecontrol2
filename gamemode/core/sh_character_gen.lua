@@ -2,7 +2,7 @@ module("CharacterGen", package.seeall)
 
 List = List or {}
 
-PlayerVar.Add("CharGenWhitelist", {Default = {}, Persist = true, DataType = BLOB()})
+PlayerVar.Add("EventCharacterWhitelist", {Default = {}, Persist = true, DataType = BLOB()})
 
 local PLAYER = FindMetaTable("Player")
 
@@ -66,7 +66,7 @@ function PLAYER:CanUseCharacterGenerator(id)
 		return
 	end
 
-	if self:IsAdmin() or self:CharGenWhitelist()[id] then
+	if self:IsAdmin() or self:EventCharacterWhitelist()[id] then
 		return true
 	end
 
