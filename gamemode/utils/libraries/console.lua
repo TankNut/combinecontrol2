@@ -351,7 +351,7 @@ local listCommand = AddCommand("commands", function(ply, filter)
 	local misc = {width = 0}
 
 	for name, command in SortedPairs(Commands) do
-		if not IsVisible(command) or not command.CanAccess(lp) then
+		if not IsVisible(command) or (CLIENT and not command.CanAccess(lp)) then
 			continue
 		end
 
