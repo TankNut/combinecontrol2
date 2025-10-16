@@ -1,6 +1,8 @@
 CLASS.Name = "UNSC Enlisted"
 CLASS.SortOrder = 1
 
+CLASS.Default = true
+
 CLASS.Models = Config.Get("BaseModels")
 
 CLASS.OptionalLanguages = {
