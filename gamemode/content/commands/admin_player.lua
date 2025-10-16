@@ -56,11 +56,7 @@ local heal = console.AddCommand("rpa_heal", function(ply, targets)
 		Log.Write("admin_player_heal", ply, target)
 	end
 
-	if #targets > 1 then
-		console.Feedback(ply, "NOTICE", "You've healed %d players", #targets)
-	else
-		console.Feedback(ply, "NOTICE", "You've healed %s", targets[1])
-	end
+	console.Feedback(ply, "NOTICE", "You've healed %s", targets)
 end)
 
 heal:SetCategory("Player Commands")
@@ -83,11 +79,7 @@ local setHealth = console.AddCommand("rpa_player_health", function(ply, targets,
 		Log.Write("admin_player_set", ply, target, "Health", health)
 	end
 
-	if #targets > 1 then
-		console.Feedback(ply, "NOTICE", "You've set %d players' health to %d", #targets, health)
-	else
-		console.Feedback(ply, "NOTICE", "You've set %s's health to %d", targets[1], health)
-	end
+	console.Feedback(ply, "NOTICE", "You've set the health of %s to %d", targets, health)
 end)
 
 setHealth:SetCategory("Player Commands")
@@ -111,11 +103,7 @@ local setArmor = console.AddCommand("rpa_player_armor", function(ply, targets, a
 		Log.Write("admin_player_set", ply, target, "Armor", armor)
 	end
 
-	if #targets > 1 then
-		console.Feedback(ply, "NOTICE", "You've set %d players' armor to %d", #targets, armor)
-	else
-		console.Feedback(ply, "NOTICE", "You've set %s's armor to %d", targets[1], armor)
-	end
+	console.Feedback(ply, "NOTICE", "You've set the armor of %s to %d", targets, armor)
 end)
 
 setArmor:SetCategory("Player Commands")

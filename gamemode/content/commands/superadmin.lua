@@ -178,11 +178,7 @@ local noDamage = console.AddCommand("rpa_nodamage", function(ply, targets, bool)
 		Log.Write("superadmin_player_set", ply, target, "NoDamage", tostring(bool))
 	end
 
-	if #targets > 1 then
-		console.Feedback(ply, "NOTICE", "You've %s %d players", feedback, #targets)
-	else
-		console.Feedback(ply, "NOTICE", "You've %s %s", feedback, targets[1])
-	end
+	console.Feedback(ply, "NOTICE", "You've %s %s", feedback, targets)
 end)
 
 noDamage:SetCategory("Superadmin Commands")
