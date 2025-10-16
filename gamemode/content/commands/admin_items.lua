@@ -15,9 +15,7 @@ create:SetExecutionContext(console.Server)
 create:SetAccess(console.IsAdmin)
 create:SetNoConsole()
 
-create:AddParameter(console.Item({
-	Force = true
-}))
+create:AddParameter(console.Item({Force = true}))
 
 
 
@@ -40,9 +38,7 @@ createTemp:SetExecutionContext(console.Server)
 createTemp:SetAccess(console.IsAdmin)
 createTemp:SetNoConsole()
 
-createTemp:AddParameter(console.Item({
-	Force = true
-}))
+createTemp:AddParameter(console.Item({Force = true}))
 
 
 
@@ -68,9 +64,7 @@ give:SetExecutionContext(console.Server)
 give:SetAccess(console.IsAdmin)
 
 give:AddParameter(console.Player())
-give:AddParameter(console.Item({
-	Force = true
-}))
+give:AddParameter(console.Item({Force = true}))
 
 
 
@@ -96,9 +90,7 @@ giveTemp:SetExecutionContext(console.Server)
 giveTemp:SetAccess(console.IsAdmin)
 
 giveTemp:AddParameter(console.Player())
-giveTemp:AddParameter(console.Item({
-	Force = true
-}))
+giveTemp:AddParameter(console.Item({Force = true}))
 
 
 

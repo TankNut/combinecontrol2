@@ -7,19 +7,9 @@ ban:SetDescription("Bans a player for a specified time, a length of 0 will ban t
 ban:SetExecutionContext(console.Server)
 ban:SetAccess(console.IsAdmin)
 
-ban:AddParameter(console.SteamID({
-	StrictImmunity = true,
-	NoSelfTarget = true
-}))
-
-ban:AddParameter(console.Duration({
-	AllowZero = true,
-	Min = "5 minutes"
-}, "length"))
-
-ban:AddOptional(console.String({
-	Max = 256
-}, "reason"), nil, "No reason specified")
+ban:AddParameter(console.SteamID({StrictImmunity = true, NoSelfTarget = true}))
+ban:AddParameter(console.Duration({AllowZero = true, Min = "5 minutes"}, "length"))
+ban:AddOptional(console.String({Max = 256}, "reason"), nil, "No reason specified")
 
 
 
@@ -49,12 +39,5 @@ kick:SetDescription("Kicks a player")
 kick:SetExecutionContext(console.Server)
 kick:SetAccess(console.IsAdmin)
 
-kick:AddParameter(console.Player({
-	SingleTarget = true,
-	StrictImmunity = true,
-	NoSelfTarget = true
-}))
-
-kick:AddOptional(console.String({
-	Max = 256
-}, "reason"), nil, "No reason specified")
+kick:AddParameter(console.Player({SingleTarget = true, StrictImmunity = true, NoSelfTarget = true}))
+kick:AddOptional(console.String({Max = 256}, "reason"), nil, "No reason specified")

@@ -26,11 +26,7 @@ setToolTrust:SetDescription("Sets a player's toolgun access")
 setToolTrust:SetExecutionContext(console.Server)
 setToolTrust:SetAccess(console.IsAdmin)
 
-setToolTrust:AddParameter(console.Player({
-	SingleTarget = true,
-	NoAdmins = true
-}))
-
+setToolTrust:AddParameter(console.Player({SingleTarget = true, NoAdmins = true}))
 setToolTrust:AddParameter(console.String({
 	validate.InList(table.GetKeys(toolTrustMapping))
 }))
@@ -132,10 +128,7 @@ kill:SetDescription("Kills a player")
 kill:SetExecutionContext(console.Server)
 kill:SetAccess(console.IsAdmin)
 
-kill:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = true
-}))
+kill:AddParameter(console.Player({SingleTarget = true, CheckImmunity = true}))
 
 
 
@@ -157,10 +150,7 @@ slap:SetDescription("Slaps a player")
 slap:SetExecutionContext(console.Server)
 slap:SetAccess(console.IsAdmin)
 
-slap:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = true
-}))
+slap:AddParameter(console.Player({SingleTarget = true, CheckImmunity = true}))
 
 
 
@@ -194,13 +184,8 @@ setAlias:SetDescription("Sets a player's alias name")
 setAlias:SetExecutionContext(console.Server)
 setAlias:SetAccess(console.IsAdmin)
 
-setAlias:AddParameter(console.SteamID({
-	SingleTarget = true
-}))
-
-setAlias:AddParameter(console.String({
-	validate.Max(32),
-}))
+setAlias:AddParameter(console.SteamID({SingleTarget = true}))
+setAlias:AddParameter(console.String({validate.Max(32)}))
 
 
 
@@ -220,11 +205,5 @@ setScale:SetDescription("Updates a player's current size")
 setScale:SetExecutionContext(console.Server)
 setScale:SetAccess(console.IsAdmin)
 
-setScale:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
-setScale:AddParameter(console.Number({
-	validate.Min(0.1),
-	validate.Max(10),
-}))
+setScale:AddParameter(console.Player({SingleTarget = true}))
+setScale:AddParameter(console.Number({validate.Min(0.1), validate.Max(10)}))

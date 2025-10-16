@@ -11,10 +11,7 @@ goTo:SetExecutionContext(console.Server)
 goTo:SetAccess(console.IsAdmin)
 goTo:SetNoConsole()
 
-goTo:AddParameter(console.Player({
-	SingleTarget = true,
-	NoSelfTarget = true
-}))
+goTo:AddParameter(console.Player({SingleTarget = true, NoSelfTarget = true}))
 
 
 
@@ -35,9 +32,7 @@ bring:SetExecutionContext(console.Server)
 bring:SetAccess(console.IsAdmin)
 bring:SetNoConsole()
 
-bring:AddParameter(console.Player({
-	NoSelfTarget = true
-}))
+bring:AddParameter(console.Player({NoSelfTarget = true}))
 
 
 
@@ -58,9 +53,7 @@ send:SetExecutionContext(console.Server)
 send:SetAccess(console.IsAdmin)
 
 send:AddParameter(console.Player())
-send:AddParameter(console.Player({
-	SingleTarget = true
-}))
+send:AddParameter(console.Player({SingleTarget = true}))
 
 
 
@@ -81,6 +74,4 @@ teleport:SetExecutionContext(console.Server)
 teleport:SetAccess(console.IsAdmin)
 teleport:SetNoConsole()
 
-teleport:AddParameter(console.Player({
-	NoSelfTarget = true
-}))
+teleport:AddParameter(console.Player({NoSelfTarget = true}))

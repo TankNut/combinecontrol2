@@ -39,9 +39,7 @@ listCharacters:SetDescription("Lists all characters created by a player")
 listCharacters:SetExecutionContext(console.Server)
 listCharacters:SetAccess(console.IsAdmin)
 
-listCharacters:AddParameter(console.SteamID({
-	SingleTarget = true
-}))
+listCharacters:AddParameter(console.SteamID({SingleTarget = true}))
 
 
 
@@ -67,10 +65,7 @@ setModel:SetDescription("Updates a player's current character model")
 setModel:SetExecutionContext(console.Server)
 setModel:SetAccess(console.IsAdmin)
 
-setModel:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
+setModel:AddParameter(console.Player({SingleTarget = true}))
 setModel:AddParameter(console.String())
 
 
@@ -102,10 +97,7 @@ setModelOverride:SetDescription("Overrides a player's current character model an
 setModelOverride:SetExecutionContext(console.Server)
 setModelOverride:SetAccess(console.IsAdmin)
 
-setModelOverride:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
+setModelOverride:AddParameter(console.Player({SingleTarget = true}))
 setModelOverride:AddOptional(console.String(), "", "none")
 
 
@@ -126,10 +118,7 @@ setSkin:SetDescription("Updates a player's current character skin")
 setSkin:SetExecutionContext(console.Server)
 setSkin:SetAccess(console.IsAdmin)
 
-setSkin:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
+setSkin:AddParameter(console.Player({SingleTarget = true}))
 setSkin:AddParameter(console.Number())
 
 
@@ -150,10 +139,7 @@ setName:SetDescription("Updates a player's current character name")
 setName:SetExecutionContext(console.Server)
 setName:SetAccess(console.IsAdmin)
 
-setName:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
+setName:AddParameter(console.Player({SingleTarget = true}))
 setName:AddParameter(console.String(Config.Get("CharacterNameRules")))
 
 
@@ -181,14 +167,8 @@ setNameOverride:SetDescription("Overrides a player's current character name")
 setNameOverride:SetExecutionContext(console.Server)
 setNameOverride:SetAccess(console.IsAdmin)
 
-setNameOverride:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
-setNameOverride:AddOptional(console.String({
-	validate.String(),
-	validate.Max(64),
-}), "", "none")
+setNameOverride:AddParameter(console.Player({SingleTarget = true}))
+setNameOverride:AddOptional(console.String({validate.String(), validate.Max(64)}), "", "none")
 
 
 
@@ -208,14 +188,8 @@ setScale:SetDescription("Updates a player's permanent character size, use 0 to r
 setScale:SetExecutionContext(console.Server)
 setScale:SetAccess(console.IsAdmin)
 
-setScale:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
-setScale:AddParameter(console.Number({
-	validate.Min(0),
-	validate.Max(10),
-}))
+setScale:AddParameter(console.Player({SingleTarget = true}))
+setScale:AddParameter(console.Number({validate.Min(0), validate.Max(10)}))
 
 
 
@@ -243,9 +217,7 @@ setHidden:SetDescription("Toggles a character's hidden status on the scoreboard"
 setHidden:SetExecutionContext(console.Server)
 setHidden:SetAccess(console.IsAdmin)
 
-setHidden:AddParameter(console.Player({
-	SingleTarget = true
-}))
+setHidden:AddParameter(console.Player({SingleTarget = true}))
 setHidden:AddOptional(console.Bool(), nil, "flip")
 
 
@@ -268,10 +240,7 @@ setFlag:SetDescription("Updates a player's current character flag")
 setFlag:SetExecutionContext(console.Server)
 setFlag:SetAccess(console.IsAdmin)
 
-setFlag:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
+setFlag:AddParameter(console.Player({SingleTarget = true}))
 setFlag:AddParameter(console.CharacterFlag())
 
 
@@ -291,6 +260,4 @@ editInventory:SetDescription("Opens a character's inventory")
 editInventory:SetExecutionContext(console.Server)
 editInventory:SetAccess(console.IsAdmin)
 
-editInventory:AddParameter(console.Player({
-	SingleTarget = true
-}))
+editInventory:AddParameter(console.Player({SingleTarget = true}))

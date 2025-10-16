@@ -11,9 +11,7 @@ setDelay:SetDescription("Sets the global out-of-character chat delay")
 setDelay:SetExecutionContext(console.Server)
 setDelay:SetAccess(console.IsAdmin)
 
-setDelay:AddParameter(console.Duration({
-	Max = "1 Hour"
-}))
+setDelay:AddParameter(console.Duration({Max = "1 Hour"}))
 
 
 
@@ -59,9 +57,5 @@ oocMute:SetDescription("Mutes or unmutes a player from OOC chat")
 oocMute:SetExecutionContext(console.Server)
 oocMute:SetAccess(console.IsAdmin)
 
-oocMute:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = true
-}))
-
+oocMute:AddParameter(console.Player({SingleTarget = true, CheckImmunity = true}))
 oocMute:AddOptional(console.Bool())

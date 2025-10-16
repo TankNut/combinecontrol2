@@ -156,11 +156,7 @@ tempAdmin:SetDescription("Gives or takes away a player's temporary admin access"
 tempAdmin:SetExecutionContext(console.Server)
 tempAdmin:SetAccess(console.IsSuperAdmin)
 
-tempAdmin:AddParameter(console.Player({
-	SingleTarget = true,
-	StrictImmunity = true,
-	NoSelfTarget = true
-}))
+tempAdmin:AddParameter(console.Player({SingleTarget = true, StrictImmunity = true, NoSelfTarget = true}))
 
 
 
@@ -193,6 +189,7 @@ noDamage:AddParameter(console.Bool())
 
 
 
+-- Unfinished
 local setOwner = console.AddCommand("rpa_character_owner", function(ply, id, steamid)
 	local data = Character.Fetch(id)
 

@@ -55,8 +55,5 @@ take:SetDescription("Takes a spoken or understood language from a player's chara
 take:SetExecutionContext(console.Server)
 take:SetAccess(console.IsAdmin)
 
-take:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
+take:AddParameter(console.Player({SingleTarget = true}))
 take:AddParameter(console.Language())

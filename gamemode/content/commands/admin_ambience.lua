@@ -73,11 +73,7 @@ playMusic:AddParameter(console.String({
 }, "area"))
 
 playMusic:AddParameter(console.String({}, "path"))
-
-playMusic:AddOptional(console.Number({
-	validate.Min(0.01),
-	validate.Max(2)
-}, "volume"), 1)
+playMusic:AddOptional(console.Number({validate.Min(0.01), validate.Max(2)}, "volume"), 1)
 
 
 
@@ -121,11 +117,7 @@ playEffect:AddParameter(console.String({
 }, "area"))
 
 playEffect:AddParameter(console.String({}, "path"))
-
-playEffect:AddOptional(console.Number({
-	validate.Min(0.01),
-	validate.Max(2)
-}, "volume"), 1)
+playEffect:AddOptional(console.Number({validate.Min(0.01), validate.Max(2)}, "volume"), 1)
 
 
 
