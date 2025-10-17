@@ -183,3 +183,19 @@ Log.AddType("admin_language_take", function(ply, target, lang, speak)
 		Log.Character(target)
 	}
 end)
+
+Log.AddType("admin_character_whitelist", function(ply, target, whitelist, add)
+	return string.format(add and "%s has added %s to the %s whitelist" or "%s has removed %s from the %s whitelist", Log.Nick(ply), target:Nick(), whitelist.Name or whitelist.ClassName), {
+		Log.Admin(ply),
+		Log.Player(target),
+		Whitelist = whitelist.ClassName
+	}
+end)
+
+Log.AddType("admin_eventcharacter_whitelist", function(ply, target, whitelist, add)
+	return string.format(add and "%s has added %s to the %s event character whitelist" or "%s has removed %s from the %s event character whitelist", Log.Nick(ply), target:Nick(), whitelist.Name or whitelist.ClassName), {
+		Log.Admin(ply),
+		Log.Player(target),
+		Whitelist = whitelist.ClassName
+	}
+end)

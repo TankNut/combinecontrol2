@@ -298,3 +298,43 @@ console.Parser("Team", function(ply, args, last, options)
 
 	return false, "Must be a valid team"
 end)
+
+console.Parser("CharacterWhitelist", function(ply, args, last, options)
+	local val = console.ReadArg(args, last)
+
+	if not val or #val < 1 then
+		return false, "Must be a valid whitelist"
+	end
+
+	local define = CharacterCreate.List[val]
+
+	if define then
+		if options.Assignable and define.Default then
+			return false, "You cannot use default whitelists for this command"
+		end
+
+		return true, define
+	else
+		return false, "Must be a valid whitelist"
+	end
+end)
+
+console.Parser("EventCharacterWhitelist", function(ply, args, last, options)
+	local val = console.ReadArg(args, last)
+
+	if not val or #val < 1 then
+		return false, "Must be a valid whitelist"
+	end
+
+	local define = CharacterGen.List[val]
+
+	if define then
+		if options.Assignable and define.Default then
+			return false, "You cannot use default whitelists for this command"
+		end
+
+		return true, define
+	else
+		return false, "Must be a valid whitelist"
+	end
+end)
