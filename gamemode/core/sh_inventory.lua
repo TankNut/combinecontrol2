@@ -92,6 +92,11 @@ if SERVER then
 	netstream.Hook("ClearInventoryListener", function(ply, id)
 		Get(id):RemoveListener(ply)
 	end)
+
+	-- Clear a player's inventory when they disconnect.
+	hook.Add("PlayerDisconnected", "cc2.ClearInventory", function(ply)
+		Clear(ply)
+	end)
 end
 
 function PLAYER:GetInventory()
