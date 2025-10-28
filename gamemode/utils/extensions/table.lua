@@ -69,3 +69,22 @@ function table.Cache(cache, val, callback)
 
 	return cache[val]
 end
+
+-- Use with a table layout of tab[item] = weight
+function table.WeightedRandom(tab)
+	local sum = 0
+
+	for _, chance in pairs(tab) do
+		sum = sum + chance
+	end
+
+	local winner = math.random() * sum
+
+	for key, chance in pairs(tab) do
+		winner = winner - chance
+
+		if winner <= 0 then
+			return key
+		end
+	end
+end
