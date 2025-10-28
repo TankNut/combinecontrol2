@@ -27,3 +27,11 @@ function VECTOR:MulZ(z) self.z = self.z * z return self end
 function VECTOR:DivX(x) self.x = self.x / x return self end
 function VECTOR:DivY(y) self.y = self.y / y return self end
 function VECTOR:DivZ(z) self.z = self.z / z return self end
+
+function VECTOR:GetReflection(normal)
+	local factor = -2 * normal:Dot(self)
+
+	return Vector(factor * normal.x + self.x,
+		factor * normal.y + self.y,
+		factor * normal.z + self.z)
+end
