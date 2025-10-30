@@ -10,6 +10,7 @@ GM:IncludeFolder(ContentFolder .. "settings/")
 GM:IncludeFolder(ContentFolder .. "commands/")
 GM:IncludeFolder(ContentFolder .. "logs/")
 GM:IncludeFolder(ContentFolder .. "actions/")
+GM:IncludeFolder(ContentFolder .. "gui/")
 
 GM:IncludeFolder(ContentFolder .. "patches/")
 
