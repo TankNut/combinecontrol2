@@ -2,28 +2,28 @@ local BaseClass = inherit.Get("item", "base")
 
 ITEM.Internal = true
 
-ITEM.Rarity   = RARITY_COMMON
 ITEM.Category = "Radio"
 
 ITEM.Model = Model("models/Items/combine_rifle_cartridge01.mdl")
 
 ITEM.EquipmentSlots = {"radio"}
 
-ITEM.EquipTime   = 0.25
-ITEM.UnequipTime = 0.25
+ITEM.EquipTime   = 0.5
+ITEM.UnequipTime = 0.5
+
+ITEM.IconAngle = Angle(30, -60, -10)
+ITEM.IconFOV   = 11
 
 ITEM.Actions = {}
 
-ITEM.CanSetFrequency = false -- Determines whether a radio is restricted to presets
-ITEM.CanEncrypt      = false -- Determines whether an encrpytion can be set
+ITEM.CanSetFrequency = false -- Can frequencies between 1-999 MHz can be set
+ITEM.CanEncrypt      = false -- Can an encrpytion can be set
+ITEM.MaxChannels     = 1     -- How many channels can be tuned into simultaneously
+ITEM.RadioPresets    = {}    -- Which, if any, preset radio channels can be set
 
-ITEM.RadioPresets = {} -- Organization radio channels like CCA_MAIN, NYPD, UNSC, etc
-
-ITEM.RadioGroups     = {} --  Set during configuration; determines who receives a dispatch message
-ITEM.ChannelSettings = {} -- Set during configuration; channel-specific settings
-
-ITEM.Encryption = false -- Set during configuration; facilitated encrpyted traffic between radios
-ITEM.Channel    = 1     -- Set during configuration; active index in ChannelSettings
+ItemDataFunc("ChannelSettings", {}) -- Set during configuration; channel-specific settings
+ItemDataFunc("RadioGroups",     {}) -- Set during configuration; what dispatch messages are received
+ItemDataFunc("ActiveChannel",    0) -- Set during configuration; active index in ChannelSettings
 
 ITEM.Actions.OpenGUI = {
 	Name       = "Configure Radio",
@@ -31,7 +31,7 @@ ITEM.Actions.OpenGUI = {
 	Priority   = ITEM_ACTION_OPTION - 1,
 
 	CanRun = function(self, ply) return not self:IsLocked() end,
-	Client = function(self, ply) end -- TODO: Call ui.Open("Radio")
+	Client = function(self, ply) self:OpenGUI() end
 }
 
 ITEM.Actions.ToggleLocked = {
@@ -52,6 +52,10 @@ function ITEM:GetDescription()
 	return description
 end
 
+function ITEM:HasRadioGroup(group)
+	return self:GetRadioGroups()[group] and true or false
+end
+
 function ITEM:IsLocked()
 	return self:GetData("Locked", false)
 end
@@ -64,10 +68,17 @@ function ITEM:ToggleLocked(ply)
 	ply:SendChat("NOTICE", string.format("This radio has been %s!", locked and "locked" or "unlocked"))
 end
 
-function ITEM:SetEncryption(encryption)
-	self.Encryption = encryption
-end
-
-function ITEM:SetChannel(channel)
-	self.Channel = channel
+if CLIENT then
+	function ITEM:OpenGUI()
+		ui.Open("Radio", {
+			ItemID          = self.ID,
+			CanSetFrequency = self.CanSetFrequency,
+			CanEncrypt      = self.CanEncrypt,
+			MaxChannels     = self.MaxChannels,
+			RadioPresets    = self.RadioPresets,
+			ActiveChannel   = self:GetActiveChannel(),
+			Settings        = self:GetChannelSettings(),
+			Options         = {"Enabled", "Speaker", "Frequency", "Preset", "Encryption"}
+		})
+	end
 end
