@@ -131,6 +131,7 @@ include("sh_stats.lua")
 include("sh_view.lua")
 
 include("attacks/sh_bullet.lua")
+include("attacks/sh_projectile.lua")
 
 AddCSLuaFile("cl_hud.lua")
 

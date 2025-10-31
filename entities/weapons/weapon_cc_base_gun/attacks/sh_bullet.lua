@@ -6,25 +6,13 @@ function SWEP:GetDamageFalloff(dist)
 	return math.max(self.Stats.DamageFalloff ^ (dist / distMod), 0.2)
 end
 
-function SWEP:GetBulletSpread()
-	local range = self.Stats.FixedRange and 1000 or self:GetRange()
-	local accuracy = self:GetAccuracy()
-
-	local inches = accuracy / 0.75
-	local yards = (range / 0.75) / 36
-	local MOA = (inches * 100) / yards
-
-	local spread = math.rad(MOA / 60)
-
-	return Vector(spread, spread, 0)
-end
-
 function SWEP:GetTracerEffect()
 	return self.Stats.Tracer, self.Stats.TracerCount
 end
 
 function SWEP:FireBullet(owner)
 	local tracer, count = self:GetTracerEffect()
+	local spread = math.rad(self:GetSpread())
 	local damage = self.Stats.Damage
 
 	local bullet = {
@@ -32,7 +20,7 @@ function SWEP:FireBullet(owner)
 		Num = self.Stats.Count,
 		Src = owner:GetShootPos(),
 		Dir = self:GetShootDir(),
-		Spread = self:GetBulletSpread(),
+		Spread = Vector(spread, spread, 0),
 		TracerName = tracer,
 		Tracer = count,
 		Force = damage * 0.25,

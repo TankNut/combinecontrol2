@@ -24,6 +24,17 @@ function SWEP:GetAccuracy()
 	return val
 end
 
+function SWEP:GetSpread()
+	local range = self.Stats.FixedRange and 1000 or self:GetRange()
+	local accuracy = self:GetAccuracy()
+
+	local inches = accuracy / 0.75
+	local yards = (range / 0.75) / 36
+	local MOA = (inches * 100) / yards
+
+	return MOA / 60
+end
+
 function SWEP:GetZoom()
 	return Lerp(math.ease.InOutSine(self:GetAimState()), 1, self.Settings.Zoom[1])
 end
