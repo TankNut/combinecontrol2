@@ -3,6 +3,8 @@ AddCSLuaFile()
 ENT.Base = "base_anim"
 ENT.Type = "anim"
 
+ENT.AutomaticFrameAdvance = true
+
 ENT.CCMainCategory = nil
 ENT.CCSubCategory = nil
 

@@ -1,8 +1,6 @@
 AddCSLuaFile()
 DEFINE_BASECLASS("cc_worldent")
 
-ENT.AutomaticFrameAdvance = true
-
 ENT.Base = "cc_worldent"
 ENT.RenderGroup = RENDERGROUP_BOTH
 
