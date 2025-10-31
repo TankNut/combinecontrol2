@@ -1,6 +1,12 @@
 AddCSLuaFile()
 
 function SWEP:TranslateFOV(fov)
+	local ply = self:GetOwner()
+
+	if ply:GetViewEntity() != ply then
+		return fov
+	end
+
 	local target = fov / self:GetZoom()
 
 	self.DefaultFOV = fov
