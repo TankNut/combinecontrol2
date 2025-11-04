@@ -1,11 +1,13 @@
 AddCSLuaFile()
 
-function SWEP:CanFire()
+function SWEP:CanFire(quiet)
 	local owner = self:GetOwner()
 
 	if owner:IsPlayer() then
 		if self:GetHolstered() or self:GetDeployed() then
-			self:ForceStopFire()
+			if not quiet then
+				self:ForceStopFire()
+			end
 
 			return false
 		end
@@ -16,12 +18,12 @@ function SWEP:CanFire()
 	end
 
 	if (self.Primary.ClipSize > 0 and self:Clip1() <= 0) or self:GetFiremode() == FIREMODE_SAFE then
-		if CLIENT then
+		if CLIENT and not quiet then
 			self:EmitSound(self.Sounds.Empty)
 		end
 
 		if owner:IsNPC() then
-			if SERVER then
+			if SERVER and not quiet then
 				owner:SetSchedule(SCHED_RELOAD)
 			end
 
@@ -29,7 +31,10 @@ function SWEP:CanFire()
 		end
 
 		self:SetNextPrimaryFire(CurTime() + 0.2)
-		self:ForceStopFire()
+
+		if not quiet then
+			self:ForceStopFire()
+		end
 
 		return false
 	end
@@ -47,6 +52,8 @@ function SWEP:PrimaryAttack()
 	else
 		self:PrimaryNPC()
 	end
+
+	self:SetLastAttack(CurTime())
 end
 
 function SWEP:PrimaryPlayer()

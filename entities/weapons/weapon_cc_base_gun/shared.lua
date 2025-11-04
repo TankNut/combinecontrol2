@@ -148,6 +148,12 @@ function SWEP:Initialize()
 	self:SetClip1(self.Primary.ClipSize)
 end
 
+function SWEP:Deploy()
+	self:SetFireDuration(0)
+
+	return BaseClass.Deploy(self)
+end
+
 function SWEP:Holster()
 	if self:IsReloading() then
 		return false
@@ -170,6 +176,8 @@ function SWEP:SetupDataTables()
 	self:NetworkVar("Float", "AimState")
 	self:NetworkVar("Float", "AimStart")
 	self:NetworkVar("Float", "FinishReload")
+	self:NetworkVar("Float", "FireDuration")
+	self:NetworkVar("Float", "LastAttack")
 
 	self:NetworkVar("Angle", "RecoilPunch")
 	self:NetworkVar("Angle", "RecoilVelocity")
@@ -185,6 +193,25 @@ function SWEP:Think()
 
 	self:DoRecoilDecay()
 	self:AimThink()
+	self:FireThink()
+end
+
+function SWEP:FireThink()
+	if self:TryShove() or self:TryCancelReload() or not self:CanFire(true) then
+		self:SetFireDuration(0)
+
+		return
+	end
+
+	local ply = self:GetOwner()
+
+	if not IsValid(ply) or (ply:IsPlayer() and not ply:KeyDown(IN_ATTACK)) then
+		self:SetFireDuration(0)
+
+		return
+	end
+
+	self:SetFireDuration(self:GetFireDuration() + FrameTime())
 end
 
 function SWEP:PumpThink()
