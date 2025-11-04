@@ -121,7 +121,7 @@ function SWEP:Think()
 	local idle = self:GetNextIdle()
 
 	if idle > 0 and idle <= CurTime() then
-		self:PlayAnimation("Idle")
+		self:PlayAnimation(self:GetIdleAnimation())
 	end
 end
 

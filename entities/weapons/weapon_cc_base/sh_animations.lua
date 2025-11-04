@@ -1,5 +1,9 @@
 AddCSLuaFile()
 
+function SWEP:GetIdleAnimation()
+	return "Idle"
+end
+
 function SWEP:GetAnimation(name)
 	if not self:GetOwner():IsPlayer() then
 		return
