@@ -50,6 +50,10 @@ SWEP.Settings = {
 	Zoom = {1.25},
 }
 
+SWEP.Animations = {
+	Fidget = ACT_VM_FIDGET
+}
+
 SWEP.Sounds = {
 	Primary = Sound("Weapon_MA37.Single")
 }
