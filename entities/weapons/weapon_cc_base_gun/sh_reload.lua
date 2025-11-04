@@ -84,8 +84,25 @@ function SWEP:FinishReload()
 	end
 end
 
+function SWEP:CanFidget()
+	if self:ShouldLower() or self:IsReloading() then
+		return false
+	end
+
+	return true
+end
+
+function SWEP:Fidget()
+	self:SetNextPrimaryFire(CurTime() + self:PlayAnimation("Fidget"))
+	self:GetOwner():ConCommand("-reload")
+end
+
 function SWEP:Reload()
 	if self:CanReload() then
 		self:StartReload()
+	end
+
+	if self:CanFidget() then
+		self:Fidget()
 	end
 end
