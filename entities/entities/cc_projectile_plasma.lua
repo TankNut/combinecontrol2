@@ -12,6 +12,9 @@ ENT.TrailLifetime = 0.15
 
 ENT.SpriteColor = Color(16, 195, 255)
 
+ENT.ImpactEffect = "cc_e_plasma_rifle_impact"
+ENT.ImpactFlags = 1
+
 function ENT:Initialize()
 	BaseClass.Initialize(self)
 
@@ -46,7 +49,16 @@ else
 	function ENT:OnHit(tr)
 		self:SetImpact(tr.HitPos)
 
-		SafeRemoveEntityDelayed(self, 1)
-		--self:Remove()
+		if not tr.HitSky then
+			local effectData = EffectData()
+
+			effectData:SetOrigin(tr.HitPos)
+			effectData:SetNormal(tr.HitNormal)
+			effectData:SetFlags(self.ImpactFlags)
+
+			util.Effect(self.ImpactEffect, effectData)
+		end
+
+		SafeRemoveEntityDelayed(self, self.TrailLifetime)
 	end
 end
