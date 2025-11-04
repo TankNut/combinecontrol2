@@ -12,7 +12,7 @@ if SERVER then
 end
 
 local function resolveEntity(ent)
-	if ent:GetClass() == "viewmodel" then
+	if IsValid(ent) and ent:GetClass() == "viewmodel" then
 		return ent:GetOwner():GetActiveWeapon()
 	end
 
@@ -20,7 +20,7 @@ local function resolveEntity(ent)
 end
 
 local function getHeat(ent)
-	return ent.GetHeat and ent:GetHeat() or 0
+	return IsValid(ent) and ent.GetHeat and ent:GetHeat() or 0
 end
 
 matproxy.Add({
@@ -48,12 +48,16 @@ matproxy.Add({
 	bind = function(self, mat, ent)
 		local target = getHeat(resolveEntity(ent)) / 2 * self.VarMult
 
-		ent.drc_ScrollHeat = Lerp(RealFrameTime() * (self.LerpPower * 2.5), ent.drc_ScrollHeat or target, target)
+		if IsValid(ent) then
+			target = Lerp(RealFrameTime() * (self.LerpPower * 2.5), ent.drc_ScrollHeat or target, target)
+
+			ent.drc_ScrollHeat = target
+		end
 
 		if self.FlipVar == 0 then
-			mat:SetVector(self.ResultTo, Vector(ent.drc_ScrollHeat, 0, 0))
+			mat:SetVector(self.ResultTo, Vector(target, 0, 0))
 		else
-			mat:SetVector(self.ResultTo, Vector(-ent.drc_ScrollHeat, 0, 0))
+			mat:SetVector(self.ResultTo, Vector(-target, 0, 0))
 		end
 	end
 })
