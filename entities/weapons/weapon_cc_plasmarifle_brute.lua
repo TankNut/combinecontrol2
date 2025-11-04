@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 SWEP.Base = "weapon_cc_base_plasma"
 
-SWEP.PrintName = "Type-25 Directed Energy Rifle"
+SWEP.PrintName = "Type-25 Directed Energy Rifle (Brute)"
 SWEP.Category = "CombineControl"
 
 SWEP.Spawnable = true
@@ -10,12 +10,12 @@ SWEP.Spawnable = true
 SWEP.ViewModelFOV = 54
 
 SWEP.UseHands   = true
-SWEP.ViewModel  = Model("models/vuthakral/halo/weapons/c_hum_plasmarifle.mdl")
-SWEP.WorldModel = Model("models/vuthakral/halo/weapons/w_plasmarifle.mdl")
+SWEP.ViewModel  = Model("models/vuthakral/halo/weapons/c_hum_plasmarifle_bloodhand.mdl")
+SWEP.WorldModel = Model("models/vuthakral/halo/weapons/w_plasmarifle_red.mdl")
 
 SWEP.Stats = {
 	Type = "Projectile",
-	Class = "cc_projectile_plasma",
+	Class = "cc_projectile_plasma_brute",
 
 	Offset = Vector(8, -8, -8),
 
@@ -23,12 +23,12 @@ SWEP.Stats = {
 }
 
 SWEP.Heat = {
-	CoolDelay = 0.4,
+	CoolDelay = 0.2,
 
 	HeatRate = 4,
 	CoolRate = 40,
 
-	Max = 100,
+	Max = 60,
 	ForceOverheat = true,
 	AllowManual = false
 }
@@ -47,6 +47,7 @@ SWEP.Settings = {
 	BaseHoldType = "pistol",
 
 	Firemodes = {FIREMODE_AUTO},
+	FireRate = 540,
 
 	ClipSize = 0,
 
@@ -91,10 +92,6 @@ SWEP.Itemize = {
 	IconAngle = Angle(15, 45, 10),
 	IconFOV = 12
 }
-
-function SWEP:GetDelay()
-	return math.ClampedRemap(self:GetFireDuration(), 0, 0.8, 0.16, 0.11)
-end
 
 sound.Add({
 	name = "Weapon_PlasmaRifle.Single",
