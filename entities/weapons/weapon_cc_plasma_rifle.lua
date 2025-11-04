@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-SWEP.Base = "weapon_cc_base_gun"
+SWEP.Base = "weapon_cc_base_plasma"
 
 SWEP.PrintName = "Type-25 Directed Energy Rifle"
 SWEP.Category = "CombineControl"
@@ -32,16 +32,19 @@ SWEP.Recoil = {
 }
 
 SWEP.Settings = {
-	LowerHoldType = "passive",
+	LowerHoldType = "normal",
 	BaseHoldType = "pistol",
 
 	Firemodes = {FIREMODE_AUTO},
-	FireRate = 600,
 
 	ClipSize = 0,
 
 	Range = 400,
 	Zoom = {1.25},
+}
+
+SWEP.Animations = {
+	Fidget = ACT_VM_FIDGET
 }
 
 SWEP.Sounds = {
@@ -50,20 +53,20 @@ SWEP.Sounds = {
 
 SWEP.Offsets = {
 	Default = {
-		Vector(0, 0, 0),
+		Vector(5, -1, 0),
 		Angle(0, 0, 0)
 	},
 	Holster = {
-		Vector(0, 0, 0),
-		Angle(20, 15, 0)
+		Vector(5, -1, 0),
+		Angle(20, 0, 0)
 	},
 	Sprint = {
-		Vector(0, 0, -1),
-		Angle(15, 5, 0)
+		Vector(5, -1, 0),
+		Angle(20, 0, 0)
 	},
 	Aiming = {
-		Vector(-2, 0, -1),
-		Angle(-1, 0, 0)
+		Vector(0, 0, 1),
+		Angle(0, 0, 0)
 	}
 }
 
@@ -78,11 +81,15 @@ SWEP.Itemize = {
 	IconFOV = 12
 }
 
-sound.Add( {
+function SWEP:GetDelay()
+	return math.ClampedRemap(self:GetFireDuration(), 0, 0.8, 0.16, 0.11)
+end
+
+sound.Add({
 	name = "Weapon_PlasmaRifle.Single",
 	channel = CHAN_WEAPON,
 	volume = 0.72,
 	level = 110,
 	pitch = {98, 101},
-	sound = {")vuthakral/halo/weapons/plasmarifle/plas_rifle_fire.wav"}
-} )
+	sound = ")vuthakral/halo/weapons/plasmarifle/plas_rifle_fire.wav"
+})
