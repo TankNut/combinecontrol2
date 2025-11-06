@@ -19,6 +19,15 @@ Settings.Add("ShowItemClass", {
 	CanAccess = isAdmin
 }, "Admin")
 
+Settings.Add("AdminRadio", {
+	Name = "See all radio messages",
+	Hint = "Lets you see radio messages sent on every frequency regardless of your own radio's settings.",
+	Default = false,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool",
+	CanAccess = isAdmin
+}, "Admin")
+
 Settings.Add("UnderstandLanguages", {
 	Name = "Understand all character languages",
 	Hint = "Lets your character understand all languages, but not speak them.",
