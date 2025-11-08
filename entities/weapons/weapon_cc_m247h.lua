@@ -1,7 +1,7 @@
-DEFINE_BASECLASS("weapon_cc_base_gun")
 AddCSLuaFile()
+DEFINE_BASECLASS("weapon_cc_base_plasma")
 
-SWEP.Base = "weapon_cc_base_gun"
+SWEP.Base = "weapon_cc_base_plasma"
 
 SWEP.PrintName = "M247H Heavy Machine Gun"
 SWEP.Category = "CombineControl"
@@ -29,6 +29,17 @@ SWEP.Stats = {
 	Impact = "AR2Impact"
 }
 
+SWEP.Heat = {
+	CoolDelay = 0.4,
+
+	HeatRate = 2,
+	CoolRate = 40,
+
+	Max = 100,
+	ForceOverheat = true,
+	AllowManual = false
+}
+
 SWEP.Recoil = {
 	Value = 1,
 
@@ -49,6 +60,10 @@ SWEP.Settings = {
 
 	Range = 400,
 	Zoom = {1.25},
+}
+
+SWEP.Animations = {
+	Fidget = ACT_VM_FIDGET
 }
 
 SWEP.Sounds = {
@@ -84,6 +99,10 @@ SWEP.Itemize = {
 	IconAngle = Angle(15, 45, 10),
 	IconFOV = 12
 }
+
+function SWEP:GetDelay()
+	return math.ClampedRemap(self:GetHeat(), 0.7, 1, 0.1, 0.15)
+end
 
 if CLIENT then
 	function SWEP:Initialize()
