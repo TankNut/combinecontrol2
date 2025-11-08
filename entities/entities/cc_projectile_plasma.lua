@@ -7,6 +7,8 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 ENT.Model = Model("models/maxofs2d/hover_classic.mdl")
 
+ENT.Damage = {20, 40}
+
 ENT.Velocity = 6350
 
 ENT.TrailLifetime = 0.15
@@ -22,8 +24,9 @@ function ENT:Initialize()
 	BaseClass.Initialize(self)
 
 	if SERVER then
-		-- Why the fuck is this a hardcoded requirement
 		util.SpriteTrail(self, 0, self.TrailColor, true, 40, 0, self.TrailLifetime, 0.0125, "taconbanana/halo/trails/plasmarifle.vmt")
+
+		self.Weapon = self:GetOwner():GetActiveWeapon()
 	end
 end
 
@@ -51,6 +54,28 @@ if CLIENT then
 else
 	function ENT:OnHit(tr)
 		self:SetImpact(tr.HitPos)
+
+		local ent = tr.Entity
+
+		if IsValid(ent) and ent.DispatchTraceAttack then
+			local dmg = DamageInfo()
+			local damage = self.Damage
+
+			if istable(damage) then
+				damage = math.random(self.Damage[1], self.Damage[2])
+			end
+
+			dmg:SetDamage(damage)
+			dmg:SetDamageType(DMG_ENERGYBEAM)
+			dmg:SetDamagePosition(tr.HitPos)
+			dmg:SetDamageForce(tr.Normal * (damage * 75))
+
+			dmg:SetInflictor(self)
+			dmg:SetAttacker(self:GetOwner())
+			dmg:SetWeapon(self.Weapon)
+
+			ent:DispatchTraceAttack(dmg, tr, tr.Normal)
+		end
 
 		if not tr.HitSky then
 			local effectData = EffectData()
