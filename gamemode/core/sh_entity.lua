@@ -128,6 +128,12 @@ function GM:PostCleanupMap()
 	end
 end
 
+function GM:OnViewModelChanged(vm, old, new)
+	for i = 0, vm:GetNumPoseParameters() - 1 do
+		vm:SetPoseParameter(i, 0)
+	end
+end
+
 if SERVER then
 	function GM:EntityTakeDamage(ent, dmginfo)
 		if ent:IsPlayer() then
