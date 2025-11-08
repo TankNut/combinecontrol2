@@ -83,8 +83,8 @@ if SERVER then
 	end
 
 	function ENT:Think()
-		self:ProcessMovement()
 		self:NextThink(CurTime())
+		self:ProcessMovement()
 
 		return true
 	end
