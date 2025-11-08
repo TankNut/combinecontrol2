@@ -9,7 +9,6 @@ function SWEP:TranslateFOV(fov)
 
 	local target = fov / self:GetZoom()
 
-	self.DefaultFOV = fov
 	self.ViewModelFOV = self.OrigViewModelFOV + (fov - target) * 0.75
 
 	return target
@@ -153,11 +152,12 @@ if CLIENT then
 		return LocalToWorld(self.VMPos + addPos, self.VMAng + addAng, pos, ang)
 	end
 
+	local desired = GetConVar("fov_desired")
+
 	function SWEP:AdjustMouseSensitivity()
-		local desired = self.DefaultFOV
 		local fov = self:GetOwner():GetFOV()
 
-		return fov / desired
+		return fov / desired:GetFloat()
 	end
 
 	function SWEP:PreDrawViewModel(vm, _, ply)
