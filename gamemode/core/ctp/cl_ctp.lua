@@ -668,11 +668,12 @@ do -- Meta
 
 			return pos
 		else
-			local bone = self:GetBone()
+			local bone = self:GetOverrideBone(lp:GetModel(), self:GetBone())
 			local pos
 
-			if bone != "none" and ctp.BoneList[bone] then
-				local id = lp:LookupBone(ctp.BoneList[bone])
+			if bone then
+				local id = lp:LookupBone(bone)
+
 				if id then
 					pos = lp:GetBonePosition(id)
 				else
@@ -1520,4 +1521,21 @@ do -- ui
 		end
 	end
 
+end
+
+ctp.ModelOverrides = {}
+
+function ctp:AddBoneOverride(mdl, bones)
+	self.ModelOverrides[mdl] = bones
+end
+
+function ctp:GetOverrideBone(mdl, bone)
+	for pattern, bones in pairs(self.ModelOverrides) do
+		print(mdl, pattern)
+		if string.find(mdl, pattern) then
+			return bones[bone] or ctp.BoneList[bone]
+		end
+	end
+
+	return ctp.BoneList[bone]
 end
