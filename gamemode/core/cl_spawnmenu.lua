@@ -233,7 +233,7 @@ search.AddProvider(function(str)
 	for class, item in SortedPairs(Item.Find(lp, str)) do
 		table.insert(items, {
 			text = class,
-			func = function() RunConsoleCommand("rpa_createitem", class) end,
+			func = function() RunConsoleCommand("rpa_item_create", class) end,
 			icon = spawnmenu.CreateContentIcon("cc_item", nil, item),
 			words = {class}
 		})
@@ -252,7 +252,7 @@ spawnmenu.AddContentType("cc_item", function(container, item)
 	icon:SetColor(Item.Rarities[item.Rarity].Color)
 
 	icon.DoClick = function()
-		RunConsoleCommand("rpa_createitem", item.ClassName)
+		RunConsoleCommand("rpa_item_create", item.ClassName)
 		surface.PlaySound("ui/buttonclickrelease.wav")
 	end
 
