@@ -69,6 +69,11 @@ SWEP.Offsets = {
 	}
 }
 
+if CLIENT then
+	SWEP.ViewModelMaterials = {}
+	SWEP.WorldModelMaterials = {}
+end
+
 include("sh_animations.lua")
 include("sh_holdtype.lua")
 include("sh_item.lua")

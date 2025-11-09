@@ -164,5 +164,33 @@ if CLIENT then
 		if self.Settings.UseHolsterAnimations and self:GetHolstered() and (vm:GetCycle() > 0.9 or self:GetDeployed()) then
 			return true
 		end
+
+		for index, mat in pairs(self.ViewModelMaterials) do
+			render.MaterialOverrideByIndex(index, mat)
+		end
+	end
+
+	function SWEP:PostDrawViewModel(vm, _, ply)
+		render.MaterialOverrideByIndex(nil)
+	end
+
+	function SWEP:DrawWorldModel()
+		for index, mat in pairs(self.WorldModelMaterials) do
+			render.MaterialOverrideByIndex(index, mat)
+		end
+
+		self:DrawModel()
+
+		render.MaterialOverrideByIndex(nil)
+	end
+
+	function SWEP:DrawWorldModelTranslucent()
+		for index, mat in pairs(self.WorldModelMaterials) do
+			render.MaterialOverrideByIndex(index, mat)
+		end
+
+		self:DrawModel()
+
+		render.MaterialOverrideByIndex(nil)
 	end
 end
