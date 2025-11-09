@@ -138,7 +138,7 @@ if CLIENT then
 			self.ClientsideModel:SetAngles(self:GetAngles())
 		end
 
-		self.ClientsideModel:DrawModel()
+		self.ClientsideModel:DrawModel(flags)
 	end
 
 	function SWEP:GetTracerOrigin()

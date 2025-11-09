@@ -113,8 +113,8 @@ if CLIENT then
 		cam.End3D2D()
 	end
 
-	function SWEP:DrawWorldModel(studio)
-		self:DrawModel(studio)
+	function SWEP:DrawWorldModel(flags)
+		BaseClass.DrawWorldModel(self, flags)
 
 		local scale = 1
 		local ply = self:GetOwner()
