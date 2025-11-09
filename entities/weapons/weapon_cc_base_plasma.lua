@@ -130,7 +130,7 @@ end
 
 function SWEP:OnOverheatEnd()
 	self:EmitSound(self.Sounds.OverheatFinish)
-	self:PlayAnimation("OverheatFinish")
+	self:SetNextPrimaryFire(CurTime() + self:PlayAnimation("OverheatFinish"))
 end
 
 sound.Add({
