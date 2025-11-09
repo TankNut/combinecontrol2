@@ -51,6 +51,31 @@ function SWEP:Think()
 	BaseClass.Think(self)
 end
 
+function SWEP:CanReload()
+	if self:GetHolstered() or self:ShouldLower() then
+		return false
+	end
+
+	if self:GetHeat() == 0 or self:GetOverheating() or not self.Heat.AllowManual then
+		return false
+	end
+
+	return true
+end
+
+function SWEP:StartReload()
+	self:SetOverheating(true)
+	self:OnOverheatStart(true)
+end
+
+function SWEP:CanFidget()
+	if self:GetOverheating() then
+		return false
+	end
+
+	return BaseClass.CanFidget(self)
+end
+
 function SWEP:HeatThink()
 	local heat = self.Heat
 	local current = self:GetCurrentHeat()
@@ -64,7 +89,13 @@ function SWEP:HeatThink()
 		return
 	end
 
-	local new = math.max(current - FrameTime() * heat.CoolRate, 0)
+	local coolRate = heat.CoolRate
+
+	if heat.PassiveCoolRate and not self:GetOverheating() then
+		coolRate = heat.PassiveCoolRate
+	end
+
+	local new = math.max(current - FrameTime() * coolRate, 0)
 
 	self:SetCurrentHeat(new)
 
@@ -85,7 +116,7 @@ end
 function SWEP:PrimaryPlayer()
 	BaseClass.PrimaryPlayer(self)
 
-	self:SetCurrentHeat(self:GetCurrentHeat() + self.Heat.HeatRate)
+	self:SetCurrentHeat(math.min(self:GetCurrentHeat() + self.Heat.HeatRate, self.Heat.Max))
 end
 
 function SWEP:SelectIdleAnimation()
@@ -93,8 +124,8 @@ function SWEP:SelectIdleAnimation()
 end
 
 function SWEP:OnOverheatStart(manual)
-	self:EmitSound(manual and self.Sounds.Vent or self.Sounds.OverheatStart)
-	self:PlayAnimation(manual and "OverheatIdle" or "OverheatStart")
+	self:EmitSound(self.Sounds.OverheatStart)
+	self:PlayAnimation("OverheatStart")
 end
 
 function SWEP:OnOverheatEnd()
@@ -118,17 +149,4 @@ sound.Add({
 	level = 56,
 	pitch = 100,
 	sound = ")vuthakral/halo/weapons/plasmarifle/plasrifle_oh_exit.wav"
-})
-
-sound.Add({
-	name = "Weapon_Plasma.Vent",
-	channel = CHAN_AUTO,
-	volume = 0.165,
-	level = 56,
-	pitch = {98.5, 101.5},
-	sound = {
-		")vuthakral/halo/weapons/plasmarepeater/vent_open0.wav",
-		")vuthakral/halo/weapons/plasmarepeater/vent_open1.wav",
-		")vuthakral/halo/weapons/plasmarepeater/vent_open2.wav"
-	}
 })
