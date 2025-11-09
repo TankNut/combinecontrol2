@@ -21,9 +21,7 @@ function GM:OnAppearanceChanged(ply, old, new, loaded)
 		part.Add(ply, "appearance", outfit)
 	else
 		ply:ApplyModel(new._base)
-
 		ply:SetupHands()
-		self:PlayerSetHandsModel(ply, ply:GetHands())
 
 		if ply:IsRagdolled() then
 			ply:GetRagdoll():SetFakeAppearance(new)
@@ -96,5 +94,54 @@ if SERVER then
 		end
 
 		self:SetAppearance(appearance)
+	end
+
+	function GM:GetHandAppearance(ply)
+		local base = Hands.Get(ply:GetModel())
+
+		if not ply:HasCharacter() then
+			return base, false
+		end
+
+		if #ply:CharacterModelOverride() > 0 then
+			return base, true
+		end
+
+		return ply:RunCharFlag("GetHandData", base), false
+	end
+
+	function GM:PlayerSetHandsModel(ply, ent)
+		local hands, hasOverride = hook.Run("GetHandAppearance", ply)
+
+		if ply:HasCharacter() then
+			local clothing = ply:RunCharFlag("Clothing")
+			local items = ply:GetItems()
+
+			for _, item in pairs(items) do
+				if not item.GetHandData or (hasOverride and not item.IgnoreModelOverride) then
+					continue
+				end
+
+				local data = item:GetHandData(ply, clothing)
+
+				if data then
+					table.Merge(hands, data)
+				end
+			end
+
+			for _, item in pairs(items) do
+				if not item.PostHandData or (hasOverride and not item.IgnoreModelOverride) then
+					continue
+				end
+
+				item:PostHandData(ply, hands, clothing)
+			end
+
+			if not hasOverride then
+				ply:RunCharFlag("PostHandData", hands)
+			end
+		end
+
+		ent:ApplyModel(hands)
 	end
 end

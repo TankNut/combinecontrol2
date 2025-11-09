@@ -94,4 +94,8 @@ function FLAG:GetModelData(ply)
 	}
 end
 
+function FLAG:GetHandData(ply, data)
+	return data
+end
+
 inherit.Register("charflag", "base", FLAG)

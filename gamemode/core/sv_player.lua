@@ -308,12 +308,6 @@ function GM:PlayerUse(ply, ent)
 	return true
 end
 
-function GM:PlayerSetHandsModel(ply, ent)
-	ent:SetModel("models/weapons/c_arms_citizen.mdl")
-	ent:SetSkin(0)
-	ent:SetBodyGroups("11")
-end
-
 hook.Add("player_changename", "cc2.LastNick", function(data)
 	Player(data.userid):SetLastNick(data.newname)
 end)
