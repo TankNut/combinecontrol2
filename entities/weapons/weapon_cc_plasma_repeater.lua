@@ -28,7 +28,7 @@ SWEP.Heat = {
 
 	HeatRate = 2,
 	CoolRate = 20,
-	PassiveCoolRate = 4,
+	PassiveCoolRate = 10,
 
 	Max = 100,
 	ForceOverheat = false,
