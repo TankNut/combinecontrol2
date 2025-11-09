@@ -166,6 +166,10 @@ if CLIENT then
 		end
 
 		for index, mat in pairs(self.ViewModelMaterials) do
+			if not isnumber(index) then
+				continue
+			end
+
 			render.MaterialOverrideByIndex(index, mat)
 		end
 	end
@@ -174,22 +178,26 @@ if CLIENT then
 		render.MaterialOverrideByIndex(nil)
 	end
 
-	function SWEP:DrawWorldModel()
+	function SWEP:DrawWorldModel(flags)
 		for index, mat in pairs(self.WorldModelMaterials) do
+			if not isnumber(index) then
+				continue
+			end
+
 			render.MaterialOverrideByIndex(index, mat)
 		end
 
-		self:DrawModel()
+		self:DrawModel(flags)
 
 		render.MaterialOverrideByIndex(nil)
 	end
 
-	function SWEP:DrawWorldModelTranslucent()
+	function SWEP:DrawWorldModelTranslucent(flags)
 		for index, mat in pairs(self.WorldModelMaterials) do
 			render.MaterialOverrideByIndex(index, mat)
 		end
 
-		self:DrawModel()
+		self:DrawModel(flags)
 
 		render.MaterialOverrideByIndex(nil)
 	end
