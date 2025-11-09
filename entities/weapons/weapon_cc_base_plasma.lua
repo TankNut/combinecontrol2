@@ -88,8 +88,8 @@ function SWEP:PrimaryPlayer()
 	self:SetCurrentHeat(self:GetCurrentHeat() + self.Heat.HeatRate)
 end
 
-function SWEP:GetIdleAnimation()
-	return self:GetOverheating() and "OverheatIdle" or BaseClass.GetIdleAnimation(self)
+function SWEP:SelectIdleAnimation()
+	return self:GetOverheating() and "OverheatIdle" or BaseClass.SelectIdleAnimation(self)
 end
 
 function SWEP:OnOverheatStart(manual)

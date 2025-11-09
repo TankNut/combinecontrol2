@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-function SWEP:GetIdleAnimation()
+function SWEP:SelectIdleAnimation()
 	return "Idle"
 end
 
