@@ -29,12 +29,3 @@ function FLAG:GetModelData(ply)
 		Skin = 1
 	}}
 end
-
-Hull.AddType("grunt", {
-	Standing = {Vector(-10, -10, 0), Vector(10, 10, 55), Vector(0, 0, 42)},
-	Crouching = {Vector(-10, -10, 0), Vector(10, 10, 55), Vector(0, 0, 30)},
-})
-
-Hull.AddModel("grunt",
-	Model("models/valk/haloreach/covenant/characters/grunt/grunt_player.mdl"),
-	Model("models/valk/haloreach/covenant/characters/grunt/grunt_player_honor.mdl"))
