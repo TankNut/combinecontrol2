@@ -1531,7 +1531,6 @@ end
 
 function ctp:GetOverrideBone(mdl, bone)
 	for pattern, bones in pairs(self.ModelOverrides) do
-		print(mdl, pattern)
 		if string.find(mdl, pattern) then
 			return bones[bone] or ctp.BoneList[bone]
 		end
