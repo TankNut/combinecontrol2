@@ -17,7 +17,10 @@ Hands.AddModel("models/models/valk/haloreach/unsc/spartan", {Model = Model("mode
 -- Covenant
 Hands.AddModel("models/valk/haloreach/covenant/characters/grunt", {Model = Model("models/valk/haloreach/covenant/characters/grunt/grunt_hands.mdl")})
 
-ctp:AddBoneOverride("models/halo_reach/players/elite", {
-	head = "b_head",
-	neck = "b_neck"
 })
+if CLIENT then
+	ctp:AddBoneOverride("models/halo_reach/players/elite", {
+		head = "b_head",
+		neck = "b_neck"
+	})
+end
