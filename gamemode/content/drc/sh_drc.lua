@@ -213,7 +213,9 @@ local function DRCBind(self, mat, ent)
 	for k, target in ipairs(self.ReturnValues) do
 		local val = Run(self, ent, Vector(self.Min[k]), Vector(self.Max[k]))
 
-		Return(val, mat, target, self.Mul[k])
+		if val != nil then
+			Return(val, mat, target, self.Mul[k])
+		end
 	end
 end
 
