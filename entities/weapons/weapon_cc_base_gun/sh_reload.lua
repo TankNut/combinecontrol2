@@ -111,9 +111,7 @@ end
 function SWEP:Reload()
 	if self:CanReload() then
 		self:StartReload()
-	end
-
-	if self:CanFidget() then
+	elseif self:CanFidget() then
 		self:Fidget()
 	end
 end
