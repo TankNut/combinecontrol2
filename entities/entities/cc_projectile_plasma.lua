@@ -7,8 +7,9 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 ENT.Model = Model("models/maxofs2d/hover_classic.mdl")
 
-ENT.Damage = {20, 40}
+ENT.Scale = 1
 
+ENT.Damage = {20, 40}
 ENT.Velocity = 6350
 
 ENT.TrailLifetime = 0.15
@@ -24,7 +25,7 @@ function ENT:Initialize()
 	BaseClass.Initialize(self)
 
 	if SERVER then
-		util.SpriteTrail(self, 0, self.TrailColor, true, 40, 0, self.TrailLifetime, 0.0125, "taconbanana/halo/trails/plasmarifle.vmt")
+		util.SpriteTrail(self, 0, self.TrailColor, true, 40 * self.Scale, 0, self.TrailLifetime, 0.0125, "taconbanana/halo/trails/plasmarifle.vmt")
 	end
 end
 
@@ -42,12 +43,13 @@ if CLIENT then
 			return
 		end
 
-		local size = math.Rand(30, 35)
+		local size = math.Rand(30, 35) * self.Scale
+		local size2 = self.Scale * 10
 
 		render.SetMaterial(sprite)
 
 		render.DrawSprite(pos, size, size, self.SpriteColor1)
-		render.DrawSprite(pos, 10, 10, self.SpriteColor2)
+		render.DrawSprite(pos, size2, size2, self.SpriteColor2)
 	end
 else
 	function ENT:OnHit(tr)
@@ -81,6 +83,7 @@ else
 			effectData:SetOrigin(tr.HitPos)
 			effectData:SetNormal(tr.HitNormal)
 			effectData:SetFlags(self.ImpactFlags)
+			effectData:SetScale(self.Scale)
 
 			util.Effect(self.ImpactEffect, effectData)
 		end

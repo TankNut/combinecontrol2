@@ -11,6 +11,7 @@ function EFFECT:Init(data)
 	local pos = data:GetOrigin()
 	local normal = data:GetNormal()
 	local colors = colorTable[data:GetFlags()] or colorTable[1]
+	local scale = data:GetScale()
 
 	local emitter = ParticleEmitter(pos)
 
@@ -30,8 +31,8 @@ function EFFECT:Init(data)
 			particle:SetStartAlpha(255)
 			particle:SetEndAlpha(0)
 
-			particle:SetStartSize(math.Rand(15,30))
-			particle:SetEndSize(math.Rand(2, 5))
+			particle:SetStartSize(math.Rand(15,30) * scale)
+			particle:SetEndSize(math.Rand(2, 5) * scale)
 
 			particle:SetRoll(math.Rand(0, 360))
 			particle:SetAngleVelocity(Angle(15))
@@ -48,10 +49,10 @@ function EFFECT:Init(data)
 
 	for i = 1, 3 do
 		local dir = getNormal()
-		local particle = emitter:Add("effects/draconic_halo/flash_soft", pos + dir * 6)
+		local particle = emitter:Add("effects/draconic_halo/flash_soft", pos + dir * 6 * scale)
 
 		if particle then
-			particle:SetVelocity(dir * math.Rand(250, 500))
+			particle:SetVelocity(dir * math.Rand(250, 500) * scale)
 
 			particle:SetLifeTime(math.Rand(0.05, 0.5))
 			particle:SetDieTime(math.Rand(1, 6))
@@ -59,7 +60,7 @@ function EFFECT:Init(data)
 			particle:SetStartAlpha(255)
 			particle:SetEndAlpha(0)
 
-			particle:SetStartSize(2)
+			particle:SetStartSize(2 * scale)
 			particle:SetEndSize(0)
 
 			particle:SetRoll(math.Rand(0, 360))
@@ -77,10 +78,10 @@ function EFFECT:Init(data)
 
 	for i = 1, math.random(7) do
 		local dir = getNormal()
-		local particle = emitter:Add("effects/draconic_halo/energy/energy_plasmaimpactlong1", pos + dir * 6)
+		local particle = emitter:Add("effects/draconic_halo/energy/energy_plasmaimpactlong1", pos + dir * 6 * scale)
 
 		if particle then
-			particle:SetVelocity(dir * math.Rand(35, 225))
+			particle:SetVelocity(dir * math.Rand(35, 225) * scale)
 
 			particle:SetLifeTime(math.Rand(0.05, 0.5))
 			particle:SetDieTime(math.Rand(1, 3))
@@ -88,11 +89,11 @@ function EFFECT:Init(data)
 			particle:SetStartAlpha(200)
 			particle:SetEndAlpha(0)
 
-			particle:SetStartSize(2)
+			particle:SetStartSize(2 * scale)
 			particle:SetEndSize(0)
 
-			particle:SetStartLength(math.Rand(15, 35))
-			particle:SetEndLength(math.Rand(3, 6))
+			particle:SetStartLength(math.Rand(15, 35) * scale)
+			particle:SetEndLength(math.Rand(3, 6) * scale)
 
 			particle:SetColor(colors[3]:Unpack())
 
