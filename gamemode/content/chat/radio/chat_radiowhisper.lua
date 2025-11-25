@@ -9,8 +9,4 @@ CLASS.Range = 150
 
 CLASS.LocalName = "Whisper"
 
-if CLIENT then
-	function CLASS:OnReceive(data)
-		return string.format("<c=%s><i>[%s] %s: %s", self.Color, data.Channel, data.Name, data.Text)
-	end
-end
+CLASS.MessageFormat = "<c=%s><i>[%s] %s: %s"

@@ -19,11 +19,11 @@ CLASS.LogCategory = "radio"
 CLASS.Color         = Color(72, 118, 255)
 CLASS.LanguageColor = Color(255, 167, 73)
 
-CLASS.LocalName = "Say"
+CLASS.MessageFormat = "<c=%s>[%s] %s: %s"
 
 if CLIENT then
 	function CLASS:OnReceive(data)
-		return string.format("<c=%s>[%s] %s: %s", self.Color, data.Channel, data.Name, data.Text)
+		return string.format(self.MessageFormat, self.Color, data.Channel, data.Name, data.Text)
 	end
 end
 

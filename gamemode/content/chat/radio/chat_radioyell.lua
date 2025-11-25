@@ -10,8 +10,4 @@ CLASS.MuffledRange = 400
 
 CLASS.LocalName = "Yell"
 
-if CLIENT then
-	function CLASS:OnReceive(data)
-		return string.format("<c=%s><b>[%s] %s: %s", self.Color, data.Channel, data.Name, data.Text)
-	end
-end
+CLASS.MessageFormat = "<c=%s><b>[%s] %s: %s"
