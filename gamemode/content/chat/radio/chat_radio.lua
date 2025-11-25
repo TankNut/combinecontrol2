@@ -2,7 +2,8 @@ CLASS.Base = "Say" -- To inherit CLASS:FormatUnknownLanguage
 
 CLASS.Name        = "Radio"
 CLASS.Description = "Speak over your radio."
-CLASS.Typing      = "Radioing..." -- TODO: Have player do the radioing animation
+CLASS.Typing      = "Radioing..."
+CLASS.Radio       = true
 
 CLASS.Commands = {"radio", "r"}
 
