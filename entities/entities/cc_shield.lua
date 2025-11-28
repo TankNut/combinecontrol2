@@ -30,6 +30,10 @@ function ENT:Initialize()
 	elseif SERVER then
 		self.CanPlayRechargeSound = true
 	end
+
+	if CLIENT then
+		self:SetNoDraw(true)
+	end
 end
 
 function ENT:SetupDataTables()

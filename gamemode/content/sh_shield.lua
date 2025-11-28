@@ -45,6 +45,22 @@ if SERVER then
 end
 
 if CLIENT then
+	EntityCache.Add("shields", function(ent) return ent:IsType("cc_shield") end)
+
+	hook.Add("PostDrawTranslucentRenderables", "cc2.Shield", function(depth, skybox)
+		if skybox then
+			return
+		end
+
+		for shield in EntityCache.Iterator("shields") do
+			if shield:IsDormant() then
+				continue
+			end
+
+			shield:Draw()
+		end
+	end)
+
 	matproxy.Add({
 		name = "cc2_shield",
 		init = function(self, mat, values) end,
