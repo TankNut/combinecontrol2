@@ -81,6 +81,36 @@ function PLAYER:ActiveRadioSettings()
 end
 
 if SERVER then
+	Jammed = {}
+
+	function SetJammed(frequency, enabled)
+		if not isnumber(frequency) and (frequency != "all" or frequency != "preset" or frequency != "common") then
+			console.Feedback(ply, "ERROR", "Input frequency must be a number, 'all', 'preset' or 'common'.")
+		end
+
+		Jammed[frequency] = enabled or nil
+	end
+
+	function IsJammed(frequency)
+		if Jammed.all then
+			return true
+		end
+
+		if Jammed[frequency] then
+			return true
+		elseif not isnumber(frequency) then
+			return false
+		end
+
+		if frequency < 1000 then
+			return Jammed.common or false
+		end
+
+		if frequency >= 1000 then
+			return Jammed.preset or false
+		end
+	end
+
 	-- Determine which radio groups to assign based on what presets are tuned into.
 	local function groups(settings)
 		local tab = {}
