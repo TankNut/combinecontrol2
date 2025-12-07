@@ -120,6 +120,7 @@ function PANEL:PopulateFrequency(margin, height)
 
 		if val == 0 and not settings.Preset then
 			settings.Frequency = nil
+			settings.Encryption = nil
 			settings.Enabled = nil
 			settings.Speaker = nil
 			if self.ActiveChannel == self.Channel then self.ActiveChannel = 0 end
@@ -138,7 +139,35 @@ function PANEL:PopulateFrequency(margin, height)
 end
 
 function PANEL:PopulateEncryption(margin, height)
-	-- PLACEHOLDER
+	local panel = self:CreatePanel("Encryption", TOP, margin, height)
+
+	local title = panel:Add("DLabel")
+	title:DockMargin(0, 0, margin, 0)
+	title:Dock(LEFT)
+	title:SetWide(ui.Scale(60))
+	title:SetContentAlignment(6) -- 6 == Align middle-right
+	title:SetText("Encryption")
+
+	local encryption = panel:Add("DTextEntry")
+	encryption:DockMargin(margin, 0, 0, 0)
+	encryption:Dock(FILL)
+	encryption:SetUpdateOnType(true)
+
+	encryption.AllowInput = function(pnl, char)
+		if #pnl:GetValue() >= 32 then
+			return true
+		end
+	end
+
+	encryption.OnValueChange = function(pnl, val)
+		local settings = self:GetSettings()
+
+		settings.Encryption = val != "" and val or nil
+
+		self:RefreshButtons(settings)
+	end
+
+	self.Encryption = encryption
 end
 
 function PANEL:PopulateButtons(margin, height)
@@ -281,10 +310,12 @@ end
 
 function PANEL:RefreshEncryption(settings)
 	if not cache.CanEncrypt then
+		self.EncryptionPanel:Hide()
 		return
 	end
 
-	-- PLACEHOLDER
+	self.Encryption:Clear()
+	self.Encryption:SetValue(settings.Encryption or "")
 end
 
 function PANEL:RefreshButtons(settings)
