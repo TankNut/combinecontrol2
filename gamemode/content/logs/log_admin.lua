@@ -199,3 +199,9 @@ Log.AddType("admin_eventcharacter_whitelist", function(ply, target, whitelist, a
 		Whitelist = whitelist.ClassName
 	}
 end)
+
+Log.AddType("admin_radio_jam", function(ply, action, subject)
+	return string.format("%s has %s %s", Log.Nick(ply), action, subject), {
+		Log.Admin(ply)
+	}
+end)

@@ -183,3 +183,34 @@ teamHidden:SetAccess(console.IsAdmin)
 
 teamHidden:AddParameter(console.Team())
 teamHidden:AddParameter(console.Bool())
+
+
+
+
+
+local jam = console.AddCommand("rpa_radio_jam", function(ply, frequency, jammed)
+	frequency = tonumber(frequency) or frequency:lower()
+
+	if not isnumber(frequency) and frequency != "all" and frequency != "preset" and frequency != "common" then
+		console.Feedback(ply, "ERROR", "Input frequency must be a number, 'all', 'preset' or 'common'.")
+
+		return
+	end
+
+	Radio.SetJammed(frequency, jammed)
+
+	local action = jammed and "jammed" or "unjammed"
+	local subject = isnumber(frequency) and string.format("%s MHz", frequency) or string.format("%s frequencies", frequency)
+
+	Chat.Send("NOTICE", console.FormatMessage("%s has %s %s", ply, action, subject), player.GetAdmins())
+
+	Log.Write("admin_radio_jam", ply, action, subject)
+end)
+
+jam:SetCategory("Server Commands")
+jam:SetDescription("Sets whether a frequency is being jammed.")
+jam:SetExecutionContext(console.Server)
+jam:SetAccess(console.IsAdmin)
+
+jam:AddParameter(console.String())
+jam:AddParameter(console.Bool())
