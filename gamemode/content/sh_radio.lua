@@ -40,7 +40,7 @@ end
 
 function PLAYER:CanHearRadio(frequency)
 	if self:GetSetting("AdminRadio") then
-		return true, true, false
+		return true, false
 	end
 
 	local radio = self:GetEquipment("radio")
@@ -54,7 +54,7 @@ function PLAYER:CanHearRadio(frequency)
 			continue
 		end
 
-		return channel.Enabled, channel.Encryption, channel.Speaker
+		return channel.Enabled, channel.Speaker
 	end
 
 	return false
@@ -77,7 +77,7 @@ function PLAYER:ActiveRadioSettings()
 		return
 	end
 	
-	return radio:GetChannelSettings()[radio:GetActiveChannel()]
+	return radio:GetChannelSettings()[radio:GetActiveChannel()], radio.CanEncrypt
 end
 
 if SERVER then
