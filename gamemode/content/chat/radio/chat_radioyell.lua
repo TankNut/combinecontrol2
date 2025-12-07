@@ -11,4 +11,4 @@ CLASS.MuffledRange = 400
 CLASS.LocalName = "Yell"
 
 CLASS.MessageFormat = "<c=%s><b>[%s] %s: %s"
-CLASS.LogFormat     = "[%s] [%s] %s: [YELL] %s"
+CLASS.LogFormat     = "[%s] [%s] [%s] %s: [YELL] %s"

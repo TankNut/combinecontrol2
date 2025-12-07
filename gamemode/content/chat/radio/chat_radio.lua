@@ -19,8 +19,10 @@ CLASS.LogCategory = "radio"
 CLASS.Color         = Color(72, 118, 255)
 CLASS.LanguageColor = Color(255, 167, 73)
 
+CLASS.LocalName = "Say"
+
 CLASS.MessageFormat = "<c=%s>[%s] %s: %s"
-CLASS.LogFormat     = "[%s] [%s] %s: %s"
+CLASS.LogFormat     = "[%s] [%s] [%s] %s: %s"
 
 if CLIENT then
 	function CLASS:OnReceive(data)
@@ -84,27 +86,39 @@ if SERVER then
 			return
 		end
 
+		local frequency = settings.Frequency
+		local jammed = Radio.IsJammed(frequency)
+
+		local name = jammed and "Unknown" or ply:VisibleRPName()
+		local radioText = jammed and string.Gibberish(text, 50) or text
+
 		local radioTargets = self:GetRadioTargets(ply, settings)
 		local localTargets = self:GetLocalTargets(ply, settings)
 
 		local preset = Radio.GetPreset(settings.Preset)
-		local channel = preset and preset.Name or settings.Frequency .. " MHz"
+		local channel = preset and preset.Name or string.format("%s MHz", frequency)
 
-		local data = {
-			Name    = ply:VisibleRPName(),
+		local radioData = {
+			Name    = name,
+			Lang    = lang,
+			Text    = radioText,
+			Channel = channel
+		}
+		local localData = {
+			Name    = name,
 			Lang    = lang,
 			Text    = text,
 			Channel = channel
 		}
 
-		Chat.Send(self.Name, data, radioTargets)
-		Chat.Send(self.LocalName, data, localTargets)
+		Chat.Send(self.Name, radioData, radioTargets)
+		Chat.Send(self.LocalName, localData, localTargets)
 
-		Log.Write("chat_" .. self.LogCategory, self, data, ply)
+		Log.Write("chat_" .. self.LogCategory, self, localData, jammed, ply)
 	end
 
-	function CLASS:WriteLog(data, ply)
-		return string.format(self.LogFormat, data.Channel, Language.Get(data.Lang).Name, ply:VisibleRPName(), data.Text), {
+	function CLASS:WriteLog(data, jammed, ply)
+		return string.format(self.LogFormat, data.Channel, jammed and "Jammed" or "Unjammed", Language.Get(data.Lang).Name, ply:VisibleRPName(), data.Text), {
 			Log.Character(ply),
 			ChatType = "radio"
 		}
