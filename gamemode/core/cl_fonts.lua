@@ -86,6 +86,25 @@ function GM:CreateFonts()
 		weight = 500
 	})
 
+	surface.CreateFont("CombineControl.ChatRadio", {
+		font = "Lucida Console",
+		size = ui.Scale(14),
+		weight = 500
+	})
+
+	surface.CreateFont("CombineControl.ChatRadioBold", {
+		font = "Lucida Console",
+		size = ui.Scale(14),
+		weight = 1600
+	})
+
+	surface.CreateFont("CombineControl.ChatRadioItalic", {
+		font = "Lucida Console",
+		size = ui.Scale(14),
+		weight = 500,
+		italic = true
+	})
+
 	hook.Run("CreateChatFonts")
 
 	surface.GetFontSize:Clear()
