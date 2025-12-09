@@ -88,3 +88,17 @@ function table.WeightedRandom(tab)
 		end
 	end
 end
+
+function table.SetToArray(set)
+	local array = {}
+
+	for k, v in pairs(set) do
+		if v != true then
+			error("Input table is not structured as a set!")
+		end
+
+		table.insert(array, k)
+	end
+
+	return array
+end

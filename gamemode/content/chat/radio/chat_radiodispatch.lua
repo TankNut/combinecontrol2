@@ -23,7 +23,7 @@ if SERVER then
 
 		-- TODO: Default to the player's active channel's group, if applicable
 		if not Radio.IsValidGroup(group) then
-			ply:SendChat("ERROR", string.format("Invalid radio group. Try: %s", table.concat( Radio.GetGroups(), ", ") ))
+			ply:SendChat("ERROR", string.format("Invalid radio group. Try: %s", table.concat(table.SetToArray(Radio.Groups), ", ")))
 
 			return
 		end
