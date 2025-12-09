@@ -174,27 +174,21 @@ function PANEL:PopulateButtons(margin, height)
 	local panel = self:CreatePanel("Buttons", BOTTOM, 0, height)
 
 	local function addOption(key, func)
-		local label = panel:Add("DLabel")
-		label:DockMargin(0, 0, 0, 0)
-		label:Dock(LEFT)
-		label:SetWide(ui.Scale(50))
-		label:SetContentAlignment(6) -- 6 == Align middle-right
-		label:SetText(key)
-
-		local box = panel:Add("DCheckBox")
-		box:DockMargin(margin, 0, 0, 0)
-		box:Dock(LEFT)
-		box:SetWide(height)
-		box:SetDisabled(true)
-		box.OnChange = function(pnl, val)
+		local button = panel:Add("CC_ToggleButton")
+		button:DockMargin(margin, 0, 0, 0)
+		button:Dock(LEFT)
+		button:SetWide(ui.Scale(70))
+		button:SetText(key)
+		button:SetDisabled(true)
+		button.OnToggle = function(pnl, state)
 			local settings = self:GetSettings()
 
-			func(settings, val)
+			func(settings, state)
 
 			self:RefreshButtons(settings)
 		end
 
-		self[key] = box
+		self[key] = button
 	end
 
 	addOption("Enabled", function(settings, val)
@@ -320,13 +314,13 @@ end
 
 function PANEL:RefreshButtons(settings)
 	self.Enabled:SetEnabled((settings.Frequency or settings.Preset) and true or false)
-	self.Enabled:SetChecked(settings.Enabled and true or false)
+	self.Enabled:SetState(settings.Enabled and true or false)
 
 	self.Speaker:SetEnabled(settings.Enabled and true or false)
-	self.Speaker:SetChecked(settings.Speaker and true or false)
+	self.Speaker:SetState(settings.Speaker and true or false)
 
 	self.Active:SetEnabled(settings.Enabled and true or false)
-	self.Active:SetChecked(settings.Enabled and self.ActiveChannel == self.Channel)
+	self.Active:SetState(settings.Enabled and self.ActiveChannel == self.Channel)
 
 	self.Save:SetDisabled(not self:IsEdited())
 end
