@@ -59,6 +59,22 @@ function GM:OnCharacterFlagChanged(ply, old, new, loaded)
 			end
 		end
 	end
+
+	if SERVER then
+		UpdateBuffs(ply, old or self.DefaultFlag, new or self.DefaultFlag)
+	end
+end
+
+if SERVER then
+	function UpdateBuffs(ply, old, new)
+		for _, buff in ipairs(Get(old).Buffs) do
+			ply:RemoveBuff(buff)
+		end
+
+		for _, buff in ipairs(Get(new).Buffs) do
+			ply:AddBuff(buff)
+		end
+	end
 end
 
 function GM:PlayerApplyFlag(ply)

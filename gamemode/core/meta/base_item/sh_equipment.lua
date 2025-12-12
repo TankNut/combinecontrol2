@@ -56,7 +56,7 @@ if SERVER then
 		local ply = self:GetPlayer()
 
 		for _, buff in ipairs(self.Buffs) do
-			ply:RemoveBuff(buff, 1)
+			ply:RemoveBuff(buff)
 		end
 	end
 end

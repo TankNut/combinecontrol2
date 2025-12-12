@@ -32,6 +32,8 @@ FLAG.CanChangeDescription = true
 
 FLAG.AllowSpawngroups = true
 
+FLAG.Buffs = {}
+
 function FLAG:Run(ply, name, ...)
 	if isfunction(self[name]) then
 		return self[name](self, ply, ...)
