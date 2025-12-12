@@ -55,6 +55,7 @@ ITEM.Actions.Destroy = {
 	Callback = function(self, ply)
 		Log.Write("item_destroy", ply, self)
 
+		ply:VisibleMessage("NOTICE", string.format("%s destroys their %s", ply:VisibleRPName(), self:GetName()))
 		self:Delete()
 	end
 }
