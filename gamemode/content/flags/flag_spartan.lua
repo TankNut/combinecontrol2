@@ -22,6 +22,8 @@ FLAG.EquipmentSlots = {
 
 FLAG.Clothing = CLOTHING_PARTIAL
 
+FLAG.Buffs = {"spartan_shield"}
+
 local model = Model("models/models/valk/haloreach/unsc/spartan/spartan_vb.mdl")
 
 function FLAG:GetModelData(ply)

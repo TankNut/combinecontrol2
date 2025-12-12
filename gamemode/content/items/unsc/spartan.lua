@@ -12,8 +12,6 @@ ITEM.Weight         = 12
 
 ITEM.EquipmentSlots = {"spartan"}
 
-ITEM.Buffs          = {"spartan_shield"}
-
 ITEM.Actions = {}
 
 local colorOptions = {
