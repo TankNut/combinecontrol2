@@ -1,6 +1,6 @@
 Action.Add("Voicelines", {
 	Name = "Voicelines",
-	Priority = 2,
+	Priority = 3,
 
 	Target = ACTION_SELF,
 	Context = "Self",
@@ -52,7 +52,7 @@ Action.Add("Voicelines", {
 
 Action.Add("OpenStash", {
 	Name = "Stash\tOpen",
-	Priority = 1,
+	Priority = 2,
 
 	Target = ACTION_SELF,
 	Context = "SelfContext",
@@ -72,6 +72,7 @@ Action.Add("OpenStash", {
 
 Action.Add("PlaceStash", {
 	Name = "Stash\tPlace Here",
+	Priority = 1,
 
 	Target = ACTION_SELF,
 	Context = "SelfContext",
@@ -95,5 +96,35 @@ Action.Add("PlaceStash", {
 		end
 
 		Stash.Set(self, pos, Angle(0, math.Snap(self:EyeAngles().y, 5), 0))
+	end
+})
+
+Action.Add("ArmorRepair", {
+	Name = "Patch Armor",
+
+	Target = ACTION_SELF,
+	Context = "SelfContext",
+
+	CanRun = function(self, ply)
+		return self:Armor() < self:GetMaxArmor()
+	end,
+
+	Progress = function(self, ply)
+		local missing = self:GetMaxArmor() - self:Armor()
+		local time = math.ceil(missing / 10)
+
+		return {
+			Name = "Patching armor...",
+			EndTime = CurTime() + time,
+			Validate = {progress.Player(ply, {Alive = true})},
+			Callback = function(fraction)
+				if SERVER then
+					self:SetArmor(self:Armor() + math.floor(fraction * missing))
+				end
+			end
+		}
+	end,
+
+	Callback = function(target, ply)
 	end
 })
