@@ -38,6 +38,7 @@ ITEM.Actions.ToggleLocked = {
 	Name     = "ADMIN: Toggle Locked",
 	Priority = ITEM_ACTION_OPTION - 2,
 
+	Context = table.Lookup({"RightClick", "Examine"}),
 	CanRun   = function(self, ply) return ply:IsAdmin() end,
 	Callback = function(self, ply) self:ToggleLocked(ply) end
 }

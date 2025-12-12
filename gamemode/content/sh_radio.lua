@@ -60,7 +60,7 @@ function ActiveSettings(ply)
 	if not radio then
 		return
 	end
-	
+
 	return radio:GetChannelSettings()[radio:GetActiveChannel()], radio
 end
 
@@ -74,7 +74,7 @@ if SERVER then
 		if number and channel >= 1000 then
 			return false, "Channel frequencies must be less than 1000 MHz."
 		end
-		
+
 		if not number and not Jammable[channel] and not Groups[channel] then
 			local jammable, groups = table.concat(table.SetToArray(Jammable), ", "), table.concat(table.SetToArray(Groups), ", ")
 
