@@ -99,7 +99,7 @@ if SERVER then
 	end
 
 	function ENT:TakeShieldDamage(dmg)
-		if self:GetShieldValue() <= 0 then
+		if dmg:IsFallDamage() or self:GetShieldValue() <= 0 then
 			return
 		end
 
