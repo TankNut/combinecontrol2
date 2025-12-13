@@ -70,7 +70,16 @@ function SWEP:PrimaryPlayer()
 
 	local delay = self:GetDelay()
 
-	self:SetNextPrimaryFire(CurTime() + (delay == -1 and anim or delay))
+	-- This bit of code lets us run higher fire rates more accurately
+	local time = CurTime()
+	local nextFire = self:GetNextPrimaryFire()
+	local diff = time - nextFire
+
+	if diff > engine.TickInterval() or diff < 0 then
+		nextFire = time
+	end
+
+	self:SetNextPrimaryFire(nextFire + (delay == -1 and anim or delay))
 
 	if self.Settings.PumpAction then
 		self:SetShouldPump(true)
