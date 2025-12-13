@@ -8,6 +8,8 @@ GlobalVar.Add("HiddenTeams", {
 })
 
 function Add(id, name, color)
+	color:Register("team_" .. id)
+
 	return table.insert(List, {
 		ID = id,
 		Name = name,
