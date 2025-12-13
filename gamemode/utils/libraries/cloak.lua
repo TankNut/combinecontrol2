@@ -79,7 +79,7 @@ hook.Add("PostDrawTranslucentRenderables", "cc2.Cloak", function(depth, skybox)
 
 		local factor = ply:GetCloakFactor()
 
-		if factor == 0 then
+		if factor == 0 or factor == 1 then
 			continue
 		end
 
