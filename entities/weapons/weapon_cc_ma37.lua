@@ -122,6 +122,10 @@ if CLIENT then
 		local scale = 1
 		local ply = self:GetOwner()
 
+		if ply:IsCloaked() then
+			return
+		end
+
 		if IsValid(ply) then
 			scale = ply:GetModelScale()
 		end
