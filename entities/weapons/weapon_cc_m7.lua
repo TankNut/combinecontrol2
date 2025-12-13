@@ -92,9 +92,8 @@ SWEP.Itemize = {
 sound.Add({
 	name = "Weapon_M7.Single",
 	channel = CHAN_WEAPON,
-	volume = 1,
+	volume = 0.69,
 	level = 140,
-	pitch = {95, 105},
 	sound = {
 		")vuthakral/halo/weapons/m7smg/fire1.wav",
 		")vuthakral/halo/weapons/m7smg/fire2.wav",
