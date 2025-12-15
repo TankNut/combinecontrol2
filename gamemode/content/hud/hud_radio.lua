@@ -5,8 +5,8 @@ HUD.Setting = "LegacyRadio"
 HUD.Height    = ui.Scale(16)
 HUD.MaxHeight = HUD.Height * 15.25
 
-HUD.Position  = {}
-HUD.TextColor = Color(255, 255, 255)
+HUD.Position = {}
+HUD.Color    = Color(255, 255, 255)
 
 HUD.BufferSize = 0
 HUD.Buffer     = {}
@@ -14,38 +14,58 @@ HUD.Buffer     = {}
 function HUD:Initialize()
 	self:SetupPosition()
 
-	hook.Add("OnChatScaleSettingChanged", self, function()
-		jank(function() self:SetupPosition() end)
+	hook.Add("OnChatScaleSettingChanged", self, function(_, _, _, scale)
+		jank(function() self:SetupPosition(scale) end)
 	end)
 end
 
-function HUD:SetupPosition()
+function HUD:SetupPosition(scale)
 	local x, y = ui.Get("Chat"):GetPos()
 	local offset = ui.Scale(15)
 
 	self.Position[1] = x + offset
 	self.Position[2] = y - offset
+
+	self.Scale = scale or 1
+end
+
+function HUD:WrapText(text)
+	local limit, index, lines = ui.Scale(75) * self.Scale, 1, 1
+
+	return text:gsub("(%s+)()(%S+)()", function(separator, startPos, word, endPos)
+		if endPos - index > limit then
+			index = startPos
+			lines = lines + 1
+
+			return string.format("\n%s", word)
+		else
+			return string.format("%s%s", separator, word)
+		end
+	end), lines
 end
 
 function HUD:AddMessage(text, font)
+	local wrappedText, lines = self:WrapText(text)
 	local data = {
-		Text        = text,
-		LegacyFont  = font,
+		Text        = wrappedText,
+		Lines       = lines,
+		Font        = font,
 		ReceiveTime = CurTime()
 	}
 
 	table.insert(self.Buffer, data)
-	self.BufferSize = self.BufferSize + self.Height
+	self.BufferSize = self.BufferSize + (self.Height * lines)
 
 	while self.BufferSize > self.MaxHeight do
-		local line = table.remove(self.Buffer, 1)
+		local data = table.remove(self.Buffer, 1)
 
-		self.BufferSize = self.BufferSize - self.Height
+		self.BufferSize = self.BufferSize - (self.Height * data.Lines)
 	end
 end
 
 function HUD:Paint(w, h)
-	local color, height, pos = self.TextColor, self.Height, self.Position
+	local height, pos = self.Height, self.Position
+	local color = self.Color
 	local x, y = pos[1], pos[2]
 	local time = CurTime()
 
@@ -62,8 +82,8 @@ function HUD:Paint(w, h)
 
 		color.a = alpha
 
-		y = y - height
+		y = y - (height * data.Lines)
 
-		draw.SimpleText(data.Text, data.LegacyFont, x, y, color)
+		draw.DrawText(data.Text, data.Font, x, y, color)
 	end
 end
