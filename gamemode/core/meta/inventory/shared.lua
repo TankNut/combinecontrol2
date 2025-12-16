@@ -2,6 +2,8 @@ local INVENTORY = CustomMetaTable("Inventory")
 
 GM:Include("cl_networking.lua")
 
+GM:Include("sh_find.lua")
+
 GM:Include("sh_items.lua")
 GM:Include("sh_triggers.lua")
 
