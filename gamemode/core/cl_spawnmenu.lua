@@ -256,6 +256,20 @@ spawnmenu.AddContentType("cc_item", function(container, item)
 		surface.PlaySound("ui/buttonclickrelease.wav")
 	end
 
+	icon.OpenMenu = function()
+		local dmenu = DermaMenu()
+
+		dmenu:AddOption("Copy Class to Clipboard", function()
+			SetClipboardText(item.ClassName)
+		end):SetIcon("icon16/page_copy.png")
+
+		dmenu:AddOption("Spawn Temporary Item", function()
+			RunConsoleCommand("rpa_item_create_temp", item.ClassName)
+		end ):SetIcon("icon16/brick_add.png")
+
+		dmenu:Open()
+	end
+
 	if IsValid(container) then
 		container:Add(icon)
 	end
