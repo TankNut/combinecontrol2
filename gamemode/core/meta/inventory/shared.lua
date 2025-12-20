@@ -61,7 +61,7 @@ function INVENTORY:CanAccess(ply)
 end
 
 function INVENTORY:CanAccept(item, noWeightCheck)
-	if not noWeightCheck and item:GetWeight() <= self:AvailableSpace() then
+	if not noWeightCheck and item:GetWeight() > self:AvailableSpace() then
 		return false, self.StoreType == INV_PLAYER and "You can't carry any more items!" or "There's no room to fit this item!"
 	end
 
