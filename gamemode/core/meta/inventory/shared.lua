@@ -56,6 +56,11 @@ function INVENTORY:CanAccess(ply)
 	return false
 end
 
+function INVENTORY:CanAccept(item)
+	-- Move weight checks here
+	return true
+end
+
 function INVENTORY:GetMaxWeight()
 	if self.StoreType == INV_PLAYER then
 		return self:GetParent():MaxInventoryWeight()
