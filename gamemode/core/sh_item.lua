@@ -197,20 +197,8 @@ function GM:CanSpawnItem(ply, itemClass)
 	return true
 end
 
-function GM:CanInteractWithItem(ply, item)
-	if not ply:CanAct() then
-		return false, "You cannot do this right now!"
-	end
-
-	if item:GetStoreType() == INV_PLAYER and item:GetParent() == ply then
-		return true
-	end
-
-	return false, "You can only interact with items in your own inventory!"
-end
-
 function GM:CanDropItem(ply, item)
-	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+	local ok, err = item:CanInteract(ply)
 
 	if not ok then
 		return false, err
@@ -220,7 +208,7 @@ function GM:CanDropItem(ply, item)
 end
 
 function GM:CanDestroyItem(ply, item)
-	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+	local ok, err = item:CanInteract(ply)
 
 	if not ok then
 		return false, err
@@ -230,7 +218,7 @@ function GM:CanDestroyItem(ply, item)
 end
 
 function GM:CanEquipItem(ply, item)
-	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+	local ok, err = item:CanInteract(ply)
 
 	if not ok then
 		return false, err
@@ -262,7 +250,7 @@ function GM:CanUseEquipmentSlot(ply, item, slot)
 end
 
 function GM:CanUnequipItem(ply, item)
-	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+	local ok, err = item:CanInteract(ply)
 
 	if not ok then
 		return false, err
@@ -286,12 +274,14 @@ function GM:CanTakeItem(ply, item)
 		return false, "That's too heavy for you to take!"
 	end
 
-	return hook.Run("CanAccessInventory", ply, inventory)
+	return inventory:CanAccess(ply)
 end
 
 function GM:CanStoreItem(ply, item, inventory, amount)
-	if not hook.Run("CanAccessInventory", ply, inventory) then
-		return false, "You don't have access to this inventory!"
+	local ok, err = inventory:CanAccess(ply)
+
+	if not ok then
+		return false, err
 	end
 
 	if inventory.StoreType == INV_ITEM then
@@ -316,7 +306,7 @@ function GM:CanStoreItem(ply, item, inventory, amount)
 end
 
 function GM:CanCustomizeItem(ply, item)
-	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+	local ok, err = item:CanInteract(ply)
 
 	if not ok then
 		return false, err

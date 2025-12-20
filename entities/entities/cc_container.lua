@@ -189,9 +189,9 @@ function ENT:CanAccessInventory(ply)
 	end
 
 	if CLIENT then
-		return Inventory.Get(self:GetInventoryID())
+		return tobool(self:GetInventory())
 	else
-		return self:GetInventory().Listeners[ply]
+		return tobool(self:GetInventory().Listeners[ply])
 	end
 end
 

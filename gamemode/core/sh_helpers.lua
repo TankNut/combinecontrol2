@@ -91,7 +91,7 @@ function ItemCustomization(priority, name, var, options)
 		Priority = priority,
 
 		Context = table.Lookup({"RightClick", "Examine"}),
-		CanRun = function(self, ply) return self:IsEquipped() and hook.Run("CanInteractWithItem", ply, self) end,
+		CanRun = function(self, ply) return self:IsEquipped() and self:CanInteract(ply) end,
 	}
 
 	if options then

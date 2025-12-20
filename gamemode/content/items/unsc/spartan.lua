@@ -161,7 +161,7 @@ ITEM.Actions.Randomize = {
 	Context = table.Lookup({"RightClick", "Examine"}),
 
 	CanRun = function(self, ply)
-		return self:IsEquipped() and hook.Run("CanInteractWithItem", ply, self)
+		return self:IsEquipped() and self:CanInteract(ply)
 	end,
 	Callback = function(self, ply)
 		self:Randomize()
