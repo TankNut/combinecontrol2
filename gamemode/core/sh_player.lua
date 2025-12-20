@@ -165,6 +165,12 @@ function GM:SetupMove(ply, mv, cmd)
 		mv:LimitSpeed(Lerp(slow, ply:GetWalkSpeed(), ply:GetRunSpeed()))
 	end
 
+	local overweight = Config.Get("OverweightSlow")
+
+	if overweight and ply:InventoryWeight() > ply:MaxInventoryWeight() then
+		mv:LimitSpeed(overweight)
+	end
+
 	handle(ply, "SetupMove", mv, cmd)
 end
 

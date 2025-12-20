@@ -23,6 +23,7 @@ GM.Config.ChatLimit = 500
 
 -- Gameplay
 GM.Config.SprintSlow = 0.5 -- By how much to slow the player down if they're sprinting in a non-forward direction
+GM.Config.OverweightSlow = nil -- Whether we should limit the speed of overweight players
 
 GM.Config.VoicelineDelay = 2 -- How much time must pass between player voicelines
 
