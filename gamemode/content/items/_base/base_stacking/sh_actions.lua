@@ -39,7 +39,7 @@ ITEM.Actions.Drop = {
 			return true, 1
 		end
 
-		return true, ui.Open("ItemDropAmount", "Drop", self)
+		return true, ui.Open("ItemDropAmount", "Drop", self, self:GetAmount())
 	end,
 	Callback = function(self, ply, amount)
 		dropAmount(self, ply, math.Round(amount))
@@ -86,40 +86,50 @@ ITEM.Actions.DropAll = {
 	Callback = drop
 }
 
-ITEM.Actions.Store = {
+ITEM.Actions.Move = {
 	Hidden = true,
 
 	Validate = function(self, ply, id, amount)
 		local inventory = Inventory.Get(id)
-
-		if not inventory then
-			return false, "This inventory doesn't exist!"
-		end
-
-		amount = math.Round(amount)
-
-		local ok, err = validate.Value(amount, {
-			validate.Number(),
-			validate.Min(1),
-			validate.Max(self:GetAmount())
-		})
+		local ok, err = self:CheckMove(ply, inventory, true)
 
 		if not ok then
-			return err
+			return false, err
 		end
 
-		return hook.Run("CanStoreItem", ply, self, inventory, amount)
+		amount = math.Round(math.min(amount, self:GetAmount()))
+
+		if inventory:AvailableSpace() < self:GetWeight(amount) then
+			return false, "There's no room to fit this item!"
+		end
+
+		return true
 	end,
 
 	Client = function(self, ply, id)
-		return true, id, ui.Open("ItemDropAmount", "Store", self)
+		local inventory = Inventory.Get(id)
+		local space = inventory:AvailableSpace()
+
+		local baseWeight = self:GetWeight(1)
+
+		if space < baseWeight then
+			return false, "There's no room to fit this item!"
+		end
+
+		local max = math.min(space / baseWeight)
+
+		if max == 1 or self:GetAmount() == 1 then
+			return true, id, 1
+		end
+
+		return true, id, ui.Open("ItemDropAmount", "Move", self, math.min(max, self:GetAmount()))
 	end,
 	Callback = function(self, ply, id, amount)
-		amount = math.Round(amount)
-
 		local inventory = Inventory.Get(id)
 
-		if amount >= self:GetAmount() then
+		amount = math.Round(math.min(amount, self:GetAmount()))
+
+		if amount == self:GetAmount() then
 			self:SetInventory(inventory)
 		else
 			Log.Write("item_split", ply, self)

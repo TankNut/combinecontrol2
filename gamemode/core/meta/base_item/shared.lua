@@ -63,7 +63,6 @@ GM:Include("actions/actions_admin.lua")
 GM:Include("actions/actions_base.lua")
 GM:Include("actions/actions_customization.lua")
 GM:Include("actions/actions_equipment.lua")
-GM:Include("actions/actions_store.lua")
 
 ItemDataFunc("Rarity")
 ItemDataFunc("Category")
@@ -93,18 +92,6 @@ end
 
 function ITEM:IsType(name)
 	return inherit.IsType(self, "item", name)
-end
-
-function ITEM:CanInteract(ply)
-	if not ply:CanAct() then
-		return false, "You cannot do this right now!"
-	end
-
-	if self:GetStoreType() == INV_PLAYER and self:GetParent() == ply then
-		return true
-	end
-
-	return false, "You can only interact with items in your own inventory!"
 end
 
 inherit.Register("item", "base", ITEM)

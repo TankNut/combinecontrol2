@@ -94,15 +94,3 @@ function PLAYER:GiveTempItem(class, data)
 
 	return item
 end
-
-function GM:CanPickupItem(ply, item)
-	if not item:IsDropped() then
-		return false, "You cannot pick up items that aren't on the ground!"
-	end
-
-	if ply:InventoryWeight() > ply:MaxInventoryWeight() then
-		return false, "That's too heavy for you to carry!"
-	end
-
-	return true
-end

@@ -17,7 +17,7 @@ function PANEL:Init()
 			return
 		end
 
-		icons[1]:GetItem():RunAction(lp, "Take")
+		icons[1]:GetItem():RunAction(lp, "Move", lp:GetInventory().ID)
 	end)
 
 	self.InventoryPanel.OnIconAdded = function(_, icon)

@@ -2,7 +2,7 @@ ITEM.Actions.Pickup = {
 	ServerOnly = true,
 
 	CanRun = function(self, ply)
-		return hook.Run("CanPickupItem", ply, self)
+		return ply:GetInventory():CanAccept(self)
 	end,
 	Callback = function(self, ply)
 		Log.Write("item_pickup", ply, self)
@@ -21,6 +21,17 @@ ITEM.Actions.Examine = {
 
 	Client = function(self, ply)
 		ui.Open("ItemPopup", self)
+	end
+}
+
+ITEM.Actions.Move = {
+	Hidden = true,
+
+	CanRun = function(self, ply, id)
+		return self:CheckMove(ply, Inventory.Get(id))
+	end,
+	Callback = function(self, ply, id)
+		self:SetInventory(Inventory.Get(id))
 	end
 }
 

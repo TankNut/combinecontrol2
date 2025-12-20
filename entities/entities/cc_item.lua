@@ -117,7 +117,7 @@ function ENT:Use(ply)
 	end
 
 	if self.Ephemeral then
-		local ok, err = hook.Run("CanPickupItem", ply, item)
+		local ok, err = ply:GetInventory():CanAccept(item)
 
 		if not ok then
 			ply:SendChat("ERROR", err)

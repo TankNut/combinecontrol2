@@ -34,14 +34,14 @@ function PANEL:Init()
 	end
 end
 
-function PANEL:Setup(verb, item)
+function PANEL:Setup(verb, item, max)
 	self.Coroutine = coroutine.running()
 	self.Item = item
 
 	self:SetTopBar(verb .. " Item: " .. item:GetName())
 
-	self.Slider:SetMax(item:GetAmount())
-	self.Slider:SetValue(math.Round(self.Slider:GetMax() * 0.5))
+	self.Slider:SetMax(max)
+	self.Slider:SetValue(self.Slider:GetMax())
 end
 
 function PANEL:PerformLayout(w, h)
@@ -63,10 +63,10 @@ end
 
 vgui.Register("GUI_DropAmount", PANEL, "CC_Frame")
 
-ui.Register("ItemDropAmount", function(verb, item)
+ui.Register("ItemDropAmount", function(verb, item, max)
 	local panel = vgui.Create("GUI_DropAmount")
 
-	panel:Setup(verb, item)
+	panel:Setup(verb, item, max)
 
 	panel:MakePopup()
 	panel:Center()

@@ -60,8 +60,21 @@ function INVENTORY:CanAccess(ply)
 	return false
 end
 
-function INVENTORY:CanAccept(item)
-	-- Move weight checks here
+function INVENTORY:CanAccept(item, noWeightCheck)
+	local space = self:AvailableSpace()
+
+	if not noWeightCheck then
+		if self.StoreType == INV_PLAYER then
+			if space < 0 then
+				return false, "You can't carry any more items!"
+			end
+		else
+			if item:GetWeight() <= space then
+				return false, "There's no room to fit this item!"
+			end
+		end
+	end
+
 	return true
 end
 
@@ -73,6 +86,16 @@ function INVENTORY:GetMaxWeight()
 	end
 
 	return 0
+end
+
+function INVENTORY:AvailableSpace()
+	local max = self:GetMaxWeight()
+
+	if max == 0 then
+		return math.huge
+	end
+
+	return max - self.Weight
 end
 
 function INVENTORY:Remove()

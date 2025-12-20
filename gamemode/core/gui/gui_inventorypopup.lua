@@ -20,7 +20,7 @@ function PANEL:Init()
 			return
 		end
 
-		icons[1]:GetItem():RunAction(lp, "Store", pnl.Inventory.ID)
+		icons[1]:GetItem():RunAction(lp, "Move", pnl.Inventory.ID)
 	end)
 
 	self.TheirInventory.OnIconAdded = function(_, icon)

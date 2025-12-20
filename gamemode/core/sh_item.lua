@@ -263,48 +263,6 @@ function GM:CanUnequipItem(ply, item)
 	return item:CanUnequip(ply)
 end
 
-function GM:CanTakeItem(ply, item)
-	local inventory = item:GetInventory()
-
-	if not inventory then
-		return false, "You cannot take this item!"
-	end
-
-	if ply:InventoryWeight() > ply:MaxInventoryWeight() then
-		return false, "That's too heavy for you to take!"
-	end
-
-	return inventory:CanAccess(ply)
-end
-
-function GM:CanStoreItem(ply, item, inventory, amount)
-	local ok, err = inventory:CanAccess(ply)
-
-	if not ok then
-		return false, err
-	end
-
-	if inventory.StoreType == INV_ITEM then
-		local container = inventory:GetParent()
-
-		if container == item then
-			return false, "You cannot store an item inside of itself!"
-		end
-
-		if container:IsTemporaryItem() and not item:IsTemporaryItem() then
-			return false, "You cannot store non-temporary items in this!"
-		end
-	end
-
-	local max = inventory:GetMaxWeight()
-
-	if max > 0 and inventory.Weight + item:GetWeight(amount) > max then
-		return false, "There's no room to fit that item!"
-	end
-
-	return item:CanStore(ply, inventory)
-end
-
 function GM:CanCustomizeItem(ply, item)
 	local ok, err = item:CanInteract(ply)
 
