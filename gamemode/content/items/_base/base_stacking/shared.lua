@@ -33,6 +33,14 @@ function ITEM:OnAmountChanged(old, new)
 end
 
 if SERVER then
+	function ITEM:ProcessArguments(args)
+		local amount = math.Round(tonumber(args) or 1)
+
+		if amount > 0 then
+			self:SetAmount(amount)
+		end
+	end
+
 	function ITEM:SetAmount(amount)
 		self:SetData("Amount", amount)
 
