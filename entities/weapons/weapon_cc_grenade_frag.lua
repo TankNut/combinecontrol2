@@ -15,7 +15,10 @@ SWEP.WorldModel = Model("models/weapons/w_eq_fraggrenade.mdl")
 
 SWEP.ItemClass = "grenade_frag"
 SWEP.Itemize = {
-	Base = "base_throwing"
+	Base = "base_throwing",
+
+	IconAngle = Angle(17, 79, 14),
+	IconFOV = 8
 }
 
 if SERVER then
