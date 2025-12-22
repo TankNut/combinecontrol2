@@ -49,36 +49,6 @@ function PLAYER:UpdateMovementSpeed()
 	self:SetCrouchedWalkSpeed(crouch / walk)
 end
 
-function PLAYER:UpdateLoadout(spawned)
-	local loadout = self:RunCharFlag("Loadout")
-
-	table.Add(loadout, hook.Run("GetPlayerLoadout", self))
-
-	self:RunItemHooks("GetLoadout", loadout, spawned)
-
-	local lookup = table.Lookup(loadout)
-
-	for _, weapon in ipairs(self:GetWeapons()) do
-		if not lookup[weapon:GetClass()] then
-			weapon:Remove()
-		end
-	end
-
-	for _, weapon in ipairs(loadout) do
-		if not self:HasWeapon(weapon) then
-			self:Give(weapon)
-		end
-	end
-
-	if spawned and loadout[1] then
-		local weapon = self:GetActiveWeapon()
-
-		if weapon:GetClass() != loadout[1] then
-			self:SelectWeapon(loadout[1])
-		end
-	end
-end
-
 function PLAYER:UpdateMaxWeight()
 	self:SetMaxInventoryWeight(30)
 end

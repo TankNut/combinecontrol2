@@ -101,10 +101,10 @@ function SWEP:Deploy()
 end
 
 function SWEP:Holster()
-	if SERVER then
+	if SERVER and self:GetOwner():Alive() then
 		local item = self:GetItem()
 
-		if item then
+		if item and item:IsType("base_weapon") then
 			item:SaveWeaponState()
 		end
 	end

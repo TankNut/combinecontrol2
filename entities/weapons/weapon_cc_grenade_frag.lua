@@ -13,6 +13,11 @@ SWEP.UseHands   = true
 SWEP.ViewModel  = Model("models/weapons/cstrike/c_eq_fraggrenade.mdl")
 SWEP.WorldModel = Model("models/weapons/w_eq_fraggrenade.mdl")
 
+SWEP.ItemClass = "grenade_frag"
+SWEP.Itemize = {
+	Base = "base_throwing"
+}
+
 if SERVER then
 	function SWEP:CreateEntity()
 		local ent = ents.Create("cc_grenade_frag")

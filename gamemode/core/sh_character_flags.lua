@@ -49,21 +49,7 @@ function GM:RunCharFlag(ply, name, ...)
 	return flag:Run(ply, name, ...)
 end
 
-function GM:OnCharacterFlagChanged(ply, old, new, loaded)
-	if not loaded then
-		hook.Run("PlayerApplyFlag", ply)
-
-		if SERVER then
-			for _, item in pairs(ply:GetEquipment()) do
-				item:CheckEquipmentSlot()
-			end
-		end
-	end
-
-	if SERVER then
-		UpdateBuffs(ply, old or self.DefaultFlag, new or self.DefaultFlag)
-	end
-end
+local UpdateBuffs
 
 if SERVER then
 	function UpdateBuffs(ply, old, new)
@@ -74,6 +60,24 @@ if SERVER then
 		for _, buff in ipairs(Get(new).Buffs) do
 			ply:AddBuff(buff)
 		end
+	end
+end
+
+function GM:OnCharacterFlagChanged(ply, old, new, loaded)
+	if not loaded then
+		hook.Run("PlayerApplyFlag", ply)
+
+		if SERVER then
+			for _, item in pairs(ply:GetEquipment()) do
+				item:CheckEquipmentSlot()
+			end
+
+			ply:GiveLoadoutWeapons()
+		end
+	end
+
+	if SERVER then
+		UpdateBuffs(ply, old or self.DefaultFlag, new or self.DefaultFlag)
 	end
 end
 
@@ -90,7 +94,6 @@ function GM:PlayerApplyFlag(ply)
 	ply:UpdateVisibleDescription()
 	ply:UpdateMovementSpeed()
 	ply:UpdateAppearance()
-	ply:UpdateLoadout()
 	ply:UpdateMaxWeight()
 	ply:UpdateClassification()
 

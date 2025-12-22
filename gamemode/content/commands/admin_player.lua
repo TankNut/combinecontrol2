@@ -13,7 +13,6 @@ local setToolTrust = console.AddCommand("rpa_player_tooltrust", function (ply, t
 	local toolTrustLevel = toolTrustMapping[trust]
 
 	target:SetToolTrust(toolTrustLevel)
-	target:UpdateLoadout()
 
 	console.Feedback(ply, "NOTICE", "You've set %s's tool trust to %s", target, trust)
 	console.Feedback(target, "NOTICE", "%s has set your tool trust to %s", ply, trust)

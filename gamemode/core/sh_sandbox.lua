@@ -5,20 +5,16 @@ PlayerVar.Add("ToolTrust", {Default = TOOLTRUST_UNTRUSTED, Persist = true, DataT
 
 EntityVar.Add("PropDescription", {})
 
-function GM:GetToolTrust(ply)
-	if ply:IsDeveloper() then
+function PLAYER:GetToolTrust()
+	if self:IsDeveloper() then
 		return TOOLTRUST_DEVELOPER
 	end
 
-	if ply:IsAdmin() then
+	if self:IsAdmin() then
 		return TOOLTRUST_ADMIN
 	end
 
-	return ply:ToolTrust()
-end
-
-function PLAYER:GetToolTrust()
-	return hook.Run("GetToolTrust", self)
+	return self:ToolTrust()
 end
 
 function GM:IsProtectedEntity(ent)
@@ -163,6 +159,28 @@ function GM:PhysgunDrop(ply, ent)
 end
 
 if SERVER then
+	function GM:OnToolTrustChanged(ply, old, new, loaded)
+		if loaded then
+			return
+		end
+
+		local config = Config.Get("ToolTrust")
+		local physgun = ply:HasWeapon("weapon_physgun")
+		local toolgun = ply:HasWeapon("gmod_tool")
+
+		if trust >= config.Physgun and not physgun then
+			ply:Give("weapon_physgun")
+		elseif trust < config.Physgun and physgun then
+			ply:RemoveWeapon("weapon_physgun")
+		end
+
+		if trust >= config.Toolgun and not toolgun then
+			ply:Give("gmod_tool")
+		elseif trust < config.Toolgun and toolgun then
+			ply:RemoveWeapon("gmod_tool")
+		end
+	end
+
 	function GM:CanPlayerUnfreeze(ply, ent, phys)
 		if ent:IsProtectedEntity() or (ent.CanPhys and not ent:CanPhys(ply)) then
 			return false

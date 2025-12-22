@@ -78,7 +78,11 @@ function GM:PlayerSpawn(ply)
 	ply:SetNoTarget(false)
 	ply:SetMoveType(MOVETYPE_WALK)
 
-	ply:UpdateLoadout(true)
+	ply:StripWeapons()
+
+	ply.LoadoutWeapons = nil
+	ply:GiveLoadoutWeapons()
+	ply:GiveTools()
 
 	ply:SetUsingSpawnCamera(false)
 
@@ -87,6 +91,58 @@ function GM:PlayerSpawn(ply)
 	ply:RunItemHooks("PlayerSpawned")
 
 	buff.PlayerHook(ply, "OnSpawn")
+end
+
+function PLAYER:SelectDefaultWeapon()
+	self:SelectWeapon(self:RunCharFlag("Loadout")[1])
+end
+
+function PLAYER:GiveLoadoutWeapons()
+	local doSwitch = true
+
+	-- Strip old loadout weapons
+	if self.LoadoutWeapons then
+		local activeClass
+
+		if IsValid(self:GetActiveWeapon()) then
+			activeClass = self:GetActiveWeapon():GetClass()
+		end
+
+		doSwitch = false
+
+		for _, class in ipairs(self.LoadoutWeapons) do
+			if activeClass == class then
+				doSwitch = true
+			end
+
+			self:StripWeapon(class)
+		end
+	end
+
+	self.LoadoutWeapons = {}
+
+	for _, class in ipairs(self:RunCharFlag("Loadout")) do
+		table.insert(self.LoadoutWeapons, class)
+
+		self:Give(class)
+	end
+
+	if doSwitch then
+		self:SelectDefaultWeapon()
+	end
+end
+
+function PLAYER:GiveTools()
+	local trust = self:GetToolTrust()
+	local config = Config.Get("ToolTrust")
+
+	if trust >= config.Physgun then
+		self:Give("weapon_physgun")
+	end
+
+	if trust >= config.Toolgun then
+		self:Give("gmod_tool")
+	end
 end
 
 if not PLAYER._SetMaxArmor then
@@ -233,23 +289,6 @@ function GM:PlayerSelectSpawn(ply)
 	end
 
 	return self.BaseClass.PlayerSelectSpawn(self, ply)
-end
-
-function GM:GetPlayerLoadout(ply)
-	local tab = {}
-
-	local config = Config.Get("ToolTrust")
-	local trust = ply:GetToolTrust()
-
-	if trust >= config.Physgun then
-		table.insert(tab, "weapon_physgun")
-	end
-
-	if trust >= config.Toolgun then
-		table.insert(tab, "gmod_tool")
-	end
-
-	return tab
 end
 
 function GM:BlockFallDamage(ply)
