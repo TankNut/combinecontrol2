@@ -82,6 +82,14 @@ function SWEP:CanThrow()
 	return true
 end
 
+function SWEP:ToggleHolster()
+	if self:IsThrowing() or self:IsReloading() then
+		return
+	end
+
+	BaseClass.ToggleHolster(self)
+end
+
 function SWEP:Think()
 	BaseClass.Think(self)
 
