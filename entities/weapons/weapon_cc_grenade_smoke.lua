@@ -13,6 +13,14 @@ SWEP.UseHands   = true
 SWEP.ViewModel  = Model("models/weapons/cstrike/c_eq_smokegrenade.mdl")
 SWEP.WorldModel = Model("models/weapons/w_eq_smokegrenade.mdl")
 
+SWEP.ItemClass = "grenade_smoke"
+SWEP.Itemize = {
+	Base = "base_throwing",
+
+	IconAngle = Angle(17, 79, 14),
+	IconFOV = 8
+}
+
 if SERVER then
 	function SWEP:CreateEntity()
 		local ent = ents.Create("cc_grenade_smoke")

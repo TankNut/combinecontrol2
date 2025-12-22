@@ -3,7 +3,7 @@ local BaseClass = inherit.Get("item", "base_stacking")
 ITEM.Base = "base_stacking"
 ITEM.Internal = true
 
-ITEM.Category = "Throwable"
+ITEM.Category = "Thrown"
 
 ITEM.WeaponClass = "weapon_bugbait"
 
