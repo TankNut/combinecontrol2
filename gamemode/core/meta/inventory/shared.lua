@@ -105,8 +105,4 @@ else
 	function INVENTORY:Think()
 		self:UpdateListeners()
 	end
-
-	function INVENTORY:Clear()
-		self:Remove()
-	end
 end

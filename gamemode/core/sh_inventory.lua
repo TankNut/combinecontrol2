@@ -68,7 +68,7 @@ function Clear(ply, removed)
 				continue
 			end
 
-			inventory:Clear()
+			inventory:Remove()
 		end
 	end
 
