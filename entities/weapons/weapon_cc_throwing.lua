@@ -157,6 +157,10 @@ function SWEP:UpdateHoldType()
 	end
 end
 
+function SWEP:OverridePrintName()
+	return self.PrintName
+end
+
 if CLIENT then
 	function SWEP:DoDrawCrosshair(x, y)
 		return not self:IsThrowing()
