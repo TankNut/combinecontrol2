@@ -24,9 +24,7 @@ SWEP.Stats = {
 	Accuracy = {12, 2},
 
 	Tracer = "cc_e_tracer_smoke",
-	TracerCount = 1,
-
-	Impact = "AR2Impact"
+	TracerCount = 1
 }
 
 SWEP.Recoil = {

@@ -23,10 +23,8 @@ SWEP.Stats = {
 
 	Accuracy = {12, 2},
 
-	Tracer = "AR2Tracer",
-	TracerCount = 1,
-
-	Impact = "AR2Impact"
+	Tracer = "Tracer",
+	TracerCount = 1
 }
 
 SWEP.Heat = {
