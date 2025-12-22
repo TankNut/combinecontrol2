@@ -14,8 +14,8 @@ function render.DrawWorldText(pos, text, noz)
 			render.DepthRange(0, 0)
 		end
 
-		render.PushFilterMag(TEXFILTER.NONE)
-		render.PushFilterMin(TEXFILTER.NONE)
+		render.PushFilterMag(TEXFILTER.POINT)
+		render.PushFilterMin(TEXFILTER.POINT)
 			surface.SetFont("BudgetLabel")
 
 			local w, h = surface.GetFontSize("BudgetLabel", text)
