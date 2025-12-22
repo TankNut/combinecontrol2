@@ -7,9 +7,9 @@ local text = [[<massive><b><ol=1><c=white>Combine</c><c=red>Control</c></ol></b>
 
 <giant><b>Special Thanks</b></giant>
 	Dave Brown:	<dark>You might have not have created TnB but you were always at the heart of it</dark>
-	Gangleider:	<dark>For keeping the lights on all these years and inadvertedly getting this project started</dark>
-	Hoplite:	<dark>Giving input on various code and design related thingies</dark>
-	Rowtree:	<dark>Responsible for dragging me into TnB, clearly this is all your fault</dark>
+	Gangleider:	<dark>For keeping the lights on all these years</dark>
+	Hoplite:	<dark>For giving input on various code and design related things</dark>
+	Rowtree:	<dark>Responsible for dragging me into TnB in the first place, clearly this is all your fault</dark>
 
 <dark>Based on a gamemode by Disseminate</dark>]]
 

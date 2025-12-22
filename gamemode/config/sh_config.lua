@@ -72,7 +72,8 @@ GM.Config.BaseModels = {
 	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_neca.mdl"),
 	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_reid.mdl"),
 	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_tequila.mdl"),
-	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_wallaby.mdl")
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_wallaby.mdl"),
+	Model("models/ishi/halo_rebirth/player/offduty/female/offduty_arzu.mdl")
 }
 
 GM.Config.CharacterNameRules = {
