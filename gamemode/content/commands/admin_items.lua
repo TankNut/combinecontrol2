@@ -1,9 +1,10 @@
-local create = console.AddCommand("rpa_item_create", function(ply, item)
-	if item == nil then
+local create = console.AddCommand("rpa_item_create", function(ply, class, args)
+	if class == nil then
 		return
 	end
 
-	item = Item.Create(item)
+	local item = Item.Create(class, args)
+
 	item:SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0))
 
 	Log.Write("admin_item_create", ply, item)
@@ -16,17 +17,19 @@ create:SetAccess(console.IsAdmin)
 create:SetNoConsole()
 
 create:AddParameter(console.Item({Force = true}))
+create:AddOptional(console.String())
 
 
 
 
 
-local createTemp = console.AddCommand("rpa_item_create_temp", function(ply, item)
-	if item == nil then
+local createTemp = console.AddCommand("rpa_item_create_temp", function(ply, class, args)
+	if class == nil then
 		return
 	end
 
-	item = Item.CreateTemp(item)
+	local item = Item.CreateTemp(class, args)
+
 	item:SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0))
 
 	Log.Write("admin_item_create", ply, item)
@@ -39,13 +42,14 @@ createTemp:SetAccess(console.IsAdmin)
 createTemp:SetNoConsole()
 
 createTemp:AddParameter(console.Item({Force = true}))
+createTemp:AddOptional(console.String())
 
 
 
 
 
-local give = console.AddCommand("rpa_item_give", function(ply, targets, item)
-	if item == nil then
+local give = console.AddCommand("rpa_item_give", function(ply, targets, class, args)
+	if class == nil then
 		return
 	end
 
@@ -54,7 +58,7 @@ local give = console.AddCommand("rpa_item_give", function(ply, targets, item)
 			continue
 		end
 
-		Log.Write("admin_item_give", ply, target:GiveItem(item), target)
+		Log.Write("admin_item_give", ply, target:GiveItem(class, args), target)
 	end
 end)
 
@@ -65,13 +69,14 @@ give:SetAccess(console.IsAdmin)
 
 give:AddParameter(console.Player())
 give:AddParameter(console.Item({Force = true}))
+give:AddOptional(console.String())
 
 
 
 
 
-local giveTemp = console.AddCommand("rpa_item_give_temp", function(ply, targets, item)
-	if item == nil then
+local giveTemp = console.AddCommand("rpa_item_give_temp", function(ply, targets, class, args)
+	if class == nil then
 		return
 	end
 
@@ -80,7 +85,7 @@ local giveTemp = console.AddCommand("rpa_item_give_temp", function(ply, targets,
 			continue
 		end
 
-		Log.Write("admin_item_give", ply, target:GiveTempItem(item), target)
+		Log.Write("admin_item_give", ply, target:GiveTempItem(class, args), target)
 	end
 end)
 
@@ -91,6 +96,7 @@ giveTemp:SetAccess(console.IsAdmin)
 
 giveTemp:AddParameter(console.Player())
 giveTemp:AddParameter(console.Item({Force = true}))
+giveTemp:AddOptional(console.String())
 
 
 

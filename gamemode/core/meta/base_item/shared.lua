@@ -82,6 +82,14 @@ function ITEM:Initialize()
 	end
 end
 
+if SERVER then
+	function ITEM:OnCreated()
+	end
+
+	function ITEM:ProcessArguments(args)
+	end
+end
+
 function ITEM:Remove()
 	logger:Debug("Remove: %s", self)
 

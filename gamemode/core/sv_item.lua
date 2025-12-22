@@ -6,7 +6,7 @@ TempIndex = TempIndex or 0
 local PLAYER = FindMetaTable("Player")
 local logger = log.Create("items")
 
-function Create(class, data)
+function Create(class, args)
 	assert(List[class], "Attempt to create unknown item type: " .. class)
 
 	local _, id = GAMEMODE.Database:Query("INSERT INTO `rp_items` (`Class`, `Created_At`) VALUES (:class, :time)", {
@@ -14,15 +14,29 @@ function Create(class, data)
 		time = os.time()
 	})
 
-	return Item.Instance(class, id, data)
+	local item = Item.Instance(class, id)
+	item:OnCreated()
+
+	if args then
+		item:ProcessArguments(args)
+	end
+
+	return item
 end
 
-function CreateTemp(class, data)
+function CreateTemp(class, args)
 	assert(List[class], "Attempt to create unknown item type: " .. class)
 
 	TempIndex = TempIndex - 1
 
-	return Item.Instance(class, TempIndex, data)
+	local item = Item.Instance(class, TempIndex)
+	item:OnCreated()
+
+	if args then
+		item:ProcessArguments(args)
+	end
+
+	return item
 end
 
 function CreateEphemeral(class, data, pos, ang, time, limit, group)
@@ -79,16 +93,16 @@ function LoadWorld()
 	logger:Info("Loaded %s world items", i)
 end
 
-function PLAYER:GiveItem(class, data)
-	local item = Create(class, data)
+function PLAYER:GiveItem(class, args)
+	local item = Create(class, args)
 
 	item:SetInventory(self:GetInventory())
 
 	return item
 end
 
-function PLAYER:GiveTempItem(class, data)
-	local item = CreateTemp(class, data)
+function PLAYER:GiveTempItem(class, args)
+	local item = CreateTemp(class, args)
 
 	item:SetInventory(self:GetInventory())
 
