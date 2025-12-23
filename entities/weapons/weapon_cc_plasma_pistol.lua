@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 SWEP.Base = "weapon_cc_base_plasma"
 
-SWEP.PrintName = "Type-25 Energy Pistol"
+SWEP.PrintName = "Type-25 Plasma Pistol"
 SWEP.Category = "CombineControl - Halo"
 SWEP.NPCCategory = "Covenant"
 
@@ -48,7 +48,7 @@ SWEP.Settings = {
 	BaseHoldType = "pistol",
 
 	Firemodes = {FIREMODE_SEMI},
-	FireRate = 400,
+	FireRate = 300,
 
 	ClipSize = 0,
 
