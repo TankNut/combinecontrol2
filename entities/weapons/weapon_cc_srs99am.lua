@@ -40,6 +40,7 @@ SWEP.Recoil = {
 SWEP.Settings = {
 	LowerHoldType = "passive",
 	BaseHoldType = "ar2",
+	AimHoldType = "sniper",
 
 	Firemodes = {FIREMODE_AUTO},
 	FireRate = 60,
@@ -70,7 +71,7 @@ SWEP.Sounds = {
 
 SWEP.Offsets = {
 	Default = {
-		Vector(0, -1, -1),
+		Vector(0, -1, -3),
 		Angle(1, 0, 0)
 	},
 	Holster = {
