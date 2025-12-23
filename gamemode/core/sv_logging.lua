@@ -3,7 +3,8 @@ module("Log", package.seeall)
 function Character(ply)
 	local data = {
 		CharID = ply:CharID(),
-		CharName = ply:VisibleRPName()
+		CharName = ply:VisibleRPName(),
+		EventCharacter = ply:IsEventCharacter()
 	}
 
 	table.Merge(data, Player(ply))
@@ -44,7 +45,7 @@ function Item(item)
 	return {
 		ItemID = item.ID,
 		ItemClass = item.ClassName,
-		IsTemporaryItem = item:IsTemporaryItem() and 1 or 0
+		IsTemporaryItem = item:IsTemporaryItem()
 	}
 end
 
@@ -145,17 +146,24 @@ function Write(name, ...)
 
 	local keyvalues = {}
 
+	local function processKeyValue(key, value)
+		-- Easier for people to work with than true/false
+		if isbool(value) then
+			value = value and 1 or 0
+		end
+
+		table.insert(keyvalues, {
+			key, tostring(value)
+		})
+	end
+
 	for key, value in pairs(data) do
 		if istable(value) and not IsColor(value) then
 			for key2, value2 in SortedPairs(value) do
-				table.insert(keyvalues, {
-					key2, tostring(value2)
-				})
+				processKeyValue(key2, value2)
 			end
 		else
-			table.insert(keyvalues,{
-				key, tostring(value)
-			})
+			processKeyValue(key, value)
 		end
 	end
 
