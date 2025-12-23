@@ -118,7 +118,7 @@ if CLIENT then
 		matrix:Rotate(Angle(0, -90, 90))
 		matrix:Scale(Vector(scale, scale, scale))
 
-		cam.Start3D2D(matrix:GetTranslation(), matrix:GetAngles(), 0.003)
+		cam.Start3D2D(matrix:GetTranslation(), matrix:GetAngles(), 0.003 * scale)
 			draw.SimpleTextOutlined(self:GetVisibleAmmo(), "reach_ammocounter", 0, 12.5, fill, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, outline)
 		cam.End3D2D()
 	end
