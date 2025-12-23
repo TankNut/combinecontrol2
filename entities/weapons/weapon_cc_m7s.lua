@@ -5,6 +5,7 @@ SWEP.Base = "weapon_cc_base_gun"
 
 SWEP.PrintName = "M7S SMG"
 SWEP.Category = "CombineControl - Halo"
+SWEP.NPCCategory = "UNSC"
 
 SWEP.Spawnable = true
 

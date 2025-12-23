@@ -5,6 +5,7 @@ SWEP.Base = "weapon_cc_base_plasma"
 
 SWEP.PrintName = "M247H Heavy Machine Gun"
 SWEP.Category = "CombineControl - Halo"
+SWEP.NPCCategory = "UNSC"
 
 SWEP.Spawnable = true
 

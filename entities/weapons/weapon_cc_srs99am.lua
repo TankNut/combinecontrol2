@@ -5,6 +5,7 @@ SWEP.Base = "weapon_cc_base_gun"
 
 SWEP.PrintName = "SRS99-AM"
 SWEP.Category = "CombineControl - Halo"
+SWEP.NPCCategory = "UNSC"
 
 SWEP.Spawnable = true
 

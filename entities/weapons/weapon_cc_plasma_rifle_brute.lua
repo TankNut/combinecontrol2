@@ -4,6 +4,7 @@ SWEP.Base = "weapon_cc_base_plasma"
 
 SWEP.PrintName = "Type-25 Brute Plasma Rifle"
 SWEP.Category = "CombineControl - Halo"
+SWEP.NPCCategory = "Covenant"
 
 SWEP.Spawnable = true
 

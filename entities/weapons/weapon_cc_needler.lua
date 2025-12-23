@@ -5,6 +5,7 @@ SWEP.Base = "weapon_cc_base_gun"
 
 SWEP.PrintName = "Type-33 Needler"
 SWEP.Category = "CombineControl - Halo"
+SWEP.NPCCategory = "Covenant"
 
 SWEP.Spawnable = true
 

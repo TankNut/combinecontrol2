@@ -5,6 +5,7 @@ SWEP.Base = "weapon_cc_base_plasma"
 
 SWEP.PrintName = "Type-51 Plasma Repeater"
 SWEP.Category = "CombineControl - Halo"
+SWEP.NPCCategory = "Covenant"
 
 SWEP.Spawnable = true
 
