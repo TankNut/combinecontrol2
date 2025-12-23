@@ -6,6 +6,8 @@ SWEP.Base = "weapon_cc_base"
 SWEP.Slot = 2
 SWEP.SlotPos = 20
 
+SWEP.Dangerous = true
+
 SWEP.Settings = {
 	LowerHoldType = "normal",
 	BaseHoldType = "grenade",

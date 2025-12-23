@@ -21,6 +21,7 @@ function GM:GetPlayerClassification(ply)
 		return CLASSIFY_LONEWOLF
 	end
 
+	-- Anything past this point is considered a human/rebel
 	if ply:IsArmed() then
 		return CLASSIFY_ARMED
 	end
