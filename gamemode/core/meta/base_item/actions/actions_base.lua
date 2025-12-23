@@ -27,7 +27,7 @@ ITEM.Actions.Examine = {
 ITEM.Actions.Move = {
 	Hidden = true,
 
-	CanRun = function(self, ply, id)
+	Validate = function(self, ply, id)
 		return self:CheckMove(ply, Inventory.Get(id))
 	end,
 	Callback = function(self, ply, id)
