@@ -93,3 +93,29 @@ delete:SetExecutionContext(console.Server)
 delete:SetAccess(console.IsAdmin)
 
 delete:AddParameter(console.Number())
+
+
+
+
+
+local create = console.AddCommand("rpa_eventcharacter_create", function(ply, targets, whitelist)
+	local name = whitelist.Name or whitelist.ClassName
+
+	for _, target in ipairs(targets) do
+		CharacterGen.Run(target, whitelist.ClassName, true)
+
+		console.Feedback(target, "NOTICE", "%s given you an %s event character", ply, name)
+
+		Log.Write("admin_eventcharacter_create", ply, target, whitelist)
+	end
+
+	console.Feedback(ply, "NOTICE", "You've given %s an %s event character", targets, name)
+end)
+
+create:SetCategory("Event Character Commands")
+create:SetDescription("Deletes an event character")
+create:SetExecutionContext(console.Server)
+create:SetAccess(console.IsAdmin)
+
+create:AddParameter(console.Player())
+create:AddParameter(console.EventCharacterWhitelist({Assignable = true}))

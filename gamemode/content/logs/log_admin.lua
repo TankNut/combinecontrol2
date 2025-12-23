@@ -200,6 +200,14 @@ Log.AddType("admin_eventcharacter_whitelist", function(ply, target, whitelist, a
 	}
 end)
 
+Log.AddType("admin_eventcharacter_create", function(ply, target, whitelist)
+	return string.format("%s has given %s an %s event character", Log.Nick(ply), target:Nick(), whitelist.Name or whitelist.ClassName), {
+		Log.Admin(ply),
+		Log.Player(target),
+		Whitelist = whitelist.ClassName
+	}
+end)
+
 Log.AddType("admin_radio_jam", function(ply, action, subject)
 	return string.format("%s has %s %s", Log.Nick(ply), action, subject), {
 		Log.Admin(ply)
