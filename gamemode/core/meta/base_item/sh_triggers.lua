@@ -76,7 +76,7 @@ end
 
 function ITEM:OnUnequipped(ply, replacement)
 	if SERVER then
-		if self.GetModelData or self.PostModelData then
+		if self:HasModelData() and not replacement or not replacement:HasModelData() then
 			ply:UpdateAppearance()
 		end
 
@@ -87,7 +87,9 @@ function ITEM:OnUnequipped(ply, replacement)
 		self:RemoveBuffs()
 	end
 
-	self:GetInventory():RecalculateWeight()
+	if not replacement then
+		self:GetInventory():RecalculateWeight()
+	end
 end
 
 function ITEM:OnEquipmentSlotChanged(old, new)

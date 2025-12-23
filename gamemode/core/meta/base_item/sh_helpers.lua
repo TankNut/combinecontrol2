@@ -20,6 +20,10 @@ if SERVER then
 	function ITEM:IsDropped()
 		return IsValid(self.Entity)
 	end
+
+	function ITEM:HasModelData()
+		return self.GetModelData or self.PostModelData
+	end
 end
 
 function ITEM:GetAmount()
