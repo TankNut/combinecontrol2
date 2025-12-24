@@ -184,27 +184,35 @@ Log.AddType("admin_language_take", function(ply, target, lang, speak)
 	}
 end)
 
-Log.AddType("admin_character_whitelist", function(ply, target, whitelist, add)
-	return string.format(add and "%s has added %s to the %s whitelist" or "%s has removed %s from the %s whitelist", Log.Nick(ply), target:Nick(), whitelist.Name or whitelist.ClassName), {
+Log.AddType("admin_permission_add", function(ply, target, permission)
+	return string.format("%s has given %s to the %s permission", Log.Nick(ply), target:Nick(), permission.ID), {
 		Log.Admin(ply),
 		Log.Player(target),
-		Whitelist = whitelist.ClassName
+		Permission = permission.ID
 	}
 end)
 
-Log.AddType("admin_eventcharacter_whitelist", function(ply, target, whitelist, add)
-	return string.format(add and "%s has added %s to the %s event character whitelist" or "%s has removed %s from the %s event character whitelist", Log.Nick(ply), target:Nick(), whitelist.Name or whitelist.ClassName), {
+Log.AddType("admin_permission_remove", function(ply, target, permission)
+	return string.format("%s has taken the %s permission from %s", Log.Nick(ply), permission.ID, target:Nick()), {
 		Log.Admin(ply),
 		Log.Player(target),
-		Whitelist = whitelist.ClassName
+		Permission = permission.ID
 	}
 end)
 
-Log.AddType("admin_eventcharacter_create", function(ply, target, whitelist)
-	return string.format("%s has given %s an %s event character", Log.Nick(ply), target:Nick(), whitelist.Name or whitelist.ClassName), {
+Log.AddType("admin_character_create", function(ply, target, class)
+	return string.format("%s has created an %s character for %s", Log.Nick(ply), class, target:Nick()), {
 		Log.Admin(ply),
 		Log.Player(target),
-		Whitelist = whitelist.ClassName
+		Type = class
+	}
+end)
+
+Log.AddType("admin_character_create_event", function(ply, target, class)
+	return string.format("%s has created an %s event character for %s", Log.Nick(ply), class, target:Nick()), {
+		Log.Admin(ply),
+		Log.Player(target),
+		Type = class
 	}
 end)
 

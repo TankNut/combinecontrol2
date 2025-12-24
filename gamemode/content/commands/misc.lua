@@ -18,10 +18,10 @@ local what = console.AddCommand("whatisthis", function(ply)
 
 	local model = ent.AttachedEntity and ent.AttachedEntity:GetModel() or ent:GetModel()
 
-	console.PrintMessage(ply, "Prop Model: %s", model)
+	console.PrintMessage(ply, "Model Path: %s", model)
 end)
 
-what:SetDescription("Tells you the path of the current model you're looking at")
+what:SetDescription("Tells you the path of the model you're looking at")
 what:SetExecutionContext(console.ClientOnly)
 
 
@@ -32,7 +32,7 @@ local toggleHUD = console.AddCommand("rp_togglehud", function()
 	Settings.Set("Hud", not Settings.Get("Hud"))
 end)
 
-toggleHUD:SetDescription("Toggles your HUD between active and disabled")
+toggleHUD:SetDescription("Toggles whether your HUD is enabled or not")
 toggleHUD:SetExecutionContext(console.ClientOnly)
 
 
@@ -43,7 +43,7 @@ local toggleThirdperson = console.AddCommand("rp_thirdperson", function(ply)
 	Settings.Set("Thirdperson", not Settings.Get("Thirdperson"))
 end)
 
-toggleThirdperson:SetDescription("Toggles your thirdperson between active and disabled")
+toggleThirdperson:SetDescription("Toggles your thirdperson state")
 toggleThirdperson:SetExecutionContext(console.ClientOnly)
 
 

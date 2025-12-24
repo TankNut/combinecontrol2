@@ -98,24 +98,40 @@ delete:AddParameter(console.Number())
 
 
 
-local create = console.AddCommand("rpa_eventcharacter_create", function(ply, targets, whitelist)
-	local name = whitelist.Name or whitelist.ClassName
+local create = console.AddCommand("rpa_character_create", function(ply, target, generator)
+	CharacterGen.Run(target, generator.ClassName)
 
-	for _, target in ipairs(targets) do
-		CharacterGen.Run(target, whitelist.ClassName, true)
+	Log.Write("admin_character_create", ply, target, generator.ClassName)
 
-		console.Feedback(target, "NOTICE", "%s given you an %s event character", ply, name)
-
-		Log.Write("admin_eventcharacter_create", ply, target, whitelist)
-	end
-
-	console.Feedback(ply, "NOTICE", "You've given %s an %s event character", targets, name)
+	console.Feedback(target, "NOTICE", "%s given you a new character with type: %s", ply, generator.ClassName)
+	console.Feedback(ply, "NOTICE", "You've given %s a new character with type: %s", target, generator.ClassName)
 end)
 
-create:SetCategory("Event Character Commands")
+create:SetCategory("Character Commands")
 create:SetDescription("Deletes an event character")
 create:SetExecutionContext(console.Server)
 create:SetAccess(console.IsAdmin)
 
-create:AddParameter(console.Player())
-create:AddParameter(console.EventCharacterWhitelist({Assignable = true}))
+create:AddParameter(console.Player({SingleTarget = true}))
+create:AddParameter(console.CharacterGen())
+
+
+
+
+
+local createEvent = console.AddCommand("rpa_character_create_event", function(ply, target, generator)
+	CharacterGen.Run(target, generator.ClassName, true)
+
+	Log.Write("admin_character_create_event", ply, target, generator.ClassName)
+
+	console.Feedback(target, "NOTICE", "%s given you an event character with type: %s", ply, generator.ClassName)
+	console.Feedback(ply, "NOTICE", "You've given %s an event character with type: %s", target, generator.ClassName)
+end)
+
+createEvent:SetCategory("Character Commands")
+createEvent:SetDescription("Creates someone an event characters")
+createEvent:SetExecutionContext(console.Server)
+createEvent:SetAccess(console.IsAdmin)
+
+createEvent:AddParameter(console.Player({SingleTarget = true}))
+createEvent:AddParameter(console.CharacterGen())

@@ -3,8 +3,6 @@ module("CharacterCreate", package.seeall)
 List = List or {}
 Names = Names or {}
 
-PlayerVar.Add("CharacterWhitelist", {Default = {}, Persist = true, DataType = BLOB()})
-
 local PLAYER = FindMetaTable("Player")
 
 function Register(name, data)
@@ -113,7 +111,7 @@ function PLAYER:CanUseCharacterType(id)
 		return
 	end
 
-	if self:IsAdmin() or self:CharacterWhitelist()[id] then
+	if self:IsAdmin() or (define.Permission and self:HasPermission(define.Permission)) then
 		return true
 	end
 

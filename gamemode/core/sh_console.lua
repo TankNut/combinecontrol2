@@ -299,42 +299,42 @@ console.Parser("Team", function(ply, args, last, options)
 	return false, "Must be a valid team"
 end)
 
-console.Parser("CharacterWhitelist", function(ply, args, last, options)
+console.Parser("Permission", function(ply, args, last, options)
 	local val = console.ReadArg(args, last)
 
 	if not val or #val < 1 then
-		return false, "Must be a valid whitelist"
+		return false, "Must be a valid permission"
 	end
 
-	local define = CharacterCreate.List[val]
+	local define = Permissions.List[val]
 
 	if define then
-		if options.Assignable and define.Default then
-			return false, "You cannot use default whitelists for this command"
+		if options.Assignable and IsValid(ply) and define.CanAssign and define.CanAssign(ply) then
+			return false, "You cannot assign this permission"
 		end
 
 		return true, define
 	else
-		return false, "Must be a valid whitelist"
+		return false, "Must be a valid permission"
 	end
 end)
 
-console.Parser("EventCharacterWhitelist", function(ply, args, last, options)
+console.Parser("CharacterGen", function(ply, args, last, options)
 	local val = console.ReadArg(args, last)
 
 	if not val or #val < 1 then
-		return false, "Must be a valid whitelist"
+		return false, "Must be a valid character type"
 	end
 
 	local define = CharacterGen.List[val]
 
 	if define then
-		if options.Assignable and define.Default then
-			return false, "You cannot use default whitelists for this command"
+		if IsValid(ply) and not ply:CanUseCharacterGenerator(define.ID) then
+			return false, "You cannot use this character type"
 		end
 
 		return true, define
 	else
-		return false, "Must be a valid whitelist"
+		return false, "Must be a valid character type"
 	end
 end)
