@@ -114,6 +114,20 @@ function GM:OnUserGroupChanged(ply, old, new, loaded)
 	end
 end
 
+function GM:OnTempAdminChanged(ply, old, new, loaded)
+	if CLIENT and ply == lp then
+		Hud.Rebuild()
+
+		local group = new and "admin" or "user"
+
+		if self.SpawnmenuGroup != group then
+			self.SpawnmenuGroup = group
+
+			RunConsoleCommand("spawnmenu_reload")
+		end
+	end
+end
+
 if SERVER then
 	hook.Remove("PlayerInitialSpawn", "PlayerAuthSpawn")
 
