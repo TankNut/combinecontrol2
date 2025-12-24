@@ -190,28 +190,28 @@ noDamage:AddParameter(console.Bool())
 
 
 -- Unfinished
-local setOwner = console.AddCommand("rpa_character_owner", function(ply, id, steamid)
-	local data = Character.Fetch(id)
+-- local setOwner = console.AddCommand("rpa_character_owner", function(ply, id, steamid)
+-- 	local data = Character.Fetch(id)
 
-	if not data then
-		console.Feedback(ply, "ERROR", "That character doesn't exist")
+-- 	if not data then
+-- 		console.Feedback(ply, "ERROR", "That character doesn't exist")
 
-		return
-	end
+-- 		return
+-- 	end
 
-	if data.SteamID == steamid then
-		console.Feedback(ply, "ERROR", "That character is already owned by that player")
+-- 	if data.SteamID == steamid then
+-- 		console.Feedback(ply, "ERROR", "That character is already owned by that player")
 
-		return
-	end
+-- 		return
+-- 	end
 
-	-- if Character.GetByID(id) then inform them
-	-- if player.GetBySteamID then also inform
+-- 	-- if Character.GetByID(id) then inform them
+-- 	-- if player.GetBySteamID then also inform
 
-	Character.SetOwner(id, steamid)
-end)
+-- 	Character.SetOwner(id, steamid)
+-- end)
 
-setOwner:SetCategory("Superadmin Commands")
-setOwner:SetDescription("Changes ownership of an character")
-setOwner:SetExecutionContext(console.Server)
-setOwner:SetAccess(console.IsSuperAdmin)
+-- setOwner:SetCategory("Superadmin Commands")
+-- setOwner:SetDescription("Changes ownership of an character")
+-- setOwner:SetExecutionContext(console.Server)
+-- setOwner:SetAccess(console.IsSuperAdmin)

@@ -108,7 +108,7 @@ local create = console.AddCommand("rpa_character_create", function(ply, target, 
 end)
 
 create:SetCategory("Character Commands")
-create:SetDescription("Deletes an event character")
+create:SetDescription("Creates a character for someone")
 create:SetExecutionContext(console.Server)
 create:SetAccess(console.IsAdmin)
 
@@ -129,7 +129,7 @@ local createEvent = console.AddCommand("rpa_character_create_event", function(pl
 end)
 
 createEvent:SetCategory("Character Commands")
-createEvent:SetDescription("Creates someone an event characters")
+createEvent:SetDescription("Creates an event character for someone")
 createEvent:SetExecutionContext(console.Server)
 createEvent:SetAccess(console.IsAdmin)
 

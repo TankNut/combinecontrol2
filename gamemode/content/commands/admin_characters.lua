@@ -34,8 +34,8 @@ local listCharacters = console.AddCommand("rpa_character_list", function(ply, st
 	console.Feedback(ply, "CONSOLE", table.concat(lines, "\n"))
 end)
 
-listCharacters:SetCategory("Player Commands")
-listCharacters:SetDescription("Lists all characters created by a player")
+listCharacters:SetCategory("Character Commands")
+listCharacters:SetDescription("Lists all characters owned by a player")
 listCharacters:SetExecutionContext(console.Server)
 listCharacters:SetAccess(console.IsAdmin)
 
