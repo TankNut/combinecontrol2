@@ -72,9 +72,9 @@ end
 function ENT:OnRemove()
 	self:StopSound(self.RechargeSound)
 
-	if CLIENT and self:GetParent() == lp then
-		self.BreakAlertSoundPatch:Stop()
-		self.LowAlertSoundPatch:Stop()
+	if CLIENT then
+		if self.BreakAlertSoundPatch then self.BreakAlertSoundPatch:Stop() end
+		if self.LowAlertSoundPatch then self.LowAlertSoundPatch:Stop() end
 	end
 end
 
