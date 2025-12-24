@@ -16,6 +16,7 @@ SWEP.WorldModel = Model("models/weapons/w_eq_fraggrenade.mdl")
 SWEP.ItemClass = "grenade_frag"
 SWEP.Itemize = {
 	Base = "base_throwing",
+	Rarity = RARITY_UNCOMMON,
 
 	Weight = 0.4,
 

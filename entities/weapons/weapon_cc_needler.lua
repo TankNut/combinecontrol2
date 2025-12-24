@@ -75,6 +75,7 @@ SWEP.Offsets = {
 
 SWEP.Itemize = {
 	Description = "The Type-25 Needler is a covenant infantry weapon that's feared for it's effectiveness against unshielded targets.",
+	Rarity = RARITY_RARE,
 
 	Weight = 7,
 

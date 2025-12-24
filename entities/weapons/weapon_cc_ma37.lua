@@ -79,6 +79,7 @@ SWEP.Offsets = {
 
 SWEP.Itemize = {
 	Description = "Also known as the MA5, the MA37 Individual Combat Weapon System is the UNSC's standard-issue service rifle.",
+	Rarity = RARITY_COMMON,
 
 	Weight = 7,
 

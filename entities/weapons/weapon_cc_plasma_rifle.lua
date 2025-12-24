@@ -84,6 +84,7 @@ SWEP.Offsets = {
 
 SWEP.Itemize = {
 	Description = "The Type-25 Directed Energy Rifle is the Covenant equivalent of an assault rifle and commonly issued to Sangheili units.",
+	Rarity = RARITY_RARE,
 
 	Weight = 6,
 

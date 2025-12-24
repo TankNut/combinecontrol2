@@ -90,6 +90,7 @@ SWEP.Offsets = {
 
 SWEP.Itemize = {
 	Description = "A spartan-portable version of the M247 Heavy Machine Gun.",
+	Rarity = RARITY_LEGENDARY,
 
 	Weight = 15,
 

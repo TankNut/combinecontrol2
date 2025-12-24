@@ -16,6 +16,7 @@ SWEP.WorldModel = Model("models/weapons/w_eq_smokegrenade.mdl")
 SWEP.ItemClass = "grenade_smoke"
 SWEP.Itemize = {
 	Base = "base_throwing",
+	Rarity = RARITY_UNCOMMON,
 
 	Weight = 0.4,
 

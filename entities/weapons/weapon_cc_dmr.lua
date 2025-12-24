@@ -82,6 +82,7 @@ SWEP.Offsets = {
 
 SWEP.Itemize = {
 	Description = "The M392 Designated Marksman Rifle is the UNSC's weapon of choice for marksmen and reconnaisance units.",
+	Rarity = RARITY_UNCOMMON,
 
 	Weight = 7,
 

@@ -79,6 +79,7 @@ SWEP.Offsets = {
 
 SWEP.Itemize = {
 	Description = "A variant of the M7/Caseless, the M7S features an SS/M 49 sound suppressor and is commonly issued to UNSC special forces.",
+	Rarity = RARITY_RARE,
 
 	Weight = 4,
 

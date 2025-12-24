@@ -16,6 +16,7 @@ SWEP.WorldModel = Model("models/weapons/w_eq_flashbang.mdl")
 SWEP.ItemClass = "grenade_flashbang"
 SWEP.Itemize = {
 	Base = "base_throwing",
+	Rarity = RARITY_UNCOMMON,
 
 	Weight = 0.4,
 

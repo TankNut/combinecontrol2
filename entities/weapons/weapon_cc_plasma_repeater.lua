@@ -98,6 +98,7 @@ end
 
 SWEP.Itemize = {
 	Description = "The Type-51 Directed Energy Rifle/Improved is a specialized energy weapon commonly issued by the Covenant to Sangheili and Jiralhanae shock troops.",
+	Rarity = RARITY_EPIC,
 
 	Weight = 8,
 

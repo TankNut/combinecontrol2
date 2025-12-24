@@ -85,6 +85,7 @@ SWEP.Offsets = {
 
 SWEP.Itemize = {
 	Description = "A variant of the Type-25 Directed Energy Rifle known as the 'blood-hand', this modified plasma rifle is almost exclusively used by the Jiralhanae and features a more aggressive design.",
+	Rarity = RARITY_RARE,
 
 	Weight = 6,
 
