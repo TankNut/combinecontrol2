@@ -1,6 +1,6 @@
 FLAG.Base = "grunt"
 
-FLAG.Name = "Unggoy Honor Guard"
+FLAG.Name = "Grunt Honor Guard"
 
 FLAG.Armor = 100
 

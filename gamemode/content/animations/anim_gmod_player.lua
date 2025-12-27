@@ -21,6 +21,7 @@ function CONTROLLER:CalcMainActivity(ply, vel)
 	if not bool then
 		local len2d = vel:Length2D()
 
+		-- if this keeps breaking, just look up the base values directly from the player's flag
 		if len2d > Lerp(0.3, ply:GetWalkSpeed(), ply:GetRunSpeed()) then
 			ply.CalcIdeal = ACT_MP_RUN
 		elseif len2d > 0.5 then

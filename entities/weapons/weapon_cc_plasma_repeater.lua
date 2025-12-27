@@ -74,7 +74,7 @@ SWEP.Sounds = {
 SWEP.Offsets = {
 	Default = {
 		Vector(2, -1, -1),
-		Angle(0, 0, 0)
+		Angle(2, 0, 0)
 	},
 	Holster = {
 		Vector(5, -1, 0),
@@ -86,7 +86,7 @@ SWEP.Offsets = {
 	},
 	Aiming = {
 		Vector(0, 0, 0),
-		Angle(0, 0, 0)
+		Angle(2, 0, 0)
 	}
 }
 

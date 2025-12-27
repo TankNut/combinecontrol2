@@ -1,4 +1,4 @@
-FLAG.Name = "Sangheili"
+FLAG.Name = "Elite"
 FLAG.Team = TEAM_COVENANT
 
 FLAG.Armor = 100

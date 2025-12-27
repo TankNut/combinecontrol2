@@ -1,11 +1,9 @@
-FLAG.Name = "SPARTAN"
+FLAG.Name = "Spartan"
 FLAG.Team = TEAM_UNSC
 
 FLAG.Armor = 100
 
 FLAG.Scale = 1.15
-
-FLAG.IStatSpeed = 7
 
 FLAG.Loadout = {"weapon_cc_hands"}
 

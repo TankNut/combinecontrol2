@@ -50,4 +50,9 @@ if CLIENT then
 		head = "b_head",
 		neck = "b_neck"
 	})
+
+	ctp:AddBoneOverride("models/halo_reach/characters/players/covenant/skirmisher", {
+		head = "b_head",
+		neck = "b_neck0"
+	})
 end

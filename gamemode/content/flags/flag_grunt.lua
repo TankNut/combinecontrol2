@@ -1,4 +1,4 @@
-FLAG.Name = "Unggoy"
+FLAG.Name = "Grunt"
 FLAG.Team = TEAM_COVENANT
 
 FLAG.Armor = 50
