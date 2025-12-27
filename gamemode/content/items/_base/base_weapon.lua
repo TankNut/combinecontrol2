@@ -20,8 +20,6 @@ end
 
 if SERVER then
 	function ITEM:OnRemove()
-		self:SaveWeaponState()
-
 		BaseClass.OnRemove(self)
 	end
 
@@ -59,7 +57,6 @@ if SERVER then
 			ply:SelectDefaultWeapon()
 		end
 
-		self:SaveWeaponState()
 		ply:StripWeapon(self.WeaponClass)
 	end
 
@@ -72,18 +69,8 @@ if SERVER then
 		weapon:LoadItemState(self:GetWeaponState())
 	end
 
-	function ITEM:SaveWeaponState()
-		local weapon = self:GetWeapon()
-
-		if not IsValid(weapon) or not weapon:IsType("weapon_cc_base") then
-			return
-		end
-
+	function ITEM:SaveWeaponState(weapon)
 		self:SetData("WeaponState", weapon:SaveItemState())
-	end
-
-	function ITEM:OnPlayerDeath(ply)
-		self:SaveWeaponState()
 	end
 
 	function ITEM:PlayerSpawned(ply)
