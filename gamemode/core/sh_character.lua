@@ -88,9 +88,8 @@ function GM:PostLoadCharacter(ply)
 		Hud.Rebuild()
 	end
 
-	ply:SetScale(1, true)
-
-	hook.Run("PlayerApplyFlag", ply)
+	ply:SetScale(1)
+	ply:ApplyFlag()
 
 	local name = getCharacterName(ply)
 	local visible = ply:VisibleRPName()

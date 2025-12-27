@@ -57,9 +57,29 @@ if SERVER then
 	end
 end
 
+function PLAYER:ApplyFlag(ply)
+	if CLIENT then
+		return
+	end
+
+	self:SetTeam(self:RunCharFlag("Team"))
+	self:ScaleMaxHealth(self:RunCharFlag("Health"))
+
+	self:UpdateArmor()
+	self:UpdateVisibleName()
+	self:UpdateVisibleDescription()
+	self:UpdateMovementSpeed()
+	self:UpdateAppearance()
+	self:UpdateMaxWeight()
+	self:UpdateClassification()
+
+	self:SetBloodColor(self:RunCharFlag("BloodColor"))
+end
+
+
 function GM:OnCharacterFlagChanged(ply, old, new, loaded)
 	if not loaded then
-		hook.Run("PlayerApplyFlag", ply)
+		ply:ApplyFlag()
 
 		if SERVER then
 			for _, item in pairs(ply:GetEquipment()) do
@@ -73,23 +93,4 @@ function GM:OnCharacterFlagChanged(ply, old, new, loaded)
 	if SERVER then
 		UpdateBuffs(ply, old or self.DefaultFlag, new or self.DefaultFlag)
 	end
-end
-
-function GM:PlayerApplyFlag(ply)
-	if CLIENT then
-		return
-	end
-
-	ply:SetTeam(ply:RunCharFlag("Team"))
-	ply:ScaleMaxHealth(ply:RunCharFlag("Health"))
-
-	ply:UpdateArmor()
-	ply:UpdateVisibleName()
-	ply:UpdateVisibleDescription()
-	ply:UpdateMovementSpeed()
-	ply:UpdateAppearance()
-	ply:UpdateMaxWeight()
-	ply:UpdateClassification()
-
-	ply:SetBloodColor(ply:RunCharFlag("BloodColor"))
 end
