@@ -13,6 +13,12 @@ SWEP.UseHands   = true
 SWEP.ViewModel  = Model("models/weapons/cstrike/c_eq_fraggrenade.mdl")
 SWEP.WorldModel = Model("models/weapons/w_eq_fraggrenade.mdl")
 
+SWEP.Animations = {
+	Throw = ACT_VM_THROW,
+	Lob = ACT_VM_THROW,
+	Roll = ACT_VM_THROW
+}
+
 SWEP.ItemClass = "grenade_frag"
 SWEP.Itemize = {
 	Base = "base_throwing",

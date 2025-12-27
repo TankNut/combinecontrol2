@@ -136,10 +136,7 @@ function SWEP:Throw()
 		animation = "Roll"
 	end
 
-	self:PlayAnimation(animation)
-	self:SetNextIdle(0)
-
-	self:SetFinishReload(CurTime() + 0.8)
+	self:SetFinishReload(CurTime() + self:PlayAnimation(animation))
 end
 
 function SWEP:FinishReload()
