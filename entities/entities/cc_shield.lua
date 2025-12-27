@@ -29,6 +29,10 @@ function ENT:Initialize()
 		self.BreakAlertSoundPatch = CreateSound(self, self.BreakAlertSound)
 	elseif SERVER then
 		self.CanPlayRechargeSound = true
+
+		if parent:IsPlayer() then
+			hook.Add("PlayerSpawn", self, self.PlayerSpawn)
+		end
 	end
 
 	if CLIENT then
@@ -78,6 +82,16 @@ function ENT:OnRemove()
 	end
 end
 
+function ENT:IsWorking()
+	local parent = self:GetParent()
+
+	if parent.Alive and not parent:Alive() then
+		return false
+	end
+
+	return true
+end
+
 if SERVER then
 	function ENT:Think()
 		local parent = self:GetParent()
@@ -85,6 +99,10 @@ if SERVER then
 		if not IsValid(parent) then
 			self:Remove()
 
+			return
+		end
+
+		if not self:IsWorking() then
 			return
 		end
 
@@ -99,7 +117,7 @@ if SERVER then
 	end
 
 	function ENT:TakeShieldDamage(dmg)
-		if dmg:IsFallDamage() then
+		if dmg:IsFallDamage() or not self:IsWorking() then
 			return
 		end
 
@@ -135,6 +153,17 @@ if SERVER then
 
 		return true
 	end
+
+	function ENT:PlayerSpawn(ply)
+		if ply != self:GetParent() then
+			return
+		end
+
+		self:SetShield(0)
+		self:SetLastPing(CurTime() - self.RechargeDelay)
+
+		self.CanPlayRechargeSound = true
+	end
 end
 
 if CLIENT then
@@ -145,8 +174,13 @@ if CLIENT then
 
 		local shieldFraction = self:GetShieldValue() / self.BaseShield
 
-		local breakSound = shieldFraction == 0
-		local lowSound = not breakSound and shieldFraction <= 0.2
+		local breakSound = false
+		local lowSound = false
+
+		if self:IsWorking() then
+			breakSound = shieldFraction == 0
+			lowSound = not breakSound and shieldFraction <= 0.2
+		end
 
 		if breakSound != self.BreakAlertSoundPatch:IsPlaying() then
 			self.BreakAlertSoundPatch[breakSound and "Play" or "Stop"](self.BreakAlertSoundPatch)
@@ -192,7 +226,7 @@ if CLIENT then
 		local parent = self:GetParent()
 
 		if not IsValid(parent) or parent:GetNoDraw() then return end
-		if parent.Alive and not parent:Alive() then return end
+		if not self:IsWorking() then return end
 		if parent == lp and not parent:ShouldDrawLocalPlayer() then return end
 
 		local rt = render.GetRenderTarget()

@@ -15,8 +15,4 @@ if SERVER then
 
 		shield.Disable(self.Player)
 	end
-
-	function BUFF:OnSpawn()
-		shield.Enable(self.Player, self.ShieldClass)
-	end
 end
