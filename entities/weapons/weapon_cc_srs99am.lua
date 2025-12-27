@@ -82,7 +82,7 @@ SWEP.Offsets = {
 	},
 	Sprint = {
 		Vector(0, 0, -1),
-		Angle(15, 5, 0)
+		Angle(25, 15, 0)
 	},
 	Aiming = {
 		Vector(0, 1, -1),
