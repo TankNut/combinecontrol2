@@ -32,6 +32,8 @@ FLAG.CanChangeDescription = true
 
 FLAG.AllowSpawngroups = true
 
+FLAG.NoFallDamage = false -- Blocks falldamage
+FLAG.OmniSprint = false -- Allows sprinting in any direction
 FLAG.Buffs = {}
 
 function FLAG:Run(ply, name, ...)

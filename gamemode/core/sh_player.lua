@@ -161,7 +161,7 @@ function GM:SetupMove(ply, mv, cmd)
 
 	local slow = Config.Get("SprintSlow")
 
-	if slow < 1 and cmd:GetForwardMove() <= 0 then
+	if slow < 1 and cmd:GetForwardMove() <= 0 and not ply:RunCharFlag("OmniSprint") then
 		mv:LimitSpeed(Lerp(slow, ply:GetWalkSpeed(), ply:GetRunSpeed()))
 	end
 
