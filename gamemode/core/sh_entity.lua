@@ -25,8 +25,6 @@ function GM:InitPostEntity()
 		Chat.Create()
 		Hud.Rebuild()
 
-		RunConsoleCommand("spawnmenu_reload")
-
 		if Settings.Get("Thirdperson") then
 			ctp:Enable()
 		end

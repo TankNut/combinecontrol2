@@ -100,17 +100,25 @@ function GM:PlayerNoClip(ply, state)
 	return true
 end
 
-GM.SpawnmenuGroup = GM.SpawnmenuGroup or "user"
+if CLIENT then
+	GM.SpawnmenuGroup = GM.SpawnmenuGroup or "user"
+
+	function GM:UpdateSpawnmenu(usergroup)
+		if usergroup != self.SpawnmenuGroup then
+			self.SpawnmenuGroup = usergroup
+
+			print("Reload")
+
+			RunConsoleCommand("spawnmenu_reload")
+		end
+	end
+end
 
 function GM:OnUserGroupChanged(ply, old, new, loaded)
 	if CLIENT and ply == lp then
 		Hud.Rebuild()
 
-		if self.SpawnmenuGroup != new then
-			self.SpawnmenuGroup = new
-
-			RunConsoleCommand("spawnmenu_reload")
-		end
+		self:UpdateSpawnmenu(new)
 	end
 end
 
@@ -118,13 +126,7 @@ function GM:OnTempAdminChanged(ply, old, new, loaded)
 	if CLIENT and ply == lp then
 		Hud.Rebuild()
 
-		local group = new and "admin" or "user"
-
-		if self.SpawnmenuGroup != group then
-			self.SpawnmenuGroup = group
-
-			RunConsoleCommand("spawnmenu_reload")
-		end
+		self:UpdateSpawnmenu(new and "admin" or "user")
 	end
 end
 
