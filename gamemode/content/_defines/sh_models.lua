@@ -21,13 +21,10 @@ Hands.AddModel("models/valk/haloreach/covenant/characters/grunt", {Model = Model
 
 Hull.AddType("grunt", {
 	Standing = {Vector(-10, -10, 0), Vector(10, 10, 55), Vector(0, 0, 42)},
-	Crouching = {Vector(-10, -10, 0), Vector(10, 10, 55), Vector(0, 0, 30)},
+	Crouching = {Vector(-10, -10, 0), Vector(10, 10, 36), Vector(0, 0, 30)},
 })
 
-Hull.AddModel("grunt",
-	Model("models/valk/haloreach/covenant/characters/grunt/grunt_player.mdl"),
-	Model("models/valk/haloreach/covenant/characters/grunt/grunt_player_honor.mdl"))
-
+Hull.AddModel("grunt", "models/valk/haloreach/covenant/characters/grunt")
 
 -- Elites
 Hull.AddType("elite", {
@@ -35,20 +32,28 @@ Hull.AddType("elite", {
 	Crouching = {Vector(-16, -16, 0), Vector(16, 16, 65), Vector(0, 0, 50)},
 })
 
-Hull.AddModel("elite",
-	Model("models/halo_reach/players/elite_field_marshall.mdl"),
-	Model("models/halo_reach/players/elite_general.mdl"),
-	Model("models/halo_reach/players/elite_minor.mdl"),
-	Model("models/halo_reach/players/elite_officer.mdl"),
-	Model("models/halo_reach/players/elite_ranger.mdl"),
-	Model("models/halo_reach/players/elite_specops.mdl"),
-	Model("models/halo_reach/players/elite_ultra.mdl"),
-	Model("models/halo_reach/players/elite_zealot.mdl"))
+Hull.AddModel("elite", "models/halo_reach/players/elite")
 
+-- Jackals/skirmishers
+Hull.AddType("jackal", {
+	Standing = {Vector(-10, -10, 0), Vector(10, 10, 56), Vector(0, 0, 52)},
+	Crouching = {Vector(-10, -10, 0), Vector(10, 10, 36), Vector(0, 0, 28)}
+})
+
+Hull.AddModel("jackal",
+	"models/halo_reach/characters/players/covenant/jackal",
+	"models/halo_reach/characters/players/covenant/skirmisher")
+
+-- CTP overrides
 if CLIENT then
 	ctp:AddBoneOverride("models/halo_reach/players/elite", {
 		head = "b_head",
 		neck = "b_neck"
+	})
+
+	ctp:AddBoneOverride("models/halo_reach/characters/players/covenant/jackal", {
+		head = "b_head",
+		neck = "b_neck0"
 	})
 
 	ctp:AddBoneOverride("models/halo_reach/characters/players/covenant/skirmisher", {
