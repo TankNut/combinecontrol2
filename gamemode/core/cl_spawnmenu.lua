@@ -281,6 +281,10 @@ end)
 local PANEL = vgui.GetControlTable("ToolPanel")
 
 function PANEL:UpdateToolDisabledStatus()
+	if not self.IsToolTab then
+		return
+	end
+
 	for cid, category in ipairs(self.List.pnlCanvas:GetChildren()) do
 		for id, item in ipairs(category:GetChildren()) do
 			if item == category.Header then

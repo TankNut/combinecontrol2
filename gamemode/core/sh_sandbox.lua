@@ -47,7 +47,7 @@ function GM:CanUseTool(ply, tool)
 	local config = Config.Get("ToolTrust")
 	local requirement = config.Tools[tool] or config.ToolFallback
 
-	return ply:GetToolTrust() >= requirement, "You're not allowed to use this tool!z"
+	return ply:GetToolTrust() >= requirement, "You're not allowed to use this tool!"
 end
 
 local toolblacklist = {
