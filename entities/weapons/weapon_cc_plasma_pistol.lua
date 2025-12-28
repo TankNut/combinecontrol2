@@ -26,7 +26,7 @@ SWEP.Stats = {
 SWEP.Heat = {
 	CoolDelay = 0.4,
 
-	HeatRate = 12,
+	HeatRate = 6,
 	CoolRate = 40,
 
 	Max = 100,
