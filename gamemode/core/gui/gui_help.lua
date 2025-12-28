@@ -24,8 +24,9 @@ function PANEL:Init()
 	end
 
 	self.MenuButtons = {}
+	self.AdminButtons = {}
+
 	self.InitialMenu = math.huge
-	self.SelectedMenu = 0
 
 	self.Content = self:Add("Panel")
 	self.Content:DockPadding(padding, padding, padding, padding)
@@ -46,6 +47,13 @@ function PANEL:AddMenu(order, name, content)
 	end
 end
 
+function PANEL:AddAdminMenu(order, name, content)
+	self.AdminButtons[order] = {
+		Name = name,
+		Content = content
+	}
+end
+
 function PANEL:Populate()
 	local margin = ui.Scale(5)
 	local w, h = ui.Scale(64), ui.Scale(22)
@@ -59,32 +67,38 @@ function PANEL:Populate()
 		button:SetText(option.Name)
 
 		button.DoClick = function()
-			self:SelectMenu(index)
+			self:SelectMenu(option.Content)
 		end
-
-		option.Button = button
 	end
 
-	self:SelectMenu(self.InitialMenu)
+	if lp:IsAdmin() then
+		for index, option in SortedPairs(self.AdminButtons, true) do
+			local button = self.LeftBar:Add("DButton")
+
+			button:SetSize(w, h)
+			button:DockMargin(0, margin, 0, 0)
+			button:Dock(BOTTOM)
+			button:SetText(option.Name)
+
+			button.DoClick = function()
+				self:SelectMenu(option.Content)
+			end
+		end
+	end
+
+	self:SelectMenu(self.MenuButtons[self.InitialMenu].Content)
 end
 
-function PANEL:SelectMenu(index)
-	if self.SelectedMenu == index then
-		return
-	end
-
-	self.SelectedMenu = index
+function PANEL:SelectMenu(content)
 	self.Content:Clear()
-
-	local option = self.MenuButtons[index]
 
 	self.ContentScroll = self.Content:Add("DScrollPanel")
 	self.ContentScribe = self.ContentScroll:Add("ScribeLabel")
 
-	if isfunction(option.Content) then
-		self.ContentScribe:SetText(option.Content())
+	if isfunction(content) then
+		self.ContentScribe:SetText(content())
 	else
-		self.ContentScribe:SetText(option.Content)
+		self.ContentScribe:SetText(content)
 	end
 
 	self.ContentScribe:Dock(TOP)
