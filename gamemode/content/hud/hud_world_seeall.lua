@@ -30,8 +30,38 @@ Settings.Add("SeeAllPlayers", fallback({Name = "See Players", Dark = false}, tog
 Settings.Add("SeeAllPlayersNames", fallback({Name = "    Show Character Names"}, toggle), "SeeAll")
 Settings.Add("SeeAllPlayersNicks", fallback({Name = "    Show Player Names"}, toggle), "SeeAll")
 Settings.Add("SeeAllPlayersTyping", fallback({Name = "    Show Typing"}, toggle), "SeeAll")
-Settings.Add("SeeAllPlayersHealth", fallback({Name = "    Show Health"}, toggle), "SeeAll")
-Settings.Add("SeeAllPlayersArmor", fallback({Name = "    Show Armor"}, toggle), "SeeAll")
+
+local modes = {
+	[HEALTH_NONE] = "Hide",
+	[HEALTH_PERCENTAGE] = "Percentages",
+	[HEALTH_ABSOLUTE] = "Absolute values",
+	[HEALTH_ABSOLUTE_MAX] = "Absolute values and max"
+}
+
+local modeValidate = validate.InList(table.GetKeys(modes))
+local modeArgs = table.Map(modes, function(...) return {...} end)
+
+Settings.Add("SeeAllPlayersHealth", {
+	Name = "    Show Health",
+	ClientOnly = true,
+	Default = HEALTH_PERCENTAGE,
+	Validate = modeValidate,
+	Panel = "CC_Setting_Dropdown",
+	CanAccess = isAdmin,
+	Args = modeArgs,
+	Dark = true
+}, "SeeAll")
+
+Settings.Add("SeeAllPlayersArmor", {
+	Name = "    Show Armor",
+	ClientOnly = true,
+	Default = HEALTH_PERCENTAGE,
+	Validate = modeValidate,
+	Panel = "CC_Setting_Dropdown",
+	CanAccess = isAdmin,
+	Args = modeArgs,
+	Dark = true
+}, "SeeAll")
 
 Settings.Add("SeeAllItems", fallback({Name = "See Items", Dark = false}, toggle), "SeeAll")
 Settings.Add("SeeAllNPCs", fallback({Name = "See NPC's", Dark = false}, toggle), "SeeAll")
@@ -79,13 +109,24 @@ function HUD:DrawPlayer(ply)
 
 	do
 		local health = {}
+		local mode = Settings.Get("SeeAllPlayersHealth")
 
-		if Settings.Get("SeeAllPlayersHealth") then
-			table.insert(health, string.format("<c=#c80000>%s%%", ply:Health()))
+		if mode == HEALTH_PERCENTAGE then
+			table.insert(health, string.format("<c=#c80000>%.0f%%", (ply:Health() / ply:GetMaxHealth()) * 100))
+		elseif mode == HEALTH_ABSOLUTE then
+			table.insert(health, string.format("<c=#c80000>%s", ply:Health()))
+		elseif mode == HEALTH_ABSOLUTE_MAX then
+			table.insert(health, string.format("<c=#c80000>%s/%s", ply:Health(), ply:GetMaxHealth()))
 		end
 
-		if Settings.Get("SeeAllPlayersArmor") and ply:GetMaxArmor() > 0 or ply:Armor() > 0 then
-			table.insert(health, string.format("<c=#003FFF>%s%%", ply:Armor()))
+		mode = Settings.Get("SeeAllPlayersArmor")
+
+		if mode == HEALTH_PERCENTAGE then
+			table.insert(health, string.format("<c=#003FFF>%.0f%%", (ply:Armor() / ply:GetMaxArmor()) * 100))
+		elseif mode == HEALTH_ABSOLUTE then
+			table.insert(health, string.format("<c=#003FFF>%s", ply:Armor()))
+		elseif mode == HEALTH_ABSOLUTE_MAX then
+			table.insert(health, string.format("<c=#003FFF>%s/%s", ply:Armor(), ply:GetMaxArmor()))
 		end
 
 		if #health > 0 then
