@@ -78,7 +78,7 @@ function PANEL:Populate()
 			button:SetSize(w, h)
 			button:DockMargin(0, margin, 0, 0)
 			button:Dock(BOTTOM)
-			button:SetText(option.Name)
+			button:SetText("ADMIN: " .. option.Name)
 
 			button.DoClick = function()
 				self:SelectMenu(option.Content)
@@ -95,17 +95,17 @@ function PANEL:SelectMenu(content)
 	self.ContentScroll = self.Content:Add("DScrollPanel")
 	self.ContentScribe = self.ContentScroll:Add("ScribeLabel")
 
-	if isfunction(content) then
-		self.ContentScribe:SetText(content())
-	else
-		self.ContentScribe:SetText(content)
-	end
-
 	self.ContentScribe:Dock(TOP)
 	self.ContentScribe:SetAutoStretchVertical(true)
 
 	self.ContentScroll:SetVerticalScrollbarEnabled(true)
 	self.ContentScroll:Dock(FILL)
+
+	if isfunction(content) then
+		self.ContentScribe:SetText(content())
+	else
+		self.ContentScribe:SetText(content)
+	end
 end
 
 vgui.Register("GUI_HelpMenu", PANEL, "CC_Frame")

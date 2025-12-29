@@ -24,6 +24,6 @@ local func = function()
 end
 
 hook.Add("PopulateHelpMenu", "sandbox", function(panel)
-	panel:AddMenu(4, "Sandbox Access", func)
+	panel:AddMenu(5, "Sandbox Access", func)
 end)
 

@@ -6,7 +6,7 @@ local text = [[<giant><b>Console Commands</b></giant>
 
 hook.Add("PopulateHelpMenu", "console", function(panel)
 	if lp:IsAdmin() then
-		panel:AddMenu(5, "Console Commands", text)
+		panel:AddMenu(6, "Console Commands", text)
 	end
 end)
 

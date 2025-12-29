@@ -32,5 +32,5 @@ function PLAYER:HasPermission(id)
 		return true
 	end
 
-	return self:Permissions()[id]
+	return tobool(self:Permissions()[id])
 end
