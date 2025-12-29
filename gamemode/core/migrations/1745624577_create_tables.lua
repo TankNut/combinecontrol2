@@ -35,8 +35,6 @@ return function(db)
 		`StoreID` VARCHAR(64),
 		`MapData` BLOB,
 		`CustomData` BLOB,
-		`Created_At` INT UNSIGNED NOT NULL,
-		`Deleted_At` INT UNSIGNED,
 		PRIMARY KEY(`Map`, `Key`)
 	)]])
 
