@@ -42,7 +42,7 @@ SWEP.Settings = {
 	BaseHoldType = "ar2",
 	AimHoldType = "sniper",
 
-	Firemodes = {FIREMODE_AUTO},
+	Firemodes = {FIREMODE_SEMI},
 	FireRate = 60,
 
 	ClipSize = 4,
