@@ -55,7 +55,7 @@ else
 		ed:SetOrigin(pos)
 		ed:SetStart(pos)
 
-		util.Effect("drc_halo_ne_sc", ed)
+		util.Effect("drc_halo_ne_sc", ed, true, true)
 
 		target.NeedleValue = 0
 

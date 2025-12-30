@@ -1,4 +1,4 @@
-EFFECT.Mat = Material("trails/smoke")
+EFFECT.Mat = Material("taconbanana/halo/trails/plasmarifle")
 
 function EFFECT:Init(data)
 	self.Pos = data:GetStart()
@@ -13,7 +13,7 @@ function EFFECT:Init(data)
 	self:SetRenderBoundsWS(self.Start, self.End)
 
 	self.StartTime = CurTime()
-	self.Lifetime = 0.5
+	self.Lifetime = 0.2
 end
 
 function EFFECT:Think()
@@ -24,7 +24,8 @@ function EFFECT:Think()
 	return true
 end
 
-local color = Color(182, 182, 182)
+local color1 = Color(220, 0, 255)
+local color2 = Color(255, 150, 255)
 
 function EFFECT:Render()
 	local alpha = math.Remap(CurTime() - self.StartTime, 0, self.Lifetime, 155, 0)
@@ -33,11 +34,15 @@ function EFFECT:Render()
 		return
 	end
 
-	color.a = alpha
+	color1.a = alpha
+	color2.a = alpha
 
 	local length = (self.Start - self.End):Length()
-	local size = math.Remap(CurTime() - self.StartTime, 0, self.Lifetime, 2, 4)
+
+	local length1 = length / 128
+	local length2 = length / 64
 
 	render.SetMaterial(self.Mat)
-	render.DrawBeam(self.Start, self.End, size, 0, length / 128, color)
+	render.DrawBeam(self.Start, self.End, 10, self.StartTime, self.StartTime + length1, color1)
+	render.DrawBeam(self.Start, self.End, 5, self.StartTime, self.StartTime + length2, color2)
 end

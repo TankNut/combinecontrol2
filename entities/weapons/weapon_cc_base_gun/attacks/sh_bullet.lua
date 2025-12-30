@@ -26,11 +26,15 @@ function SWEP:FireBullet(owner)
 		Force = damage * 0.25,
 		Damage = damage,
 		Callback = function(attacker, tr, dmginfo)
-			dmginfo:ScaleDamage(self:GetDamageFalloff(tr.StartPos:Distance(tr.HitPos)))
+			self:BulletCallback(attacker, tr, dmginfo)
 		end
 	}
 
 	owner:FireBullets(bullet)
+end
+
+function SWEP:BulletCallback(attacker, tr, dmginfo)
+	dmginfo:ScaleDamage(self:GetDamageFalloff(tr.StartPos:Distance(tr.HitPos)))
 end
 
 function SWEP:DoImpactEffect(tr, dmgtype)
