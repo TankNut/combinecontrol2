@@ -134,14 +134,14 @@ if CLIENT then
 		BaseClass.DrawWorldModel(self, flags)
 
 		local scale = 1
-		local ply = self:GetOwner()
+		local owner = self:GetOwner()
 
-		if IsValid(ply) and ply:IsPlayer() then
-			if ply:IsCloaked() then
+		if IsValid(owner) and owner:IsPlayer() then
+			if owner:IsCloaked() then
 				return
 			end
 
-			scale = ply:GetModelScale()
+			scale = owner:GetModelScale()
 		end
 
 		self:DrawAmmoCounter(self, scale)
