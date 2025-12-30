@@ -12,9 +12,10 @@ ENT.Velocity = 1400
 
 ENT.TurnRate = 15
 
+local color = Color(220, 0, 255)
+
 if CLIENT then
 	local sprite = Material("sprites/light_glow02_add")
-	local color = Color(220, 0, 255)
 
 	function ENT:Draw()
 		self:DrawModel()
@@ -29,37 +30,10 @@ if CLIENT then
 		render.DrawSprite(pos, 8, 8, color)
 	end
 else
-	function ENT:Shatter()
-		local parent = self:GetParent()
+	function ENT:Initialize()
+		BaseClass.Initialize(self)
 
-		if IsValid(parent) then
-			parent.Needles[self] = nil
-
-			if self.SuperCombine then
-				for k in pairs(parent.Needles) do
-					if k != self then
-						parent.Needles[k] = nil
-						k:Remove()
-					end
-				end
-
-				self:EmitSound("Projectile_Needler.SuperCombine")
-
-				util.BlastDamage(self, self:GetOwner(), self:GetPos(), 30, 350)
-
-				local ed = EffectData()
-
-				ed:SetOrigin(self:GetPos())
-				ed:SetStart(self:GetPos())
-
-				util.Effect("drc_halo_ne_sc", ed)
-
-				parent.BlockSuperCombine = nil
-			end
-		end
-
-		self:EmitSound("Projectile_Needler.Shatter")
-		self:Remove()
+		util.SpriteTrail(self, 0, color, true, 20, 0, 0.1, 0.0125, "taconbanana/halo/trails/plasmarifle")
 	end
 
 	function ENT:UpdateVelocity(vel, delta)
@@ -94,14 +68,6 @@ else
 		return ang:Forward() * speed
 	end
 
-	function ENT:Think()
-		if self:GetImpact() != vector_origin then
-			self:Shatter()
-		end
-
-		return BaseClass.Think(self)
-	end
-
 	function ENT:OnHit(tr)
 		self:SetImpact(tr.HitPos)
 
@@ -128,41 +94,12 @@ else
 			if IsValid(self.Weapon) then dmg:SetWeapon(self.Weapon) end
 
 			ent:DispatchTraceAttack(dmg, tr, tr.Normal)
-
-			self:SetParent(ent)
-			ent:DeleteOnRemove(self)
-
-			ent.Needles = ent.Needles or {}
-			ent.Needles[self] = true
-
-			if table.Count(ent.Needles) > 6 and not ent.BlockSuperCombine then
-				ent.BlockSuperCombine = true
-
-				self.SuperCombine = true
-			end
 		end
 
-		self:NextThink(CurTime() + (self.SuperCombine and 0.35 or 4))
+		AddNeedle(self, tr, 1)
+
+		self:SetNoDraw(true)
+
+		SafeRemoveEntityDelayed(self, 0.1)
 	end
 end
-
-sound.Add({
-	name = "Projectile_Needler.Shatter",
-	channel = CHAN_AUTO,
-	volume = 0.72,
-	level = 56,
-	pitch = {97.5, 102.5},
-	sound = {
-		")vuthakral/halo/weapons/Needler/expl1.wav",
-		")vuthakral/halo/weapons/Needler/expl3.wav"
-	}
-})
-
-sound.Add({
-	name = "Projectile_Needler.SuperCombine",
-	channel = CHAN_AUTO,
-	volume = 1,
-	level = 90,
-	pitch = {97.5, 102.5},
-	sound = ")vuthakral/halo/weapons/Needler/supercombine.wav"
-})
