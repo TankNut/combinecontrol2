@@ -88,10 +88,8 @@ function HUD:DrawPlayer(ply)
 	local lines = {}
 
 	if Settings.Get("SeeAllPlayersNames") then
-		local color = ColorToHex(team.GetColor(ply:Team()))
-
 		table.insert(lines, {
-			scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><c=%s>%s", color, ply:VisibleRPName()))
+			scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><team=%s>%s", ply:Team(), ply:VisibleRPName()))
 		})
 	end
 

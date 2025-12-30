@@ -55,6 +55,7 @@ client("libraries/scribe/scribe_stutter.lua")
 client("libraries/scribe/scribe_text.lua")
 client("libraries/scribe/scribe_wave.lua")
 client("libraries/scribe/scribe_wiggle.lua")
+client("libraries/scribe/scribe_team.lua")
 
 client("libraries/scribe/scribe_label.lua")
 

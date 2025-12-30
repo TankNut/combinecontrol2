@@ -109,10 +109,8 @@ function HUD:DrawPlayer(ply, cache)
 
 	if alpha > 0 then
 		if self:GetExtraSetting("ShowNames") then
-			local color = ColorToHex(team.GetColor(ply:Team()))
-
 			table.insert(lines, {
-				scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><c=%s>%s", color, ply:VisibleRPName())), alpha
+				scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><team=%s>%s", ply:Team(), ply:VisibleRPName())), alpha
 			})
 		end
 
