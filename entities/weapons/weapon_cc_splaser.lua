@@ -52,7 +52,7 @@ SWEP.Recoil = {
 
 SWEP.Settings = {
 	LowerHoldType = "passive",
-	BaseHoldType = "sniper",
+	BaseHoldType = "rpg",
 
 	Firemodes = {FIREMODE_SEMI},
 
@@ -161,7 +161,7 @@ if CLIENT then
 
 	local mat = Material("sprites/light_glow02_add")
 
-	local color1 = Color(150, 0, 0)
+	local color1 = Color(255, 0, 0)
 	local color2 = Color(255, 150, 150)
 
 	function SWEP:DrawLaser(ent, scale)

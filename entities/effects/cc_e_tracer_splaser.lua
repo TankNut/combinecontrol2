@@ -13,7 +13,7 @@ function EFFECT:Init(data)
 	self:SetRenderBoundsWS(self.Start, self.End)
 
 	self.StartTime = CurTime()
-	self.Lifetime = 0.1
+	self.Lifetime = 0.2
 end
 
 function EFFECT:Think()
@@ -24,17 +24,21 @@ function EFFECT:Think()
 	return true
 end
 
-local color1 = Color(150, 0, 0)
+local color1 = Color(255, 0, 0)
 local color2 = Color(255, 150, 150)
 
 function EFFECT:Render()
-	local alpha = math.ClampedRemap(CurTime() - self.StartTime, 0, self.Lifetime, 255, 0)
-	local size = math.Remap(CurTime() - self.StartTime, 0, self.Lifetime, 30, 5)
+	local alpha = math.Remap(CurTime() - self.StartTime, 0, self.Lifetime, 255, 0)
+	local size = math.Remap(CurTime() - self.StartTime, 0, self.Lifetime, 40, 5)
 
 	color1.a = alpha
 	color2.a = alpha
 
 	render.SetMaterial(self.Mat)
 	render.DrawBeam(self.Start, self.End, size, 0, 1, color1)
-	render.DrawBeam(self.Start, self.End, size * 0.5, 0, 1, color2)
+
+	-- Overbrighten the hell out of it
+	render.DrawBeam(self.Start, self.End, size * 0.4, 0, 1, color2)
+	render.DrawBeam(self.Start, self.End, size * 0.4, 0, 1, color2)
+	render.DrawBeam(self.Start, self.End, size * 0.4, 0, 1, color2)
 end

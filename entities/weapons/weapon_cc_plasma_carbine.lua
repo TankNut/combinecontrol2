@@ -74,7 +74,7 @@ SWEP.Offsets = {
 		Angle(15, 15, 0)
 	},
 	Aiming = {
-		Vector(2, -1, -2),
+		Vector(2, -1, -1),
 		Angle(0, 0, 0)
 	}
 }
