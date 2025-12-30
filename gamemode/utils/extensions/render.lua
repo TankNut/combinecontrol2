@@ -33,7 +33,7 @@ function render.DrawWorldText(pos, text, noz)
 	cam.End3D2D()
 end
 
-local tracerColor = Color()
+local tracerColor = Color(255, 255, 255)
 
 -- Returns false if done rendering
 function render.DrawTracer(startpos, endpos, velocity, length, scale, time, color)
