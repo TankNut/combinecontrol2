@@ -250,3 +250,10 @@ end
 function COLOR:UnpackToVector()
 	return self.r / 255, self.g / 255, self.b / 255, self.a / 255
 end
+
+function COLOR:Set(color)
+	self.r = color.r
+	self.g = color.g
+	self.b = color.b
+	self.a = color.a
+end
