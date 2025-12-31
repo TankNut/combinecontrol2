@@ -1,4 +1,5 @@
-EFFECT.Mat = Material("effects/draconic_halo/laser_thicc")
+EFFECT.Flash = Material("effects/draconic_halo/flash_composite")
+EFFECT.Mat = Material("effects/draconic_halo/laser_thick")
 
 function EFFECT:Init(data)
 	self.Pos = data:GetStart()
@@ -12,12 +13,12 @@ function EFFECT:Init(data)
 
 	self:SetRenderBoundsWS(self.Start, self.End)
 
-	self.StartTime = CurTime()
-	self.Lifetime = 0.2
+	self.StartTime = UnPredictedCurTime()
+	self.Lifetime = 0.3
 end
 
 function EFFECT:Think()
-	if CurTime() - self.StartTime > self.Lifetime then
+	if UnPredictedCurTime() - self.StartTime > self.Lifetime then
 		return false
 	end
 
@@ -25,20 +26,31 @@ function EFFECT:Think()
 end
 
 local color1 = Color(255, 0, 0)
-local color2 = Color(255, 150, 150)
+local color2 = Color(255, 255, 255)
 
 function EFFECT:Render()
-	local alpha = math.Remap(CurTime() - self.StartTime, 0, self.Lifetime, 255, 0)
-	local size = math.Remap(CurTime() - self.StartTime, 0, self.Lifetime, 40, 5)
+	local frac = math.Clamp((UnPredictedCurTime() - self.StartTime) / self.Lifetime, 0, 1)
 
-	color1.a = alpha
-	color2.a = alpha
+	local alpha1 = math.ClampedRemap(frac, 0, 1, 255, 0)
+	local alpha2 = math.ClampedRemap(frac, 0, 0.7, 255, 0)
+
+	color1.a = alpha1
+	color2.a = alpha2
+
+	local sprite1 = math.ClampedRemap(frac, 0.1, 1, 100, 60) * 0.7
+	local sprite2 = math.ClampedRemap(frac, 0.1, 1, 40, 5)
+
+	render.SetMaterial(self.Flash)
+	render.DrawSprite(self.Start, sprite1, sprite1, color1)
+	render.DrawSprite(self.Start, sprite2, sprite2, color2)
+
+	local size1 = math.ClampedRemap(frac, 0, 1, 100, 20)
+	local size2 = math.ClampedRemap(frac, 0, 1, 40, 5)
 
 	render.SetMaterial(self.Mat)
-	render.DrawBeam(self.Start, self.End, size, 0, 1, color1)
+	render.DrawBeam(self.Start, self.End, size1, 0, 1, color1)
+	render.DrawBeam(self.Start, self.End, size1, 0, 1, color1)
+	render.DrawBeam(self.Start, self.End, size1, 0, 1, color1)
 
-	-- Overbrighten the hell out of it
-	render.DrawBeam(self.Start, self.End, size * 0.4, 0, 1, color2)
-	render.DrawBeam(self.Start, self.End, size * 0.4, 0, 1, color2)
-	render.DrawBeam(self.Start, self.End, size * 0.4, 0, 1, color2)
+	render.DrawBeam(self.Start, self.End, size2, 0, 1, color2)
 end

@@ -24,7 +24,7 @@ SWEP.Stats = {
 	Damage = 500,
 	DamageFalloff = 1,
 
-	Accuracy = {12, 2},
+	Accuracy = 0,
 
 	Tracer = "cc_e_tracer_splaser",
 	TracerCount = 1
@@ -82,7 +82,7 @@ SWEP.Offsets = {
 		Angle(0, 0, 0)
 	},
 	Holster = {
-		Vector(0, 0, -1),
+		Vector(0, 0, -2),
 		Angle(20, 10, 0)
 	},
 	Sprint = {
@@ -114,7 +114,9 @@ function SWEP:Think()
 
 	local duration = self:GetFireDuration()
 
-	if oldDuration > 0 and duration == 0 then
+	if oldDuration == 0 and duration > 0 then
+		self:EmitSound(self.Sounds.Charge)
+	elseif oldDuration > 0 and duration == 0 then
 		self:StopSound(self.Sounds.Charge)
 	end
 
@@ -124,7 +126,6 @@ function SWEP:Think()
 end
 
 function SWEP:PrimaryPlayer()
-	self:EmitSound(self.Sounds.Charge)
 end
 
 function SWEP:FireLaser()
@@ -164,41 +165,65 @@ if CLIENT then
 	local color1 = Color(255, 0, 0)
 	local color2 = Color(255, 150, 150)
 
-	function SWEP:DrawLaser(ent, scale)
+	local laserColor = Color(255, 0, 0)
+	local laserMat = Material("effects/draconic_halo/laser_thick")
+
+	function SWEP:DrawLaser(ply, ent, scale)
 		local charge = (self:GetFireDuration() / 2.5) * scale
 
 		if charge == 0 then
 			return
 		end
 
+		ent:SetupBones()
+
 		local matrix = ent:GetBoneMatrix(ent:LookupBone("gun"))
 		matrix:Translate(Vector(22, 0, 3.6))
+		matrix:Scale(Vector(scale, scale, scale))
 
 		local pos = matrix:GetTranslation()
 
 		render.SetMaterial(mat)
 		render.DrawSprite(pos, charge * 10, charge * 10, color1)
 		render.DrawSprite(pos, charge * 5, charge * 5, color2)
+
+		if charge > 0 then
+			local start = ply:GetShootPos()
+			local tr = util.TraceLine({
+				start = start,
+				endpos = start + self:GetShootDir() * MAX_LENGTH,
+				mask = MASK_SHOT,
+				filter = ply
+			})
+
+			laserColor.a = math.Remap(math.sin(UnPredictedCurTime() * 1000), -1, 1, 25, 100)
+
+			render.SetMaterial(laserMat)
+			render.DrawBeam(pos, tr.HitPos, scale * 2, 0, 1, laserColor)
+		end
 	end
 
 	function SWEP:PostDrawViewModel(vm, _, ply)
 		BaseClass.PostDrawViewModel(self, vm, self, ply)
 
-		self:DrawLaser(vm, 1)
+		self:DrawLaser(ply, vm, 1)
 	end
 
-	function SWEP:DrawWorldModelTranslucent(flags)
-		BaseClass.DrawWorldModelTranslucent(self, flags)
-
-		local scale = 1
+	function SWEP:PostDrawTranslucentRenderables()
 		local ply = self:GetOwner()
 
-		if IsValid(ply) and ply:IsPlayer() then
-			scale = ply:GetModelScale()
+		if IsValid(ply) and ply:IsPlayer() and ply:ShouldDrawLocalPlayer() then
+			self:DrawLaser(ply, self, ply:GetModelScale())
 		end
-
-		self:DrawLaser(self, scale)
 	end
+
+	function SWEP:DoDrawCrosshair()
+		return true
+	end
+end
+
+function SWEP:DoImpactEffect(tr, dmgtype)
+	return true
 end
 
 sound.Add({
