@@ -155,6 +155,14 @@ function SWEP:FireLaser()
 	self:SetCurrentHeat(math.min(self:GetCurrentHeat() + self.Heat.HeatRate, self.Heat.Max))
 end
 
+function SWEP:BulletCallback(attacker, tr, dmginfo)
+	BaseClass.BulletCallback(self, attacker, tr, dmginfo)
+
+	if SERVER then
+		util.BlastDamage(dmginfo:GetInflictor(), attacker, tr.HitPos, 60, 100)
+	end
+end
+
 if CLIENT then
 	function SWEP:SetupPoseParameters(ent)
 		ent:SetPoseParameter("drc_charge", self:GetFireDuration() / 2.5)
@@ -223,6 +231,9 @@ if CLIENT then
 end
 
 function SWEP:DoImpactEffect(tr, dmgtype)
+	util.Decal("RedGlowFade", tr.HitPos, tr.HitPos + tr.Normal)
+	util.Decal("FadingScorch", tr.HitPos, tr.HitPos + tr.Normal)
+
 	return true
 end
 
