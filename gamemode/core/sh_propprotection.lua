@@ -34,7 +34,7 @@ if SERVER then
 			return
 		end
 
-		if IsValid(ply) then
+		if IsValid(ply) and ply:IsPlayer() then
 			self:SetOwnerID(ply:SteamID())
 			self:SetOwnerName(ply:VisibleRPName())
 		else
