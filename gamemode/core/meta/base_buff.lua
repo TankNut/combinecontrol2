@@ -3,24 +3,25 @@ local BUFF = {}
 BUFF.RemoveOnDeath = false
 BUFF.RemoveOnHeal = false -- Not yet implemented
 
-function BUFF:Initialize(data)
-	self.Timers = {}
-	self.Stacks = 1
+BUFF.Duration = 0 -- If set, removes a stack every X seconds
+BUFF.Interval = 0 -- If set, calls BUFF:OnTick every X seconds
+
+function BUFF:Initialize()
 end
 
-function BUFF:OnDuplicate(data)
-	self:AddStacks(data.Amount)
+function BUFF:Duplicate(stacks, time)
+	self:AddStacks(stacks)
 end
 
 function BUFF:OnStacksAdded(amount)
 end
 
+function BUFF:OnStacksRemoved(amount)
+end
+
 function BUFF:AddStacks(amount)
 	self.Stacks = self.Stacks + amount
 	self:OnStacksAdded(amount)
-end
-
-function BUFF:OnStacksRemoved(amount)
 end
 
 function BUFF:RemoveStacks(amount)
@@ -32,99 +33,47 @@ function BUFF:RemoveStacks(amount)
 	end
 end
 
--- Mini metatable for some timer-related helpers
-local TIMER = {}
-TIMER.__index = TIMER
-
-function TIMER:TimeElapsed()
-	return CurTime() - self.Start
+function BUFF:OnTick()
 end
 
-function TIMER:TimeLeft()
-	if not self.Duration then
-		return
-	end
-
-	return self.Duration - self:TimeElapsed()
-end
-
-function TIMER:TimeFraction()
-	if not self.Duration then
-		return
-	end
-
-	return math.TimeFraction(self.Start, self.Start + self.Duration, CurTime())
-end
-
-function TIMER:IntervalElapsed()
-	return CurTime() - self.LastTick
-end
-
-function TIMER:IntervalLeft()
-	if not self.TickInterval then
-		return
-	end
-
-	return self.TickInterval - self:IntervalElapsed()
-end
-
-function TIMER:IntervalFraction()
-	if not self.TickInterval then
-		return
-	end
-
-	return math.TimeFraction(self.LastTick, self.LastTick + self.TickInterval, CurTime())
-end
-
-function BUFF:AddTimer(name, start, duration, tickInterval, data)
-	local index = name or #self.Timers + 1
-
-	self.Timers[index] = setmetatable({
-		Index = index,
-
-		Start = start,
-		Duration = duration,
-
-		LastTick = start,
-		TickInterval = tickInterval,
-
-		Data = data or {}
-	}, TIMER)
-
-	return index
-end
-
-function BUFF:GetTimer(name)
-	return self.Timers[name]
-end
-
-function BUFF:RemoveTimer(name)
-	self.Timers[name] = nil
-end
-
-function BUFF:OnTimer(index, data)
+function BUFF:OnExpire()
 	self:RemoveStacks(1)
-end
-
-function BUFF:OnTick(index, data)
-end
-
-function BUFF:CheckTimers()
-	for k, data in pairs(self.Timers) do
-		if data.TickInterval and CurTime() - data.LastTick >= data.TickInterval then
-			data.LastTick = data.LastTick + data.TickInterval
-			self:OnTick(data.Index, data.Data)
-		end
-
-		if data.Duration and CurTime() - data.Start >= data.Duration then
-			self.Timers[k] = nil
-			self:OnTimer(data.Index, data.Data)
-		end
-	end
 end
 
 function BUFF:Think()
 	self:CheckTimers()
+end
+
+function BUFF:TimeLeft()
+	if self.Duration > 0 then
+		local time = CurTime() - self.LastTimer
+
+		return self.Duration - time
+	end
+
+	return 0
+end
+
+function BUFF:TickTimeLeft()
+	if self.Interval > 0 then
+		local time = CurTime() - self.LastTimer
+
+		return self.Interval - time
+	end
+
+	return 0
+end
+
+function BUFF:CheckTimers()
+	if self.Interval > 0 and CurTime() - self.LastTick >= self.Interval then
+		self.LastTick = CurTime()
+		self:OnTick()
+	end
+
+	if self.Duration > 0 and CurTime() - self.LastTimer >= self.Duration then
+		self.LastTimer = CurTime()
+		self:OnExpire()
+	end
 end
 
 function BUFF:OnRemove()

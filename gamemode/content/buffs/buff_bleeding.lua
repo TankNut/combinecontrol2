@@ -1,37 +1,22 @@
-local BaseClass = inherit.Get("buff", "base")
-
 BUFF.RemoveOnDeath = true
 
 BUFF.Duration = 5
-
 BUFF.Interval = 1
+
 BUFF.Damage = 2
 
-function BUFF:Initialize(data)
-	BaseClass.Initialize(self, data)
-
-	self:AddBleedStack(data)
+function BUFF:Initialize()
 	print("You start bleeding!")
+
+	-- Force the first damage tick immediately
+	self:OnTick()
 end
 
-function BUFF:OnDuplicate(data)
-	self:AddBleedStack(data)
-end
-
-function BUFF:AddBleedStack(data)
-	self:AddStacks(1)
-	self:AddTimer(nil, data.CurTime,
-		data.Duration or self.Duration,
-		data.Interval or self.Interval, {
-			Damage = data.Damage or self.Damage
-		})
-end
-
-function BUFF:OnTick(index, data)
+function BUFF:OnTick()
 	if SERVER then
 		local dmginfo = DamageInfo()
 
-		dmginfo:SetDamageType(DMG_FALL) -- So we don't get viewpunch
+		dmginfo:SetDamageType(DMG_FALL) -- So we don't get viewpunch and bypass things like shields
 		dmginfo:SetDamage(data.Damage)
 		dmginfo:SetAttacker(self.Player)
 
@@ -39,6 +24,6 @@ function BUFF:OnTick(index, data)
 	end
 end
 
-function BUFF:OnExpire()
+function BUFF:OnRemove()
 	print("The bleeding has stopped!")
 end

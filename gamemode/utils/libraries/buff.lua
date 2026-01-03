@@ -60,30 +60,31 @@ function PLAYER:HasBuff(name)
 	return tobool(self:GetBuff(name))
 end
 
-function PLAYER:AddBuff(name, data)
+-- Third arg is only really applicable on CLIENT
+function PLAYER:AddBuff(name, stacks, startTime)
+	stacks = stacks or 1
+	startTime = startTime or CurTime()
+
 	local buff = self:GetBuff(name)
 
-	if isnumber(data) then
-		data = {Amount = data}
-	end
-
-	data = data or {Amount = 1}
-	data.CurTime = data.CurTime or CurTime()
-
 	if buff then
-		buff:OnDuplicate(data)
+		buff:Duplicate(stacks, startTime)
 	else
 		local instance = inherit.Instance("buff", name, {
-			Player = self
+			Player = self,
+			Stacks = stacks,
+			StartTime = startTime,
+			LastTick = startTime,
+			LastTimer = startTime
 		})
 
 		self:GetBuffs()[name] = instance
 
-		instance:Initialize(data)
+		instance:Initialize()
 	end
 
 	if SERVER then
-		netstream.Send(self, "AddBuff", name, data)
+		netstream.Send(self, "AddBuff", name, stacks, startTime)
 	end
 end
 
@@ -94,10 +95,10 @@ function PLAYER:RemoveBuff(name, amount)
 		return
 	end
 
-	if amount == true then
+	if amount == nil then
 		buff:Remove()
 	else
-		buff:RemoveStacks(amount or 1)
+		buff:RemoveStacks(amount)
 	end
 
 	if SERVER then
@@ -116,8 +117,8 @@ function PLAYER:ClearBuffs()
 end
 
 if CLIENT then
-	netstream.Hook("AddBuff", function(name, data)
-		lp:AddBuff(name, data)
+	netstream.Hook("AddBuff", function(name, stacks, startTime)
+		lp:AddBuff(name, stacks, startTime)
 	end)
 
 	netstream.Hook("RemoveBuff", function(name, amount)

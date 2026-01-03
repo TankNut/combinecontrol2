@@ -1,52 +1,31 @@
-local BaseClass = inherit.Get("buff", "base")
-
 BUFF.RemoveOnDeath = true
+
 BUFF.Duration = 10
 
-function BUFF:Initialize(data)
-	BaseClass.Initialize(self, data)
-
-	self:BreakLegs(data)
+function BUFF:Initialize()
+	if SERVER then
+		self.Player:EmitSound("Flesh.Break")
+	end
 end
 
-function BUFF:OnDuplicate(data)
-	self:BreakLegs(data)
-end
-
-function BUFF:BreakLegs(data)
+function BUFF:Duplicate(stacks, time)
 	if SERVER then
 		self.Player:EmitSound("Flesh.Break")
 	end
 
-	local time = self:GetTimer(1)
-	local duration = data.Duration or self.Duration
-
-	-- Only reset the timer if the new length is longer than the old
-	if time and time:TimeLeft() > duration then
-		return
-	end
-
-	self:AddTimer(1, data.CurTime, duration)
+	self.LastTimer = time
 end
 
-function BUFF:OnTimer(index, data)
-	self:Remove()
-end
+function BUFF:SetupMove(mv, cmd)
+	local ply = self.Player
+	local fraction = 1 - (self:TimeLeft() / self.Duration)
 
-function BUFF:Move(mv)
-	local data = self:GetTimer(1)
-
-	local fraction = data:TimeFraction()
-	local crouchSpeed = self.Player:GetWalkSpeed() * self.Player:GetCrouchedWalkSpeed()
-
-	mv:LimitSpeed(Lerp(fraction, crouchSpeed, self.Player:GetRunSpeed()))
+	mv:LimitSpeed(Lerp(fraction, ply:GetWalkSpeed() * ply:GetCrouchedWalkSpeed(), ply:GetRunSpeed()))
 end
 
 -- if SERVER then
 -- 	hook.Add("OnTakeFallDamage", "cc2.BrokenLegs", function(ply, damage)
--- 		ply:AddBuff("broken_legs", {
--- 			Duration = math.min(damage, 20)
--- 		})
+-- 		ply:AddBuff("broken_legs")
 -- 	end)
 
 -- 	hook.Add("PostEntityTakeDamage", "cc2.BrokenLegs", function(ply, dmg, took)
@@ -60,8 +39,6 @@ end
 -- 			return
 -- 		end
 
--- 		ply:AddBuff("broken_legs", {
--- 			Duration = math.min(dmg:GetDamage(), 10)
--- 		})
+-- 		ply:AddBuff("broken_legs")
 -- 	end)
 -- end
