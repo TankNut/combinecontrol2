@@ -42,6 +42,11 @@ if CLIENT then
 		end
 
 		if Chat.Bind(bind, down) then return true end
+
+		if ply:InVehicle() then
+			return
+		end
+
 		if WeaponSelect.Bind(bind, down) then return true end
 	end
 

@@ -38,7 +38,6 @@ local areaMapping = {
 
 
 
-
 local stopSound = console.AddCommand("rpa_stopsound", function(ply)
 	Log.Write("admin_stopsound", ply)
 
