@@ -130,7 +130,11 @@ function CONTROLLER:TranslateActivity(ply, act)
 	local new = ply:TranslateWeaponActivity(act)
 
 	if act == new then
-		return idleTranslate[act]
+		new = idleTranslate[act]
+	end
+
+	if new == ACT_HL2MP_RUN and ply:GetVelocity():Length2D() >= 200 then
+		new = ACT_HL2MP_RUN_FAST
 	end
 
 	return new
