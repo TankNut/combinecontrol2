@@ -1,20 +1,3 @@
-local function filterDRC(ent, class)
-	if string.Left(class, 4) == "drc_" then
-		return false
-	end
-end
-
-hook.Add("PreRegisterSENT", "cc2.DRCPatch", filterDRC)
-hook.Add("PreRegisterSWEP", "cc2.DRCPatch", filterDRC)
-
-if SERVER then
-	-- DRC shields are broken, so we just don't
-	function DRC:SetShieldInfo()
-	end
-
-	return
-end
-
 local function resolveEntity(ent)
 	if IsValid(ent) and ent:GetClass() == "viewmodel" then
 		return ent:GetOwner():GetActiveWeapon()
