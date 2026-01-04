@@ -1,3 +1,5 @@
+list.RemoveEntry("DesktopWindows", "PlayerEditor")
+
 local entityCategoryIcons = {
 	["Spawnpoints"] = "icon16/status_online.png",
 	["Utilities"] = "icon16/cog.png",
