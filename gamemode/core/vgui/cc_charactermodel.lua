@@ -43,21 +43,23 @@ function PANEL:SetEntity(ent)
 end
 
 function PANEL:SetModel(mdl)
-	local cycle = 0
+	local cycle = math.random()
+	local ent = self.Entity
 
-	if IsValid(self.Entity) then
-		cycle = self.Entity:GetCycle()
+	if IsValid(ent) then
+		cycle = ent:GetCycle()
 
-		part.Clear(self.Entity)
+		part.Clear(ent)
 
-		if self.Entity:GetModel() == mdl then
+		if ent:GetModel() == mdl then
 			return
 		end
 	end
 
 	DModelPanel.SetModel(self, mdl)
 
-	self.Entity:SetCycle(cycle)
+	ent = self.Entity
+	ent:SetCycle(cycle)
 end
 
 function PANEL:SetAppearance(appearance)
@@ -133,6 +135,7 @@ function PANEL:LayoutEntity(ent)
 
 	ent:SetAngles(ang)
 	ent:SetEyeTarget(Vector(0, 0, height) + dir * 50)
+	ent:FrameAdvance()
 end
 
 function PANEL:OnMouseWheeled(delta)
