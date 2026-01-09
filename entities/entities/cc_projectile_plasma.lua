@@ -1,7 +1,7 @@
 AddCSLuaFile()
-DEFINE_BASECLASS("cc_base_rocket")
+DEFINE_BASECLASS("cc_base_projectile")
 
-ENT.Base = "cc_base_rocket"
+ENT.Base = "cc_base_projectile"
 
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 

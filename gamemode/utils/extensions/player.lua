@@ -81,53 +81,6 @@ function PLAYER:IsHoldingWeapon(class)
 	return IsValid(weapon) and weapon:IsType(class)
 end
 
-function PLAYER:FindOpenSpace(origin)
-	local mins, maxs = self:GetHull()
-	local scale = self:GetModelScale()
-
-	mins:Mul(scale)
-	maxs:Mul(scale)
-
-	local result = {}
-	local trace = {
-		start = origin + Vector(0, 0, maxs.z * 0.5),
-		endpos = origin,
-		mins = mins,
-		maxs = maxs,
-		filter = self,
-		mask = MASK_PLAYERSOLID,
-		output = result
-	}
-
-	util.TraceHull(trace)
-
-	if not result.StartSolid then
-		return result.HitPos
-	end
-
-	local dist = maxs.x - mins.x
-
-	-- Potential improvements, some method for making sure you don't end up behind a wall/outside?
-	for i = 1, 25 do
-		local ang = math.rad(math.random(0, 359))
-		local radius = math.Rand(dist * 2, dist * 5)
-
-		local x = math.cos(ang) * radius
-		local y = math.sin(ang) * radius
-
-		trace.start = origin + Vector(x, y, maxs.z * 0.5)
-		trace.endpos = origin + Vector(x, y, maxs.z * -0.2)
-
-		util.TraceHull(trace)
-
-		if not result.StartSolid and result.Fraction != 1 then
-			return result.HitPos
-		end
-	end
-
-	return origin
-end
-
 function player.GetAdmins()
 	local tab = {}
 

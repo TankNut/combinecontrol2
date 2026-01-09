@@ -119,5 +119,4 @@ else
 	hook.Remove("PlayerGiveSWEP", "drc_GivePickupOnlyWeapon")
 	hook.Remove("WeaponEquip", "VoiceSets_WeaponEquip")
 	hook.Remove("PlayerSpawnedNPC", "drc_NPCWeaponOverride")
-
 end

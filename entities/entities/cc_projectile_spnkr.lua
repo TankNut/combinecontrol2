@@ -1,14 +1,15 @@
 AddCSLuaFile()
-DEFINE_BASECLASS("cc_base_rocket")
+DEFINE_BASECLASS("cc_base_projectile")
 
-ENT.Base = "cc_base_rocket"
+ENT.Base = "cc_base_projectile"
 
 ENT.Model = Model("models/vuthakral/halo/weapons/spnkr_rocket.mdl")
 
 ENT.Velocity = 4000
 
+ENT.LoopSound = Sound("drc.SPNKr_rocket_flight")
+
 ENT.Damage = 200
-ENT.LoopSound = Sound("vuthakral/halo/weapons/spnkr/rocketloop.wav")
 
 if SERVER then
 	function ENT:Initialize()
@@ -42,18 +43,11 @@ if SERVER then
 	function ENT:OnHit(tr)
 		self:SetImpact(tr.HitPos)
 
-		local explo = ents.Create("env_explosion")
-		explo:SetOwner(self:GetOwner())
-		explo:SetPos(tr.HitPos)
-		explo:SetKeyValue("spawnflags", 96)
-		explo:SetKeyValue("iMagnitude", self.Damage)
-		explo:Spawn()
-		explo:Activate()
-		explo:Fire("Explode")
+		util.Explosion(tr.HitPos, self:GetOwner(), self.Damage, SF_EXPLOSION_MUTE)
 
 		-- New way of doing distant sounds?
 		local filter = RecipientFilter()
-		filter:AddAllPlayers()
+		filter:AddPAS(tr.HitPos)
 
 		self:EmitSound("Weapon_Spnkr.Explode", 140, 100, 1, CHAN_STATIC, 0, 0, filter)
 		self:Remove()

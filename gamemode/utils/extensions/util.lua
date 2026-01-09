@@ -85,3 +85,22 @@ function util.GetSeededColor(seed, s, v)
 
 	return col
 end
+
+if SERVER then
+	function util.Explosion(pos, owner, damage, spawnflags, radius)
+		local ent = ents.Create("env_explosion")
+
+		ent:SetOwner(owner)
+		ent:SetPos(pos)
+		ent:SetKeyValue("spawnflags", bit.bor(32, spawnflags)) -- We always disable sparks
+		ent:SetKeyValue("iMagnitude", damage)
+
+		if radius then
+			ent:SetKeyValue("iRadiusOverride", radius)
+		end
+
+		ent:Spawn()
+		ent:Activate()
+		ent:Fire("Explode")
+	end
+end
