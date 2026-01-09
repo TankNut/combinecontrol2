@@ -16,7 +16,8 @@ function ENT:Initialize()
 	self:SetModel(self.Model)
 	self:AddEffects(EF_NOSHADOW)
 
-	if SERVER then
+	if CLIENT then
+	else
 		self.LastMove = CurTime()
 		self.Weapon = self:GetOwner():GetActiveWeapon()
 
@@ -33,7 +34,8 @@ function ENT:SetupDataTables()
 	self:NetworkVar("Vector", "ProjectileVelocity")
 end
 
-if SERVER then
+if CLIENT then
+else
 	function ENT:UpdateVelocity(vel, delta)
 		if self.Gravity != 0 then
 			vel = vel + (physenv.GetGravity() * self.Gravity * delta)
