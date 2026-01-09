@@ -75,7 +75,7 @@ else
 	function ENT:OnHit(tr)
 		self:SetImpact(tr.HitPos)
 
-		util.Explosion(tr.HitPos, self:GetOwner(), self.Damage, bit.bor(SF_EXPLOSION_MUTE, SF_EXPLOSION_NO_EFFECTS))
+		util.Explosion(tr.HitPos, self:GetOwner(), self.Damage, SF_EXPLOSION_DECAL_ONLY)
 
 		local effect = EffectData()
 		effect:SetOrigin(tr.HitPos)
