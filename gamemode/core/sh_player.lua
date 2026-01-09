@@ -139,16 +139,16 @@ function GM:StartCommand(ply, cmd)
 end
 
 local function handle(ply, index, ...)
-	local func = ply:RunCharFlag(index)
+	local val = ply:RunCharFlag(index, ...)
 
-	if func then
-		func(ply, ...)
+	if val != nil then
+		return val
 	end
 
 	local weapon = ply:GetActiveWeapon()
 
 	if IsValid(weapon) and weapon:IsType("weapon_cc_base") and weapon[index] then
-		weapon[index](weapon, ply, ...)
+		return weapon[index](weapon, ply, ...)
 	end
 end
 
@@ -196,7 +196,7 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 	return not ply:CanAct()
 end
 
-function GM:PlayerTakeDamage(ply, dmginfo)
+function GM:PlayerTakeDamage(ply, dmginfo, hitgroup)
 	if ply:IsInNoClip() or ply:NoDamage() or not ply:HasCharacter() then
 		return true
 	end
@@ -208,7 +208,10 @@ function GM:PlayerTakeDamage(ply, dmginfo)
 	if ply:IsBlocking() and dmginfo:IsDamageType(DMG_CLUB + DMG_SLASH) then
 		dmginfo:ScaleDamage(ply:GetActiveWeapon().BlockMultiplier)
 	end
+
+	return handle(ply, "PlayerTakeDamage", dmginfo)
 end
 
 function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
+	return hook.Run("PlayerTakeDamage", ply, dmginfo, hitgroup)
 end

@@ -57,7 +57,7 @@ if SERVER then
 	end
 end
 
-function PLAYER:ApplyFlag(ply)
+function PLAYER:ApplyFlag()
 	if CLIENT then
 		return
 	end

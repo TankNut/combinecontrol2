@@ -15,13 +15,13 @@ FLAG.EquipmentSlots = {
 	"radio"
 }
 
+FLAG.Clothing = CLOTHING_NONE
+
 FLAG.SlowWalkSpeed = 80
 FLAG.WalkSpeed = 80
 FLAG.RunSpeed = 350
 FLAG.JumpPower = 300
 FLAG.CrouchSpeed = 80
-
-FLAG.Clothing = CLOTHING_NONE
 
 FLAG.NoFallDamage = true
 FLAG.OmniSprint = true

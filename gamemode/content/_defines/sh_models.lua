@@ -44,6 +44,17 @@ Hull.AddModel("jackal",
 	"models/halo_reach/characters/players/covenant/jackal",
 	"models/halo_reach/characters/players/covenant/skirmisher")
 
+-- Hunters
+Hull.AddType("hunter", {
+	Standing = {Vector(-36, -36, 0), Vector(36, 36, 100), Vector(0, 0, 80)},
+	Crouching = {Vector(-36, -36, 0), Vector(36, 36, 80), Vector(0, 0, 64)},
+})
+
+Hull.AddModel("hunter", "models/valk/haloreach/covenant/characters/hunter")
+
+Hands.AddModel("models/valk/haloreach/covenant/characters/hunter", {Model = Model("models/valk/haloreach/covenant/characters/hunter/c_arms_hunter.mdl")})
+
+
 -- CTP overrides
 if CLIENT then
 	ctp:AddBoneOverride("models/halo_reach/players/elite", {
