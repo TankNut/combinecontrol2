@@ -8,6 +8,8 @@ ENT.Model = Model("models/weapons/w_missile_launch.mdl")
 ENT.Velocity = 0
 ENT.Gravity = 0
 
+ENT.LoopSound = nil
+
 -- Trace masks
 ENT.Mask = MASK_SOLID
 ENT.CollisionGroup = COLLISION_GROUP_PROJECTILE
@@ -17,6 +19,9 @@ function ENT:Initialize()
 	self:AddEffects(EF_NOSHADOW)
 
 	if CLIENT then
+		if self.LoopSound then
+			self:EmitSound(self.LoopSound)
+		end
 	else
 		self.LastMove = CurTime()
 		self.Weapon = self:GetOwner():GetActiveWeapon()
@@ -35,6 +40,11 @@ function ENT:SetupDataTables()
 end
 
 if CLIENT then
+	function ENT:OnRemove()
+		if self.LoopSound then
+			self:StopSound(self.LoopSound)
+		end
+	end
 else
 	function ENT:UpdateVelocity(vel, delta)
 		if self.Gravity != 0 then
