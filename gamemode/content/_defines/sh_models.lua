@@ -54,6 +54,12 @@ ModelData.AddHull(jackals, {
 	Crouching = {Vector(-10, -10, 0), Vector(10, 10, 36), Vector(0, 0, 28)}
 })
 
+ModelData.AddViews(jackals, {
+	CamPos = {Vector(110, 0, 45), Vector(80, 0, 50)},
+	LookAt = {Vector(0, 0, 30), Vector(18, -2, 50)},
+	Sequence = "idle_all_03"
+})
+
 -- Hunters
 local hunters = "models/valk/haloreach/covenant/characters/hunter"
 
