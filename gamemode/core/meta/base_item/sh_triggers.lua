@@ -95,8 +95,21 @@ end
 function ITEM:OnEquipmentSlotChanged(old, new)
 	local ply = self:GetParent()
 
-	if old then Inventory.Equipment[ply][old] = nil end
-	if new then Inventory.Equipment[ply][new] = self end
+	if old then
+		Inventory.Equipment[ply][old] = nil
+
+		if CLIENT then
+			self:OnUnequipped(ply)
+		end
+	end
+
+	if new then
+		Inventory.Equipment[ply][new] = self
+
+		if CLIENT then
+			self:OnEquipped(ply, new)
+		end
+	end
 end
 
 function ITEM:OnWeightChanged(old, new)
