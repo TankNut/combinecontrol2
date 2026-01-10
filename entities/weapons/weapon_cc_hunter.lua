@@ -23,7 +23,7 @@ SWEP.Stats = {
 	Offset = Vector(25, -30, -20),
 	Angle = Angle(-5, 0, 0),
 
-	Accuracy = {12, 2}
+	Accuracy = ACCURACY_GOOD
 }
 
 SWEP.Recoil = {

@@ -20,7 +20,7 @@ SWEP.Stats = {
 
 	Offset = Vector(8, -8, -8),
 
-	Accuracy = {12, 2}
+	Accuracy = ACCURACY_GOOD
 }
 
 SWEP.Heat = {

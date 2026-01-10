@@ -24,7 +24,7 @@ SWEP.Stats = {
 	DamageFalloff = 0.98, -- Damage percentage per 1000 units
 
 	FixedRange = false, -- For shotguns, overrides Settings.Range and forces it to use only Accuracy
-	Accuracy = {12, 2}, -- Hip vs aimed
+	Accuracy = ACCURACY_GOOD, -- See sh_balance.lua
 
 	Tracer = "Tracer", -- The tracer effect, do not leave empty
 	TracerCount = 1, -- Fire a tracer every X bullets
