@@ -20,15 +20,9 @@ function Add(id, data)
 end
 
 function PLAYER:HasPermission(id)
-	assert(List[id], "Attempt to check undefined permission: " .. id)
+	local define = assert(List[id], "Attempt to check undefined permission: " .. id)
 
-	if self:IsSuperAdmin() then
-		return true
-	end
-
-	local callback = List[id].Callback
-
-	if callback and callback(self) then
+	if define.Callback and define.Callback(self) then
 		return true
 	end
 

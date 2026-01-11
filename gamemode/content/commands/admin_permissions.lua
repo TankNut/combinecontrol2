@@ -8,7 +8,7 @@ local listPermissions = console.AddCommand("rpa_permissions_list", function(ply,
 	for id, data in SortedPairs(Permissions.List) do
 		local text = string.format("  %s - %s", id, data.Description)
 
-		if target:IsSuperAdmin() or (data.Callback and data.Callback(target)) then
+		if data.Callback and data.Callback(target) then
 			table.insert(automatic, text)
 		elseif permissions[id] then
 			table.insert(manual, text)
@@ -45,7 +45,7 @@ listPermissions:AddParameter(console.Player({SingleTarget = true}))
 
 local addPermission = console.AddCommand("rpa_permissions_add", function(ply, target, permission)
 	if target:HasPermission(permission.ID) then
-		console.Feedback(ply, "ERROR", "They already has this permission!")
+		console.Feedback(ply, "ERROR", "They already have that permission!")
 
 		return
 	end
@@ -66,7 +66,7 @@ addPermission:SetDescription("Gives a permission to a player")
 addPermission:SetExecutionContext(console.Server)
 addPermission:SetAccess(console.IsAdmin)
 
-addPermission:AddParameter(console.Player({SingleTarget = true}))
+addPermission:AddParameter(console.Player({SingleTarget = true, StrictImmunity = true}))
 addPermission:AddParameter(console.Permission({Assignable = true}))
 
 
@@ -74,8 +74,8 @@ addPermission:AddParameter(console.Permission({Assignable = true}))
 
 
 local removePermission = console.AddCommand("rpa_permissions_remove", function(ply, target, permission)
-	if target:IsSuperAdmin() or (permission.Callback and permission.Callback(target)) then
-		console.Feedback(ply, "ERROR", "You can't take this permission from them!")
+	if not target:HasPermission(permission.ID) then
+		console.Feedback(ply, "ERROR", "They don't have that permission!")
 
 		return
 	end
@@ -96,5 +96,5 @@ removePermission:SetDescription("Takes a permission from a player")
 removePermission:SetExecutionContext(console.Server)
 removePermission:SetAccess(console.IsAdmin)
 
-removePermission:AddParameter(console.Player({SingleTarget = true}))
+removePermission:AddParameter(console.Player({SingleTarget = true, StrictImmunity = true}))
 removePermission:AddParameter(console.Permission({Assignable = true}))

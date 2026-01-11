@@ -308,15 +308,15 @@ console.Parser("Permission", function(ply, args, last, options)
 
 	local define = Permissions.List[val]
 
-	if define then
-		if options.Assignable and IsValid(ply) and define.CanAssign and define.CanAssign(ply) then
-			return false, "You cannot assign this permission"
-		end
-
-		return true, define
-	else
+	if not define then
 		return false, "Must be a valid permission"
 	end
+
+	if options.Assignable and define.Callback then
+		return false, "This permission cannot be assigned manually"
+	end
+
+	return true, define
 end)
 
 console.Parser("CharacterGen", function(ply, args, last, options)
