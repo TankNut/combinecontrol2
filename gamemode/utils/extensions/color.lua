@@ -217,7 +217,7 @@ function COLOR:Register(name)
 end
 
 function COLOR:GetInverted()
-	return Color(255, - self.r, 255 - self.g, 255 - self.b, self.a)
+	return Color(255 - self.r, 255 - self.g, 255 - self.b, self.a)
 end
 
 function COLOR:GetTriadic()
