@@ -85,6 +85,10 @@ function SWEP:DrawHUD()
 	self:DrawScopeOverlay(x, y, w, h)
 end
 
+local developer = GetConVar("developer")
+local scopeCheck = function(self)
+	return self:InScope() and not (developer:GetBool() and lp:IsDeveloper())
+end
 
 function SWEP:ShouldDrawCrosshair()
 	if self:GetHolstered() or self:ShouldLower() then
@@ -95,7 +99,7 @@ function SWEP:ShouldDrawCrosshair()
 		return false
 	end
 
-	if self:InScope() then
+	if scopeCheck(self) then
 		return false
 	end
 
@@ -120,7 +124,7 @@ function SWEP:DoDrawCrosshair(x, y)
 		end
 	end
 
-	if alpha == 0 or self:InScope() then
+	if alpha == 0 or scopeCheck(self) then
 		return true
 	end
 
@@ -148,7 +152,7 @@ function SWEP:DoDrawCrosshair(x, y)
 
 	local punch = self:GetRecoilPunch().p
 	local accel = math.max(self.RecoilAcceleration.p, 0)
-	local add = math.NormalizeAngle(math.abs(punch - accel)) * 2
+	local add = math.abs(punch - accel) * 2
 
 	local normal = tr.Normal:Angle():Right()
 	local gap = math.abs(pos.x - (tr.HitPos + normal * offset):ToScreen().x) + add
