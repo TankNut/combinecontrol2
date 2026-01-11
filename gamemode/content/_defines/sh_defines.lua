@@ -95,3 +95,14 @@ COVENANT_TAC2 = Radio.AddPreset("covenant", "COVENANT-TAC2")
 
 UNSC_SATCOM = Radio.AddPreset("unsc", "UNSC-SATCOM")
 UNSC_TACCOM = Radio.AddPreset("unsc", "UNSC-TACCOM")
+
+-- Defines the display order only
+GM.SettingsCategories = {
+	"General",
+	"Chat",
+	"Controls",
+	"Keybinds",
+	"Hud",
+	"Admin",
+	"SeeAll"
+}

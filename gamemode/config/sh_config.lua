@@ -8,16 +8,6 @@ GM.Config.CommunityLinks = {
 
 GM.Config.MapOverrides = {} -- Makes the script believe it's running on a different map, useful for maps with different versions but identical layouts
 
-GM.Config.SettingCategories = {
-	"General",
-	"Chat",
-	"Controls",
-	"Keybinds",
-	"Hud",
-	"Admin",
-	"SeeAll"
-}
-
 -- Chat
 GM.Config.ChatLimit = 500
 
