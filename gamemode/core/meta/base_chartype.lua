@@ -1,5 +1,6 @@
 local CLASS = {}
 
+CLASS.Permissions = {}
 CLASS.Default = false
 
 CLASS.SortOrder = 0

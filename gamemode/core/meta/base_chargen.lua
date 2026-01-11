@@ -2,6 +2,7 @@ local GENERATOR = {}
 
 GENERATOR.Name = "Unnamed Character Generator"
 
+GENERATOR.Permissions = {}
 GENERATOR.Default = false
 
 function GENERATOR:GetFields(ply)

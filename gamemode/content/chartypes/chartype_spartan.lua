@@ -1,7 +1,7 @@
 CLASS.Name = "Spartan"
 CLASS.SortOrder = 2
 
-CLASS.Permission = "character_spartan"
+CLASS.Permissions = {"character_spartan"}
 
 CLASS.OptionalLanguages = {
 	"rus", "spa", "chi",

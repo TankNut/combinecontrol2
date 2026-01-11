@@ -64,8 +64,14 @@ function PLAYER:CanUseCharacterGenerator(id)
 		return
 	end
 
-	if self:IsAdmin() or (define.Permission and self:HasPermission(define.Permission)) then
+	if self:IsAdmin() then
 		return true
+	end
+
+	for _, permission in ipairs(define.Permissions) do
+		if self:HasPermission(permission) then
+			return true
+		end
 	end
 
 	return tobool(define.Default)
