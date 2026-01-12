@@ -58,14 +58,12 @@ function HUD:DrawLimits(w, h, baseOffset, rightOffset, margin)
 	local limitScribeH = 0
 	local limitOffset = 0
 
-	for _, limit in ipairs(self.Limits) do
-		local default = Config.Get("Limits")[limit] or 0
-		local multiplier = Config.Get("LimitMultipliers")[lp:GetToolTrust()]
-
+	for _, name in ipairs(self.Limits) do
+		local limit = lp:GetLimit(name)
 		local limitScribe = scribe.Parse(string.format("<giant><ol><c=cc_normal>%s: %s%s",
-			string.FirstToUpper(limit),
-			lp:GetCount(limit),
-			(default == -1 or multiplier == -1) and "" or "/" .. math.floor(default * multiplier)))
+			string.FirstToUpper(name),
+			lp:GetCount(name),
+			limit == -1 and "" or "/" .. limit))
 
 		table.insert(limitLines, limitScribe)
 

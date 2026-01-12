@@ -172,32 +172,22 @@ GM.Config.ToolTrust = {
 
 -- Mostly gmod defaults, need to tweak
 GM.Config.Limits = {
-	["balloons"] = 100,
-	["buttons"] = 50,
-	["cameras"] = 10,
-	["constraints"] = 1000, -- Probably too high
-	["doors"] = 5,
-	["dynamite"] = 10,
+	["effects"] = 10,
+	["props"] = 50,
+	["ragdolls"] = 0
+}
+
+GM.Config.DonatorLimits = {
 	["effects"] = 20,
-	["emitters"] = 20,
-	["hoverballs"] = 50,
-	["lamps"] = 3,
-	["lights"] = 5,
-	["npcs"] = 10,
 	["props"] = 100,
-	["ragdolls"] = 2,
-	["ropeconstraints"] = 20,
-	["sents"] = 100,
-	["thrusters"] = 50,
-	["vehicles"] = 4,
-	["wheels"] = 50
+	["ragdolls"] = 10
 }
 
 GM.Config.LimitMultipliers = {
 	[TOOLTRUST_BANNED] = 0,
 	[TOOLTRUST_UNTRUSTED] = 0.5,
 	[TOOLTRUST_TRUSTED] = 1,
-	[TOOLTRUST_ADVANCED] = 1.5,
+	[TOOLTRUST_ADVANCED] = 2,
 	[TOOLTRUST_ADMIN] = -1,
 	[TOOLTRUST_DEVELOPER] = -1
 }

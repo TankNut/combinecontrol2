@@ -260,15 +260,29 @@ function GM:CanArmDupe(ply)
 	return false
 end
 
-function GM:PlayerCheckLimit(ply, name, current, default)
-	local limit = Config.Get("Limits")[name] or default or 0
-	local multiplier = Config.Get("LimitMultipliers")[ply:GetToolTrust()]
+function PLAYER:GetLimit(name)
+	local limit = Config.Get("Limits")[name] or cvars.Number("sbox_max" .. name, 0)
+	local multiplier = Config.Get("LimitMultipliers")[self:GetToolTrust()]
+
+	if self:IsDonator() then
+		limit = Config.Get("DonatorLimits")[name] or limit
+	end
 
 	if limit == -1 or multiplier == -1 then
+		return -1
+	end
+
+	return math.floor(limit * multiplier)
+end
+
+function GM:PlayerCheckLimit(ply, name, current, default)
+	local limit = ply:GetLimit(name)
+
+	if limit == -1 then
 		return true
 	end
 
-	return current < math.floor(limit * multiplier)
+	return current < limit
 end
 
 function GM:CanDrive(ply, ent)
