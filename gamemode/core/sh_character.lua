@@ -107,6 +107,11 @@ function GM:PostLoadCharacter(ply)
 
 		ply:Spawn()
 		ply:CheckLanguage()
+
+		if ply.FirstLoad then
+			ply:CheckDonation()
+			ply.FirstLoad = false
+		end
 	end
 end
 

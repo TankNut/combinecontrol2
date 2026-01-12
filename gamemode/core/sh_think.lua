@@ -24,17 +24,11 @@ if SERVER then
 	local PLAYER = FindMetaTable("Player")
 
 	function PLAYER:UpdatePhysgunColor()
-		local vec = Vector(0.30, 1.80, 2.10)
+		local vec = self:GetSetting("PhysgunColor"):ToVector()
 
-		if self:IsDeveloper() then
+		if self:GetSetting("RainbowPhysgun") then
 			for i = 1, 3 do
 				vec[i] = math.abs(math.sin(CurTime() * 2.4 + (2 * i)))
-			end
-		elseif self:IsAdmin() or self:DonatorActive() then
-			vec = Vector(self:GetInfo("cl_weaponcolor"))
-
-			if vec:Length() < 0.001 then
-				vec = Vector(0.001, 0.001, 0.001)
 			end
 		end
 

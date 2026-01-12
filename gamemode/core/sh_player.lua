@@ -3,8 +3,6 @@ local PLAYER = FindMetaTable("Player")
 PlayerVar.Add("ScoreboardTitle", {Default = "", Persist = true, DataType = VARCHAR(64)})
 PlayerVar.Add("ScoreboardTitleC", {Default = Vector(255, 255, 255), Persist = true, DataType = BLOB()})
 
-PlayerVar.Add("DonatorActive", {Default = false})
-
 PlayerVar.Add("NoDamage", {Default = false, Private = true})
 
 PlayerVar.Add("OOCMuted", {Default = false, Persist = true, DataType = BOOL()})

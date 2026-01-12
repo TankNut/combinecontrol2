@@ -406,9 +406,17 @@ function SKIN:PaintScoreboardEntry(panel, w, h)
 	end
 
 	local ply = panel.Player
+	local title = ply:GetSetting("ScoreboardTitle")
 
-	draw.SimpleText(ply:VisibleRPName(), "CombineControl.LabelSmall", h + ui.Scale(19), math.Round(h * 0.33), self.Text.Normal, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-	draw.SimpleText(ply:ShortDescription(), "CombineControl.LabelSmall", h + ui.Scale(19), math.Round(h * 0.66), self.Text.Disabled, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	if #title > 1 then
+		draw.SimpleText(ply:VisibleRPName(), "CombineControl.LabelSmall", h + ui.Scale(19), math.Round(h * 0.1), self.Text.Normal, TEXT_ALIGN_LEFT)
+		draw.SimpleText(ply:ShortDescription(), "CombineControl.LabelSmall", h + ui.Scale(19), math.Round(h * 0.4), self.Text.Disabled, TEXT_ALIGN_LEFT)
+
+		draw.SimpleText(title, "CombineControl.LabelTiny", h + ui.Scale(19), math.Round(h * 0.7), ply:GetSetting("ScoreboardTitleColor"), TEXT_ALIGN_LEFT)
+	else
+		draw.SimpleText(ply:VisibleRPName(), "CombineControl.LabelSmall", h + ui.Scale(19), math.Round(h * 0.33), self.Text.Normal, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+		draw.SimpleText(ply:ShortDescription(), "CombineControl.LabelSmall", h + ui.Scale(19), math.Round(h * 0.66), self.Text.Disabled, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	end
 
 	draw.DrawText(ply:Ping(), "CombineControl.LabelSmall", w - ui.Scale(20), ui.Scale(5), self.Text.Normal, TEXT_ALIGN_RIGHT)
 

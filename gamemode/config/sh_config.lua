@@ -9,11 +9,13 @@ GM.Config.CommunityLinks = {
 GM.Config.MapOverrides = {} -- Makes the script believe it's running on a different map, useful for maps with different versions but identical layouts
 
 GM.Config.SettingCategories = {
+	"Developer",
 	"General",
 	"Chat",
 	"Controls",
 	"Keybinds",
 	"Hud",
+	"Contributor",
 	"Admin",
 	"SeeAll"
 }
