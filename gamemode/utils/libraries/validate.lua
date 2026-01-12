@@ -106,6 +106,7 @@ end, true)
 AddRule("Number", function(val) return isnumber(val), "has to be a number" end)
 AddRule("String", function(val) return isstring(val), "has to be a string" end)
 AddRule("Bool", function(val) return isbool(val), "has to be a boolean" end)
+AddRule("Color", function(val) return IsColor(val), "has to be a color" end)
 
 AddRule("Min", function(val, min)
 	if isstring(val) then
