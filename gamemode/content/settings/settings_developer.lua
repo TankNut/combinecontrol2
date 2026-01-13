@@ -7,3 +7,11 @@ Settings.Add("RainbowPhysgun", {
 	Panel = "CC_Setting_Bool",
 	CanAccess = isDeveloper
 }, "Developer")
+
+Settings.Add("RemovePlayers", {
+	Name = "Remover tool can remove players",
+	Default = false,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool",
+	CanAccess = isDeveloper
+}, "Developer")

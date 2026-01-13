@@ -1,5 +1,3 @@
-Config.Fallback("RemovePlayers", TOOLTRUST_DEVELOPER)
-
 function RemovePlayer(target, ply, tr)
 	-- Since the remover tool blocks internally on players, we have to re-create the effects ourselves
 	local effectData = EffectData()
@@ -36,7 +34,7 @@ hook.Add("CanTool", "cc2.PlayerRemover", function(args, ply, tr, tool)
 		return
 	end
 
-	if ply:GetToolTrust() < Config.Get("RemovePlayers") then
+	if not ply:GetSetting("RemovePlayers") then
 		return
 	end
 
