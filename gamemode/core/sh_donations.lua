@@ -18,19 +18,18 @@ function PLAYER:IsDonator(advanced)
 end
 
 if SERVER then
-	function PLAYER:SetDonation(level, expire)
-		self:SetDonationLevel(level)
-		self:SetDonationExpire(os.time() + expire)
-	end
-
 	function PLAYER:CheckDonation()
 		if self:DonationLevel() == DONATOR_NONE then
 			return
 		end
 
+		local expire = self:DonationExpire()
+
 		-- Might want some kind of reminder if there's less than X days left
-		if self:DonationExpire() <= os.time() then
+		if expire > 0 and expire <= os.time() then
 			self:SetDonationLevel(DONATOR_NONE)
+
+			Log.Write("donator_expire", self)
 
 			self:SendChat("NOTICE", "Your contributor status has ran out.")
 		end
