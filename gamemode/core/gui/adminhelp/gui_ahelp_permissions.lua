@@ -7,7 +7,7 @@ local func = function()
 	str = str .. "\n\n<giant><b>Assignable Permissions:</b></giant>"
 
 	for id, perm in SortedPairs(Permissions.List) do
-		if perm.CanAssign and not perm.CanAssign(lp) then
+		if perm.Callback or (perm.CanAssign and not perm.CanAssign(lp)) then
 			continue
 		end
 

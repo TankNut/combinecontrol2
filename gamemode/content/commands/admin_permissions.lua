@@ -55,7 +55,7 @@ local addPermission = console.AddCommand("rpa_permissions_add", function(ply, ta
 
 	target:SetPermissions(permissions)
 
-	Log.Write("admin_permission_add", ply, target, permission.id)
+	Log.Write("admin_permission_add", ply, target, permission.ID)
 
 	console.Feedback(target, "NOTICE", "%s has given you the %s permission", ply, permission.ID)
 	console.Feedback(ply, "NOTICE", "You've given %s the %s permission", ply, permission.ID)
@@ -85,7 +85,7 @@ local removePermission = console.AddCommand("rpa_permissions_remove", function(p
 
 	target:SetPermissions(permissions)
 
-	Log.Write("admin_permission_remove", ply, target, permission.id)
+	Log.Write("admin_permission_remove", ply, target, permission.ID)
 
 	console.Feedback(target, "NOTICE", "%s has taken the %s permission from you", ply, permission.ID)
 	console.Feedback(ply, "NOTICE", "You've taken the %s permission from %s", permission.ID, ply)

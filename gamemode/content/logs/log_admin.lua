@@ -185,18 +185,18 @@ Log.AddType("admin_language_take", function(ply, target, lang, speak)
 end)
 
 Log.AddType("admin_permission_add", function(ply, target, permission)
-	return string.format("%s has given %s to the %s permission", Log.Nick(ply), target:Nick(), permission.ID), {
+	return string.format("%s has given %s to the %s permission", Log.Nick(ply), target:Nick(), permission), {
 		Log.Admin(ply),
 		Log.Player(target),
-		Permission = permission.ID
+		Permission = permission
 	}
 end)
 
 Log.AddType("admin_permission_remove", function(ply, target, permission)
-	return string.format("%s has taken the %s permission from %s", Log.Nick(ply), permission.ID, target:Nick()), {
+	return string.format("%s has taken the %s permission from %s", Log.Nick(ply), permission, target:Nick()), {
 		Log.Admin(ply),
 		Log.Player(target),
-		Permission = permission.ID
+		Permission = permission
 	}
 end)
 
