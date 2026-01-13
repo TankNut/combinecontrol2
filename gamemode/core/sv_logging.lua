@@ -13,6 +13,19 @@ function Character(ply)
 end
 
 function Player(ply)
+	if isstring(ply) then
+		local name = PlayerVar.GetOffline(ply, "LastNick")
+
+		if #name == 0 then
+			name = nil
+		end
+
+		return {
+			Player = name,
+			SteamID = ply
+		}
+	end
+
 	return {
 		Player = ply:Nick(),
 		SteamID = ply:SteamID()
