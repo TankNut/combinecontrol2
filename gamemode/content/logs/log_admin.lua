@@ -90,7 +90,7 @@ end)
 Log.AddType("admin_togglesaved", function(ply, model, saved)
 	return string.format("%s has %s a %s", Log.Nick(ply), saved and "saved" or "unsaved", model), {
 		Log.Admin(ply),
-		Saved = saved and 1 or 0
+		Saved = saved
 	}
 end)
 

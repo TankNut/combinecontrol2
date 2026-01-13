@@ -15,15 +15,21 @@ Log.AddType("superadmin_tempadmin", function(ply, target, bool)
 end)
 
 Log.AddType("superadmin_setusergroup", function(ply, target, usergroup)
-	return string.format("%s has set %s's usergroup to %s", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick(), usergroup), {
+	local name = IsValid(ply) and ply:Nick() or "CONSOLE"
+
+	target = Log.Player(target)
+
+	return string.format("%s has set %s's usergroup to %s", name, target.Player or target.SteamID, usergroup), {
 		Log.Admin(ply),
-		Log.Player(target),
+		target,
 		UserGroup = usergroup
 	}
 end)
 
 Log.AddType("superadmin_player_set", function(ply, target, variable, value)
-	return string.format("%s has set %s's %s to %s", ply:Nick(), target:Nick(), variable, value), {
+	local name = IsValid(ply) and ply:Nick() or "CONSOLE"
+
+	return string.format("%s has set %s's %s to %s", name, target:Nick(), variable, value), {
 		Log.Admin(ply),
 		Log.Player(target),
 		VariableName = variable,

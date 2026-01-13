@@ -39,14 +39,12 @@ function AddBan(steamid, admin, length, reason)
 
 	Bans[steamid] = ban
 
+	Log.Write("access_ban", admin, steamid, ban.Length, ban.Reason)
+
 	local ply = player.GetBySteamID(steamid)
 
 	if ply then
-		Log.Write("access_ban", admin, ply:Nick(), steamid, ban.Length, ban.Reason)
-
 		ply:Kick(GetBanMessage(ban))
-	else
-		Log.Write("access_ban", admin, nil, steamid, ban.Length, ban.Reason, true)
 	end
 end
 

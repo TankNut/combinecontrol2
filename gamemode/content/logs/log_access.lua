@@ -13,11 +13,13 @@ Log.AddType("access_kick", function(admin, ply, reason)
 	}
 end)
 
-Log.AddType("access_ban", function(admin, nick, steamid, length, reason, offline)
+Log.AddType("access_ban", function(admin, ply, length, reason)
+	local target = Log.Player(ply)
+
 	local format
 	local args = {
 		IsValid(admin) and admin:Nick() or "CONSOLE",
-		nick or steamid
+		target.Player or target.SteamID
 	}
 
 	if length == 0 then
@@ -32,16 +34,17 @@ Log.AddType("access_ban", function(admin, nick, steamid, length, reason, offline
 
 	return string.format(format, unpack(args)), {
 		Log.Admin(admin),
-		Player = nick,
-		SteamID = steamid,
-		Offline = offline and 1 or 0,
-		Permanent = length == 0 and 1 or 0
+		target,
+		Offline = offline,
+		Permanent = length == 0
 	}
 end)
 
-Log.AddType("access_unban", function(admin, steamid)
-	return string.format("%s has unbanned %s", IsValid(admin) and admin:Nick() or "CONSOLE", steamid), {
+Log.AddType("access_unban", function(admin, steamID)
+	local target = Log.Player(steamID)
+
+	return string.format("%s has unbanned %s", IsValid(admin) and admin:Nick() or "CONSOLE", target.Player or target.SteamID), {
 		Log.Admin(admin),
-		SteamID = steamid
+		target
 	}
 end)

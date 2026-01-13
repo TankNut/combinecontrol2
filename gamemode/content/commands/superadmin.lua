@@ -12,24 +12,12 @@ local setUserGroup = console.AddCommand("rpa_usergroup_set", function(ply, steam
 
 		console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
 	else
-		if IsElevatedUserGroup(PlayerVar.GetOffline(steamID, "UserGroup")) then
-			console.Feedback(ply, "ERROR", "Elevated access can only be changed from the server console")
-
-			return
-		end
-
 		PlayerVar.SetOffline(steamID, "UserGroup", usergroup)
 	end
 
 	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target and target:Nick() or steamID, usergroup)
 
-	Log.Write("superadmin_setusergroup",
-		ply,
-		target or {
-			Nick = function() return steamID end,
-			SteamID = function() return steamID end,
-		},
-		usergroup)
+	Log.Write("superadmin_setusergroup", ply, target or steamID, usergroup)
 end)
 
 setUserGroup:SetCategory("Superadmin Commands")
