@@ -111,7 +111,7 @@ Action.Add("ArmorRepair", {
 
 	Progress = function(self, ply)
 		local missing = self:GetMaxArmor() - self:Armor()
-		local time = math.ceil(missing / 10)
+		local time = math.Round(missing / 5, 2)
 
 		return {
 			Name = "Patching armor...",
