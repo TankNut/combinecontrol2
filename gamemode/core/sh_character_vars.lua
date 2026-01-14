@@ -1,7 +1,6 @@
 module("CharacterVar", package.seeall)
 
 Vars = Vars or {}
-Store = Store or {}
 
 local PLAYER = FindMetaTable("Player")
 
@@ -12,6 +11,7 @@ function Add(name, data)
 
 	data = {
 		Name = name,
+		Default = data.Default,
 		-- Database persistence
 		Persist = true,
 		Field = data.Field or name,
@@ -40,29 +40,14 @@ function Add(name, data)
 			return
 		end
 
-		if SERVER and not loading then
-			Save(ply:CharID(), data, value)
+		local id = ply:CharID()
+
+		if SERVER and not loading and id != 0 then
+			async.Start(function()
+				Data.Character.Write(id, {
+					[name] = value
+				})
+			end)
 		end
-	end
-end
-
-if SERVER then
-	function Save(id, var, value)
-		if id == 0 then
-			return
-		end
-
-		async.Start(function()
-			if value == nil then
-				value = NULL
-			elseif var.Encode then
-				value = var.Encode(value)
-			end
-
-			GAMEMODE.Database:Query(string.format("UPDATE `rp_characters` SET `%s` = :value WHERE `id` = :id", var.Field), {
-				value = value,
-				id = id
-			})
-		end)
 	end
 end

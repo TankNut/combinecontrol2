@@ -12,7 +12,7 @@ local setUserGroup = console.AddCommand("rpa_usergroup_set", function(ply, steam
 
 		console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
 	else
-		PlayerVar.SetOffline(steamID, "UserGroup", usergroup)
+		Data.Player.Update(steamID, {UserGroup = usergroup})
 	end
 
 	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target and target:Nick() or steamID, usergroup)
@@ -169,7 +169,7 @@ noDamage:AddParameter(console.Bool())
 
 -- Unfinished
 -- local setOwner = console.AddCommand("rpa_character_owner", function(ply, id, steamid)
--- 	local data = Character.Fetch(id)
+-- 	local data = Data.Character.Fetch(id)
 
 -- 	if not data then
 -- 		console.Feedback(ply, "ERROR", "That character doesn't exist")
@@ -198,12 +198,14 @@ noDamage:AddParameter(console.Bool())
 
 
 
-local setDonation = console.AddCommand("rpa_donation_set", function(ply, steamID, duration, advanced)
+local setDonation = console.AddCommand("rpa_donation_set", function(ply, steamID, advanced, duration)
 	local target = player.GetBySteamID(steamID)
 	local name = target and target:Nick() or steamID
 
-	PlayerVar.SetOffline(steamID, "DonationLevel", advanced and DONATOR_ADVANCED or DONATOR_BASIC)
-	PlayerVar.SetOffline(steamID, "DonationExpire", os.time() + duration)
+	Data.Player.Update(steamID, {
+		DonationLevel = advanced and DONATOR_ADVANCED or DONATOR_BASIC,
+		DonationExpire = os.time() + duration
+	})
 
 	Log.Write("donator_set", ply, IsValid(target) and target or steamID, duration, advanced)
 
@@ -220,8 +222,8 @@ setDonation:SetExecutionContext(console.Server)
 setDonation:SetAccess(console.IsSuperAdmin)
 
 setDonation:AddParameter(console.SteamID({SingleTarget = true}))
+setDonation:AddParameter(console.Bool({}, "Advanced donator"))
 setDonation:AddParameter(console.Duration({}, "length"))
-setDonation:AddOptional(console.Bool({}, "Advanced donator"), false)
 
 
 
@@ -231,7 +233,7 @@ local clearDonation = console.AddCommand("rpa_donation_clear", function(ply, ste
 	local target = player.GetBySteamID(steamID)
 	local name = target and target:Nick() or steamID
 
-	PlayerVar.SetOffline(steamID, "DonationLevel", DONATOR_NONE)
+	Data.Player.Update(steamID, {DonationLevel = DONATOR_NONE})
 
 	Log.Write("donator_set", ply, IsValid(target) and target or steamID)
 

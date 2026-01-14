@@ -159,8 +159,10 @@ local setAlias = console.AddCommand("rpa_player_alias", function(ply, steamID, a
 	local target = player.GetBySteamID(steamID)
 	local name = target and target:Nick() or steamID
 
-	if target then
-		target:SetAlias(alias)
+	Data.Player.Update(steamID, {Alias = alias})
+
+	if alias == "" then
+		console.Feedback(ply, "NOTICE", "You've removed %s's alias", name)
 	else
 		local query = GAMEMODE.Database:Upsert("rp_players")
 			query:Insert("SteamID", steamId)

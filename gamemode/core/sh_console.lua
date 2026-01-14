@@ -183,9 +183,9 @@ console.Parser("SteamID", function(ply, args, last, options)
 
 	if util.IsValidSteamID(val) and not options.Online and not player.GetBySteamID(val) then
 		if IsValid(ply) and (options.CheckImmunity or options.StrictImmunity) then
-			local group = PlayerVar.GetOffline(val, "UserGroup")
+			local record = Data.Player.Fetch(val)
 
-			if not ply:CanTargetUserGroup(group, options.StrictImmunity) then
+			if record and not ply:CanTargetUserGroup(record.UserGroup, options.StrictImmunity) then
 				return false, "You cannot target this person"
 			end
 		end

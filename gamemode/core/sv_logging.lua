@@ -15,14 +15,17 @@ end
 
 function Player(ply)
 	if isstring(ply) then
-		local name = PlayerVar.GetOffline(ply, "LastNick")
+		local record = Data.Player.Fetch(ply)
 
-		if #name == 0 then
-			name = nil
+		if not record then
+			return {
+				Player = "*UNKNOWN*",
+				SteamID = ply
+			}
 		end
 
 		return {
-			Player = name,
+			Player = record.LastNick,
 			SteamID = ply
 		}
 	end

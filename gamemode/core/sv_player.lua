@@ -2,7 +2,7 @@ local PLAYER = FindMetaTable("Player")
 
 function GM:OnPlayerReady(ply)
 	async.Start(function()
-		PlayerVar.Load(ply)
+		Data.Player.Load(ply)
 		ply:LoadCharacterList()
 
 		ply:SetLastNick(ply:Nick())

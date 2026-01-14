@@ -2,38 +2,8 @@ module("Character", package.seeall)
 
 local PLAYER = FindMetaTable("Player")
 
-function Fetch(id)
-	-- Should try to fetch stuff from the player if the character is loaded
-	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_characters` WHERE `id` = :id", {
-		id = id
-	})[1]
-
-	if not data then
-		return false
-	end
-
-	local fields = {
-		id = id,
-		SteamID = data.SteamID
-	}
-
-	for _, var in pairs(CharacterVar.Vars) do
-		local val = data[var.Field]
-
-		if not val then
-			val = util.SafeCopy(var.Default)
-		elseif var.Decode then
-			val = var.Decode(val)
-		end
-
-		fields[var.Name] = val
-	end
-
-	return fields
-end
-
 function Delete(id)
-	local data = Fetch(id)
+	local data = Data.Character.Fetch(id)
 
 	if not data then
 		return
@@ -56,7 +26,7 @@ function Delete(id)
 end
 
 function Undelete(id)
-	local data = Fetch(id)
+	local data = Data.Character.Fetch(id)
 
 	if not data then
 		return
@@ -159,26 +129,16 @@ function PLAYER:LoadCharacter(id)
 
 	hook.Run("PreLoadCharacter", self, id)
 
-	local data = assert(GAMEMODE.Database:Query("SELECT * FROM `rp_characters` WHERE `id` = :id AND `Deleted_At` IS NULL", {
-		id = id
-	})[1], string.format("No character with id %s exists", id))
+	local data = Data.Character.Load(id)
+
+	if not istable(data) then
+		error(string.format("No character with id %s exists", id))
+	end
 
 	self:SetCharID(id)
 
-	for _, var in pairs(CharacterVar.Vars) do
-		local val = data[var.Field]
-
-		if not val then
-			self["Set" .. var.Name](self, nil, true)
-
-			continue
-		end
-
-		if var.Decode then
-			val = var.Decode(val)
-		end
-
-		self["Set" .. var.Name](self, val, true)
+	for name, var in pairs(CharacterVar.Vars) do
+		self["Set" .. name](self, data[name], true)
 	end
 
 	Inventory.Load(self)

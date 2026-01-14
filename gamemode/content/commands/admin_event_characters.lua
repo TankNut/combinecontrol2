@@ -41,7 +41,7 @@ listCharacters:SetAccess(console.IsAdmin)
 
 
 local setOwner = console.AddCommand("rpa_eventcharacter_owner", function(ply, id, steamid)
-	local data = Character.Fetch(id)
+	local data = Data.Character.Fetch(id)
 
 	if not data or not data.IsEventCharacter then
 		console.Feedback(ply, "ERROR", "That character either doesn't exist or isn't an event character!")
@@ -74,7 +74,7 @@ setOwner:AddParameter(console.SteamID(nil, "new owner"))
 
 
 local delete = console.AddCommand("rpa_eventcharacter_delete", function(ply, id)
-	local data = Character.Fetch(id)
+	local data = Data.Character.Fetch(id)
 
 	if not data or not data.IsEventCharacter then
 		console.Feedback(ply, "ERROR", "That character either doesn't exist or isn't an event character!")
