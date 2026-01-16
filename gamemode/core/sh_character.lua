@@ -69,16 +69,6 @@ function GM:OnCharIDChanged(ply, old, new, loaded)
 	end
 end
 
-local function getCharacterName(ply)
-	local override = ply:CharacterNameOverride()
-
-	if #override > 0 then
-		return override
-	end
-
-	return ply:CharacterName()
-end
-
 function GM:PostLoadCharacter(ply)
 	if CLIENT then
 		ui.Close("CharacterCreate")
@@ -91,16 +81,9 @@ function GM:PostLoadCharacter(ply)
 	ply:SetScale(1)
 	ply:ApplyFlag()
 
-	local name = getCharacterName(ply)
-	local visible = ply:VisibleRPName()
-
-	if name != visible then
-		name = string.format("%s (%s)", name, visible)
-	end
-
-	Log.WriteHint("Character Loaded: " .. name)
-
-	if SERVER then
+	if CLIENT then
+		Log.WriteHint("Character Loaded: " .. ply:VisibleRPName())
+	else
 		Log.Write("character_load", ply)
 
 		ply:SetCharacterLastSeen(os.time())
