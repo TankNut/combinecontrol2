@@ -45,7 +45,7 @@ function GetHandle()
 end
 
 function WriteToFile(log)
-	GetHandle():Write(log)
+	GetHandle():Write(log .. "\n")
 end
 
 function WriteChatLog(log)
@@ -53,7 +53,7 @@ function WriteChatLog(log)
 end
 
 function WriteHint(log)
-	WriteToFile(string.format("-- [%s] --\n", string.upper(log)))
+	WriteToFile(string.format("-- [%s] --", string.upper(log)))
 end
 
 if CLIENT then
