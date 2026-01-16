@@ -1,5 +1,5 @@
 -- General config
-GM.Config.InternalName = "project-testbed" -- Used for figuring out what folder within data/combinecontrol we want to put our stuff
+GM.Config.InternalName = "project-testbed" -- Used for figuring out what folder in data/cc2 we want to put our stuff into
 GM.Config.ServerName = "Project Testbed"
 
 GM.Config.CommunityLinks = {
