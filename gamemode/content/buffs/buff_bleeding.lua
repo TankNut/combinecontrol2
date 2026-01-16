@@ -7,9 +7,6 @@ BUFF.Damage = 2
 
 function BUFF:Initialize()
 	print("You start bleeding!")
-
-	-- Force the first damage tick immediately
-	self:OnTick()
 end
 
 function BUFF:OnTick()
