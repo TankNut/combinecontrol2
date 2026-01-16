@@ -33,7 +33,7 @@ function Pack(data, vars)
 		end
 
 		if var.Validate and value != NULL and not var.Validate(value) then
-			error(string.format("Data.Update value '%s' doesn't match database type %s", value, var.DataType), 2)
+			error(string.format("Data.Pack value '%s' doesn't match database type %s", value, var.DataType), 2)
 		end
 
 		if (not istable(value) and value == var.Default) or value == NULL then
