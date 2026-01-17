@@ -1,6 +1,6 @@
 local listCharacters = console.AddCommand("rpa_character_list", function(ply, steamID)
 	local target = player.GetBySteamID(steamID)
-	local name = target and string.format("%s (%s)", target:Nick(), steamID) or steamID
+	local name = string.format("%s (%s)", IsValid(target) and target:Nick() or Data.Player.Nick(steamID), steamID)
 	local characters = GAMEMODE.Database:Query("SELECT `id`, COALESCE(`NameOverride`, `Name`) AS `Name`, `Flag`, `EventCharacter` FROM rp_characters WHERE `SteamID` = :steamID AND `Deleted_At` IS NULL", {
 		steamID = steamID
 	})
@@ -30,7 +30,6 @@ local listCharacters = console.AddCommand("rpa_character_list", function(ply, st
 		))
 	end
 
-	console.Feedback(ply, "NOTICE", "Sent %s's character list to your console", name)
 	console.Feedback(ply, "CONSOLE", table.concat(lines, "\n"))
 end)
 

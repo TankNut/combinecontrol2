@@ -127,6 +127,8 @@ function PANEL:Init()
 		SetClipboardText(ply:SteamID())
 	end)
 	self.ListCharactersButton = self:CreateButton("List Characters", ui.Scale(105), function(ply)
+		lp:SendChat("NOTICE", string.format("Sent %s's character list to your console", ply:Nick()))
+
 		RunConsoleCommand("rpa_character_list", ply:SteamID())
 	end)
 

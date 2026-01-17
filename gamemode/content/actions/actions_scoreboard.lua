@@ -119,6 +119,8 @@ Action.Add("ScoreboardCharacters", {
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
+		ply:SendChat("NOTICE", string.format("Sent %s's character list to your console", self:Nick()))
+
 		RunConsoleCommand("rpa_character_list", self:SteamID())
 	end
 })
