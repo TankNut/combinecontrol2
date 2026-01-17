@@ -53,7 +53,7 @@ if SERVER then
 
 	function CLASS:WriteLog(data, ply)
 		return string.format("[OOC] %s: %s", ply:VisibleRPName(), data.Text), {
-			Log.Character(ply),
+			Log.Player(ply),
 			ChatType = "ooc"
 		}
 	end

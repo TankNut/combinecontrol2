@@ -28,7 +28,7 @@ if SERVER then
 
 	function CLASS:WriteLog(data, ply)
 		return string.format("[LOOC] %s: %s", ply:VisibleRPName(), data.Text), {
-			Log.Character(ply),
+			Log.Player(ply),
 			ChatType = "looc"
 		}
 	end

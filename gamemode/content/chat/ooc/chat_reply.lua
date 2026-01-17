@@ -56,8 +56,8 @@ if SERVER then
 
 	function CLASS:WriteLog(data, ply)
 		return string.format("[PM] %s -> %s: %s", ply:VisibleRPName(), data.Target:VisibleRPName(), data.Text), {
-			Log.Character(ply),
-			Log.Character(data.Target),
+			Log.Player(ply),
+			Log.Player(data.Target),
 			ChatType = "pm"
 		}
 	end

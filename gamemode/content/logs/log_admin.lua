@@ -9,7 +9,7 @@ Log.AddType("admin_item_give", function(ply, item, target)
 	return string.format("%s has given a %s to %s", Log.AdminName(ply), item.ClassName, target:Nick()), {
 		Log.Admin(ply),
 		Log.Item(item),
-		Log.Character(target)
+		Log.Player(target)
 	}
 end)
 
@@ -17,7 +17,7 @@ Log.AddType("admin_item_take", function(ply, item, target, storeType)
 	return string.format("%s has taken %s from %s's %s", Log.AdminName(ply), item, target:Nick(), storeType == INV_PLAYER and "inventory" or "stash"), {
 		Log.Admin(ply),
 		Log.Item(item),
-		Log.Character(target)
+		Log.Player(target)
 	}
 end)
 
@@ -25,7 +25,7 @@ Log.AddType("admin_item_destroy", function(ply, item, target, storeType)
 	return string.format("%s has destroyed %s in %s's %s", Log.AdminName(ply), item, target:Nick(), storeType == INV_PLAYER and "inventory" or "stash"), {
 		Log.Admin(ply),
 		Log.Item(item),
-		Log.Character(target)
+		Log.Player(target)
 	}
 end)
 
@@ -131,7 +131,7 @@ local function addCharSetLog(var, key)
 	Log.AddType("admin_character_" .. string.lower(var), function(ply, target, val)
 		return string.format(format, Log.AdminName(ply), target:VisibleRPName(), val), {
 			Log.Admin(ply),
-			Log.Character(target),
+			Log.Player(target),
 			[key] = val
 		}
 	end)
@@ -148,13 +148,13 @@ Log.AddType("admin_character_model_override", function(ply, target, val)
 	if val then
 		return string.format("%s has set %s's model override to %s", Log.AdminName(ply), target:VisibleRPName(), val), {
 			Log.Admin(ply),
-			Log.Character(target),
+			Log.Player(target),
 			Model = val
 		}
 	else
 		return string.format("%s has cleared %s's model override", Log.AdminName(ply), target:VisibleRPName()), {
 			Log.Admin(ply),
-			Log.Character(target)
+			Log.Player(target)
 		}
 	end
 end)
@@ -163,13 +163,13 @@ Log.AddType("admin_character_name_override", function(ply, target, val)
 	if val then
 		return string.format("%s has set %s's name override to %s", Log.AdminName(ply), target:VisibleRPName(), val), {
 			Log.Admin(ply),
-			Log.Character(target),
+			Log.Player(target),
 			Name = val
 		}
 	else
 		return string.format("%s has cleared %s's name override", Log.AdminName(ply), target:VisibleRPName()), {
 			Log.Admin(ply),
-			Log.Character(target)
+			Log.Player(target)
 		}
 	end
 end)
@@ -237,14 +237,14 @@ end)
 Log.AddType("admin_language_give", function(ply, target, lang, speak)
 	return string.format("%s gave %s the ability to %s %s", Log.AdminName(ply), target:VisibleRPName(), speak and "speak" or "understand", lang), {
 		Log.Admin(ply),
-		Log.Character(target)
+		Log.Player(target)
 	}
 end)
 
 Log.AddType("admin_language_take", function(ply, target, lang, speak)
 	return string.format("%s took %s's ability to %s %s", Log.AdminName(ply), target:VisibleRPName(), speak and "speak" or "understand", lang), {
 		Log.Admin(ply),
-		Log.Character(target)
+		Log.Player(target)
 	}
 end)
 

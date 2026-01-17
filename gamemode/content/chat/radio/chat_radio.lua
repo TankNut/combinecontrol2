@@ -136,7 +136,7 @@ if SERVER then
 		local lang = Language.Get(data.Lang).Name
 
 		return string.format(self.LogFormat, data.Channel, jam, lang, data.Name, data.Text), {
-			Log.Character(ply),
+			Log.Player(ply),
 			ChatType = "radio"
 		}
 	end

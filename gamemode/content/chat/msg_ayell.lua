@@ -12,7 +12,7 @@ if CLIENT then
 
 	function CLASS:WriteLog(data, ply)
 		return string.format("[ANGRY] %s: %s", ply:VisibleRPName(), data.Text), {
-			Log.Character(ply),
+			Log.Player(ply),
 			ChatType = "ayell"
 		}
 	end

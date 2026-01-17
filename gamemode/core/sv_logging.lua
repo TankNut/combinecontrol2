@@ -4,15 +4,10 @@ function AdminName(ply)
 	return IsValid(ply) and ply:GetAlias() or "CONSOLE"
 end
 
-function Character(ply)
-	return table.Merge({
-		CharID = ply:CharID(),
-		CharName = ply:VisibleRPName()
-	}, Player(ply))
-end
-
 function Player(ply)
 	return {
+		CharID = ply:CharID(),
+		CharName = ply:VisibleRPName(),
 		Player = ply:Nick(),
 		SteamID = ply:SteamID()
 	}

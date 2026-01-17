@@ -1,34 +1,34 @@
 Log.AddType("item_destroy", function(ply, item)
 	return string.format("%s has destroyed %s", ply:VisibleRPName(), item), {
-		Log.Character(ply),
+		Log.Player(ply),
 		Log.Item(item)
 	}
 end)
 
 Log.AddType("item_drop", function(ply, item)
 	return string.format("%s has dropped %s", ply:VisibleRPName(), item), {
-		Log.Character(ply),
+		Log.Player(ply),
 		Log.Item(item)
 	}
 end)
 
 Log.AddType("item_pickup", function(ply, item)
 	return string.format("%s has picked up %s", ply:VisibleRPName(), item), {
-		Log.Character(ply),
+		Log.Player(ply),
 		Log.Item(item)
 	}
 end)
 
 Log.AddType("item_equip", function(ply, item)
 	return string.format("%s has equipped %s", ply:VisibleRPName(), item), {
-		Log.Character(ply),
+		Log.Player(ply),
 		Log.Item(item)
 	}
 end)
 
 Log.AddType("item_unequip", function(ply, item)
 	return string.format("%s has unequipped %s", ply:VisibleRPName(), item), {
-		Log.Character(ply),
+		Log.Player(ply),
 		Log.Item(item)
 	}
 end)

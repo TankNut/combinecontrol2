@@ -41,7 +41,7 @@ if SERVER then
 		end
 
 		return string.format("[L] ** %s%s", ply:VisibleRPName(), text), {
-			Log.Character(ply),
+			Log.Player(ply),
 			ChatType = "emote"
 		}
 	end

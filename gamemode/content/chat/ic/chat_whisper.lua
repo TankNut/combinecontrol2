@@ -44,7 +44,7 @@ if SERVER then
 
 	function CLASS:WriteLog(ply, lang, text)
 		return string.format("[%s] %s: [WHISPER] %s", lang, ply:VisibleRPName(), text), {
-			Log.Character(ply),
+			Log.Player(ply),
 			ChatType = "whisper",
 			Language = lang
 		}
