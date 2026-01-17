@@ -48,6 +48,7 @@ stopSound:SetCategory("Ambience")
 stopSound:SetDescription("Stops any sounds that are playing on the server")
 stopSound:SetExecutionContext(console.Server)
 stopSound:SetAccess(console.IsAdmin)
+stopSound:SetNoConsole()
 
 
 
@@ -88,6 +89,7 @@ stopMusic:SetCategory("Ambience")
 stopMusic:SetDescription("Stops a music track with the given area from playing")
 stopMusic:SetExecutionContext(console.Server)
 stopMusic:SetAccess(console.IsAdmin)
+stopMusic:SetNoConsole()
 
 stopMusic:AddParameter(console.String({
 	validate.InList(table.GetKeys(areaMapping))
@@ -132,6 +134,7 @@ stopEffect:SetCategory("Ambience")
 stopEffect:SetDescription("Stops an effect with the given area from playing")
 stopEffect:SetExecutionContext(console.Server)
 stopEffect:SetAccess(console.IsAdmin)
+stopEffect:SetNoConsole()
 
 stopEffect:AddParameter(console.String({
 	validate.InList(table.GetKeys(areaMapping))
