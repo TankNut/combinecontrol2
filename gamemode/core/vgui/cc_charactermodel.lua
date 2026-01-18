@@ -141,11 +141,15 @@ function PANEL:LayoutEntity(ent)
 	ang:Sub(Angle(0, self.YawAdd, 0))
 
 	local att = ent:GetAttachment(ent:LookupAttachment("eyes"))
-	local height = att and att.Pos.z or 64
-	local dir = att.Ang:Forward() or ent:GetForward()
+
+	if att then
+		local height = att and att.Pos.z or 64
+		local dir = att.Ang:Forward() or ent:GetForward()
+
+		ent:SetEyeTarget(Vector(0, 0, height) + dir * 50)
+	end
 
 	ent:SetAngles(ang)
-	ent:SetEyeTarget(Vector(0, 0, height) + dir * 50)
 	ent:FrameAdvance()
 end
 
