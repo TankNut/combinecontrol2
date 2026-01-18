@@ -11,10 +11,10 @@ GM.EquipmentNames = {
 	elite = "elite armor"
 }
 
-TEAM_UNSC     = Team.Add("unsc", "UNSC", Color(0, 120, 0))
-TEAM_SPARTAN  = Team.Add("spartan", "SPARTAN", Color(33, 106, 196))
-TEAM_AI       = Team.Add("ai", "Artifical Intelligence", Color(0, 191, 255))
-TEAM_COVENANT = Team.Add("covenant", "Covenant", Color(110, 76, 170))
+TEAM_UNSC     = Team.Add("unsc",     "UNSC",                   Color(0, 120, 0))
+TEAM_SPARTAN  = Team.Add("spartan",  "SPARTAN",                Color(33, 106, 196))
+TEAM_AI       = Team.Add("ai",       "Artifical Intelligence", Color(0, 191, 255))
+TEAM_COVENANT = Team.Add("covenant", "Covenant",               Color(110, 76, 170))
 
 local function Lang(command, name, unknown, default, override)
 	return {

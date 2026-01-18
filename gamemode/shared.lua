@@ -25,6 +25,7 @@ shared("utils/_utils.lua")
 shared("core/enums.lua")
 shared("core/sh_config.lua")
 
+shared("config/sh_colors.lua")
 shared("config/sh_config.lua")
 server("config/sv_config.lua")
 client("config/cl_motd.lua")

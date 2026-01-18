@@ -85,7 +85,7 @@ if SERVER then
 
 		if not settings then
 			ply:SendChat("ERROR", "You don't have a configured radio equipped!")
-			
+
 			return
 		end
 
