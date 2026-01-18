@@ -45,7 +45,7 @@ function Add(name, data)
 		if SERVER and not loading and id != 0 then
 			async.Start(function()
 				Data.Character.Write(id, {
-					[name] = value
+					[name] = (value == nil) and NULL or value
 				})
 			end)
 		end

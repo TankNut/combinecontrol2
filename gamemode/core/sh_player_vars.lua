@@ -48,7 +48,7 @@ function Add(name, data)
 		if SERVER and data.Persist and not loading then
 			async.Start(function()
 				Data.Player.Write(ply:SteamID(), {
-					[name] = value
+					[name] = (value == nil) and NULL or value
 				})
 			end)
 		end
