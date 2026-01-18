@@ -34,7 +34,7 @@ function Alias(steamID)
 		return steamID
 	end
 
-	return data.Alias or data.LastNick
+	return data.Alias or data.LastNick or steamID
 end
 
 function UserGroup(steamID)
