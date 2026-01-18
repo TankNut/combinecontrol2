@@ -16,6 +16,7 @@ function Fetch(id)
 	fields.SteamID = data.SteamID
 
 	-- Some extra fields
+	fields.Created_At = data.Created_At
 	fields.Deleted = tobool(data.Deleted_At)
 	fields.Deleted_At = data.Deleted_At
 
