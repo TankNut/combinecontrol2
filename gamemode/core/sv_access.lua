@@ -15,10 +15,6 @@ function LoadBans()
 end
 
 function AddBan(steamID, nick, admin, length, reason)
-	if CheckBanned(steamID) then
-		LiftBan(steamID, admin, true)
-	end
-
 	local ban = {
 		SteamID = steamID,
 		Admin = Log.AdminName(admin),
@@ -28,6 +24,10 @@ function AddBan(steamID, nick, admin, length, reason)
 	}
 
 	async.Start(function()
+		GAMEMODE.Database:Query("DELETE FROM `rp_bans` WHERE `SteamID` = :steamID", {
+			steamID = steamID
+		})
+
 		GAMEMODE.Database:Query("INSERT INTO `rp_bans` (`SteamID`, `Admin`, `Timestamp`, `Length`, `Reason`) VALUES (:steamID, :admin, :timestamp, :length, :reason)", {
 			steamID = ban.SteamID,
 			admin = ban.Admin,
@@ -89,16 +89,14 @@ function CheckBanned(steamID)
 	return false
 end
 
-function LiftBan(steamID, admin, silent)
+function LiftBan(steamID, admin)
 	async.Start(function()
 		GAMEMODE.Database:Query("DELETE FROM `rp_bans` WHERE `SteamID` = :steamID", {
-			SteamID = steamID
+			steamID = steamID
 		})
 	end)
 
-	if not silent then
-		Log.Write("access_unban", admin, steamID, Data.Player.Nick(steamID))
-	end
+	Log.Write("access_unban", admin, steamID, Data.Player.Nick(steamID))
 
 	Bans[steamID] = nil
 end
