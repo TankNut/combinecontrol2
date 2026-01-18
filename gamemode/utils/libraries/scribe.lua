@@ -161,7 +161,7 @@ function Core:Parse(str)
 	}
 
 	(str .. "<nop>"):gsub("([^<>]*)(<[^>]+.)([^<>]*)", function(...)
-		for _, v in pairs({...}) do
+		for _, v in ipairs({...}) do
 			self:ProcessMatch(stack, v)
 		end
 	end)

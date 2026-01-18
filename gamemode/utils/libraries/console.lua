@@ -221,7 +221,7 @@ end
 netstream.Hook("console.Parse", Parse)
 
 function AutoComplete(name, args)
-	local command = Commands[name]
+	local command = Commands[string.lower(name)]
 
 	return table.Add({name .. args}, command:AutoComplete())
 end
