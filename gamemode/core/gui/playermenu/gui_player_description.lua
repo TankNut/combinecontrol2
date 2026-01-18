@@ -11,7 +11,7 @@ function PANEL:Init()
 
 	self.ChangeName = self:Add("DButton")
 	self.ChangeName:SetText("Change Name")
-	self.ChangeName:SetDisabled(not hook.Run("CanChangeCharacterName", lp))
+	self.ChangeName:SetDisabled(#lp:CharacterNameOverride() > 0)
 	self.ChangeName:SetTall(h)
 
 	self.ChangeName.DoClick = function()
@@ -28,7 +28,6 @@ function PANEL:Init()
 
 	self.ChangeDescription = self:Add("DButton")
 	self.ChangeDescription:SetText("Change Description")
-	self.ChangeDescription:SetDisabled(not hook.Run("CanChangeCharacterDescription", lp))
 	self.ChangeDescription:SetTall(h)
 
 	self.ChangeDescription.DoClick = function()

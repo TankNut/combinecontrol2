@@ -185,7 +185,7 @@ netstream.Hook("SelectCharacter", function(ply, id)
 end)
 
 netstream.Hook("ChangeCharacterName", function(ply, new)
-	if not ply:HasCharacter() or not hook.Run("CanChangeCharacterName", ply) then
+	if not ply:HasCharacter() or #ply:CharacterNameOverride() > 0 then
 		return
 	end
 
@@ -199,7 +199,7 @@ netstream.Hook("ChangeCharacterName", function(ply, new)
 end)
 
 netstream.Hook("ChangeCharacterDescription", function(ply, new)
-	if not ply:HasCharacter() or not hook.Run("CanChangeCharacterDescription", ply) then
+	if not ply:HasCharacter() then
 		return
 	end
 
