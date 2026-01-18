@@ -34,7 +34,7 @@ disable:SetAccess(console.IsAdmin)
 
 
 
-local oocMute = console.AddCommand("rpa_ooc_mute", function (ply, target, bool)
+local oocMute = console.AddCommand("rpa_ooc_mute", function(ply, target, bool)
 	local new
 
 	if bool == nil then

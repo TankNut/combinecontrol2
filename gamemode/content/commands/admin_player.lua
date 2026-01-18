@@ -174,7 +174,7 @@ slap:AddParameter(console.Player())
 
 
 
-local setScale = console.AddCommand("rpa_player_scale", function (ply, target, scale)
+local setScale = console.AddCommand("rpa_player_scale", function(ply, target, scale)
 	Log.Write("admin_player_scale", ply, target, scale)
 
 	target:SetScale(scale)

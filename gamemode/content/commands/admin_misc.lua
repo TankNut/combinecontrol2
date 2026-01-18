@@ -53,7 +53,7 @@ changeLevel:AddOptional(console.String())
 
 
 
-local disableAI = console.AddCommand("rpa_ai_disable", function (ply, bool)
+local disableAI = console.AddCommand("rpa_ai_disable", function(ply, bool)
 	Chat.Send("NOTICE", console.FormatMessage("%s has %s AI thinking", ply, bool and "disabled" or "enabled"), player.GetAdmins())
 
 	Log.Write("admin_variable_set", ply, "ai_disable", bool and 1 or 0)
@@ -72,7 +72,7 @@ disableAI:AddParameter(console.Bool())
 
 
 
-local ignoreAI = console.AddCommand("rpa_ai_notarget", function (ply, bool)
+local ignoreAI = console.AddCommand("rpa_ai_notarget", function(ply, bool)
 	Chat.Send("NOTICE", console.FormatMessage("%s has turned %s NPC's ignoring players", ply, bool and "on" or "off"), player.GetAdmins())
 
 	Log.Write("admin_variable_set", ply, "ai_notarget", bool and 1 or 0)

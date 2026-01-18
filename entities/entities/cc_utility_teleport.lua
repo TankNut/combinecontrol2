@@ -72,7 +72,7 @@ Action.Add("QuickTeleport", {
 			})
 		end
 
-		table.sort(options, function (left, right)
+		table.sort(options, function(left, right)
 			return left.Value:GetTeleportID() < right.Value:GetTeleportID()
 		end)
 

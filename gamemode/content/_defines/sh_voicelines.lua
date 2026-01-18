@@ -2,7 +2,7 @@
 
 Voicelines.Add("MaleCitizenAmmo", {
 	Name = "Ammo",
-	CanAccess = function (ply)
+	CanAccess = function(ply)
 		return util.GetModelGender(ply:GetModel()) == "male"
 	end,
 	Options = {
@@ -24,7 +24,7 @@ Voicelines.Add("MaleCitizenAmmo", {
 
 Voicelines.Add("MaleCitizenAngry", {
 	Name = "Angry",
-	CanAccess = function (ply)
+	CanAccess = function(ply)
 		return util.GetModelGender(ply:GetModel()) == "male"
 	end,
 	Options = {
@@ -46,7 +46,7 @@ Voicelines.Add("MaleCitizenAngry", {
 
 Voicelines.Add("FemaleCitizenAmmo", {
 	Name = "Ammo",
-	CanAccess = function (ply)
+	CanAccess = function(ply)
 		return util.GetModelGender(ply:GetModel()) == "female"
 	end,
 	Options = {

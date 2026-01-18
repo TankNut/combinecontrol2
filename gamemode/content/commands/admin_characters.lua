@@ -1,4 +1,4 @@
-local setModel = console.AddCommand("rpa_character_model", function (ply, target, mdl)
+local setModel = console.AddCommand("rpa_character_model", function(ply, target, mdl)
 	if not util.IsValidModel(mdl) then
 		console.Feedback(ply, "ERROR", "That model is not mounted on the server!")
 
@@ -78,7 +78,7 @@ setSkin:AddParameter(console.Number())
 
 
 
-local setName = console.AddCommand("rpa_character_name", function (ply, target, name)
+local setName = console.AddCommand("rpa_character_name", function(ply, target, name)
 	Log.Write("admin_character_name", ply, target, name)
 
 	target:SetCharacterName(name)
@@ -99,7 +99,7 @@ setName:AddParameter(console.String(Config.Get("CharacterNameRules")))
 
 
 
-local setNameOverride = console.AddCommand("rpa_character_name_override", function (ply, target, name)
+local setNameOverride = console.AddCommand("rpa_character_name_override", function(ply, target, name)
 	name = string.Escape(name)
 
 	Log.Write("admin_character_name_override", ply, target, name)
@@ -127,7 +127,7 @@ setNameOverride:AddOptional(console.String({validate.String(), validate.Max(64)}
 
 
 
-local setScale = console.AddCommand("rpa_character_scale", function (ply, target, scale)
+local setScale = console.AddCommand("rpa_character_scale", function(ply, target, scale)
 	Log.Write("admin_character_scale", ply, target, scale)
 
 	target:SetCharacterScale(scale)

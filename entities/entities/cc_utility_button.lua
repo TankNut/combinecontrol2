@@ -63,7 +63,7 @@ Action.Add("QuickButton", {
 			})
 		end
 
-		table.sort(options, function (left, right)
+		table.sort(options, function(left, right)
 			return left.Value:GetButtonID() < right.Value:GetButtonID()
 		end)
 
