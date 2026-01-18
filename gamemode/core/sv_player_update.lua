@@ -28,14 +28,14 @@ function PLAYER:UpdateVisibleDescription()
 
 	self:SetVisibleDescription(description)
 
-	local short = string.match(description, "^[^\r\n]*")
+	local short = string.match(string.Unescape(description), "^[^\r\n]*")
 	local config = Config.Get("ShortDescLength")
 
 	if #short > 0 and #short > config then
 		short = string.Trim(string.sub(short, 1, config - 3)) .. "..."
 	end
 
-	self:SetShortDescription(short)
+	self:SetShortDescription(string.Escape(short))
 	self.ExamineCache = nil
 end
 
