@@ -34,7 +34,7 @@ function ENTITY:SetMaterials(mats)
 	end
 end
 
-function ENTITY:CopyModel()
+function ENTITY:CopyModel(to)
 	local data = {
 		Model = self:GetModel()
 	}
@@ -92,7 +92,11 @@ function ENTITY:CopyModel()
 		data.Bodygroups = bodygroups
 	end
 
-	return data
+	if to then
+		to:ApplyModel(data)
+	else
+		return data
+	end
 end
 
 function ENTITY:ApplyModel(data)
