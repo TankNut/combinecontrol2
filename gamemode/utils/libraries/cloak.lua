@@ -56,12 +56,17 @@ end)
 
 local function drawPlayer(ply)
 	ply:DrawModel()
-	part.Draw(ply)
 
 	local weapon = ply:GetActiveWeapon()
 
 	if IsValid(weapon) then
 		weapon:DrawModel()
+	end
+
+	for _, child in ipairs(ply:GetChildren()) do
+		if child:GetClass() == "cc_attachment" then
+			child:DrawModel()
+		end
 	end
 end
 

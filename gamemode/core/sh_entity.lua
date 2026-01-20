@@ -155,3 +155,13 @@ if SERVER then
 		end
 	end
 end
+
+if CLIENT then
+	function GM:CreateClientsideRagdoll(ent, ragdoll)
+		ent:CopyAttachments(ragdoll)
+	end
+else
+	function GM:CreateEntityRagdoll(ent, ragdoll)
+		ent:CopyAttachments(ragdoll)
+	end
+end

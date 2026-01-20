@@ -1,5 +1,3 @@
-EntityVar.Add("FakeAppearance", {Default = {}})
-
 local ENTITY = FindMetaTable("Entity")
 local PLAYER = FindMetaTable("Player")
 
@@ -30,7 +28,8 @@ if SERVER then
 		ragdoll:SetPos(self:GetPos())
 		ragdoll:SetAngles(self:GetAngles())
 
-		ragdoll:SetFakeAppearance(self:Appearance())
+		self:CopyModel(ragdoll)
+		self:CopyAttachments(ragdoll)
 
 		ragdoll:Spawn()
 		ragdoll:Activate()
@@ -70,26 +69,4 @@ end
 
 function ENTITY:GetFakePlayer()
 	return self:GetNWEntity("FakePlayer")
-end
-
-function GM:OnFakeAppearanceChanged(ent, old, new, loaded)
-	if CLIENT then
-		local outfit = {}
-
-		for name, data in pairs(new) do
-			if name == "_base" then
-				continue
-			end
-
-			if data.Bonemerge == nil then
-				data.Bonemerge = true
-			end
-
-			outfit[name] = data
-		end
-
-		part.Add(ply, "appearance", outfit)
-	else
-		ent:ApplyModel(new._base)
-	end
 end

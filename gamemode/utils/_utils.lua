@@ -85,15 +85,6 @@ shared("util/queue.lua")
 shared("util/rate_counter.lua")
 shared("util/transition.lua")
 
--- part
-client("part/outfit.lua")
-client("part/part.lua")
-client("part/utils.lua")
-
-client("part/components/part_base.lua")
-client("part/components/part_model.lua")
-client("part/components/part_sprite.lua")
-
 -- vgui stuff
 client("vgui/code_editor.lua")
 client("vgui/editor_server_globals.lua")

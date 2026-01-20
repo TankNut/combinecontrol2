@@ -1,39 +1,10 @@
-PlayerVar.Add("Appearance", {Default = {}})
-
 local PLAYER = FindMetaTable("Player")
 
-function GM:OnAppearanceChanged(ply, old, new, loaded)
-	if CLIENT then
-		local outfit = {}
-
-		for name, data in pairs(new) do
-			if name == "_base" then
-				ply:ApplyModel(data)
-
-				continue
-			end
-
-			if data.Bonemerge == nil then
-				data.Bonemerge = true
-			end
-
-			outfit[name] = data
-		end
-
-		part.Add(ply, "appearance", outfit)
-	else
-		ply:ApplyModel(new._base)
-		ply:SetupHands()
-
-		if ply:IsRagdolled() then
-			ply:GetRagdoll():SetFakeAppearance(new)
-		end
-	end
-
-	ply:UpdateHull()
-end
-
-if SERVER then
+if CLIENT then
+	netstream.Hook("AppearanceChanged", function(ply)
+		hook.Run("AppearanceChanged", ply)
+	end)
+else
 	function GM:GetBaseAppearance(ply)
 		if not ply:HasCharacter() then
 			return {
@@ -88,7 +59,21 @@ if SERVER then
 			appearance._base.Color = team.GetColor(self:Team())
 		end
 
-		self:SetAppearance(appearance)
+		self:ApplyModel(appearance._base)
+		self:ClearAttachments()
+
+		for k, v in pairs(appearance) do
+			if k == "_base" then
+				continue
+			end
+
+			self:AddBonemerge(v)
+		end
+
+		self:SetupHands()
+		self:UpdateHull()
+
+		netstream.Broadcast("AppearanceChanged", self)
 	end
 
 	function GM:GetHandAppearance(ply)

@@ -20,20 +20,38 @@ function PANEL:Init()
 	self.YawAdd = 0
 	self.Zoom = 0.6
 
-	hook.Add("OnAppearanceChanged", self, self.OnAppearanceChanged)
+	hook.Add("AppearanceChanged", self, self.AppearanceChanged)
 end
 
-function PANEL:OnAppearanceChanged(ply, old, new)
-	if ply != self:GetPlayer() then
-		return
+function PANEL:AppearanceChanged(ply)
+	if ply == self.Player then
+		self:SetPlayer(ply)
 	end
-
-	self:SetAppearance(new)
 end
 
 function PANEL:SetPlayer(ply)
-	self:SetAppearance(ply:Appearance())
 	self.Player = ply
+
+	self:SetModel(ply:GetModel()) -- Inits the entity
+	ply:CopyModel(self.Entity)
+
+	-- Manually so we can SetNoDraw
+	for _, child in ipairs(ply:GetChildren()) do
+		if child:GetClass() != "cc_attachment" then
+			continue
+		end
+
+		local attachment = self.Entity:AddBonemerge(child:CopyModel())
+		attachment:SetNoDraw(true)
+	end
+end
+
+function PANEL:OnRemove()
+	local ent = self.Entity
+
+	if IsValid(ent) then
+		ent:Remove()
+	end
 end
 
 function PANEL:SetEntity(ent)
@@ -48,8 +66,6 @@ function PANEL:SetModel(mdl)
 
 	if IsValid(ent) then
 		cycle = ent:GetCycle()
-
-		part.Clear(ent)
 
 		if ent:GetModel() == mdl then
 			return
@@ -71,34 +87,10 @@ function PANEL:SetModel(mdl)
 	end
 end
 
-function PANEL:SetAppearance(appearance)
-	local base = assert(appearance._base, "SetAppearance somehow ended up without _base model data!")
-
-	self:SetModel(base.Model)
-
-	local ent = self:GetEntity()
-
-	ent:ApplyModel(base)
-
-	local outfit = {}
-
-	for name, data in pairs(appearance) do
-		if name == "_base" then
-			continue
-		end
-
-		if data.Bonemerge == nil then
-			data.Bonemerge = true
-		end
-
-		outfit[name] = data
-	end
-
-	part.Add(ent, "appearance", outfit)
-end
-
 function PANEL:PostDrawModel(ent)
-	part.Draw(ent)
+	for _, child in ipairs(ent:GetChildren()) do
+		child:DrawModel()
+	end
 end
 
 function PANEL:GetCameraTarget()
