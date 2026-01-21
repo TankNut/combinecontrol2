@@ -26,7 +26,7 @@ function ENTITY:AddBonemerge(data)
 
 	ent:SetParent(self)
 	ent:SetTransmitWithParent(true)
-	ent:AddEffects(EF_BONEMERGE + EF_BONEMERGE_FASTCULL + EF_PARENT_ANIMATES)
+	ent:AddEffects(EF_BONEMERGE + EF_PARENT_ANIMATES)
 
 	ent:Spawn()
 
@@ -36,9 +36,11 @@ end
 function ENTITY:CopyAttachments(to)
 	-- Not using self.Attachments here because that's only relevant for deletion (ragdoll issues)
 	for _, child in ipairs(self:GetChildren()) do
-		if child:GetClass() == "cc_attachment" then
-			to:AddBonemerge(child:CopyModel())
+		if child:GetClass() != "cc_attachment" then
+			continue
 		end
+
+		to:AddBonemerge(child:CopyModel())
 	end
 end
 
