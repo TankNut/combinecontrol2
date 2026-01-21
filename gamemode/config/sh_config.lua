@@ -175,6 +175,7 @@ GM.Config.ToolTrust = {
 		["lvscartuningremover"] = TOOLTRUST_ADVANCED,
 		["lvscarwheelchanger"] = TOOLTRUST_ADVANCED,
 		-- Robotboy655
+		["rb655_easy_bonemerge"] = TOOLTRUST_ADMIN,
 		["rb655_easy_inspector"] = TOOLTRUST_ADMIN
 	}
 }

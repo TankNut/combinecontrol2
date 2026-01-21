@@ -46,6 +46,8 @@ setSkin:AddParameter(console.Number())
 
 
 
+local bonemergeEntities = table.Lookup({"ent_bonemerged", "cc_attachment"})
+
 local setAppearance = console.AddCommand("rpa_appearance_set", function(ply, target)
 	local ent = ply:GetEyeTrace().Entity
 
@@ -63,9 +65,19 @@ local setAppearance = console.AddCommand("rpa_appearance_set", function(ply, tar
 		return
 	end
 
-	target:SetAppearanceOverride({
+	local appearance = {
 		_base = ent:CopyModel()
-	})
+	}
+
+	for _, child in ipairs(ent:GetChildren()) do
+		if not bonemergeEntities[child:GetClass()] then
+			continue
+		end
+
+		table.insert(appearance, child:CopyModel())
+	end
+
+	target:SetAppearanceOverride(appearance)
 
 	Log.Write("admin_appearance_override", ply, target, true)
 
