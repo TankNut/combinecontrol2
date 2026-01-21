@@ -51,6 +51,14 @@ hook.Add("Think", "cc2.Cloak", function()
 
 		updateShadow(ply, cloaked)
 		updateShadow(ply:GetActiveWeapon(), cloaked)
+
+		for _, child in ipairs(ply:GetChildren()) do
+			if child:GetClass() != "cc_attachment" then
+				continue
+			end
+
+			updateShadow(child, cloaked)
+		end
 	end
 end)
 
