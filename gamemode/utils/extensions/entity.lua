@@ -72,10 +72,10 @@ function ENTITY:CopyModel(to)
 		data.EntityColor = color
 	end
 
-	local playerColor = self:GetPlayerColor():ToColor()
+	local playerColor = self:GetPlayerColor()
 
-	if playerColor != color_white then
-		data.Color = playerColor
+	if playerColor != Vector(0.2, 0.2, 0.2) then
+		data.Color = playerColor:ToColor()
 	end
 
 	local bodygroups = {}
