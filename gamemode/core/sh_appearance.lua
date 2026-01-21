@@ -81,7 +81,9 @@ else
 		self:SetupHands()
 		self:UpdateHull()
 
-		netstream.Broadcast("AppearanceChanged", self)
+		jank(function()
+			netstream.Broadcast("AppearanceChanged", self)
+		end)
 	end
 
 	function GM:GetHandAppearance(ply)
