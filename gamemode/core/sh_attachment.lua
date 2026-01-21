@@ -90,16 +90,15 @@ function ENTITY:CopyAttachments(to)
 			continue
 		end
 
-		local attach = child:GetType()
+		local attachType = child:GetType()
 		local data = child:CopyModel()
 
-
-		if attach == ATTACH_FOLLOW then
+		if attachType == ATTACH_FOLLOW then
 			to:AddAttachmentFollower(data, child:GetAttachmentID(), child:GetLocalPos(), child:GetLocalAngles())
-		elseif attach == ATTACH_FOLLOW_BONE then
+		elseif attachType == ATTACH_FOLLOW_BONE then
 			PrintTable(child:GetTable())
 			to:AddBoneFollower(data, child:GetAttachmentID(), child:GetLocalPos(), child:GetLocalAngles())
-		elseif attach == ATTACH_BONEMERGE then
+		elseif attachType == ATTACH_BONEMERGE then
 			to:AddBonemerge(data)
 		end
 	end
