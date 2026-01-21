@@ -6,7 +6,8 @@ local material = CreateMaterial("cloak", "vertexlitgeneric", {
 	["$translucent"] = "1",
 	["$cloakpassenabled"] = "1",
 	["$refractamount"] = "0.1",
-	["$cloakfactor"] = "0.9"
+	["$cloakfactor"] = "0.9",
+	["$nocull"] = "1"
 })
 
 function PLAYER:GetCloakFactor()
