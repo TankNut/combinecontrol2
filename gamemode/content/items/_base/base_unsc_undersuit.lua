@@ -47,29 +47,29 @@ function ITEM:CanEquip(ply)
 	return self:IsCompatible(ply)
 end
 
-function ITEM:OnEquipped(ply, slot)
-	for _, item in pairs(ply:GetEquipment()) do
-		if item:IsType("base_unsc_clothing") and not item:IsCompatible(ply, self.ModelGroup) then
-			item:SetEquipmentSlot(nil)
-		end
-	end
-
-	BaseClass.OnEquipped(self, ply, slot)
-end
-
-function ITEM:OnUnequipped(ply, replacement)
-	if not replacement then
+if SERVER then
+	function ITEM:OnEquipped(ply, slot)
 		for _, item in pairs(ply:GetEquipment()) do
-			if item:IsType("base_unsc_clothing") and not item:IsCompatible(ply, "Off-Duty") then
+			if item:IsType("base_unsc_clothing") and not item:IsCompatible(ply, self.ModelGroup) then
 				item:SetEquipmentSlot(nil)
 			end
 		end
+
+		BaseClass.OnEquipped(self, ply, slot)
 	end
 
-	BaseClass.OnUnequipped(self, ply, replacement)
-end
+	function ITEM:OnUnequipped(ply, replacement)
+		if not replacement then
+			for _, item in pairs(ply:GetEquipment()) do
+				if item:IsType("base_unsc_clothing") and not item:IsCompatible(ply, "Off-Duty") then
+					item:SetEquipmentSlot(nil)
+				end
+			end
+		end
 
-if SERVER then
+		BaseClass.OnUnequipped(self, ply, replacement)
+	end
+
 	function ITEM:GetModelData(ply, clothing)
 		if not self:IsEquipped() then
 			return
