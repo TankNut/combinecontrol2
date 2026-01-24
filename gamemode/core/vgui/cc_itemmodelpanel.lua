@@ -102,19 +102,22 @@ function PANEL:Paint(w, h)
 
 	DModelPanel.Paint(self, w, h)
 
+	surface.SetDrawColor(self:GetSkin().Colors.Border)
+	surface.DrawOutlinedRect(0, 0, w, h)
+
 	if developer:GetBool() then
+		surface.SetDrawColor(255, 255, 255, 255)
+		surface.DrawOutlinedRect(w * 0.25, 0, h, h)
+
 		local ang = Angle(self.aLookAngle)
 
 		ang:Normalize()
 
 		local _, y = draw.SimpleText(string.format("%.2f %.2f %.2f", ang.p, ang.y, ang.r), "BudgetLabel", 2)
-		local ratio = self:GetWide() / self:GetTall()
+		local ratio = w / h
 
 		draw.SimpleText(string.format("%.2f", self.fFOV / ratio), "BudgetLabel", 2, y)
 	end
-
-	surface.SetDrawColor(self:GetSkin().Colors.Border)
-	surface.DrawOutlinedRect(0, 0, w, h)
 end
 
 vgui.Register("CC_ItemModelPanel", PANEL, "DModelPanel")

@@ -84,7 +84,7 @@ SWEP.Itemize = {
 	EquipmentSlots = {"primary", "secondary"},
 
 	IconAngle = Angle(15, 45, 10),
-	IconFOV = 12
+	IconFOV = 15
 }
 
 sound.Add({
