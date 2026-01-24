@@ -95,8 +95,8 @@ SWEP.Offsets = {
 }
 
 SWEP.Itemize = {
-	Description = "Formally known as the Special Applications Rifle, Caliber 14.5mm, the SRS99-AM is a long-range anti-material rifle used by the UNSC.",
-	Rarity = RARITY_EPIC,
+	Description = "The Model 6/Reconaissance Nonlinear Rifle is a solid-state directed-energy weapon designed to combat heavy armor. It's price has been described as 'ruinously expensive' and is rarely seen outside of SPARTAN operations.",
+	Rarity = RARITY_LEGENDARY,
 
 	Weight = 20,
 
