@@ -2,6 +2,8 @@ local PLAYER = FindMetaTable("Player")
 
 if CLIENT then
 	netstream.Hook("AppearanceChanged", function(ply)
+		ply:UpdateHull()
+
 		hook.Run("AppearanceChanged", ply)
 	end)
 else
