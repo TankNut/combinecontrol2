@@ -47,7 +47,7 @@ SWEP.Recoil = {
 	PosMult = Vector(1, 0, 0.5),
 	AngMult = Angle(0.5, 2),
 
-	Punch = 1
+	Punch = 0.6
 }
 
 SWEP.Settings = {

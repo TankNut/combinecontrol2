@@ -28,7 +28,7 @@ SWEP.Stats = {
 SWEP.Recoil = {
 	Value = 0.6,
 
-	PosMult = Vector(0.6, 0, 0.3),
+	PosMult = Vector(0.2, 0, 0.3),
 	AngMult = Angle(0.3, 1.2),
 
 	Punch = 0.6
@@ -54,7 +54,7 @@ SWEP.Sounds = {
 
 SWEP.Offsets = {
 	Default = {
-		Vector(2, 0, 0),
+		Vector(3, 0, 0),
 		Angle(0, 0, 0)
 	},
 	Holster = {
@@ -66,7 +66,7 @@ SWEP.Offsets = {
 		Angle(15, 5, 0)
 	},
 	Aiming = {
-		Vector(-2, 0, -1),
+		Vector(0, 0, 1),
 		Angle(-1, 0, 0)
 	}
 }

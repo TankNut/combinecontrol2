@@ -38,10 +38,7 @@ SWEP.Recoil = {
 
 	-- How the recoil value is applied to the viewmodel
 	PosMult = Vector(0, 0, 0),
-	AngMult = Angle(0, 0),
-
-	-- The amount of recoil that's applied to the player's eyeangles
-	Punch = 0.6
+	AngMult = Angle(0, 0)
 }
 
 SWEP.Settings = {

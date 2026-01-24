@@ -32,8 +32,8 @@ SWEP.Stats = {
 SWEP.Recoil = {
 	Value = 0.6,
 
-	PosMult = Vector(0.6, 0, 0.3),
-	AngMult = Angle(0.3, 0.12),
+	PosMult = Vector(0.5, 0, 0.1),
+	AngMult = Angle(0.4, 0.12),
 
 	Punch = 0.6
 }

@@ -38,7 +38,7 @@ SWEP.Heat = {
 SWEP.Recoil = {
 	Value = 0.6,
 
-	PosMult = Vector(0.6, 0, 0.3),
+	PosMult = Vector(1, 0, 0.2),
 	AngMult = Angle(0.3, 1.2),
 
 	Punch = 0.6

@@ -61,11 +61,13 @@ function SWEP:ApplyRecoil()
 	local ply = self:GetOwner()
 
 	if CLIENT and IsFirstTimePredicted() then
-		ply:SetEyeAngles(ply:EyeAngles() + ang * recoil.Punch * viewPunchMult)
+		ply:SetEyeAngles(ply:EyeAngles() + ang * viewPunchMult)
 	end
 
 	ply:ViewPunch(ang * viewPunchMult)
+
 	self:SetRecoilVelocity(self:GetRecoilVelocity() + ang * 20)
+	self:SetRecoilPunch(self:GetRecoilPunch() + Angle(ang.p, 0, 0))
 end
 
 if CLIENT then

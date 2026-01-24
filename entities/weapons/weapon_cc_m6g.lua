@@ -30,10 +30,10 @@ SWEP.Stats = {
 }
 
 SWEP.Recoil = {
-	Value = 0.6,
+	Value = 1,
 
-	PosMult = Vector(0.6, 0, 0.3),
-	AngMult = Angle(0.3, 1.2),
+	PosMult = Vector(0, 0, 0),
+	AngMult = Angle(0, 0),
 
 	Punch = 0.6
 }
@@ -66,7 +66,7 @@ SWEP.Offsets = {
 		Angle(15, 0, 0)
 	},
 	Aiming = {
-		Vector(0, 0, 1),
+		Vector(0, 0, 0),
 		Angle(-1, 0, 0)
 	}
 }
