@@ -145,6 +145,6 @@ hook.Add("PreDrawOutlines", "visr", function()
 		local color = entities._color
 		entities._color = nil
 
-		outline.Add(entities, color, true, 0.1)
+		outline.Add(entities, color, true, 0.01)
 	end
 end)
