@@ -113,10 +113,9 @@ hook.Add("PreDrawOutlines", "visr", function()
 		return
 	end
 
-	local tab = {}
+	local tab = EntityCache.Copy("npcs")
 
 	table.Add(tab, player.GetAll())
-	table.Add(tab, EntityCache.Copy("npcs"))
 
 	local colors = {}
 
