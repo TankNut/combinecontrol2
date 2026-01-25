@@ -95,10 +95,10 @@ function PLAYER:RemoveBuff(name, amount)
 		return
 	end
 
-	if amount == nil then
+	if amount == true then
 		buff:Remove()
 	else
-		buff:RemoveStacks(amount)
+		buff:RemoveStacks(amount or 1)
 	end
 
 	if SERVER then

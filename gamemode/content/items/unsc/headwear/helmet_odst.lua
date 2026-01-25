@@ -8,7 +8,7 @@ ITEM.Tags = {"ODST"}
 
 ITEM.ModelGroups = {"ODST"}
 
--- ITEM.Buffs = {"visr"}
+ITEM.Buffs = {"visr"}
 
 ITEM.HelmetIndex = 2
 

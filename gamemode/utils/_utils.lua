@@ -39,6 +39,7 @@ shared("extensions/weapons.lua")
 
 -- Libraries
 client("libraries/cloak.lua")
+client("libraries/outline.lua")
 
 client("libraries/scribe.lua")
 client("libraries/scribe/scribe_alpha.lua")

@@ -6,6 +6,10 @@ function render.IsDrawingMainView()
 	return render.GetViewID(true) == VIEW_MAIN
 end
 
+function render.IsFirstPerson()
+	return lp:GetViewEntity() == lp and not ctp:IsEnabled()
+end
+
 function render.DrawWorldText(pos, text, noz)
 	local ang = (pos - EyePos()):Angle()
 
