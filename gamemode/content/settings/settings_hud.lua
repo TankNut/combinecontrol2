@@ -36,3 +36,11 @@ Settings.Add("WorldLabelBackgrounds", {
 		Notches = 10
 	}
 }, "Hud")
+
+Settings.Add("DrawOverlays", {
+	Name = "Draw HUD overlays",
+	ClientOnly = true,
+	Default = true,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool"
+}, "Hud")
