@@ -4,6 +4,10 @@ ENT.Type = "anim"
 
 function ENT:Initialize()
 	self:AddEFlags(EFL_KEEP_ON_RECREATE_ENTITIES)
+
+	self.Parent = self:GetParent()
+	self.LocalPos = self:GetLocalPos()
+	self.LocalAng = self:GetLocalAngles()
 end
 
 function ENT:SetupDataTables()
@@ -21,6 +25,19 @@ function ENT:GetType()
 end
 
 if CLIENT then
+	function ENT:Think()
+		if self:GetParent() != self.Parent then
+			self:SetParent(self.Parent, self:GetAttachmentID())
+
+			self:SetLocalPos(self.LocalPos)
+			self:SetLocalAngles(self.LocalAng)
+		end
+
+		self:SetNextClientThink(CurTime())
+
+		return true
+	end
+
 	function ENT:Draw(flags)
 		local shouldDraw = true
 
