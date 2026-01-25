@@ -61,6 +61,10 @@ function GM:ShouldDoThirdPerson(ply)
 		return false
 	end
 
+	if ply:InVehicle() then
+		return false
+	end
+
 	return Settings.Get("Thirdperson")
 end
 
