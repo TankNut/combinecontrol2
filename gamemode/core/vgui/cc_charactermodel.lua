@@ -56,6 +56,29 @@ function PANEL:SetEntity(ent)
 	ent.PanelLayoutDone = false
 end
 
+function PANEL:SetAppearance(appearance)
+	self:SetModel(appearance._base.Model)
+
+	self.Entity:ApplyModel(appearance._base)
+	self.Entity:ClearAttachments()
+
+	for k, data in pairs(appearance) do
+		if k == "_base" then
+			continue
+		end
+
+		local attachType = data.Attach or ATTACH_BONEMERGE
+
+		if attachType == ATTACH_FOLLOW then
+			self.Entity:AddAttachmentFollower(data, data.Attachment, data.Pos, data.Ang)
+		elseif attachType == ATTACH_FOLLOW_BONE then
+			self.Entity:AddBoneFollower(data, data.Bone, data.Pos, data.Ang)
+		elseif attachType == ATTACH_BONEMERGE then
+			self.Entity:AddBonemerge(data)
+		end
+	end
+end
+
 function PANEL:SetModel(mdl)
 	local cycle = math.random()
 	local ent = self.Entity
