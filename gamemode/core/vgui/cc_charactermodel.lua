@@ -57,6 +57,7 @@ function PANEL:SetEntity(ent)
 end
 
 function PANEL:SetAppearance(appearance)
+	-- TODO: Sanity check the data?
 	self:SetModel(appearance._base.Model)
 
 	self.Entity:ApplyModel(appearance._base)
