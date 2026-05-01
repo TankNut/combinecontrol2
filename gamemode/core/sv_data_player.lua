@@ -68,7 +68,9 @@ function Update(steamID, data)
 
 	if IsValid(ply) then
 		for name, value in pairs(data) do
-			if not PlayerVar.Vars[name] then
+			local var = PlayerVar.Vars[name]
+
+			if not var then
 				continue
 			end
 
