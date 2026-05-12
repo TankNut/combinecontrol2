@@ -1,10 +1,8 @@
 -- General config
-GM.Config.InternalName = "project-testbed" -- Used for figuring out what folder in data/cc2 we want to put our stuff into
-GM.Config.ServerName = "Project Testbed"
+GM.Config.InternalName = "base" -- Used for figuring out what folder in data/cc2 we want to put our stuff into
+GM.Config.ServerName = "CombineControl 2"
 
-GM.Config.CommunityLinks = {
-	{"Community Forums", "https://taconbanana.com"}
-}
+GM.Config.CommunityLinks = {}
 
 GM.Config.MapOverrides = {} -- Makes the script believe it's running on a different map, useful for maps with different versions but identical layouts
 

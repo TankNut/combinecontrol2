@@ -4,9 +4,9 @@ AddCSLuaFile()
 DeriveGamemode("sandbox")
 
 GM.Name = "CombineControl 2"
-GM.Author = "Taco N Banana"
-GM.Website = "http://taconbanana.com"
-GM.Email = "gangleider@taconbanana.com"
+GM.Author = "TankNut"
+GM.Website = "https://github.com/TankNut"
+GM.Email = ""
 
 gameevent.Listen("player_disconnect")
 gameevent.Listen("player_changename")

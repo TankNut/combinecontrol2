@@ -1,9 +1,7 @@
 local text = [[<massive><b><ol=1><c=white>Combine</c><c=red>Control</c></ol></b></massive>
-<iset=3><dark>Built for Taco N Banana</dark>
 
 <giant><b>Credits</b></giant>
-	TankNut:	<dark>Lead Developer</dark>
-	Somedude:	<dark>Developer</dark>
+	TankNut:	<dark>Developer</dark>
 
 <giant><b>Special Thanks</b></giant>
 	Dave Brown:	<dark>You might have not have created TnB but you were always at the heart of it</dark>

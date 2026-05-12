@@ -3,10 +3,7 @@
 -- <fix>[FIX]</fix> <dark>TEXT</dark>
 -- <rem>[REM]</rem> <dark>TEXT</dark>
 
-GM.MOTD = [[Welcome back to TacoNBanana Serious Roleplay
-<dark>https://www.taconbanana.com</dark>
-
-<b>Server Updates:</b>
+GM.MOTD = [[<b>Server Updates:</b>
 <dark>Month Day, Year</dark>
 
 <new>[NEW]</new> <dark>CHANGE MESSAGE HERE</dark>
