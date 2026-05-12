@@ -32,7 +32,7 @@ function Register(name, hud)
 end
 
 function RegisterFolder(dir)
-	file.Iterate(dir, "_hud.lua", "LUA", function(path, folder)
+	file.IterateRecursive(dir, "_hud.lua", "LUA", function(path, folder)
 		if SERVER then
 			AddCSLuaFile(path)
 

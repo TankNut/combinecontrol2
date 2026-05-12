@@ -18,8 +18,14 @@ function GM:Include(path)
 	return shared(path)
 end
 
-function GM:IncludeFolder(dir, subFile)
-	file.Iterate(dir, subFile, "LUA", function(path)
+function GM:IncludeFolder(dir, entrypoint)
+	file.Iterate(dir, entrypoint, "LUA", function(path)
+		self:Include(path)
+	end)
+end
+
+function GM:IncludeRecursive(dir, entrypoint)
+	file.IterateRecursive(dir, entrypoint, "LUA", function(path)
 		self:Include(path)
 	end)
 end
@@ -38,6 +44,7 @@ GM:Include("cl_ambience.lua")
 GM:Include("cl_spawnmenu.lua")
 GM:Include("cl_view.lua")
 GM:Include("cl_weaponselect.lua")
+
 GM:Include("sh_actions.lua")
 GM:Include("sh_admin.lua")
 GM:Include("sh_animations.lua")
@@ -68,6 +75,7 @@ GM:Include("sh_modeldata.lua")
 GM:Include("sh_permaprops.lua")
 GM:Include("sh_permissions.lua")
 GM:Include("sh_player.lua")
+GM:Include("sh_plugins.lua")
 GM:Include("sh_propprotection.lua")
 GM:Include("sh_ragdoll.lua")
 GM:Include("sh_sandbox.lua")
@@ -75,6 +83,7 @@ GM:Include("sh_stash.lua")
 GM:Include("sh_teams.lua")
 GM:Include("sh_think.lua")
 GM:Include("sh_voicelines.lua")
+
 GM:Include("sv_access.lua")
 GM:Include("sv_bots.lua")
 GM:Include("sv_character.lua")
@@ -91,14 +100,13 @@ GM:Include("sv_player.lua")
 GM:Include("sv_resource.lua")
 GM:Include("sv_worldents.lua")
 
-local baseFolder = engine.ActiveGamemode() .. "/gamemode/"
+GM:IncludeRecursive(CoreFolder .. "ctp/")
+GM:IncludeRecursive(CoreFolder .. "meta/", "shared.lua")
+GM:IncludeRecursive(CoreFolder .. "vgui/")
+GM:IncludeRecursive(CoreFolder .. "gui/")
 
-GM:IncludeFolder(baseFolder .. "core/ctp/")
-GM:IncludeFolder(baseFolder .. "core/meta/", "shared.lua")
-GM:IncludeFolder(baseFolder .. "core/vgui/")
-GM:IncludeFolder(baseFolder .. "core/gui/")
 
-GM:Include(baseFolder .. "content/_content.lua")
+GM:Include(ContentFolder .. "_content.lua")
 
 function GM:Initialize()
 	if CLIENT then

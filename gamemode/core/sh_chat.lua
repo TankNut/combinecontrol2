@@ -43,7 +43,7 @@ function Register(data)
 end
 
 function RegisterFolder(dir)
-	file.Iterate(dir, "shared.lua", "LUA", function(path, folder)
+	file.IterateRecursive(dir, "shared.lua", "LUA", function(path, folder)
 		_G.CLASS = {}
 
 		shared(path)

@@ -69,6 +69,7 @@ function IsElevatedUserGroup(usergroup)
 	return tobool(elevated[usergroup])
 end
 
+CoreFolder = engine.ActiveGamemode() .. "/gamemode/core/"
 ContentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
 DataFolder = "cc2/" .. Config.Get("InternalName") .. "/"
 

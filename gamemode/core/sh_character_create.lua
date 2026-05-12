@@ -10,7 +10,7 @@ function Register(name, data)
 end
 
 function RegisterFolder(dir)
-	file.Iterate(dir, "shared.lua", "LUA", function(path, folder)
+	file.IterateRecursive(dir, "shared.lua", "LUA", function(path, folder)
 		local name = string.FileName(path)
 
 		if name == "shared" then
