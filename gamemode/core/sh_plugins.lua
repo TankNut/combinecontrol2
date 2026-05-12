@@ -40,8 +40,6 @@ function GM:LoadPluginFolder(path)
 end
 
 function GM:RegisterContent(folder)
-	print(folder)
-
 	Animation.RegisterFolder(folder .. "animations/")
 	CharacterCreate.RegisterFolder(folder .. "chartypes/")
 	CharacterFlag.RegisterFolder(folder .. "flags/")
