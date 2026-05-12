@@ -260,13 +260,13 @@ function GM:CanArmDupe(ply)
 	return false
 end
 
-function PLAYER:GetLimit(name)
-	local limit = Config.Get("Limits")[name] or cvars.Number("sbox_max" .. name, 0)
-	local multiplier = Config.Get("LimitMultipliers")[self:GetToolTrust()]
+function GM:GetSandboxLimit(ply, name)
+	return Config.Get("Limits")[name] or cvars.Number("sbox_max" .. name, 0)
+end
 
-	if self:IsDonator() then
-		limit = Config.Get("DonatorLimits")[name] or limit
-	end
+function PLAYER:GetLimit(name)
+	local limit = hook.Run("GetSandboxLimit", self, name)
+	local multiplier = Config.Get("LimitMultipliers")[self:GetToolTrust()]
 
 	if limit == -1 or multiplier == -1 then
 		return -1

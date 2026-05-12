@@ -75,8 +75,8 @@ GM.Badges = {
 	Badge("admin",      "Admin",           "icon16/shield.png",        function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "admin" end),
 	Badge("tempadmin",  "Temporary Admin", "icon16/shield_delete.png", function(ply) return ply:TempAdmin() end),
 
-	Badge("donator",    "Contributor",          "icon16/medal_gold_1.png",      function(ply) return ply:DonationLevel() == DONATOR_BASIC and ply:GetSetting("ShowDonatorBadge") end),
-	Badge("advdonator", "Advanced Contributor", "icon16/award_star_gold_1.png", function(ply) return ply:DonationLevel() == DONATOR_ADVANCED and ply:GetSetting("ShowDonatorBadge") end),
+	-- Badge("donator",    "Contributor",          "icon16/medal_gold_1.png",      function(ply) return ply:DonationLevel() == DONATOR_BASIC and ply:GetSetting("ShowDonatorBadge") end),
+	-- Badge("advdonator", "Advanced Contributor", "icon16/award_star_gold_1.png", function(ply) return ply:DonationLevel() == DONATOR_ADVANCED and ply:GetSetting("ShowDonatorBadge") end),
 
 	Badge("bannedtt",   "Banned Tooltrust",   "icon16/key_delete.png",    function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end),
 	Badge("advancedtt", "Advanced Tooltrust", "icon16/key_add.png",       function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end),
