@@ -22,18 +22,29 @@ end
 
 if CLIENT then
 	local PLAYER = FindMetaTable("Player")
+	local defaultColor = Color(36, 219, 255)
+
+	function GM:GetPhysgunColor(ply)
+		return defaultColor
+	end
+
+	local weaponColor = Vector()
 
 	function PLAYER:UpdatePhysgunColor()
-		local vec = self:GetSetting("PhysgunColor"):ToVector()
+		local col = hook.Run("GetPhysgunColor", self)
+
+		weaponColor.x = col.r / 255
+		weaponColor.y = col.g / 255
+		weaponColor.z = col.b / 255
 
 		if self:GetSetting("RainbowPhysgun") then
 			for i = 1, 3 do
-				vec[i] = math.abs(math.sin(CurTime() * 2.4 + (2 * i)))
+				weaponColor[i] = math.abs(math.sin(CurTime() * 2.4 + (2 * i)))
 			end
 		end
 
-		if vec != self:GetWeaponColor() then
-			self:SetWeaponColor(vec)
+		if weaponColor != self:GetWeaponColor() then
+			self:SetWeaponColor(weaponColor)
 		end
 	end
 end
