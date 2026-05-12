@@ -105,6 +105,7 @@ GM:IncludeRecursive(CoreFolder .. "meta/", "shared.lua")
 GM:IncludeRecursive(CoreFolder .. "vgui/")
 GM:IncludeRecursive(CoreFolder .. "gui/")
 
+GM:LoadPlugins()
 
 GM:Include(ContentFolder .. "_content.lua")
 
@@ -121,6 +122,17 @@ function GM:Initialize()
 		concommand.Remove("gm_save")
 		concommand.Add("gm_save", function(ply) end)
 	end
+end
+
+function GM:RegisterContent(folder)
+	Animation.RegisterFolder(folder .. "animations/")
+	CharacterCreate.RegisterFolder(folder .. "chartypes/")
+	CharacterFlag.RegisterFolder(folder .. "flags/")
+	CharacterGen.RegisterFolder(folder .. "chargens/")
+	Chat.RegisterFolder(folder .. "chat/")
+	Item.RegisterFolder(folder .. "items/")
+	Hud.RegisterFolder(folder .. "hud/")
+	buff.RegisterFolder(folder .. "buffs/")
 end
 
 function GM:OnReloaded()
