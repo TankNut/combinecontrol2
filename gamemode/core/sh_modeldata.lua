@@ -4,9 +4,9 @@ module("ModelData", package.seeall)
 CACHE_MISS = CACHE_MISS or {}
 
 Cache = Cache or {
-	Hands = {Missed = {}},
-	Hulls = {Missed = {}},
-	Views = {Missed = {}}
+	Hands = {},
+	Hulls = {},
+	Views = {}
 }
 
 Hands = Hands or {}
