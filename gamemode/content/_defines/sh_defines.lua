@@ -41,16 +41,6 @@ GM.Languages = {
 	Lang("swa", "Swahili")
 }
 
-local function Badge(id, name, material, callback)
-	return {
-		ID = id,
-		Name = name,
-		Material = Material(material),
-		Callback = callback,
-		Automated = tobool(callback)
-	}
-end
-
 local function canSeeAdminBadge(ply)
 	if SERVER then
 		return true

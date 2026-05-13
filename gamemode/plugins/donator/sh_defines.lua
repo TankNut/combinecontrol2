@@ -5,6 +5,13 @@ Config.Register("DonatorLimits", {})
 Permissions.Add("donator_basic", {Description = "This person is a basic donator", Callback = function(ply) return ply:IsDonator() end})
 Permissions.Add("donator_advanced", {Description = "This person is an advanced donator", Callback = function(ply) return ply:IsDonator(true) end})
 
+-- Badges
+
+BADGE_DONATOR = 80
+
+Badge.Add("donator",    "Contributor",          BADGE_DONATOR, "icon16/medal_gold_1.png",      function(ply) return ply:DonationLevel() == DONATOR_BASIC and ply:GetSetting("ShowDonatorBadge") end)
+Badge.Add("advdonator", "Advanced Contributor", BADGE_DONATOR, "icon16/award_star_gold_1.png", function(ply) return ply:DonationLevel() == DONATOR_ADVANCED and ply:GetSetting("ShowDonatorBadge") end)
+
 -- Logs
 
 Log.AddType("donator_set", function(ply, target, duration, advanced)
