@@ -1,5 +1,6 @@
--- 08/11/2024: First cc2-core commit
--- 21/03/2025: Last remaining CC code stripped out
+-- 08/11/2024: First cc2 commit
+-- 21/03/2025: Last remaining cc code stripped out
+-- 30/04/2026: Github repository set to public
 AddCSLuaFile()
 DeriveGamemode("sandbox")
 
