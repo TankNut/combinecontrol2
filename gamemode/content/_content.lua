@@ -13,7 +13,6 @@ GM:IncludeFolder(ContentFolder .. "gui/")
 
 GM:IncludeFolder(ContentFolder .. "patches/")
 
-Badge.Load()
 Language.Load()
 
 hook.Call("RegisterContent", GM, ContentFolder)

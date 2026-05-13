@@ -1,6 +1,6 @@
 module("Badge", package.seeall)
 
-Lookup = Lookup or {}
+List = List or {}
 
 local PLAYER = FindMetaTable("Player")
 
@@ -11,27 +11,40 @@ PlayerVar.Add("CustomBadges", {
 	DataType = BLOB()
 })
 
-function Load()
-	List = GM.Badges
-
-	for _, data in ipairs(List) do
-		Lookup[data.ID] = data
-	end
+function Add(id, name, order, material, callback)
+	List[id] = {
+		ID = id,
+		Name = name,
+		Order = order or 0,
+		Material = Material(material),
+		Callback = callback,
+		Automated = tobool(callback)
+	}
 end
 
 function Get(id)
-	return Lookup[id]
+	return List[id]
 end
 
 function PLAYER:GetBadges()
 	local custom = self:CustomBadges()
 	local badges = {}
 
-	for _, badge in pairs(Badge.List) do
-		if (badge.Automated and badge.Callback(self)) or custom[badge.ID] then
+	for id, badge in pairs(Badge.List) do
+		if (badge.Automated and badge.Callback(self)) or custom[id] then
 			table.insert(badges, badge)
 		end
 	end
+
+	table.sort(badges, function(a, b)
+		if a.Order == b.Order then
+			-- Sort alphabetically
+			return a.ID < b.ID
+		end
+
+		-- Left to right, high to low
+		return a.Order > b.Order
+	end)
 
 	return badges
 end
@@ -39,11 +52,11 @@ end
 function PLAYER:HasBadge(id)
 	local badge = Badge.Get(id)
 
-	if badge.Automated then
-		return tobool(badge.Callback(self))
-	else
-		return tobool(self:CustomBadges()[badge.ID])
+	if not badge then
+		return false
 	end
+
+	return badge.Automated and tobool(badge.Callback(self)) or tobool(self:CustomBadges()[id])
 end
 
 if SERVER then

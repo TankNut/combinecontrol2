@@ -67,28 +67,22 @@ local function canSeePrivateBadge(ply)
 	return lp:IsAdmin() or lp == ply
 end
 
--- Badges are displayed right to left based on this order
-GM.Badges = {
-	Badge("bot",        "Bot",             "icon16/monkey.png",        function(ply) return ply:IsBot() end),
-	Badge("developer",  "Developer",       "icon16/tag.png",           function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "developer" end),
-	Badge("superadmin", "Superadmin",      "icon16/shield_add.png",    function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "superadmin" end),
-	Badge("admin",      "Admin",           "icon16/shield.png",        function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "admin" end),
-	Badge("tempadmin",  "Temporary Admin", "icon16/shield_delete.png", function(ply) return ply:TempAdmin() end),
+Badge.Add("bot",        "Bot",                      BADGE_ADMIN + 3,    "icon16/monkey.png",        function(ply) return ply:IsBot() end)
+Badge.Add("developer",  "Developer",                BADGE_ADMIN + 2,    "icon16/tag.png",           function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "developer" end)
+Badge.Add("superadmin", "Superadmin",               BADGE_ADMIN + 1,    "icon16/shield_add.png",    function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "superadmin" end)
+Badge.Add("admin",      "Admin",                    BADGE_ADMIN,        "icon16/shield.png",        function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "admin" end)
+Badge.Add("tempadmin",  "Temporary Admin",          BADGE_ADMIN - 1,    "icon16/shield_delete.png", function(ply) return canSeeAdminBadge(ply) and ply:TempAdmin() end)
 
-	-- Badge("donator",    "Contributor",          "icon16/medal_gold_1.png",      function(ply) return ply:DonationLevel() == DONATOR_BASIC and ply:GetSetting("ShowDonatorBadge") end),
-	-- Badge("advdonator", "Advanced Contributor", "icon16/award_star_gold_1.png", function(ply) return ply:DonationLevel() == DONATOR_ADVANCED and ply:GetSetting("ShowDonatorBadge") end),
+Badge.Add("bannedtt",   "Banned Tooltrust",         BADGE_PRIVATE,      "icon16/key_delete.png",    function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end)
+Badge.Add("advancedtt", "Advanced Tooltrust",       BADGE_PRIVATE,      "icon16/key_add.png",       function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end)
+Badge.Add("oocmuted",   "OOC Muted",                BADGE_PRIVATE - 1,  "icon16/keyboard_mute.png", function(ply) return canSeePrivateBadge(ply) and ply:OOCMuted() end)
+Badge.Add("hidden",     "Character Hidden",         BADGE_PRIVATE - 2,  "icon16/contrast_low.png",  function(ply) return canSeePrivateBadge(ply) and ply:CharacterHidden() end)
 
-	Badge("bannedtt",   "Banned Tooltrust",   "icon16/key_delete.png",    function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end),
-	Badge("advancedtt", "Advanced Tooltrust", "icon16/key_add.png",       function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end),
-	Badge("oocmuted",   "OOC Muted",          "icon16/keyboard_mute.png", function(ply) return canSeePrivateBadge(ply) and ply:OOCMuted() end),
-	Badge("hidden",     "Manually Hidden",    "icon16/contrast_low.png",  function(ply) return canSeePrivateBadge(ply) and ply:CharacterHidden() end),
+Badge.Add("betatest",   "Beta Tester",              BADGE_ASSIGNED + 1, "icon16/controller.png")
+Badge.Add("bughunter",  "Bug Hunter",               BADGE_ASSIGNED,     "icon16/bug.png")
 
-	Badge("betatest",   "Beta Tester", "icon16/controller.png"),
-	Badge("bughunter",  "Bug Hunter",  "icon16/bug.png"),
-
-	Badge("event",      "Event Character",          "icon16/vcard.png", function(ply) return ply:IsEventCharacter() end),
-	Badge("newbie",     "Inexperienced Roleplayer", "icon16/new.png",   function(ply) return ply:GetSetting("Newbie") end)
-}
+Badge.Add("event",      "Event Character",          BADGE_MISC + 1,     "icon16/vcard.png", function(ply) return ply:IsEventCharacter() end)
+Badge.Add("newbie",     "Inexperienced Roleplayer", BADGE_MISC,         "icon16/new.png",   function(ply) return ply:GetSetting("Newbie") end)
 
 -- RADIO_PRESET = Radio.AddPreset("radiogroup", "presetname")
 
