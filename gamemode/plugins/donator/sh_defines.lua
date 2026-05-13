@@ -7,10 +7,8 @@ Permissions.Add("donator_advanced", {Description = "This person is an advanced d
 
 -- Badges
 
-BADGE_DONATOR = 80
-
-Badge.Add("donator",    "Contributor",          BADGE_DONATOR, "icon16/medal_gold_1.png",      function(ply) return ply:DonationLevel() == DONATOR_BASIC and ply:GetSetting("ShowDonatorBadge") end)
-Badge.Add("advdonator", "Advanced Contributor", BADGE_DONATOR, "icon16/award_star_gold_1.png", function(ply) return ply:DonationLevel() == DONATOR_ADVANCED and ply:GetSetting("ShowDonatorBadge") end)
+Badge.Add("donator",          "Contributor",          80, "icon16/medal_gold_1.png",      function(ply) return ply:DonationLevel() == DONATOR_BASIC and ply:GetSetting("ShowDonatorBadge") end)
+Badge.Add("donator_advanced", "Advanced Contributor", 80, "icon16/award_star_gold_1.png", function(ply) return ply:DonationLevel() == DONATOR_ADVANCED and ply:GetSetting("ShowDonatorBadge") end)
 
 -- Logs
 

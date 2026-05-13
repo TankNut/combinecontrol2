@@ -57,22 +57,22 @@ local function canSeePrivateBadge(ply)
 	return lp:IsAdmin() or lp == ply
 end
 
-Badge.Add("bot",        "Bot",                      BADGE_ADMIN + 3,    "icon16/monkey.png",        function(ply) return ply:IsBot() end)
-Badge.Add("developer",  "Developer",                BADGE_ADMIN + 2,    "icon16/tag.png",           function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "developer" end)
-Badge.Add("superadmin", "Superadmin",               BADGE_ADMIN + 1,    "icon16/shield_add.png",    function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "superadmin" end)
-Badge.Add("admin",      "Admin",                    BADGE_ADMIN,        "icon16/shield.png",        function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "admin" end)
-Badge.Add("tempadmin",  "Temporary Admin",          BADGE_ADMIN - 1,    "icon16/shield_delete.png", function(ply) return canSeeAdminBadge(ply) and ply:TempAdmin() end)
+Badge.Add("admin_bot",       "Bot",                      1000, "icon16/monkey.png",        function(ply) return ply:IsBot() end)
+Badge.Add("admin_developer", "Developer",                100,  "icon16/tag.png",           function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "developer" end)
+Badge.Add("admin_super",     "Superadmin",               100,  "icon16/shield_add.png",    function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "superadmin" end)
+Badge.Add("admin",           "Admin",                    100,  "icon16/shield.png",        function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "admin" end)
+Badge.Add("admin_temp",      "Temporary Admin",          99,   "icon16/shield_delete.png", function(ply) return canSeeAdminBadge(ply) and ply:TempAdmin() end)
 
-Badge.Add("bannedtt",   "Banned Tooltrust",         BADGE_PRIVATE,      "icon16/key_delete.png",    function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end)
-Badge.Add("advancedtt", "Advanced Tooltrust",       BADGE_PRIVATE,      "icon16/key_add.png",       function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end)
-Badge.Add("oocmuted",   "OOC Muted",                BADGE_PRIVATE - 1,  "icon16/keyboard_mute.png", function(ply) return canSeePrivateBadge(ply) and ply:OOCMuted() end)
-Badge.Add("hidden",     "Character Hidden",         BADGE_PRIVATE - 2,  "icon16/contrast_low.png",  function(ply) return canSeePrivateBadge(ply) and ply:CharacterHidden() end)
+Badge.Add("tt_banned",       "Banned Tooltrust",         60,   "icon16/key_delete.png",    function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end)
+Badge.Add("tt_advanced",     "Advanced Tooltrust",       60,   "icon16/key_add.png",       function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end)
+Badge.Add("ooc_muted",       "OOC Muted",                55,   "icon16/keyboard_mute.png", function(ply) return canSeePrivateBadge(ply) and ply:OOCMuted() end)
+Badge.Add("char_hidden",     "Character Hidden",         54,   "icon16/contrast_low.png",  function(ply) return canSeePrivateBadge(ply) and ply:CharacterHidden() end)
 
-Badge.Add("betatest",   "Beta Tester",              BADGE_ASSIGNED + 1, "icon16/controller.png")
-Badge.Add("bughunter",  "Bug Hunter",               BADGE_ASSIGNED,     "icon16/bug.png")
+Badge.Add("betatest",        "Beta Tester",              41,   "icon16/controller.png")
+Badge.Add("bughunter",       "Bug Hunter",               40,   "icon16/bug.png")
 
-Badge.Add("event",      "Event Character",          BADGE_MISC + 1,     "icon16/vcard.png", function(ply) return ply:IsEventCharacter() end)
-Badge.Add("newbie",     "Inexperienced Roleplayer", BADGE_MISC,         "icon16/new.png",   function(ply) return ply:GetSetting("Newbie") end)
+Badge.Add("misc_event",      "Event Character",          21,   "icon16/vcard.png",         function(ply) return ply:IsEventCharacter() end)
+Badge.Add("misc_newbie",     "Inexperienced Roleplayer", 20,   "icon16/new.png",           function(ply) return ply:GetSetting("Newbie") end)
 
 -- RADIO_PRESET = Radio.AddPreset("radiogroup", "presetname")
 
