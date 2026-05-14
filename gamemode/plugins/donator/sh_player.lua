@@ -50,7 +50,7 @@ end)
 
 if CLIENT then
 	hook.Add("GetPhysgunColor", "plugin.Donator", function(ply)
-		if not ply:IsDonator() then
+		if not ply:IsDonator() and not ply:IsSuperAdmin() then
 			return
 		end
 
@@ -58,7 +58,7 @@ if CLIENT then
 	end)
 
 	hook.Add("GetScoreboardTitle", "plugin.Donator", function(ply)
-		if not ply:IsDonator() then
+		if not ply:IsDonator() and not ply:IsSuperAdmin() then
 			return
 		end
 
