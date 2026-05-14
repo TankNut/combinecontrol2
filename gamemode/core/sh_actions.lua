@@ -39,6 +39,10 @@ function Add(id, data)
 	List[id] = data
 end
 
+function Remove(id)
+	List[id] = nil
+end
+
 function ENTITY:GetActions()
 	local ourClass = self:GetClass()
 	local cache = Cache[ourClass]
