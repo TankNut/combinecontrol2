@@ -105,6 +105,8 @@ GM:IncludeRecursive(CoreFolder .. "meta/", "shared.lua")
 GM:IncludeRecursive(CoreFolder .. "vgui/")
 GM:IncludeRecursive(CoreFolder .. "gui/")
 
+GM:IncludeFolder(CoreFolder .. "actions/")
+
 hook.Call("RegisterContent", GM, CoreFolder)
 
 GM:LoadPlugins()
