@@ -7,7 +7,7 @@ local prefixes = {
 }
 
 function GM:Include(path)
-	local filename = string.FileName(path)
+	local filename = string.Filename(path)
 
 	for prefix, func in pairs(prefixes) do
 		if string.sub(filename, 1, #prefix) == prefix then

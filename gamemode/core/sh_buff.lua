@@ -5,17 +5,17 @@ function RegisterFile(path)
 
 	shared(path)
 
-	Register(string.gsub(string.FileName(path), "^buff_", ""), BUFF)
+	Register(string.gsub(string.Filename(path), "^buff_", ""), BUFF)
 
 	BUFF = nil
 end
 
 function RegisterFolder(dir)
 	file.IterateRecursive(dir, "shared.lua", "LUA", function(path, folder)
-		local name = string.FileName(path)
+		local name = string.Filename(path)
 
 		if name == "shared" then
-			name = string.FileName(folder)
+			name = string.Filename(folder)
 		end
 
 		_G.BUFF = {}

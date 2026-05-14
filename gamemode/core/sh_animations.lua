@@ -15,10 +15,10 @@ end
 
 function RegisterFolder(dir)
 	file.IterateRecursive(dir, "shared.lua", "LUA", function(path, folder)
-		local name = string.FileName(path)
+		local name = string.Filename(path)
 
 		if name == "shared" then
-			name = string.FileName(folder)
+			name = string.Filename(folder)
 		end
 
 		_G.CONTROLLER = {}

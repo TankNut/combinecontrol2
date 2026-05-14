@@ -39,10 +39,10 @@ function RegisterFolder(dir)
 			return
 		end
 
-		local name = string.FileName(path)
+		local name = string.Filename(path)
 
 		if name == "_hud" then
-			name = string.FileName(folder)
+			name = string.Filename(folder)
 		end
 
 		_G.HUD = {}

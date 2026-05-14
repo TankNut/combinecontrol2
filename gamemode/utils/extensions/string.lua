@@ -1,4 +1,4 @@
-function string.FileName(path)
+function string.Filename(path)
 	if string.Right(path, 1) == "/" then
 		path = string.sub(path, 1, -2)
 	end

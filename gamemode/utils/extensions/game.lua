@@ -2,7 +2,7 @@ function game.GetMapList()
 	local tab = {}
 
 	for _, map in ipairs(file.Find("maps/*.bsp", "GAME")) do
-		table.insert(tab, string.FileName(map))
+		table.insert(tab, string.Filename(map))
 	end
 
 	return tab
