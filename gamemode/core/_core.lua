@@ -128,6 +128,10 @@ function GM:Initialize()
 	end
 end
 
+function GM:OnGamemodeLoaded()
+	self:ItemizeWeapons()
+end
+
 function GM:OnReloaded()
 	if CLIENT then
 		if not self.NextReloadSound then
@@ -149,6 +153,8 @@ function GM:OnReloaded()
 
 	Item.OnReloaded()
 	ModelData.ClearCache()
+
+	self:ItemizeWeapons()
 
 	if CLIENT then
 		derma.RefreshSkins()

@@ -84,38 +84,38 @@ function GM:EntityRemoved(ent, fullUpdate)
 	end
 end
 
-function GM:PreRegisterSWEP(swep, class)
-	if swep.Itemize then
-		local itemClass = swep.ItemClass or string.Replace(class, "_cc", "")
+function GM:ItemizeWeapons()
+	for _, swep in pairs(weapons.GetList()) do
+		if swep.Itemize then
+			local itemClass = swep.ItemClass or string.Replace(swep.ClassName, "_cc", "")
 
-		local data = table.Merge({
-			Base = "base_weapon",
-			Name = swep.PrintName,
-			Model = swep.WorldModel,
-			WeaponClass = class
-		}, swep.Itemize)
+			local data = table.Merge({
+				Base = "base_weapon",
+				Name = swep.PrintName,
+				Model = swep.WorldModel,
+				WeaponClass = swep.ClassName
+			}, swep.Itemize)
 
-		Item.Register(itemClass, data)
-	end
+			Item.Register(itemClass, data)
+		end
 
-	if SERVER then
-		jank(function()
+		if SERVER then
 			-- Only firearms can be wielded by NPC's, because reasons
-			if not weapons.IsBasedOn(class, "weapon_cc_base_gun") then
-				return
+			if not weapons.IsBasedOn(swep.ClassName, "weapon_cc_base_gun") then
+				continue
 			end
 
-			local weapon = weapons.Get(class)
+			local weapon = weapons.Get(swep.ClassName)
 
 			if weapon.Settings.NoNPC then
-				return
+				continue
 			end
 
 			list.Add("NPCUsableWeapons", {
 				title = weapon.PrintName,
-				class = class,
+				class = swep.ClassName,
 			})
-		end)
+		end
 	end
 end
 
