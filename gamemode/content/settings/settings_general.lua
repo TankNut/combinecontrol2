@@ -1,10 +1,3 @@
-Settings.Add("Newbie", {
-	Name = "Mark me as an Inexperienced Roleplayer",
-	Default = true,
-	Validate = validate.Bool(),
-	Panel = "CC_Setting_Bool"
-}, "General")
-
 Settings.Add("UITransparency", {
 	Name = "UI Transparency",
 	ClientOnly = true,

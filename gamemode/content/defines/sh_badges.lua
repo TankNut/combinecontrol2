@@ -26,4 +26,3 @@ Badge.Add("ooc_muted",       "OOC Muted",                55,   "icon16/keyboard_
 Badge.Add("char_hidden",     "Character Hidden",         54,   "icon16/contrast_low.png",  function(ply) return canSeePrivateBadge(ply) and ply:CharacterHidden() end)
 
 Badge.Add("misc_event",      "Event Character",          21,   "icon16/vcard.png",         function(ply) return ply:IsEventCharacter() end)
-Badge.Add("misc_newbie",     "Inexperienced Roleplayer", 20,   "icon16/new.png",           function(ply) return ply:GetSetting("Newbie") end)
