@@ -42,7 +42,7 @@ function GM:OnStashDataChanged(ply, old, new, loaded)
 	local data = new[game.GetMapOverride()]
 
 	if data then
-		if SERVER and loaded and data.Version < GAMEMODE:StashVersion() then
+		if SERVER and loaded and data.Version != GAMEMODE:StashVersion() then
 			new[game.GetMapOverride()] = nil
 
 			ply:SendChat("NOTICE", "Stashes on this map have been reset since you've last played on this character.")
