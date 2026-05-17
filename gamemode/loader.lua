@@ -109,7 +109,7 @@ GM:IncludeFolder("cc2_config/")
 BaseContentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
 ContentFolder = "cc2_content/"
 PluginFolder = "cc2_plugins/"
-DataFolder = "cc2/" .. Config.Get("InternalName") .. "/"
+DataFolder = "combinecontrol-2/" .. Config.Get("InternalName") .. "/"
 
 -- Include gamemode core
 shared("core/_core.lua")
