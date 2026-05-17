@@ -65,7 +65,7 @@ Action.Add("ArmorRepair", {
 		return {
 			Name = "Patching armor...",
 			EndTime = CurTime() + time,
-			Validate = {progress.Player(ply, {Alive = true})},
+			Validate = {progress.Player(self, {Alive = true})},
 			Callback = function(fraction)
 				if SERVER then
 					self:SetArmor(self:Armor() + math.floor(fraction * missing))
