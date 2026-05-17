@@ -93,7 +93,6 @@ function GM:PostLoadCharacter(ply)
 		ply:CheckLanguage()
 
 		if ply.FirstLoad then
-			ply:CheckDonation()
 			ply.FirstLoad = false
 		end
 	end

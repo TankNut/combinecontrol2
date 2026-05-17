@@ -119,6 +119,8 @@ shared(BaseContentFolder .. "_content.lua")
 GM:LoadPlugins()
 shared(ContentFolder .. "_content.lua")
 
+Language.Load()
+
 -- Run all register functions
 GM:LoadContentFolders()
 
