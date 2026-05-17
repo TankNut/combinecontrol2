@@ -2,6 +2,6 @@ GM.Config.Database = {
 	Host = "localhost",
 	Username = "root",
 	Password = "",
-	Database = "combinecontrol-tnb",
+	Database = "cc2",
 	Port = 3306
 }
