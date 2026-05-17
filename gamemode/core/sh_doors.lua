@@ -237,7 +237,7 @@ if SERVER then
 		define.PreUseCallback(ent, ply)
 
 		if ent:DoorToggle() then
-			ent:DoorGroupCall(door.SetOpen, ply, not ent:IsDoorOpen())
+			ent:DoorGroupCall(door.SetOpen, not ent:IsDoorOpen(), ply)
 		else
 			ent:DoorGroupCall(door.Open, ply)
 		end
