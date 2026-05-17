@@ -6,9 +6,7 @@ I'm currently rewriting a lot of internals to support plugins as well as loading
 
 Requires [srlion/Hook-Library](https://github.com/srlion/Hook-Library) to be installed as an addon
 
-[Workshop collection](https://steamcommunity.com/sharedfiles/filedetails/?id=3467082207)
-
-## Coding conventions
+## Naming conventions
 #### Generic libraries/modules are in snake_case, gamemode specific ones are in PascalCase
 If it goes into the gamemode core or content, it's specific. If it does into utils, it's generic.
 
