@@ -120,7 +120,7 @@ function HUD:DrawPlayer(ply)
 		mode = Settings.Get("SeeAllPlayersArmor")
 
 		if mode == HEALTH_PERCENTAGE then
-			table.insert(health, string.format("<c=#003FFF>%.0f%%", (ply:Armor() / ply:GetMaxArmor()) * 100))
+			table.insert(health, string.format("<c=#003FFF>%.0f%%", math.Guard(ply:Armor() / ply:GetMaxArmor()) * 100))
 		elseif mode == HEALTH_ABSOLUTE then
 			table.insert(health, string.format("<c=#003FFF>%s", ply:Armor()))
 		elseif mode == HEALTH_ABSOLUTE_MAX then

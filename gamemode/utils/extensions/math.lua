@@ -37,3 +37,11 @@ end
 function math.Distance(a, b)
 	return math.max(a, b) - math.min(a, b)
 end
+
+function math.Guard(num)
+	if num != num then
+		return 0
+	end
+
+	return num
+end
