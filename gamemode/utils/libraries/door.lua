@@ -167,8 +167,18 @@ if SERVER then
 		end
 	end
 
+	function GetUsable(ent, bool)
+		if IsProp(ent) then
+			return true
+		end
+
+		return ent:HasSpawnFlags(DOOR_SF_USABLE)
+	end
+
 	function SetUsable(ent, bool)
-		ent = IsProp(ent) and GetMaster(ent) or ent
+		if IsProp(ent) then
+			return
+		end
 
 		if bool then
 			ent:AddSpawnFlags(DOOR_SF_USABLE)

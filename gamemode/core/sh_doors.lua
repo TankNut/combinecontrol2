@@ -36,10 +36,7 @@ function AddAccessType(name, data)
 		OnAccessGranted = data.OnAccessGranted or function(ent, ply) end,
 		OnAccessDenied = data.OnAccessDenied or function(ent, ply, reason) end,
 
-		OnDoorLocked = data.OnDoorLocked or function(ent, ply) end,
-
-		PreUseCallback = data.PreUseCallback or function(ent, ply) end,
-		PostUseCallback = data.PostUseCallback or function(ent, ply) end
+		OnDoorLocked = data.OnDoorLocked or function(ent, ply) end
 	}
 
 	table.insert(TypeList, name)
@@ -53,15 +50,9 @@ function AddVar(name, data)
 
 	local var = "_Door" .. name
 
-	if data.Define then
-		EntityVar.Add(var, {
-			Default = data.Default
-		})
-	end
-
-	if not data.Get then
-		data.Get = function(self) return self[var](self) end
-	end
+	EntityVar.Add(var, {
+		Default = data.Default
+	})
 
 	if not data.Set then
 		data.Set = function(self, val) end
@@ -69,9 +60,11 @@ function AddVar(name, data)
 
 	ENTITY["Door" .. name] = function(self)
 		if door.IsProp(self) then
-			return data.Get(door.GetMaster(self))
+			local master = door.GetMaster(self)
+
+			return master[var](master)
 		else
-			return data.Get(self)
+			return self[var](self)
 		end
 	end
 
@@ -137,12 +130,15 @@ if SERVER then
 				continue
 			end
 
-			local initial = {}
-			local data = doorData[id]
+			local initial = {
+				Usable = door.GetUsable(ent)
+			}
 
 			for key in pairs(Vars) do
 				initial[key] = ent["Door" .. key](ent)
 			end
+
+			local data = doorData[id]
 
 			if data then
 				for key in pairs(Vars) do
@@ -154,9 +150,7 @@ if SERVER then
 
 			ent.InitialDoorValues = initial
 
-			if not door.IsProp(ent) then
-				door.SetUsable(ent, false)
-			end
+			door.SetUsable(ent, false)
 		end
 	end
 
@@ -216,7 +210,9 @@ if SERVER then
 			return
 		end
 
-		ply:ConCommand("-use")
+		if not ply:KeyPressed(IN_USE) then
+			return false
+		end
 
 		local define = GetAccessType(ent)
 		local allowed, reason = define.CanAccess(ent, ply)
@@ -234,15 +230,12 @@ if SERVER then
 		end
 
 		define.OnAccessGranted(ent, ply)
-		define.PreUseCallback(ent, ply)
 
 		if ent:DoorToggle() then
 			ent:DoorGroupCall(door.SetOpen, not ent:IsDoorOpen(), ply)
 		else
 			ent:DoorGroupCall(door.Open, ply)
 		end
-
-		define.PostUseCallback(ent, ply)
 
 		return false
 	end
@@ -260,6 +253,7 @@ if SERVER then
 
 			if not door.IsProp(ent) then
 				ent:Set_DoorTouchable(bit.Check(value, DOOR_SF_TOUCHABLE), true)
+				ent:Set_DoorUsable(bit.Check(value, DOOR_SF_USABLE), true)
 			end
 		elseif key == "returndelay" or key == "wait" then
 			ent:Set_DoorAutoClose(tonumber(value), true)
