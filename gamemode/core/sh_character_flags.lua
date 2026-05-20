@@ -6,6 +6,7 @@ local PLAYER = FindMetaTable("Player")
 
 CharacterVar.Add("CharacterFlag", {
 	Field = "Flag",
+	Default = Config.Get("DefaultFlag"),
 	DataType = VARCHAR(64)
 })
 
