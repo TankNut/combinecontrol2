@@ -7,7 +7,8 @@ local function getTrace(ent, reversed)
 	local trace = {
 		endpos = center,
 		filter = ent,
-		whitelist = true
+		whitelist = true,
+		ignoreworld = true
 	}
 
 	local size = ent:OBBMins() - ent:OBBMaxs()
