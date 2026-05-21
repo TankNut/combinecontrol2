@@ -11,14 +11,20 @@ function HUD:PaintBackground(w, h)
 		end
 
 		local pos = button:WorldSpaceCenter()
-		local alpha = math.ClampedRemap(eye:Distance(pos), MAX_USE_DISTANCE, MAX_USE_DISTANCE * 1.5, 1, 0)
+
+		if not button.PixVis then
+			button.PixVis = util.GetPixelVisibleHandle()
+		end
+
+		local visible = util.PixelVisible(pos, button:GetModelRadius(), button.PixVis)
+		local alpha = math.ClampedRemap(eye:Distance(pos), MAX_USE_DISTANCE, MAX_USE_DISTANCE * 1.5, 1, 0) * visible
 
 		if alpha <= 0 then
 			continue
 		end
 
 		self:AddWorldLabel(button:WorldSpaceCenter(), {{
-			scribe.Parse(string.format("<f=BudgetLabel><ol>%s", button:ButtonName())), alpha
+			scribe.Parse(string.format("<f=BudgetLabel>%s", button:ButtonName())), alpha
 		}})
 	end
 end
