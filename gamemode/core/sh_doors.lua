@@ -149,8 +149,6 @@ if SERVER then
 			end
 
 			ent.InitialDoorValues = initial
-
-			door.SetUsable(ent, false)
 		end
 	end
 
