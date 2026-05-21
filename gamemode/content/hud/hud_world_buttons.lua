@@ -16,8 +16,8 @@ function HUD:PaintBackground(w, h)
 			button.PixVis = util.GetPixelVisibleHandle()
 		end
 
-		local visible = util.PixelVisible(pos, button:GetModelRadius(), button.PixVis)
-		local alpha = math.ClampedRemap(eye:Distance(pos), MAX_USE_DISTANCE, MAX_USE_DISTANCE * 1.5, 1, 0) * visible
+		local visible = util.PixelVisible(pos, 1, button.PixVis)
+		local alpha = math.ClampedRemap(eye:Distance(pos), MAX_USE_DISTANCE * 1.25, MAX_USE_DISTANCE * 2, 1, 0) * visible
 
 		if alpha <= 0 then
 			continue
